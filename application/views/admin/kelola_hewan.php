@@ -3,9 +3,6 @@
 
     <!-- Page Heading -->
     <h1 class="h3 mb-4 text-gray-800"><?=$title?> - Admin AREA</h1>
-
-
-
 </div>
 <!-- /.container-fluid -->
 
@@ -17,6 +14,11 @@
         </div>
         <?php endif;?>
         <a href="" class="btn btn-primary mb-3" data-toggle="modal" data-target="#newSubMenuModal">TAMBAH HEWAN</a>
+        <div class="form-group">
+            <div class="input-group">
+                <input type="text" name="search_text" id="search_text" placeholder="Cari Data" class="form-control" />
+            </div>
+        </div>
         <?=$this->session->flashdata('message');?>
 
         <table class="table table-striped table-dark table-hover  table-responsive-sm">
