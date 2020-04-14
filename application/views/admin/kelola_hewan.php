@@ -23,7 +23,7 @@
                 <option value="nama_jenis_hewan">Jenis Hewan</option>
             </select>
             <input name="yangdicari" id="" type="text">
-            <input type="submit" value="Cari">
+            <input type="submit" name="cari" value="Cari">
             <?php echo form_close(); ?>
         </div>
         <?=$this->session->flashdata('message');?>
@@ -119,7 +119,7 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    <button type="submit" class="btn btn-primary">Add</button>
+                    <button type="submit" name="add" class="btn btn-primary">Add</button>
                 </div>
             </form>
         </div>
@@ -192,7 +192,7 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    <button type="submit" class="btn btn-primary">Edit</button>
+                    <button type="submit" name="edit" class="btn btn-primary">Edit</button>
                 </div>
             </form>
         </div>

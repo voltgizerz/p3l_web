@@ -930,10 +930,10 @@ class Admin extends CI_Controller
         $data["jumlah"] = count($data["dataHewan"]);
     
         $data['menu'] = $this->db->get('user_menu')->result_array();
-
         
-
+        if(!isset($_POST['cari'])){
         $this->form_validation->set_rules('nama', 'Name', 'required|trim');
+        }
 
         if ($this->form_validation->run() == false) {
             $data['menu'] = $this->db->get('user_menu')->result_array();

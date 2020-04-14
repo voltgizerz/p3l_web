@@ -23,7 +23,7 @@
                 <option value="nama_jenis_hewan">Jenis Hewan</option>
             </select>
             <input name="yangdicari" id="" type="text">
-            <input type="submit" value="Cari">
+            <input type="submit" name="cari" value="Cari">
             <?php echo form_close(); ?>
         </div>
         <?=$this->session->flashdata('message');?>
