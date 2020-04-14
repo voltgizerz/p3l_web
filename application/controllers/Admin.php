@@ -919,22 +919,49 @@ class Admin extends CI_Controller
         $data['title'] = 'Kelola Data Hewan';
         $data['user'] = $this->db->get_where('user', ['email' => $this->session->userdata('email')])->row_array();
         $this->load->model('Hewan_Model', 'menu');
+        // INI UNTUK DROPDOWN
+        $data['data_customer'] = $this->menu->select_customer();
+        $data['data_ukuran'] = $this->menu->select_ukuran();
+        $data['data_jenis'] = $this->menu->select_jenis();
         
         $data['cariberdasarkan'] = $this->input->post("cariberdasarkan");
         $data['yangdicari'] = $this->input->post("yangdicari");
         $data["dataHewan"] = $this->menu->cari($data['cariberdasarkan'], $data['yangdicari'])->result_array();
         $data["jumlah"] = count($data["dataHewan"]);
-       
+    
+        $data['menu'] = $this->db->get('user_menu')->result_array();
+
+        
+
+        $this->form_validation->set_rules('nama', 'Name', 'required|trim');
 
         if ($this->form_validation->run() == false) {
             $data['menu'] = $this->db->get('user_menu')->result_array();
             $this->load->view('templates/header', $data);
             $this->load->view('templates/sidebar', $data);
             $this->load->view('templates/topbar', $data);
-            $this->load->view('admin/kelola_hewan', $data);
+            $this->load->view('admin/cari', $data);
             $this->load->view('templates/footer');
+        } else {
+            $emailPembeli = $data['user']['email'];
+            date_default_timezone_set("Asia/Bangkok");
+            $data = [
+                'nama_hewan' => $this->input->post('nama'),
+                'id_jenis_hewan' => $this->input->post('pilih_jenis'),
+                'id_ukuran_hewan' => $this->input->post('pilih_ukuran'),
+                'id_customer' => $this->input->post('pilih_customer'),
+                'tanggal_lahir_hewan' => $this->input->post('tanggal'),
+                'created_date' => date("Y-m-d H:i:s"),
+                'updated_date' => date("0000:00:0:00:00"),
+                'deleted_date' => date("0000:00:0:00:00"),
+            ];
+
+            $this->db->insert('data_hewan', $data);
+            $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">
+            Hewan Berhasil Ditambahkan!
+           </div>');
+            redirect('admin/kelola_hewan');
         }
-        
     }
 
 }
