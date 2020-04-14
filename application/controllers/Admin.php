@@ -124,6 +124,7 @@ class Admin extends CI_Controller
         $data['menu'] = $this->db->get('user_menu')->result_array();
 
         $this->form_validation->set_rules('nama', 'Name', 'required|trim');
+        $this->form_validation->set_rules('tanggal', 'Tanggal', 'required|trim|regex_match[/^([0-9]{4})\-([0-9]{2})\-([0-9]{2})$/]');
 
         if ($this->form_validation->run() == false) {
             $data['menu'] = $this->db->get('user_menu')->result_array();
@@ -165,6 +166,8 @@ class Admin extends CI_Controller
         $data['menu'] = $this->db->get('user_menu')->result_array();
 
         $this->form_validation->set_rules('nama', 'Nama', 'required');
+           $this->form_validation->set_rules('tanggal', 'Tanggal', 'required|trim|regex_match[/^([0-9]{4})\-([0-9]{2})\-([0-9]{2})$/]');
+
 
         if ($this->form_validation->run() == false) {
             $data['menu'] = $this->db->get('user_menu')->result_array();
@@ -378,6 +381,7 @@ class Admin extends CI_Controller
         $data['menu'] = $this->db->get('user_menu')->result_array();
 
         $this->form_validation->set_rules('nama', 'Name', 'required|trim');
+        $this->form_validation->set_rules('tanggal', 'Tanggal', 'required|trim|regex_match[/^([0-9]{4})\-([0-9]{2})\-([0-9]{2})$/]');
 
         if ($this->form_validation->run() == false) {
             $data['menu'] = $this->db->get('user_menu')->result_array();
@@ -418,6 +422,7 @@ class Admin extends CI_Controller
         $data['menu'] = $this->db->get('user_menu')->result_array();
 
         $this->form_validation->set_rules('nama', 'Nama', 'required');
+        $this->form_validation->set_rules('tanggal', 'Tanggal', 'required|trim|regex_match[/^([0-9]{4})\-([0-9]{2})\-([0-9]{2})$/]');
 
         if ($this->form_validation->run() == false) {
             $data['menu'] = $this->db->get('user_menu')->result_array();
@@ -466,9 +471,9 @@ class Admin extends CI_Controller
         $data['menu'] = $this->db->get('user_menu')->result_array();
 
         $this->form_validation->set_rules('nama_supplier', 'nama_supplier', 'required|trim');
-       // $this->form_validation->set_rules('alamat_customer', 'alamat_customer', 'required|trim');
-       // $this->form_validation->set_rules('tanggal_lahir_customer', 'tanggal_lahir_customer', 'required|trim');
-       // $this->form_validation->set_rules('nomor_hp_customer', 'nomor_hp_customer', 'required|numeric|trim');
+        // $this->form_validation->set_rules('alamat_customer', 'alamat_customer', 'required|trim');
+        // $this->form_validation->set_rules('tanggal_lahir_customer', 'tanggal_lahir_customer', 'required|trim');
+        // $this->form_validation->set_rules('nomor_hp_customer', 'nomor_hp_customer', 'required|numeric|trim');
 
         if ($this->form_validation->run() == false) {
             $data['menu'] = $this->db->get('user_menu')->result_array();
@@ -478,7 +483,7 @@ class Admin extends CI_Controller
             $this->load->view('admin/kelola_supplier', $data);
             $this->load->view('templates/footer');
         } else {
-           // $emailPembeli = $data['user']['email'];
+            // $emailPembeli = $data['user']['email'];
             date_default_timezone_set("Asia/Bangkok");
             $data = [
                 'nama_supplier' => $this->input->post('nama_supplier'),
@@ -507,7 +512,6 @@ class Admin extends CI_Controller
         $data['menu'] = $this->db->get('user_menu')->result_array();
 
         $this->form_validation->set_rules('nama', 'Nama', 'required');
-       
 
         if ($this->form_validation->run() == false) {
             $data['menu'] = $this->db->get('user_menu')->result_array();
@@ -554,9 +558,11 @@ class Admin extends CI_Controller
         $data['menu'] = $this->db->get('user_menu')->result_array();
 
         $this->form_validation->set_rules('nama_customer', 'nama_customer', 'required|trim');
-       // $this->form_validation->set_rules('alamat_customer', 'alamat_customer', 'required|trim');
-       // $this->form_validation->set_rules('tanggal_lahir_customer', 'tanggal_lahir_customer', 'required|trim');
-       // $this->form_validation->set_rules('nomor_hp_customer', 'nomor_hp_customer', 'required|numeric|trim');
+        $this->form_validation->set_rules('tanggal_lahir_customer', 'tanggal_lahir_customer', 'required|trim|regex_match[/^([0-9]{4})\-([0-9]{2})\-([0-9]{2})$/]');
+
+        // $this->form_validation->set_rules('alamat_customer', 'alamat_customer', 'required|trim');
+        // $this->form_validation->set_rules('tanggal_lahir_customer', 'tanggal_lahir_customer', 'required|trim');
+        // $this->form_validation->set_rules('nomor_hp_customer', 'nomor_hp_customer', 'required|numeric|trim');
 
         if ($this->form_validation->run() == false) {
             $data['menu'] = $this->db->get('user_menu')->result_array();
@@ -566,7 +572,7 @@ class Admin extends CI_Controller
             $this->load->view('admin/kelola_customer', $data);
             $this->load->view('templates/footer');
         } else {
-           // $emailPembeli = $data['user']['email'];
+            // $emailPembeli = $data['user']['email'];
             date_default_timezone_set("Asia/Bangkok");
             $data = [
                 'nama_customer' => $this->input->post('nama_customer'),
@@ -596,7 +602,7 @@ class Admin extends CI_Controller
         $data['menu'] = $this->db->get('user_menu')->result_array();
 
         $this->form_validation->set_rules('nama', 'Nama', 'required');
-       
+        $this->form_validation->set_rules('tanggal_lahir_customer', 'tanggal_lahir_customer', 'required|trim|regex_match[/^([0-9]{4})\-([0-9]{2})\-([0-9]{2})$/]');
 
         if ($this->form_validation->run() == false) {
             $data['menu'] = $this->db->get('user_menu')->result_array();
@@ -634,7 +640,6 @@ class Admin extends CI_Controller
                </div>');
         redirect('admin/kelola_customer');
     }
-    
 
     public function cariHewan()
     {
@@ -645,16 +650,18 @@ class Admin extends CI_Controller
         $data['data_customer'] = $this->menu->select_customer();
         $data['data_ukuran'] = $this->menu->select_ukuran();
         $data['data_jenis'] = $this->menu->select_jenis();
-        
+
         $data['cariberdasarkan'] = $this->input->post("cariberdasarkan");
         $data['yangdicari'] = $this->input->post("yangdicari");
         $data["dataHewan"] = $this->menu->cariHewan($data['cariberdasarkan'], $data['yangdicari'])->result_array();
         $data["jumlah"] = count($data["dataHewan"]);
-    
+
         $data['menu'] = $this->db->get('user_menu')->result_array();
-        
-        if(!isset($_POST['cari'])){
-        $this->form_validation->set_rules('nama', 'Name', 'required|trim');
+
+        if (!isset($_POST['cari'])) {
+            $this->form_validation->set_rules('nama', 'Name', 'required|trim');
+            $this->form_validation->set_rules('tanggal', 'Tanggal', 'required|trim|regex_match[/^([0-9]{4})\-([0-9]{2})\-([0-9]{2})$/]');
+
         }
 
         if ($this->form_validation->run() == false) {

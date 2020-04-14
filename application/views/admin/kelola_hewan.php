@@ -90,7 +90,7 @@
                     </div>
                     <div class="form-group">
                         <input type="text" class="form-control" id="tanggal" name="tanggal"
-                            placeholder=" Tanggal Lahir Hewan">
+                            placeholder=" Tanggal Lahir Hewan (YYYY-MM-DD)">
                     </div>
 
                     <div class="form-group">
