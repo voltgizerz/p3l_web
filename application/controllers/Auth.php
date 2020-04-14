@@ -125,7 +125,7 @@ class Auth extends CI_Controller
         $this->form_validation->set_rules('password', 'Password', 'required|trim|min_length[6]');
 
         if ($this->form_validation->run() == false) {
-            $data['title'] = 'RichzAuto - HomePage';
+            $data['title'] = 'kOUVEE- HomePage';
             $this->load->view('templates/auth_header', $data);
             $this->load->view('auth/home');
             $this->load->view('templates/auth_footer');
