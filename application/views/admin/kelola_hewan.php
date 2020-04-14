@@ -15,9 +15,16 @@
         <?php endif;?>
         <a href="" class="btn btn-primary mb-3" data-toggle="modal" data-target="#newSubMenuModal">TAMBAH HEWAN</a>
         <div class="form-group">
-            <div class="input-group">
-                <input type="text" name="search_text" id="search_text" placeholder="Cari Data" class="form-control" />
-            </div>
+            <?php echo form_open("admin/cari"); ?>
+            <select name="cariberdasarkan">
+                <option value="">Cari Berdasarkan</option>
+                <option value="id_hewan">ID HEWAN</option>
+                <option value="nama_hewan">Nama Hewan</option>
+                <option value="nama_jenis_hewan">Jenis Hewan</option>
+            </select>
+            <input name="yangdicari" id="" type="text">
+            <input type="submit" value="Cari">
+            <?php echo form_close(); ?>
         </div>
         <?=$this->session->flashdata('message');?>
 
@@ -151,7 +158,7 @@
                             <option>Pilih customer</option>
                             <?php foreach ($data_customer->result() as $row) {
     if ($sm['nama_customer'] == $row->nama_customer) {
-        echo '<option selected="selected"  value="' . $row->id_customer . '">' . $row->nama_customer . '</option>';
+        echo '<option selected="selected"  value="' . $row->id_customer . '">' . $row->nama_customer . '</>';
     } else {
         echo '<option value="' . $row->id_customer . '">' . $row->nama_customer . '</option>';
     }}?>

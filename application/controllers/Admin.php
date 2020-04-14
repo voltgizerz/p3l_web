@@ -443,7 +443,6 @@ class Admin extends CI_Controller
         $data['menu'] = $this->db->get('user_menu')->result_array();
 
         $this->form_validation->set_rules('nama', 'Nama', 'required');
-       
 
         if ($this->form_validation->run() == false) {
             $data['menu'] = $this->db->get('user_menu')->result_array();
@@ -485,7 +484,6 @@ class Admin extends CI_Controller
         redirect('admin/kelola_pegawai');
     }
 
-
     public function kelola_jenis_hewan()
     {
         $data['title'] = 'Kelola Data Jenis Hewan';
@@ -523,14 +521,13 @@ class Admin extends CI_Controller
 
     public function updateJenisHewan($id)
     {
-        $data['title'] =  'Kelola Data Jenis Hewan';
+        $data['title'] = 'Kelola Data Jenis Hewan';
         $data['user'] = $this->db->get_where('user', ['email' => $this->session->userdata('email')])->row_array();
         $this->load->model('JenisHewan_Model', 'menu');
         $data['dataJenisHewan'] = $this->menu->getJenisHewanId($id);
         $data['menu'] = $this->db->get('user_menu')->result_array();
 
         $this->form_validation->set_rules('nama', 'Nama', 'required');
-       
 
         if ($this->form_validation->run() == false) {
             $data['menu'] = $this->db->get('user_menu')->result_array();
@@ -544,7 +541,7 @@ class Admin extends CI_Controller
             date_default_timezone_set("Asia/Bangkok");
             $data = [
                 'nama_jenis_hewan' => $this->input->post('nama'),
-                'updated_date' => date("Y-m-d H:i:s")
+                'updated_date' => date("Y-m-d H:i:s"),
             ];
 
             $this->db->where('id_jenis_hewan', $this->input->post('id'));
@@ -565,7 +562,6 @@ class Admin extends CI_Controller
                </div>');
         redirect('admin/kelola_jenis_hewan');
     }
-
 
     public function kelola_ukuran_hewan()
     {
@@ -604,14 +600,13 @@ class Admin extends CI_Controller
 
     public function updateUkuranHewan($id)
     {
-        $data['title'] =  'Kelola Data Ukuran Hewan';
+        $data['title'] = 'Kelola Data Ukuran Hewan';
         $data['user'] = $this->db->get_where('user', ['email' => $this->session->userdata('email')])->row_array();
         $this->load->model('UkuranHewan_Model', 'menu');
         $data['dataUkuranHewan'] = $this->menu->getUkuranHewanId($id);
         $data['menu'] = $this->db->get('user_menu')->result_array();
 
         $this->form_validation->set_rules('nama', 'Nama', 'required');
-       
 
         if ($this->form_validation->run() == false) {
             $data['menu'] = $this->db->get('user_menu')->result_array();
@@ -625,7 +620,7 @@ class Admin extends CI_Controller
             date_default_timezone_set("Asia/Bangkok");
             $data = [
                 'ukuran_hewan' => $this->input->post('nama'),
-                'updated_date' => date("Y-m-d H:i:s")
+                'updated_date' => date("Y-m-d H:i:s"),
             ];
 
             $this->db->where('id_ukuran_hewan', $this->input->post('id'));
@@ -653,10 +648,10 @@ class Admin extends CI_Controller
         $data['user'] = $this->db->get_where('user', ['email' => $this->session->userdata('email')])->row_array();
         $this->load->model('Hewan_Model', 'menu');
         // INI UNTUK DROPDOWN
-        $data['data_customer']=$this->menu->select_customer();  
-        $data['data_ukuran']=$this->menu->select_ukuran();  
-        $data['data_jenis']=$this->menu->select_jenis();
-        
+        $data['data_customer'] = $this->menu->select_customer();
+        $data['data_ukuran'] = $this->menu->select_ukuran();
+        $data['data_jenis'] = $this->menu->select_jenis();
+
         $data['dataHewan'] = $this->menu->getDataHewanAdmin();
         $data['menu'] = $this->db->get('user_menu')->result_array();
 
@@ -693,22 +688,21 @@ class Admin extends CI_Controller
 
     public function updateHewan($id)
     {
-        $data['title'] =  'Kelola Data Ukuran Hewan';
+        $data['title'] = 'Kelola Data Ukuran Hewan';
         $data['user'] = $this->db->get_where('user', ['email' => $this->session->userdata('email')])->row_array();
         $this->load->model('Hewan_Model', 'menu');
         $data['dataHewan'] = $this->menu->getHewanId($id);
-        $data['data_customer']=$this->menu->select_customer();  
+        $data['data_customer'] = $this->menu->select_customer();
         $data['menu'] = $this->db->get('user_menu')->result_array();
 
         $this->form_validation->set_rules('nama', 'Nama', 'required');
-       
 
         if ($this->form_validation->run() == false) {
             $data['menu'] = $this->db->get('user_menu')->result_array();
             $this->load->view('templates/header', $data);
             $this->load->view('templates/sidebar', $data);
             $this->load->view('templates/topbar', $data);
-            $this->load->view('admin/kelola_ukuran_hewan', $data);
+            $this->load->view('admin/kelola_hewan', $data);
             $this->load->view('templates/footer');
         } else {
             $emailPembeli = $data['user']['email'];
@@ -740,6 +734,207 @@ class Admin extends CI_Controller
               Hewan Berhasil Di Hapus!
                </div>');
         redirect('admin/kelola_hewan');
+    }
+    public function kelola_supplier()
+    {
+        $data['title'] = 'Kelola Data Supplier';
+        $data['user'] = $this->db->get_where('user', ['email' => $this->session->userdata('email')])->row_array();
+        $this->load->model('Supplier_Model', 'menu');
+        $data['dataSupplier'] = $this->menu->getDataSupplierAdmin();
+        $data['menu'] = $this->db->get('user_menu')->result_array();
+
+        $this->form_validation->set_rules('nama_supplier', 'nama_supplier', 'required|trim');
+       // $this->form_validation->set_rules('alamat_customer', 'alamat_customer', 'required|trim');
+       // $this->form_validation->set_rules('tanggal_lahir_customer', 'tanggal_lahir_customer', 'required|trim');
+       // $this->form_validation->set_rules('nomor_hp_customer', 'nomor_hp_customer', 'required|numeric|trim');
+
+        if ($this->form_validation->run() == false) {
+            $data['menu'] = $this->db->get('user_menu')->result_array();
+            $this->load->view('templates/header', $data);
+            $this->load->view('templates/sidebar', $data);
+            $this->load->view('templates/topbar', $data);
+            $this->load->view('admin/kelola_supplier', $data);
+            $this->load->view('templates/footer');
+        } else {
+           // $emailPembeli = $data['user']['email'];
+            date_default_timezone_set("Asia/Bangkok");
+            $data = [
+                'nama_supplier' => $this->input->post('nama_supplier'),
+                'alamat_supplier' => $this->input->post('alamat_supplier'),
+                'nomor_telepon_supplier' => $this->input->post('nomor_telepon_supplier'),
+                'created_date' => date("Y-m-d H:i:s"),
+                'updated_date' => date("0000:00:0:00:00"),
+                'deleted_date' => date("0000:00:0:00:00"),
+
+            ];
+
+            $this->db->insert('data_supplier', $data);
+            $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">
+            Supplier Berhasil Ditambahkan!
+           </div>');
+            redirect('admin/kelola_supplier');
+        }
+    }
+
+    public function updateSupplier($id)
+    {
+        $data['title'] = 'Kelola Data Supplier';
+        $data['user'] = $this->db->get_where('user', ['email' => $this->session->userdata('email')])->row_array();
+        $this->load->model('Supplier_Model', 'menu');
+        $data['dataSupplier'] = $this->menu->getSupplierId($id);
+        $data['menu'] = $this->db->get('user_menu')->result_array();
+
+        $this->form_validation->set_rules('nama', 'Nama', 'required');
+       
+
+        if ($this->form_validation->run() == false) {
+            $data['menu'] = $this->db->get('user_menu')->result_array();
+            $this->load->view('templates/header', $data);
+            $this->load->view('templates/sidebar', $data);
+            $this->load->view('templates/topbar', $data);
+            $this->load->view('admin/kelola_supplier', $data);
+            $this->load->view('templates/footer');
+        } else {
+            $emailPembeli = $data['user']['email'];
+            date_default_timezone_set("Asia/Bangkok");
+            $data = [
+                'nama_supplier' => $this->input->post('nama'),
+                'alamat_supplier' => $this->input->post('alamat_supplier'),
+                'nomor_telepon_supplier' => $this->input->post('nomor_telepon_supplier'),
+                'updated_date' => date("Y-m-d H:i:s"),
+            ];
+
+            $this->db->where('id_supplier', $this->input->post('id'));
+            $this->db->update('data_supplier', $data);
+            $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">
+            Data Supplier Sukses di Edit!
+           </div>');
+            redirect('admin/kelola_supplier');
+        }
+    }
+
+    public function hapusSupplier($id)
+    {
+        $this->load->model('Supplier_Model');
+        $this->Supplier_Model->deleteSupplier($id);
+        $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">
+              Supplier Berhasil Di Hapus!
+               </div>');
+        redirect('admin/kelola_supplier');
+    }
+
+    public function kelola_customer()
+    {
+        $data['title'] = 'Kelola Data Customer';
+        $data['user'] = $this->db->get_where('user', ['email' => $this->session->userdata('email')])->row_array();
+        $this->load->model('Customer_Model', 'menu');
+        $data['dataCustomer'] = $this->menu->getDataCustomerAdmin();
+        $data['menu'] = $this->db->get('user_menu')->result_array();
+
+        $this->form_validation->set_rules('nama_customer', 'nama_customer', 'required|trim');
+       // $this->form_validation->set_rules('alamat_customer', 'alamat_customer', 'required|trim');
+       // $this->form_validation->set_rules('tanggal_lahir_customer', 'tanggal_lahir_customer', 'required|trim');
+       // $this->form_validation->set_rules('nomor_hp_customer', 'nomor_hp_customer', 'required|numeric|trim');
+
+        if ($this->form_validation->run() == false) {
+            $data['menu'] = $this->db->get('user_menu')->result_array();
+            $this->load->view('templates/header', $data);
+            $this->load->view('templates/sidebar', $data);
+            $this->load->view('templates/topbar', $data);
+            $this->load->view('admin/kelola_customer', $data);
+            $this->load->view('templates/footer');
+        } else {
+           // $emailPembeli = $data['user']['email'];
+            date_default_timezone_set("Asia/Bangkok");
+            $data = [
+                'nama_customer' => $this->input->post('nama_customer'),
+                'alamat_customer' => $this->input->post('alamat_customer'),
+                'tanggal_lahir_customer' => $this->input->post('tanggal_lahir_customer'),
+                'nomor_hp_customer' => $this->input->post('nomor_hp_customer'),
+                'created_date' => date("Y-m-d H:i:s"),
+                'updated_date' => date("0000:00:0:00:00"),
+                'deleted_date' => date("0000:00:0:00:00"),
+
+            ];
+
+            $this->db->insert('data_customer', $data);
+            $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">
+            Customer Berhasil Ditambahkan!
+           </div>');
+            redirect('admin/kelola_customer');
+        }
+    }
+
+    public function updateCustomer($id)
+    {
+        $data['title'] = 'Kelola Data Customer';
+        $data['user'] = $this->db->get_where('user', ['email' => $this->session->userdata('email')])->row_array();
+        $this->load->model('Customer_Model', 'menu');
+        $data['dataCustomer'] = $this->menu->getCustomerId($id);
+        $data['menu'] = $this->db->get('user_menu')->result_array();
+
+        $this->form_validation->set_rules('nama', 'Nama', 'required');
+       
+
+        if ($this->form_validation->run() == false) {
+            $data['menu'] = $this->db->get('user_menu')->result_array();
+            $this->load->view('templates/header', $data);
+            $this->load->view('templates/sidebar', $data);
+            $this->load->view('templates/topbar', $data);
+            $this->load->view('admin/kelola_customer', $data);
+            $this->load->view('templates/footer');
+        } else {
+            $emailPembeli = $data['user']['email'];
+            date_default_timezone_set("Asia/Bangkok");
+            $data = [
+                'nama_customer' => $this->input->post('nama'),
+                'alamat_customer' => $this->input->post('alamat_customer'),
+                'tanggal_lahir_customer' => $this->input->post('tanggal_lahir_customer'),
+                'nomor_hp_customer' => $this->input->post('nomor_hp_customer'),
+                'updated_date' => date("Y-m-d H:i:s"),
+            ];
+
+            $this->db->where('id_customer', $this->input->post('id'));
+            $this->db->update('data_customer', $data);
+            $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">
+            Data Customer Sukses di Edit!
+           </div>');
+            redirect('admin/kelola_customer');
+        }
+    }
+
+    public function hapusCustomer($id)
+    {
+        $this->load->model('Customer_Model');
+        $this->Customer_Model->deleteCustomer($id);
+        $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">
+              Customer Berhasil Di Hapus!
+               </div>');
+        redirect('admin/kelola_customer');
+    }
+    
+
+    public function cari()
+    {
+        $data['title'] = 'Kelola Data Hewan';
+        $data['user'] = $this->db->get_where('user', ['email' => $this->session->userdata('email')])->row_array();
+        $this->load->model('Hewan_Model', 'menu');
+        
+        $data['cariberdasarkan'] = $this->input->post("cariberdasarkan");
+        $data['yangdicari'] = $this->input->post("yangdicari");
+        $data["dataHewan"] = $this->menu->cari($data['cariberdasarkan'], $data['yangdicari'])->result_array();
+        $data["jumlah"] = count($data["dataHewan"]);
+       
+
+        if ($this->form_validation->run() == false) {
+            $data['menu'] = $this->db->get('user_menu')->result_array();
+            $this->load->view('templates/header', $data);
+            $this->load->view('templates/sidebar', $data);
+            $this->load->view('templates/topbar', $data);
+            $this->load->view('admin/kelola_hewan', $data);
+            $this->load->view('templates/footer');
+        }
+        
     }
 
 }
