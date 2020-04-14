@@ -15,10 +15,10 @@
         <?php endif;?>
         <a href="" class="btn btn-primary mb-3" data-toggle="modal" data-target="#newSubMenuModal">TAMBAH HEWAN</a>
         <div class="form-group">
-            <?php echo form_open("admin/cari"); ?>
+            <?php echo form_open("admin/cariHewan"); ?>
             <select name="cariberdasarkan">
                 <option value="">Cari Berdasarkan</option>
-                <option value="id_hewan">ID HEWAN</option>
+                <option value="id_hewan">Id Hewan</option>
                 <option value="nama_hewan">Nama Hewan</option>
                 <option value="nama_jenis_hewan">Jenis Hewan</option>
             </select>

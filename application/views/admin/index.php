@@ -3,8 +3,8 @@
 
     <!-- Page Heading -->
     <h1 class="h3 mb-4 text-gray-800"><?= $title ?> - Admin AREA</h1>
-    <h2 class="h3 mb-4 text-gray-800">WELCOME BACK to RichzAuto</h2>
-    <img src=" <?= base_url('assets/img/sian1.jpg'); ?>" width="100%" height="400">
+    <h2 class="h3 mb-4 text-gray-800">Selamat Datang Kembali Pegawai</h2>
+    <img src=" <?= base_url('assets/img/petshop2.jpg'); ?>" width="100%" height="400">
 
 </div>
 <!-- /.container-fluid -->

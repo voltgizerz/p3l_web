@@ -914,7 +914,7 @@ class Admin extends CI_Controller
     }
     
 
-    public function cari()
+    public function cariHewan()
     {
         $data['title'] = 'Kelola Data Hewan';
         $data['user'] = $this->db->get_where('user', ['email' => $this->session->userdata('email')])->row_array();
@@ -926,7 +926,7 @@ class Admin extends CI_Controller
         
         $data['cariberdasarkan'] = $this->input->post("cariberdasarkan");
         $data['yangdicari'] = $this->input->post("yangdicari");
-        $data["dataHewan"] = $this->menu->cari($data['cariberdasarkan'], $data['yangdicari'])->result_array();
+        $data["dataHewan"] = $this->menu->cariHewan($data['cariberdasarkan'], $data['yangdicari'])->result_array();
         $data["jumlah"] = count($data["dataHewan"]);
     
         $data['menu'] = $this->db->get('user_menu')->result_array();
@@ -940,7 +940,7 @@ class Admin extends CI_Controller
             $this->load->view('templates/header', $data);
             $this->load->view('templates/sidebar', $data);
             $this->load->view('templates/topbar', $data);
-            $this->load->view('admin/cari', $data);
+            $this->load->view('admin/cariHewan', $data);
             $this->load->view('templates/footer');
         } else {
             $emailPembeli = $data['user']['email'];
