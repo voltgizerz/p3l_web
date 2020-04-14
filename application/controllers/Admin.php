@@ -434,6 +434,47 @@ class Admin extends CI_Controller
         }
     }
 
+    public function updatePegawai($id)
+    {
+        $data['title'] = 'Kelola Data Pegawai';
+        $data['user'] = $this->db->get_where('user', ['email' => $this->session->userdata('email')])->row_array();
+        $this->load->model('Pegawai_model', 'menu');
+        $data['dataPegawai'] = $this->menu->getPegawaiId($id);
+        $data['menu'] = $this->db->get('user_menu')->result_array();
+
+        $this->form_validation->set_rules('nama', 'Nama', 'required');
+       
+
+        if ($this->form_validation->run() == false) {
+            $data['menu'] = $this->db->get('user_menu')->result_array();
+            $this->load->view('templates/header', $data);
+            $this->load->view('templates/sidebar', $data);
+            $this->load->view('templates/topbar', $data);
+            $this->load->view('admin/kelola_pegawai', $data);
+            $this->load->view('templates/footer');
+        } else {
+            $emailPembeli = $data['user']['email'];
+            date_default_timezone_set("Asia/Bangkok");
+            $data = [
+                'nama_pegawai' => $this->input->post('nama'),
+                'alamat_pegawai' => $this->input->post('alamat'),
+                'tanggal_lahir_pegawai' => $this->input->post('tanggal'),
+                'role_pegawai' => $this->input->post('role'),
+                'nomor_hp_pegawai' => $this->input->post('nohp'),
+                'username' => $this->input->post('username'),
+                'password' => $this->input->post('password'),
+                'updated_date' => date("Y-m-d H:i:s"),
+            ];
+
+            $this->db->where('id_pegawai', $this->input->post('id'));
+            $this->db->update('data_pegawai', $data);
+            $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">
+            Data Pegawai Sukses di Edit!
+           </div>');
+            redirect('admin/kelola_pegawai');
+        }
+    }
+
     public function hapusPegawai($id)
     {
         $this->load->model('Pegawai_Model');

@@ -49,7 +49,7 @@
                     <td class="text-center"><?= $sm['updated_date'] ?></td>
 
                     <td>
-                        <a href="<?= base_url(); ?>admin/updateMember/<?= $sm['id_pegawai']; ?>"
+                        <a href="<?= base_url(); ?>admin/updatePegawai/<?= $sm['id_pegawai']; ?>"
                             class="badge badge-primary mb-3" data-toggle="modal"
                             data-target="#editSubMenuModal<?= $sm['id_pegawai']; ?>">EDIT</a>
                         <a href="<?= base_url(); ?>admin/hapusPegawai/<?= $sm['id_pegawai']; ?>"
@@ -123,7 +123,7 @@
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <form action="<?= base_url(); ?>admin/updateMember/<?= $sm['id_pegawai']; ?>" method="post">
+            <form action="<?= base_url(); ?>admin/updatePegawai/<?= $sm['id_pegawai']; ?>" method="post">
 
                 <div class="modal-body">
                     <div class="form-group">
@@ -131,7 +131,7 @@
                             name="id">
                     </div>
                     <div class="form-group">
-                        <input type="text" class="form-control" id="name" name="name"
+                        <input type="text" class="form-control" id="nama" name="nama"
                             value="<?= $sm['nama_pegawai']; ?>" placeholder="Full Name">
                     </div>
                     <div class="form-group">

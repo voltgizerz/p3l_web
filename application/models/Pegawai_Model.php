@@ -21,7 +21,7 @@ class Pegawai_model extends CI_Model
         $this->db->delete('data_pegawai');
     }
 
-    public function getBuyCarById($id)
+    public function getPegawaiId($id)
     {
         return $this->db->get_where('data_pegawai', ['id_pegawai' => $id])->result_array();
     }
