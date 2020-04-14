@@ -18,6 +18,18 @@
         <?php endif; ?>
         <a href="" class="btn btn-primary mb-3" data-toggle="modal" data-target="#newSubMenuModal">TAMBAH JENIS
             HEWAN</a>
+
+            <div class="form-group">
+            <?php echo form_open("admin/cariJenisHewan"); ?>
+            <select name="cariberdasarkan">
+                <option value="">Cari Berdasarkan</option>
+                <option value="id_jenis_hewan">Id Jenis Hewan</option>
+                <option value="nama_jenis_hewan">Nama Jenis Hewan</option>
+            </select>
+            <input name="yangdicari" id="" type="text">
+            <input type="submit" name="cari" value="Cari">
+            <?php echo form_close(); ?>
+        </div>
         <?= $this->session->flashdata('message'); ?>
 
         <table class="table table-striped table-dark table-hover  table-responsive-sm">

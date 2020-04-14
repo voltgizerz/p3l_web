@@ -38,7 +38,7 @@
                     </div>
                 </div>
                 <div class="card-body p-0">
-                    <img src=" <?= base_url('assets/img/petshop2.jpg'); ?>">
+                    <img src=" <?= base_url('assets/img/petshop3.jpg'); ?>">
 
                     <div class="card o-hidden border-0 my-3">
                         <div class="bg-primary  ">

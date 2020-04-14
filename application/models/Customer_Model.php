@@ -26,4 +26,25 @@ class Customer_model extends CI_Model
     {
         return $this->db->get_where('data_customer', ['id_customer' => $id])->result_array();
     }
+
+    public function cariCustomer($berdasarkan,$yangdicari){
+        $this->db->select('*');
+        $this->db->from('data_customer');
+
+
+        switch($berdasarkan){
+            case "":
+                $this->db->like('nama_customer',$yangdicari);
+                $this->db->or_like('id_customer',$yangdicari);
+            break;
+
+            case "id_customer":
+                $this->db->where('id_customer',$yangdicari);
+            
+            default:
+            $this->db->like($berdasarkan,$yangdicari);
+        }
+        return $this->db->get();
+    }
+
 }

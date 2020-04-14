@@ -25,4 +25,24 @@ class JenisHewan_model extends CI_Model
     {
         return $this->db->get_where('data_jenis_hewan', ['id_jenis_hewan' => $id])->result_array();
     }
+
+    public function cariJenisHewan($berdasarkan,$yangdicari){
+        $this->db->select('*');
+        $this->db->from('data_jenis_hewan');
+
+
+        switch($berdasarkan){
+            case "":
+                $this->db->like('nama_jenis_hewan',$yangdicari);
+                $this->db->or_like('id_jenis_hewan',$yangdicari);
+            break;
+
+            case "id_jenis_hewan":
+                $this->db->where('id_jenis_hewan',$yangdicari);
+            
+            default:
+            $this->db->like($berdasarkan,$yangdicari);
+        }
+        return $this->db->get();
+    }
 }

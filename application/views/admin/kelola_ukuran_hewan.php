@@ -18,8 +18,20 @@
         <?php endif; ?>
         <a href="" class="btn btn-primary mb-3" data-toggle="modal" data-target="#newSubMenuModal">TAMBAH UKURAN
             HEWAN</a>
+            <div class="form-group">
+            <?php echo form_open("admin/cariUkuranHewan"); ?>
+            <select name="cariberdasarkan">
+                <option value="">Cari Berdasarkan</option>
+                <option value="id_ukuran_hewan">Id Ukuran Hewan</option>
+                <option value="ukuran_hewan">Ukuran Hewan</option>
+            </select>
+            <input name="yangdicari" id="" type="text">
+            <input type="submit" name="cari" value="Cari">
+            <?php echo form_close(); ?>
+        </div>
         <?= $this->session->flashdata('message'); ?>
-
+ 
+            
         <table class="table table-striped table-dark table-hover  table-responsive-sm">
             <thead>
                 <tr>

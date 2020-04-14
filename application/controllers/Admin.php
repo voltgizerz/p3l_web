@@ -22,6 +22,284 @@ class Admin extends CI_Controller
         $this->load->view('templates/footer');
     }
 
+    public function configbuycars()
+    {
+        $data['title'] = 'Buy Car Management';
+        $data['user'] = $this->db->get_where('user', ['email' => $this->session->userdata('email')])->row_array();
+        $this->load->model('Buy_Model', 'menu');
+        $data['dataBeliMobil'] = $this->menu->getDataBeliMobilAdmin();
+        $data['menu'] = $this->db->get('user_menu')->result_array();
+
+        $this->form_validation->set_rules('name', 'Name', 'required|trim');
+        $this->form_validation->set_rules('merk', 'Merk', 'required|trim');
+        $this->form_validation->set_rules('type', 'Type', 'required|trim');
+        $this->form_validation->set_rules('harga', 'Price', 'required|numeric|trim');
+        $this->form_validation->set_rules('nomorhp', 'Phone Number', 'required|min_length[10]|numeric|trim');
+
+        if ($this->form_validation->run() == false) {
+            $data['menu'] = $this->db->get('user_menu')->result_array();
+            $this->load->view('templates/header', $data);
+            $this->load->view('templates/sidebar', $data);
+            $this->load->view('templates/topbar', $data);
+            $this->load->view('admin/configbuycars', $data);
+            $this->load->view('templates/footer');
+        } else {
+            $emailPembeli = $data['user']['email'];
+
+            $data = [
+                'name' => $this->input->post('name'),
+                'merk' => $this->input->post('merk'),
+                'type' => $this->input->post('type'),
+                'harga' => $this->input->post('harga'),
+                'nomorhp' => $this->input->post('nomorhp'),
+                'email_pembeli' => $emailPembeli,
+            ];
+
+            $this->db->insert('buy_cars', $data);
+            $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">
+            New Cars Added
+           </div>');
+            redirect('admin/configbuycars');
+        }
+    }
+
+    public function updateMobilAdmin($id)
+    {
+        $data['title'] = 'Buy Car';
+        $data['user'] = $this->db->get_where('user', ['email' => $this->session->userdata('email')])->row_array();
+        $this->load->model('Buy_Model', 'menu');
+        $data['dataBeliMobil'] = $this->menu->getBuyCarById($id);
+        $data['menu'] = $this->db->get('user_menu')->result_array();
+
+        $this->form_validation->set_rules('name', 'Name', 'required');
+        $this->form_validation->set_rules('merk', 'Merk', 'required');
+        $this->form_validation->set_rules('type', 'Type', 'required');
+        $this->form_validation->set_rules('harga', 'Harga', 'required|numeric');
+        $this->form_validation->set_rules('nomorhp', 'Nomorhp', 'required|min_length[10]');
+
+        if ($this->form_validation->run() == false) {
+            $data['menu'] = $this->db->get('user_menu')->result_array();
+            $this->load->view('templates/header', $data);
+            $this->load->view('templates/sidebar', $data);
+            $this->load->view('templates/topbar', $data);
+            $this->load->view('buycars/buycars', $data);
+            $this->load->view('templates/footer');
+        } else {
+            $emailPembeli = $data['user']['email'];
+            $data = [
+                'name' => $this->input->post('name'),
+                'merk' => $this->input->post('merk'),
+                'type' => $this->input->post('type'),
+                'harga' => $this->input->post('harga'),
+                'nomorhp' => $this->input->post('nomorhp'),
+                'email_pembeli' => $emailPembeli,
+            ];
+
+            $this->db->where('id', $this->input->post('id'));
+            $this->db->update('buy_cars', $data);
+            $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">
+            Cars Success Edited!
+           </div>');
+            redirect('admin/configbuycars');
+        }
+    }
+
+    public function configsellcars()
+    {
+        $data['title'] = 'Sell Car Management';
+        $data['user'] = $this->db->get_where('user', ['email' => $this->session->userdata('email')])->row_array();
+        $this->load->model('Jual_Model', 'menu');
+        $data['dataJualMobil'] = $this->menu->getDataJualMobilAdmin();
+        $data['menu'] = $this->db->get('user_menu')->result_array();
+
+        $this->form_validation->set_rules('name', 'Name', 'required');
+        $this->form_validation->set_rules('merk', 'Merk', 'required');
+        $this->form_validation->set_rules('warna', 'Color', 'required');
+        $this->form_validation->set_rules('harga', 'Harga', 'required|numeric');
+        $this->form_validation->set_rules('bahan_bakar', 'Fuel', 'required');
+
+        if ($this->form_validation->run() == false) {
+            $data['menu'] = $this->db->get('user_menu')->result_array();
+            $this->load->view('templates/header', $data);
+            $this->load->view('templates/sidebar', $data);
+            $this->load->view('templates/topbar', $data);
+            $this->load->view('admin/configsellcars', $data);
+            $this->load->view('templates/footer');
+        } else {
+            $emailPembeli = $data['user']['email'];
+
+            $data = [
+                'name' => $this->input->post('name'),
+                'merk' => $this->input->post('merk'),
+                'warna' => $this->input->post('warna'),
+                'bahan_bakar' => $this->input->post('bahan_bakar'),
+                'harga' => $this->input->post('harga'),
+                'email_pembeli' => $emailPembeli,
+            ];
+
+            $this->db->insert('sell_cars', $data);
+            $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">
+            Your New Cars Added
+           </div>');
+            redirect('admin/configsellcars');
+        }
+    }
+
+    public function configsparepart()
+    {
+        $data['title'] = 'Sparepart Management';
+        $data['user'] = $this->db->get_where('user', ['email' => $this->session->userdata('email')])->row_array();
+        $this->load->model('Sparepart_Model', 'menu');
+        $data['dataBeliSparepart'] = $this->menu->getDataBeliSparepartAdmin();
+        $data['menu'] = $this->db->get('user_menu')->result_array();
+
+        $this->form_validation->set_rules('name', 'Name', 'required|trim|alpha');
+        $this->form_validation->set_rules('name_sparepart', 'Sparepart Name', 'required|trim');
+        $this->form_validation->set_rules('deskripsi', 'Description', 'required|trim');
+        $this->form_validation->set_rules('harga', 'Price', 'required|numeric|trim|min_length[3]');
+        $this->form_validation->set_rules('kondisi', 'Condition', 'required|trim');
+
+        if ($this->form_validation->run() == false) {
+            $data['menu'] = $this->db->get('user_menu')->result_array();
+            $this->load->view('templates/header', $data);
+            $this->load->view('templates/sidebar', $data);
+            $this->load->view('templates/topbar', $data);
+            $this->load->view('admin/configsparepart', $data);
+            $this->load->view('templates/footer');
+        } else {
+            $emailPembeli = $data['user']['email'];
+
+            $data = [
+                'name' => $this->input->post('name'),
+                'name_sparepart' => $this->input->post('name_sparepart'),
+                'deskripsi' => $this->input->post('deskripsi'),
+                'harga' => $this->input->post('harga'),
+                'kondisi' => $this->input->post('kondisi'),
+                'email_pembeli' => $emailPembeli,
+            ];
+
+            $this->db->insert('buy_sparepart', $data);
+            $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">
+            New Sparepart Added!
+           </div>');
+            redirect('admin/configsparepart');
+        }
+    }
+
+    public function hapusMobilAdmin($id)
+    {
+        $this->load->model('Buy_Model');
+        $this->Buy_Model->deleteBuyCars($id);
+        $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">
+               Car Success Deleted!
+               </div>');
+        redirect('admin/configbuycars');
+    }
+
+    public function hapusSparepartAdmin($id)
+    {
+        $this->load->model('Sparepart_Model');
+        $this->Sparepart_Model->deleteBuySparepart($id);
+        $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">
+               Sparepart Success Deleted!
+               </div>');
+        redirect('admin/configsparepart');
+    }
+
+    public function hapusJualMobilAdmin($id)
+    {
+        $this->load->model('Jual_Model');
+        $this->Jual_Model->deleteJualMobil($id);
+        $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">
+               Your Car Success Deleted!
+               </div>');
+        redirect('admin/configsellcars');
+    }
+
+    public function updateSparepartAdmin($id)
+    {
+        $data['title'] = 'Sparepart Management';
+        $data['user'] = $this->db->get_where('user', ['email' => $this->session->userdata('email')])->row_array();
+        $this->load->model('Sparepart_Model', 'menu');
+        $data['dataBeliSparepart'] = $this->menu->getBuySparepartById($id);
+        $data['menu'] = $this->db->get('user_menu')->result_array();
+
+        $this->form_validation->set_rules('name', 'Name', 'required|trim|alpha');
+        $this->form_validation->set_rules('name_sparepart', 'Sparepart Name', 'required|trim');
+        $this->form_validation->set_rules('deskripsi', 'Description', 'required|trim');
+        $this->form_validation->set_rules('harga', 'Price', 'required|numeric|trim|min_length[3]');
+        $this->form_validation->set_rules('kondisi', 'Condition', 'required|trim');
+
+        if ($this->form_validation->run() == false) {
+            $data['menu'] = $this->db->get('user_menu')->result_array();
+            $this->load->view('templates/header', $data);
+            $this->load->view('templates/sidebar', $data);
+            $this->load->view('templates/topbar', $data);
+            $this->load->view('buysparepart/buysparepart', $data);
+            $this->load->view('templates/footer');
+        } else {
+            $emailPembeli = $data['user']['email'];
+
+            $data = [
+                'name' => $this->input->post('name'),
+                'name_sparepart' => $this->input->post('name_sparepart'),
+                'deskripsi' => $this->input->post('deskripsi'),
+                'harga' => $this->input->post('harga'),
+                'kondisi' => $this->input->post('kondisi'),
+                'email_pembeli' => $emailPembeli,
+            ];
+
+            $this->db->where('id', $this->input->post('id'));
+            $this->db->update('buy_sparepart', $data);
+            $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">
+            Sparepart Success Edited!
+           </div>');
+            redirect('admin/configsparepart');
+        }
+    }
+
+    public function updateJualMobilAdmin($id)
+    {
+        $data['title'] = 'Sell Car Management';
+        $data['user'] = $this->db->get_where('user', ['email' => $this->session->userdata('email')])->row_array();
+        $this->load->model('Jual_Model', 'menu');
+        $data['dataJualMobil'] = $this->menu->getJualMobilById($id);
+        $data['menu'] = $this->db->get('user_menu')->result_array();
+
+        $this->form_validation->set_rules('name', 'Name', 'required');
+        $this->form_validation->set_rules('merk', 'Merk', 'required');
+        $this->form_validation->set_rules('warna', 'Color', 'required');
+        $this->form_validation->set_rules('harga', 'Harga', 'required|numeric');
+        $this->form_validation->set_rules('bahan_bakar', 'Fuel', 'required');
+
+        if ($this->form_validation->run() == false) {
+            $data['menu'] = $this->db->get('user_menu')->result_array();
+            $this->load->view('templates/header', $data);
+            $this->load->view('templates/sidebar', $data);
+            $this->load->view('templates/topbar', $data);
+            $this->load->view('admin/configsellcars', $data);
+            $this->load->view('templates/footer');
+        } else {
+            $emailPembeli = $data['user']['email'];
+
+            $data = [
+                'name' => $this->input->post('name'),
+                'merk' => $this->input->post('merk'),
+                'warna' => $this->input->post('warna'),
+                'bahan_bakar' => $this->input->post('bahan_bakar'),
+                'harga' => $this->input->post('harga'),
+                'email_pembeli' => $emailPembeli,
+            ];
+
+            $this->db->where('id', $this->input->post('id'));
+            $this->db->update('sell_cars', $data);
+            $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">
+            Your Car Success Edited!
+           </div>');
+            redirect('admin/configsellcars');
+        }
+    }
+
     public function configuser()
     {
         $data['title'] = 'User Management';
@@ -123,8 +401,8 @@ class Admin extends CI_Controller
         $data['dataPegawai'] = $this->menu->getDataPegawaiAdmin();
         $data['menu'] = $this->db->get('user_menu')->result_array();
 
+        $this->form_validation->set_rules('tanggal', 'tanggal', 'required|trim|regex_match[/^([0-9]{4})-([0-9]{2})-([0-9]{2})$/]');
         $this->form_validation->set_rules('nama', 'Name', 'required|trim');
-        $this->form_validation->set_rules('tanggal', 'Tanggal', 'required|trim|regex_match[/^([0-9]{4})\-([0-9]{2})\-([0-9]{2})$/]');
 
         if ($this->form_validation->run() == false) {
             $data['menu'] = $this->db->get('user_menu')->result_array();
@@ -165,9 +443,8 @@ class Admin extends CI_Controller
         $data['dataPegawai'] = $this->menu->getPegawaiId($id);
         $data['menu'] = $this->db->get('user_menu')->result_array();
 
+        $this->form_validation->set_rules('tanggal', 'tanggal', 'required|trim|regex_match[/^([0-9]{4})-([0-9]{2})-([0-9]{2})$/]');
         $this->form_validation->set_rules('nama', 'Nama', 'required');
-           $this->form_validation->set_rules('tanggal', 'Tanggal', 'required|trim|regex_match[/^([0-9]{4})\-([0-9]{2})\-([0-9]{2})$/]');
-
 
         if ($this->form_validation->run() == false) {
             $data['menu'] = $this->db->get('user_menu')->result_array();
@@ -207,6 +484,57 @@ class Admin extends CI_Controller
               Pegawai Berhasil Di Hapus!
                </div>');
         redirect('admin/kelola_pegawai');
+    }
+
+    public function cariPegawai()
+    {
+        $data['title'] = 'Kelola Data Pegawai';
+        $data['user'] = $this->db->get_where('user', ['email' => $this->session->userdata('email')])->row_array();
+        $this->load->model('Pegawai_Model', 'menu');
+        // INI UNTUK DROPDOWN
+        
+        $data['cariberdasarkan'] = $this->input->post("cariberdasarkan");
+        $data['yangdicari'] = $this->input->post("yangdicari");
+        $data["dataPegawai"] = $this->menu->cariPegawai($data['cariberdasarkan'], $data['yangdicari'])->result_array();
+        $data["jumlah"] = count($data["dataPegawai"]);
+    
+        $data['menu'] = $this->db->get('user_menu')->result_array();
+        
+        if(!isset($_POST['cari'])){
+        $this->form_validation->set_rules('tanggal', 'tanggal', 'required|trim|regex_match[/^([0-9]{4})-([0-9]{2})-([0-9]{2})$/]');
+        $this->form_validation->set_rules('nama', 'Name', 'required|trim');
+        }
+
+        if ($this->form_validation->run() == false) {
+            $data['menu'] = $this->db->get('user_menu')->result_array();
+            $this->load->view('templates/header', $data);
+            $this->load->view('templates/sidebar', $data);
+            $this->load->view('templates/topbar', $data);
+            $this->load->view('admin/cariPegawai', $data);
+            $this->load->view('templates/footer');
+        } else {
+            $emailPembeli = $data['user']['email'];
+            date_default_timezone_set("Asia/Bangkok");
+            $data = [
+
+                'nama_pegawai' => $this->input->post('nama'),
+                'alamat_pegawai' => $this->input->post('alamat'),
+                'tanggal_lahir_pegawai' => $this->input->post('tanggal'),
+                'role_pegawai' => $this->input->post('role'),
+                'nomor_hp_pegawai' => $this->input->post('nohp'),
+                'username' => $this->input->post('username'),
+                'password' => $this->input->post('password'),
+                'created_date' => date("Y-m-d H:i:s"),
+                'updated_date' => date("0000:00:0:00:00"),
+                'deleted_date' => date("0000:00:0:00:00"),
+            ];
+
+            $this->db->insert('data_pegawai', $data);
+            $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">
+            Pegawai Berhasil Ditambahkan!
+           </div>');
+            redirect('admin/kelola_pegawai');
+        }
     }
 
     public function kelola_jenis_hewan()
@@ -288,6 +616,50 @@ class Admin extends CI_Controller
         redirect('admin/kelola_jenis_hewan');
     }
 
+    public function cariJenisHewan()
+    {
+        $data['title'] = 'Kelola Data Jenis Hewan';
+        $data['user'] = $this->db->get_where('user', ['email' => $this->session->userdata('email')])->row_array();
+        $this->load->model('JenisHewan_Model', 'menu');
+        // INI UNTUK DROPDOWN
+        
+        $data['cariberdasarkan'] = $this->input->post("cariberdasarkan");
+        $data['yangdicari'] = $this->input->post("yangdicari");
+        $data["dataJenisHewan"] = $this->menu->cariJenisHewan($data['cariberdasarkan'], $data['yangdicari'])->result_array();
+        $data["jumlah"] = count($data["dataJenisHewan"]);
+    
+        $data['menu'] = $this->db->get('user_menu')->result_array();
+        
+        if(!isset($_POST['cari'])){
+        $this->form_validation->set_rules('nama', 'Name', 'required|trim');
+        }
+
+        if ($this->form_validation->run() == false) {
+            $data['menu'] = $this->db->get('user_menu')->result_array();
+            $this->load->view('templates/header', $data);
+            $this->load->view('templates/sidebar', $data);
+            $this->load->view('templates/topbar', $data);
+            $this->load->view('admin/cariJenisHewan', $data);
+            $this->load->view('templates/footer');
+        } else {
+            $emailPembeli = $data['user']['email'];
+            date_default_timezone_set("Asia/Bangkok");
+            $data = [
+
+                'nama_jenis_hewan' => $this->input->post('nama'),
+                'created_date' => date("Y-m-d H:i:s"),
+                'updated_date' => date("0000:00:0:00:00"),
+                'deleted_date' => date("0000:00:0:00:00"),
+            ];
+
+            $this->db->insert('data_jenis_hewan', $data);
+            $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">
+            Jenis Hewan Berhasil Ditambahkan!
+           </div>');
+            redirect('admin/kelola_jenis_hewan');
+        }
+    }
+
     public function kelola_ukuran_hewan()
     {
         $data['title'] = 'Kelola Data Ukuran Hewan';
@@ -367,6 +739,50 @@ class Admin extends CI_Controller
         redirect('admin/kelola_ukuran_hewan');
     }
 
+    public function cariUkuranHewan()
+    {
+        $data['title'] = 'Kelola Data Ukuran Hewan';
+        $data['user'] = $this->db->get_where('user', ['email' => $this->session->userdata('email')])->row_array();
+        $this->load->model('UkuranHewan_Model', 'menu');
+        // INI UNTUK DROPDOWN
+        
+        $data['cariberdasarkan'] = $this->input->post("cariberdasarkan");
+        $data['yangdicari'] = $this->input->post("yangdicari");
+        $data["dataUkuranHewan"] = $this->menu->cariUkuranHewan($data['cariberdasarkan'], $data['yangdicari'])->result_array();
+        $data["jumlah"] = count($data["dataUkuranHewan"]);
+    
+        $data['menu'] = $this->db->get('user_menu')->result_array();
+        
+        if(!isset($_POST['cari'])){
+        $this->form_validation->set_rules('nama', 'Name', 'required|trim');
+        }
+
+        if ($this->form_validation->run() == false) {
+            $data['menu'] = $this->db->get('user_menu')->result_array();
+            $this->load->view('templates/header', $data);
+            $this->load->view('templates/sidebar', $data);
+            $this->load->view('templates/topbar', $data);
+            $this->load->view('admin/cariUkuranHewan', $data);
+            $this->load->view('templates/footer');
+        } else {
+            $emailPembeli = $data['user']['email'];
+            date_default_timezone_set("Asia/Bangkok");
+            $data = [
+
+                'nama_ukuran_hewan' => $this->input->post('nama'),
+                'created_date' => date("Y-m-d H:i:s"),
+                'updated_date' => date("0000:00:0:00:00"),
+                'deleted_date' => date("0000:00:0:00:00"),
+            ];
+
+            $this->db->insert('data_ukuran_hewan', $data);
+            $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">
+            Ukuran Hewan Berhasil Ditambahkan!
+           </div>');
+            redirect('admin/kelola_ukuran_hewan');
+        }
+    }
+
     public function kelola_hewan()
     {
         $data['title'] = 'Kelola Data Hewan';
@@ -380,8 +796,8 @@ class Admin extends CI_Controller
         $data['dataHewan'] = $this->menu->getDataHewanAdmin();
         $data['menu'] = $this->db->get('user_menu')->result_array();
 
+        $this->form_validation->set_rules('tanggal', 'Tanggal', 'required|trim|regex_match[/^([0-9]{4})-([0-9]{2})-([0-9]{2})$/]');
         $this->form_validation->set_rules('nama', 'Name', 'required|trim');
-        $this->form_validation->set_rules('tanggal', 'Tanggal', 'required|trim|regex_match[/^([0-9]{4})\-([0-9]{2})\-([0-9]{2})$/]');
 
         if ($this->form_validation->run() == false) {
             $data['menu'] = $this->db->get('user_menu')->result_array();
@@ -421,8 +837,8 @@ class Admin extends CI_Controller
         $data['data_customer'] = $this->menu->select_customer();
         $data['menu'] = $this->db->get('user_menu')->result_array();
 
+        $this->form_validation->set_rules('tanggal', 'Tanggal', 'required|trim|regex_match[/^([0-9]{4})-([0-9]{2})-([0-9]{2})$/]');
         $this->form_validation->set_rules('nama', 'Nama', 'required');
-        $this->form_validation->set_rules('tanggal', 'Tanggal', 'required|trim|regex_match[/^([0-9]{4})\-([0-9]{2})\-([0-9]{2})$/]');
 
         if ($this->form_validation->run() == false) {
             $data['menu'] = $this->db->get('user_menu')->result_array();
@@ -471,9 +887,9 @@ class Admin extends CI_Controller
         $data['menu'] = $this->db->get('user_menu')->result_array();
 
         $this->form_validation->set_rules('nama_supplier', 'nama_supplier', 'required|trim');
-        // $this->form_validation->set_rules('alamat_customer', 'alamat_customer', 'required|trim');
-        // $this->form_validation->set_rules('tanggal_lahir_customer', 'tanggal_lahir_customer', 'required|trim');
-        // $this->form_validation->set_rules('nomor_hp_customer', 'nomor_hp_customer', 'required|numeric|trim');
+       // $this->form_validation->set_rules('alamat_customer', 'alamat_customer', 'required|trim');
+       // $this->form_validation->set_rules('tanggal_lahir_customer', 'tanggal_lahir_customer', 'required|trim');
+       // $this->form_validation->set_rules('nomor_hp_customer', 'nomor_hp_customer', 'required|numeric|trim');
 
         if ($this->form_validation->run() == false) {
             $data['menu'] = $this->db->get('user_menu')->result_array();
@@ -483,7 +899,7 @@ class Admin extends CI_Controller
             $this->load->view('admin/kelola_supplier', $data);
             $this->load->view('templates/footer');
         } else {
-            // $emailPembeli = $data['user']['email'];
+           // $emailPembeli = $data['user']['email'];
             date_default_timezone_set("Asia/Bangkok");
             $data = [
                 'nama_supplier' => $this->input->post('nama_supplier'),
@@ -512,6 +928,7 @@ class Admin extends CI_Controller
         $data['menu'] = $this->db->get('user_menu')->result_array();
 
         $this->form_validation->set_rules('nama', 'Nama', 'required');
+       
 
         if ($this->form_validation->run() == false) {
             $data['menu'] = $this->db->get('user_menu')->result_array();
@@ -549,6 +966,51 @@ class Admin extends CI_Controller
         redirect('admin/kelola_supplier');
     }
 
+    public function cariSupplier()
+    {
+        $data['title'] = 'Kelola Data Supplier';
+        $data['user'] = $this->db->get_where('user', ['email' => $this->session->userdata('email')])->row_array();
+        $this->load->model('Supplier_Model', 'menu');
+        // INI UNTUK DROPDOWN
+        
+        $data['cariberdasarkan'] = $this->input->post("cariberdasarkan");
+        $data['yangdicari'] = $this->input->post("yangdicari");
+        $data["dataSupplier"] = $this->menu->cariSupplier($data['cariberdasarkan'], $data['yangdicari'])->result_array();
+        $data["jumlah"] = count($data["dataSupplier"]);
+    
+        $data['menu'] = $this->db->get('user_menu')->result_array();
+        
+        if(!isset($_POST['cari'])){
+        $this->form_validation->set_rules('nama', 'Name', 'required|trim');
+        }
+
+        if ($this->form_validation->run() == false) {
+            $data['menu'] = $this->db->get('user_menu')->result_array();
+            $this->load->view('templates/header', $data);
+            $this->load->view('templates/sidebar', $data);
+            $this->load->view('templates/topbar', $data);
+            $this->load->view('admin/cariSupplier', $data);
+            $this->load->view('templates/footer');
+        } else {
+            $emailPembeli = $data['user']['email'];
+            date_default_timezone_set("Asia/Bangkok");
+            $data = [
+                'nama_supplier' => $this->input->post('nama_supplier'),
+                'alamat_supplier' => $this->input->post('alamat_supplier'),
+                'nomor_telepon_supplier' => $this->input->post('nomor_telepon_supplier'),
+                'created_date' => date("Y-m-d H:i:s"),
+                'updated_date' => date("0000:00:0:00:00"),
+                'deleted_date' => date("0000:00:0:00:00"),
+            ];
+
+            $this->db->insert('data_supplier', $data);
+            $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">
+            Supplier Berhasil Ditambahkan!
+           </div>');
+            redirect('admin/kelola_supplier');
+        }
+    }
+
     public function kelola_customer()
     {
         $data['title'] = 'Kelola Data Customer';
@@ -557,12 +1019,11 @@ class Admin extends CI_Controller
         $data['dataCustomer'] = $this->menu->getDataCustomerAdmin();
         $data['menu'] = $this->db->get('user_menu')->result_array();
 
+        $this->form_validation->set_rules('tanggal_lahir_customer', 'tanggal_lahir_customer', 'required|trim|regex_match[/^([0-9]{4})-([0-9]{2})-([0-9]{2})$/]');
         $this->form_validation->set_rules('nama_customer', 'nama_customer', 'required|trim');
-        $this->form_validation->set_rules('tanggal_lahir_customer', 'tanggal_lahir_customer', 'required|trim|regex_match[/^([0-9]{4})\-([0-9]{2})\-([0-9]{2})$/]');
-
-        // $this->form_validation->set_rules('alamat_customer', 'alamat_customer', 'required|trim');
-        // $this->form_validation->set_rules('tanggal_lahir_customer', 'tanggal_lahir_customer', 'required|trim');
-        // $this->form_validation->set_rules('nomor_hp_customer', 'nomor_hp_customer', 'required|numeric|trim');
+       // $this->form_validation->set_rules('alamat_customer', 'alamat_customer', 'required|trim');
+       // $this->form_validation->set_rules('tanggal_lahir_customer', 'tanggal_lahir_customer', 'required|trim');
+       // $this->form_validation->set_rules('nomor_hp_customer', 'nomor_hp_customer', 'required|numeric|trim');
 
         if ($this->form_validation->run() == false) {
             $data['menu'] = $this->db->get('user_menu')->result_array();
@@ -572,7 +1033,7 @@ class Admin extends CI_Controller
             $this->load->view('admin/kelola_customer', $data);
             $this->load->view('templates/footer');
         } else {
-            // $emailPembeli = $data['user']['email'];
+           // $emailPembeli = $data['user']['email'];
             date_default_timezone_set("Asia/Bangkok");
             $data = [
                 'nama_customer' => $this->input->post('nama_customer'),
@@ -601,8 +1062,9 @@ class Admin extends CI_Controller
         $data['dataCustomer'] = $this->menu->getCustomerId($id);
         $data['menu'] = $this->db->get('user_menu')->result_array();
 
+        $this->form_validation->set_rules('tanggal_lahir_customer', 'tanggal_lahir_customer', 'required|trim|regex_match[/^([0-9]{4})-([0-9]{2})-([0-9]{2})$/]');
         $this->form_validation->set_rules('nama', 'Nama', 'required');
-        $this->form_validation->set_rules('tanggal_lahir_customer', 'tanggal_lahir_customer', 'required|trim|regex_match[/^([0-9]{4})\-([0-9]{2})\-([0-9]{2})$/]');
+       
 
         if ($this->form_validation->run() == false) {
             $data['menu'] = $this->db->get('user_menu')->result_array();
@@ -641,6 +1103,54 @@ class Admin extends CI_Controller
         redirect('admin/kelola_customer');
     }
 
+    public function cariCustomer()
+    {
+        $data['title'] = 'Kelola Data Customer';
+        $data['user'] = $this->db->get_where('user', ['email' => $this->session->userdata('email')])->row_array();
+        $this->load->model('Customer_Model', 'menu');
+        // INI UNTUK DROPDOWN
+        
+        $data['cariberdasarkan'] = $this->input->post("cariberdasarkan");
+        $data['yangdicari'] = $this->input->post("yangdicari");
+        $data["dataCustomer"] = $this->menu->cariCustomer($data['cariberdasarkan'], $data['yangdicari'])->result_array();
+        $data["jumlah"] = count($data["dataCustomer"]);
+    
+        $data['menu'] = $this->db->get('user_menu')->result_array();
+        
+        if(!isset($_POST['cari'])){
+        $this->form_validation->set_rules('tanggal_lahir_customer', 'tanggal_lahir_customer', 'required|trim|regex_match[/^([0-9]{4})-([0-9]{2})-([0-9]{2})$/]');
+        $this->form_validation->set_rules('nama', 'Name', 'required|trim');
+        }
+
+        if ($this->form_validation->run() == false) {
+            $data['menu'] = $this->db->get('user_menu')->result_array();
+            $this->load->view('templates/header', $data);
+            $this->load->view('templates/sidebar', $data);
+            $this->load->view('templates/topbar', $data);
+            $this->load->view('admin/cariCustomer', $data);
+            $this->load->view('templates/footer');
+        } else {
+            $emailPembeli = $data['user']['email'];
+            date_default_timezone_set("Asia/Bangkok");
+            $data = [
+                'nama_customer' => $this->input->post('nama_customer'),
+                'alamat_customer' => $this->input->post('alamat_customer'),
+                'tanggal_lahir_customer' => $this->input->post('tanggal_lahir_customer'),
+                'nomor_hp_customer' => $this->input->post('nomor_hp_customer'),
+                'created_date' => date("Y-m-d H:i:s"),
+                'updated_date' => date("0000:00:0:00:00"),
+                'deleted_date' => date("0000:00:0:00:00"),
+            ];
+
+            $this->db->insert('data_customer', $data);
+            $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">
+            Customer Berhasil Ditambahkan!
+           </div>');
+            redirect('admin/kelola_customer');
+        }
+    }
+    
+
     public function cariHewan()
     {
         $data['title'] = 'Kelola Data Hewan';
@@ -650,18 +1160,17 @@ class Admin extends CI_Controller
         $data['data_customer'] = $this->menu->select_customer();
         $data['data_ukuran'] = $this->menu->select_ukuran();
         $data['data_jenis'] = $this->menu->select_jenis();
-
+        
         $data['cariberdasarkan'] = $this->input->post("cariberdasarkan");
         $data['yangdicari'] = $this->input->post("yangdicari");
         $data["dataHewan"] = $this->menu->cariHewan($data['cariberdasarkan'], $data['yangdicari'])->result_array();
         $data["jumlah"] = count($data["dataHewan"]);
-
+    
         $data['menu'] = $this->db->get('user_menu')->result_array();
-
-        if (!isset($_POST['cari'])) {
-            $this->form_validation->set_rules('nama', 'Name', 'required|trim');
-            $this->form_validation->set_rules('tanggal', 'Tanggal', 'required|trim|regex_match[/^([0-9]{4})\-([0-9]{2})\-([0-9]{2})$/]');
-
+        
+        if(!isset($_POST['cari'])){
+        $this->form_validation->set_rules('tanggal', 'Tanggal', 'required|trim|regex_match[/^([0-9]{4})-([0-9]{2})-([0-9]{2})$/]');
+        $this->form_validation->set_rules('nama', 'Name', 'required|trim');
         }
 
         if ($this->form_validation->run() == false) {

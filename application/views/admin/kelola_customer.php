@@ -17,7 +17,17 @@
         </div>
         <?php endif; ?>
         <a href="" class="btn btn-primary mb-3" data-toggle="modal" data-target="#newSubMenuModal">TAMBAH CUSTOMERS</a>
-
+        <div class="form-group">
+            <?php echo form_open("admin/cariCustomer"); ?>
+            <select name="cariberdasarkan">
+                <option value="">Cari Berdasarkan</option>
+                <option value="id_customer">Id Customer</option>
+                <option value="nama_customer">Nama Customer</option>
+            </select>
+            <input name="yangdicari" id="" type="text">
+            <input type="submit" name="cari" value="Cari">
+            <?php echo form_close(); ?>
+        </div>
         <?= $this->session->flashdata('message'); ?>
 
         <table class="table table-striped table-dark table-hover  table-responsive-sm">
@@ -76,20 +86,16 @@
             <form action="<?= base_url('admin/kelola_customer'); ?>" method="post">
                 <div class="modal-body">
                     <div class="form-group">
-                        <input type="text" class="form-control" id="nama_customer" name="nama_customer"
-                            placeholder="Nama Customer">
+                        <input type="text" class="form-control" id="nama_customer" name="nama_customer" placeholder="Nama Customer">
                     </div>
                     <div class="form-group">
-                        <input type="text" class="form-control" id="alamat_customer" name="alamat_customer"
-                            placeholder="Alamat Customer">
+                        <input type="text" class="form-control" id="alamat_customer" name="alamat_customer" placeholder="Alamat Customer">
                     </div>
                     <div class="form-group">
-                        <input type="text" class="form-control" id="tanggal_lahir_customer"
-                            name="tanggal_lahir_customer" placeholder="Tanggal Lahir (YYYY-MM-DD)"">
+                        <input type="text" class="form-control" id="tanggal_lahir_customer" name="tanggal_lahir_customer" placeholder="Tanggal Lahir (YYYY-MM-DD)">
                     </div>
-                    <div class=" form-group">
-                        <input type="text" class="form-control" id="nomor_hp_customer" name="nomor_hp_customer"
-                            placeholder="Nomor HP">
+                    <div class="form-group">
+                        <input type="text" class="form-control" id="nomor_hp_customer" name="nomor_hp_customer" placeholder="Nomor HP">
                     </div>
                 </div>
                 <div class="modal-footer">
@@ -115,28 +121,23 @@
             </div>
             <form action="<?= base_url(); ?>admin/updateCustomer/<?= $sm['id_customer']; ?>" method="post">
                 <div class="modal-body">
-                    <div class="form-group">
+                <div class="form-group">
                         <input hidden type="text" class="form-control" value="<?= $sm['id_customer']; ?>" id="id"
                             name="id">
                     </div>
                     <div class="form-group">
-                        <input type="text" class="form-control" id="nama" name="nama"
-                            value="<?= $sm['nama_customer']; ?>" placeholder="Nama Customer">
+                            <input type="text" class="form-control" id="nama" name="nama" value="<?= $sm['nama_customer']; ?>" placeholder="Nama Customer">
+                        </div>
+                        <div class="form-group">
+                            <input type="text" class="form-control" id="alamat_customer" name="alamat_customer" value="<?= $sm['alamat_customer']; ?>" placeholder="Alamat Customer">
+                        </div>
+                        <div class="form-group">
+                            <input type="text" class="form-control" id="tanggal_lahir_customer" name="tanggal_lahir_customer" value="<?= $sm['tanggal_lahir_customer']; ?>" placeholder="Tanggal Lahir (YYYY-MM-DD)">
+                        </div>
+                        <div class="form-group">
+                            <input type="text" class="form-control" id="nomor_hp_customer" name="nomor_hp_customer" value="<?= $sm['nomor_hp_customer']; ?>" placeholder="Nomor HP">
+                        </div>
                     </div>
-                    <div class="form-group">
-                        <input type="text" class="form-control" id="alamat_customer" name="alamat_customer"
-                            value="<?= $sm['alamat_customer']; ?>" placeholder="Alamat Customer">
-                    </div>
-                    <div class="form-group">
-                        <input type="text" class="form-control" id="tanggal_lahir_customer"
-                            name="tanggal_lahir_customer" value="<?= $sm['tanggal_lahir_customer']; ?>"
-                            placeholder="Tanggal Lahir">
-                    </div>
-                    <div class="form-group">
-                        <input type="text" class="form-control" id="nomor_hp_customer" name="nomor_hp_customer"
-                            value="<?= $sm['nomor_hp_customer']; ?>" placeholder="Nomor HP">
-                    </div>
-                </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                     <button type="submit" class="btn btn-primary">Edit</button>

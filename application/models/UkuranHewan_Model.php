@@ -25,4 +25,25 @@ class UkuranHewan_model extends CI_Model
     {
         return $this->db->get_where('data_ukuran_hewan', ['id_ukuran_hewan' => $id])->result_array();
     }
+
+    public function cariUkuranHewan($berdasarkan,$yangdicari){
+        $this->db->select('*');
+        $this->db->from('data_ukuran_hewan');
+
+
+        switch($berdasarkan){
+            case "":
+                $this->db->like('ukuran_hewan',$yangdicari);
+                $this->db->or_like('id_ukuran_hewan',$yangdicari);
+            break;
+
+            case "id_ukuran_hewan":
+                $this->db->where('id_ukuran_hewan',$yangdicari);
+            
+            default:
+            $this->db->like($berdasarkan,$yangdicari);
+        }
+        return $this->db->get();
+    }
+
 }

@@ -17,6 +17,19 @@
         </div>
         <?php endif; ?>
         <a href="" class="btn btn-primary mb-3" data-toggle="modal" data-target="#newSubMenuModal">TAMBAH PEGAWAI</a>
+        <div class="form-group">
+            <?php echo form_open("admin/cariPegawai"); ?>
+            <select name="cariberdasarkan">
+                <option value="">Cari Berdasarkan</option>
+                <option value="id_pegawai">Id Pegawai</option>
+                <option value="nama_pegawai">Nama Pegawai</option>
+                <option value="username">Username</option>
+                <option value="role_pegawai">Role Pegawai</option>
+            </select>
+            <input name="yangdicari" id="" type="text">
+            <input type="submit" name="cari" value="Cari">
+            <?php echo form_close(); ?>
+        </div>
         <?= $this->session->flashdata('message'); ?>
 
         <table class="table table-striped table-dark table-hover  table-responsive-sm">
@@ -85,10 +98,9 @@
                         <input type="text" class="form-control" id="alamat" name="alamat" placeholder="Alamat Pegawai">
                     </div>
                     <div class="form-group">
-                        <input type="text" class="form-control" id="tanggal" name="tanggal"
-                            placeholder="Tanggal Lahir (YYYY-MM-DD)"">
+                        <input type="text" class="form-control" id="tanggal" name="tanggal" placeholder="Tanggal Lahir (YYYY-MM-DD) ">
                     </div>
-                    <div class=" form-group">
+                    <div class="form-group">
                         <input type="text" class="form-control" id="nohp" name="nohp" placeholder="Nomor Handphone">
                     </div>
                     <div class="form-group">
@@ -137,13 +149,13 @@
                     </div>
                     <div class="form-group">
                         <input type="text" class="form-control" id="alamat" name="alamat"
-                            value="<?= $sm['alamat_pegawai']; ?>" placeholder="Alamat Name">
+                            value="<?= $sm['alamat_pegawai']; ?>" placeholder="Full Name">
                     </div>
                     <div class="form-group">
                         <input type="text" class="form-control" id="tanggal" name="tanggal"
-                            value="<?= $sm['tanggal_lahir_pegawai']; ?>" placeholder="Tanggal Lahir (YYYY-MM-DD)"">
+                            value="<?= $sm['tanggal_lahir_pegawai']; ?>" placeholder="Tanggal Lahir (YYYY-MM-DD)">
                     </div>
-                    <div class=" form-group">
+                    <div class="form-group">
                         <input type="text" class="form-control" id="nohp" name="nohp"
                             value="<?= $sm['nomor_hp_pegawai']; ?>" placeholder="Full Name">
                     </div>

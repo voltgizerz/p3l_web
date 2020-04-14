@@ -90,7 +90,7 @@
                     </div>
                     <div class="form-group">
                         <input type="text" class="form-control" id="tanggal" name="tanggal"
-                            placeholder=" Tanggal Lahir Hewan (YYYY-MM-DD)">
+                            placeholder="Tanggal Lahir (YYYY-MM-DD)">
                     </div>
 
                     <div class="form-group">
@@ -151,7 +151,7 @@
 
                     <div class="form-group">
                         <input type="text" class="form-control" id="tangal" name="tanggal"
-                            value="<?=$sm['tanggal_lahir_hewan'];?>" placeholder="Tanggal Lahir Hewan">
+                            value="<?=$sm['tanggal_lahir_hewan'];?>" placeholder="Tanggal Lahir (YYYY-MM-DD)">
                     </div>
                     <div class="form-group">
                         <select class="form-control" id="pilih_customer" name="pilih_customer">

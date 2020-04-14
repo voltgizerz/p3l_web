@@ -17,7 +17,18 @@
         </div>
         <?php endif; ?>
         <a href="" class="btn btn-primary mb-3" data-toggle="modal" data-target="#newSubMenuModal">TAMBAH CUSTOMERS</a>
-
+        
+        <div class="form-group">
+        <?php echo form_open("admin/cariSupplier"); ?>
+            <select name="cariberdasarkan">
+                <option value="">Cari Berdasarkan</option>
+                <option value="id_supplier">Id Supplier</option>
+                <option value="nama_supplier">Nama Supplier</option>
+            </select>
+            <input name="yangdicari" id="" type="text">
+            <input type="submit" name="cari" value="Cari">
+            <?php echo form_close(); ?>
+        </div>
         <?= $this->session->flashdata('message'); ?>
 
         <table class="table table-striped table-dark table-hover  table-responsive-sm">

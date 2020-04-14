@@ -25,4 +25,28 @@ class Pegawai_model extends CI_Model
     {
         return $this->db->get_where('data_pegawai', ['id_pegawai' => $id])->result_array();
     }
+
+    public function cariPegawai($berdasarkan,$yangdicari){
+        $this->db->select('*');
+        $this->db->from('data_pegawai');
+
+
+        switch($berdasarkan){
+            case "":
+                $this->db->like('nama_pegawai',$yangdicari);
+                $this->db->or_like('id_pegawai',$yangdicari);
+                $this->db->or_like('alamat_pegawai',$yangdicari);
+                $this->db->or_like('tanggal_lahir_pegawai',$yangdicari);
+                $this->db->or_like('role_pegawai',$yangdicari);
+                $this->db->or_like('username',$yangdicari);
+            break;
+
+            case "id_pegawai":
+                $this->db->where('id_pegawai',$yangdicari);
+            
+            default:
+            $this->db->like($berdasarkan,$yangdicari);
+        }
+        return $this->db->get();
+    }
 }

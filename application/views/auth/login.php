@@ -34,8 +34,8 @@
                             <div class="col-lg">
                                 <div class="p-5">
                                     <div class="text-center">
-                                        <img src="<?= base_url('assets/img/logo.png'); ?>"
-                                            style="width:80px;height:80px;">
+                                        <img src="<?= base_url('assets/img/LogoKPS.png'); ?>"
+                                            style="width:133px;height:80px;">
                                         <h1 class=" h4 text-gray-900 mb-4">Silahkan Login dengan Akun Pegawai Anda!</h1>
                                     </div>
                                     <?= $this->session->flashdata('message'); ?>
@@ -58,10 +58,6 @@
 
                                     </form>
                                     <hr>
-                                    <div class="text-center">
-                                        <a class="small" href="<?= base_url('auth/registration'); ?>">Create an
-                                            Account!</a>
-                                    </div>
                                 </div>
                             </div>
                         </div>
