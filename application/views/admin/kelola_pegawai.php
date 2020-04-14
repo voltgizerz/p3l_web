@@ -16,10 +16,7 @@
             <?= validation_errors(); ?>
         </div>
         <?php endif; ?>
-        <a href="" class="btn btn-primary mb-3" data-toggle="modal" data-target="#newSubMenuModal">ADD NEW MEMBERS</a>
-        <a href="<?php echo site_url('Laporan/userAdmin') ?>" class="btn btn-primary mb-3"
-            style="background-color:RED; ">PRINT TO PDF</a>
-
+        <a href="" class="btn btn-primary mb-3" data-toggle="modal" data-target="#newSubMenuModal">TAMBAH PEGAWAI</a>
         <?= $this->session->flashdata('message'); ?>
 
         <table class="table table-striped table-dark table-hover  table-responsive-sm">
@@ -55,7 +52,7 @@
                         <a href="<?= base_url(); ?>admin/updateMember/<?= $sm['id_pegawai']; ?>"
                             class="badge badge-primary mb-3" data-toggle="modal"
                             data-target="#editSubMenuModal<?= $sm['id_pegawai']; ?>">EDIT</a>
-                        <a href="<?= base_url(); ?>admin/hapusMemberAdmin/<?= $sm['id_pegawai']; ?>"
+                        <a href="<?= base_url(); ?>admin/hapusPegawai/<?= $sm['id_pegawai']; ?>"
                             class="badge badge-danger mb-3">DELETE</a>
                     </td>
                 </tr>
@@ -74,37 +71,34 @@
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="newMenuModal">Add New Cars</h5>
+                <h5 class="modal-title" id="newMenuModal">Tambah Pegawai</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <form action="<?= base_url('admin/configuser'); ?>" method="post">
+            <form action="<?= base_url('admin/kelola_pegawai'); ?>" method="post">
                 <div class="modal-body">
                     <div class="form-group">
-                        <input type="text" class="form-control" id="name" name="name" placeholder="Full Name">
+                        <input type="text" class="form-control" id="nama" name="nama" placeholder="Nama Pegawai">
                     </div>
                     <div class="form-group">
-                        <input type="text" class="form-control" id="email" name="email" placeholder="Email Member">
+                        <input type="text" class="form-control" id="alamat" name="alamat" placeholder="Alamat Pegawai">
+                    </div>
+                    <div class="form-group">
+                        <input type="text" class="form-control" id="tanggal" name="tanggal" placeholder="Tanggal ">
+                    </div>
+                    <div class="form-group">
+                        <input type="text" class="form-control" id="nohp" name="nohp" placeholder="Nomor Handphone">
+                    </div>
+                    <div class="form-group">
+                        <input type="text" class="form-control" id="role" name="role" placeholder="Role Pegawai">
+                    </div>
+                    <div class="form-group">
+                        <input type="text" class="form-control" id="username" name="username" placeholder="Username">
                     </div>
                     <div class="form-group">
                         <input type="password" class="form-control" id="password" name="password"
                             placeholder="Password">
-                    </div>
-                    <div class="form-group">
-                        <select class="form-control" name="role_id" id="role_id">
-                            <option value=''>ROLE</option>
-                            <option value="1">ADMIN</option>
-                            <option value="2" selected>MEMBER</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <select class="form-control" name="is_active" id="is_active">
-                            <option value=''>Active This User ?</option>
-                            <option value="1" selected>ACTIVE</option>
-                            <option value="0">NOT ACTIVATED</option>
-                            <option value="3">BANNED USER</option>
-                        </select>
                     </div>
 
                 </div>
@@ -117,9 +111,9 @@
     </div>
 </div>
 
-<?php foreach ($dataMember as $sm) : ?>
+<?php foreach ($dataPegawai as $sm) : ?>
 <!-- Modal edit -->
-<div class="modal fade" id="editSubMenuModal<?= $sm['id']; ?>" tabindex="-1" role="dialog"
+<div class="modal fade" id="editSubMenuModal<?= $sm['id_pegawai']; ?>" tabindex="-1" role="dialog"
     aria-labelledby="#editSubMenuModal" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
@@ -129,59 +123,40 @@
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <form action="<?= base_url(); ?>admin/updateMember/<?= $sm['id']; ?>" method="post">
+            <form action="<?= base_url(); ?>admin/updateMember/<?= $sm['id_pegawai']; ?>" method="post">
 
                 <div class="modal-body">
                     <div class="form-group">
-                        <input hidden type="text" class="form-control" value="<?= $sm['id']; ?>" id="id" name="id"
-                            placeholder="Full Name">
+                        <input hidden type="text" class="form-control" value="<?= $sm['id_pegawai']; ?>" id="id"
+                            name="id">
                     </div>
                     <div class="form-group">
-                        <input type="text" class="form-control" id="name" name="name" value="<?= $sm['name']; ?>"
-                            placeholder="Full Name">
+                        <input type="text" class="form-control" id="name" name="name"
+                            value="<?= $sm['nama_pegawai']; ?>" placeholder="Full Name">
                     </div>
                     <div class="form-group">
-                        <input type="text" class="form-control" id="email" name="email" value="<?= $sm['email']; ?>"
-                            placeholder="Email Member" readonly>
+                        <input type="text" class="form-control" id="alamat" name="alamat"
+                            value="<?= $sm['alamat_pegawai']; ?>" placeholder="Full Name">
                     </div>
                     <div class="form-group">
-                        <input type="password" class="form-control" id="password" name="password" value=" "
-                            placeholder="Password">
+                        <input type="text" class="form-control" id="tanggal" name="tanggal"
+                            value="<?= $sm['tanggal_lahir_pegawai']; ?>" placeholder="Tanggal Lahir">
                     </div>
                     <div class="form-group">
-                        <select class="form-control" name="role_id" id="role_id">
-                            <?php if ($sm['role_id'] == '1') : ?>
-                            <option value=''>ROLE</option>
-                            <option value="1" selected>ADMIN</option>
-                            <option value="2">MEMBER</option>
-                            <?php elseif ($sm['role_id'] == '2') : ?>
-                            <option value=''>ROLE</option>
-                            <option value="1">ADMIN</option>
-                            <option value="2" selected>MEMBER</option>
-                            <?php endif; ?>
-
-                        </select>
+                        <input type="text" class="form-control" id="nohp" name="nohp"
+                            value="<?= $sm['nomor_hp_pegawai']; ?>" placeholder="Full Name">
                     </div>
                     <div class="form-group">
-                        <select class="form-control" name="is_active" id="is_active">
-                            <?php if ($sm['is_active'] == '1') : ?>
-                            <option value=''>Active This User ?</option>
-                            <option value="1" selected>ACTIVE</option>
-                            <option value="0">NOT ACTIVATED</option>
-                            <option value="3">BANNED USER</option>
-                            <?php elseif ($sm['is_active'] == '0') : ?>
-                            <option value=''>Active This User ?</option>
-                            <option value="1">ACTIVE</option>
-                            <option value="0" selected>NOT ACTIVATED</option>
-                            <option value="3">BANNED USER</option>
-                            <?php elseif ($sm['is_active'] == '3') : ?>
-                            <option value=''>Active This User ?</option>
-                            <option value="1">ACTIVE</option>
-                            <option value="0">NOT ACTIVATED</option>
-                            <option value="3" selected>BANNED USER</option>
-                            <?php endif; ?>
-
-                        </select>
+                        <input type="text" class="form-control" id="role" name="role"
+                            value="<?= $sm['role_pegawai']; ?>" placeholder="Full Name">
+                    </div>
+                    <div class="form-group">
+                        <input type="text" class="form-control" id="username" name="username"
+                            value="<?= $sm['username']; ?>" placeholder="Full Name">
+                    </div>
+                    <div class="form-group">
+                        <input type="text" class="form-control" id="password" name="password"
+                            value="<?= $sm['password']; ?>" placeholder="Full Name">
                     </div>
                 </div>
                 <div class="modal-footer">

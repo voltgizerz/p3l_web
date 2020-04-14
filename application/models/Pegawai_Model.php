@@ -1,7 +1,6 @@
 <?php
 defined('BASEPATH') or exit('No direct script access allowed');
 
-
 class Pegawai_model extends CI_Model
 {
     public function getDataBeliMobil()
@@ -11,19 +10,19 @@ class Pegawai_model extends CI_Model
         return $this->db->get_where('buy_cars', ['email_Pembeli' => $tampilDataPembeli])->result_array();
     }
 
-    public function getDataBeliMobilAdmin()
+    public function getDataPegawaiAdmin()
     {
         return $this->db->get_where('data_pegawai')->result_array();
     }
 
-    public function deleteBuyCars($id)
+    public function deletePegawai($id)
     {
-        $this->db->where('id', $id);
-        $this->db->delete('buy_cars');
+        $this->db->where('id_pegawai', $id);
+        $this->db->delete('data_pegawai');
     }
 
     public function getBuyCarById($id)
     {
-        return $this->db->get_where('buy_cars', ['id' => $id])->result_array();
+        return $this->db->get_where('data_pegawai', ['id_pegawai' => $id])->result_array();
     }
 }

@@ -13,8 +13,7 @@ class Admin extends CI_Controller
     public function index()
     {
         $data['title'] = 'Dashboard';
-        $data['user'] = $this->db->get_where('user', ['email'
-        => $this->session->userdata('email')])->row_array();
+        $data['user'] = $this->db->get_where('user', ['email' => $this->session->userdata('email')])->row_array();
 
         $this->load->view('templates/header', $data);
         $this->load->view('templates/sidebar', $data);
@@ -22,7 +21,6 @@ class Admin extends CI_Controller
         $this->load->view('admin/index', $data);
         $this->load->view('templates/footer');
     }
-
 
     public function configbuycars()
     {
@@ -54,7 +52,7 @@ class Admin extends CI_Controller
                 'type' => $this->input->post('type'),
                 'harga' => $this->input->post('harga'),
                 'nomorhp' => $this->input->post('nomorhp'),
-                'email_pembeli' => $emailPembeli
+                'email_pembeli' => $emailPembeli,
             ];
 
             $this->db->insert('buy_cars', $data);
@@ -94,7 +92,7 @@ class Admin extends CI_Controller
                 'type' => $this->input->post('type'),
                 'harga' => $this->input->post('harga'),
                 'nomorhp' => $this->input->post('nomorhp'),
-                'email_pembeli' => $emailPembeli
+                'email_pembeli' => $emailPembeli,
             ];
 
             $this->db->where('id', $this->input->post('id'));
@@ -136,7 +134,7 @@ class Admin extends CI_Controller
                 'warna' => $this->input->post('warna'),
                 'bahan_bakar' => $this->input->post('bahan_bakar'),
                 'harga' => $this->input->post('harga'),
-                'email_pembeli' => $emailPembeli
+                'email_pembeli' => $emailPembeli,
             ];
 
             $this->db->insert('sell_cars', $data);
@@ -177,7 +175,7 @@ class Admin extends CI_Controller
                 'deskripsi' => $this->input->post('deskripsi'),
                 'harga' => $this->input->post('harga'),
                 'kondisi' => $this->input->post('kondisi'),
-                'email_pembeli' => $emailPembeli
+                'email_pembeli' => $emailPembeli,
             ];
 
             $this->db->insert('buy_sparepart', $data);
@@ -218,7 +216,6 @@ class Admin extends CI_Controller
         redirect('admin/configsellcars');
     }
 
-
     public function updateSparepartAdmin($id)
     {
         $data['title'] = 'Sparepart Management';
@@ -249,7 +246,7 @@ class Admin extends CI_Controller
                 'deskripsi' => $this->input->post('deskripsi'),
                 'harga' => $this->input->post('harga'),
                 'kondisi' => $this->input->post('kondisi'),
-                'email_pembeli' => $emailPembeli
+                'email_pembeli' => $emailPembeli,
             ];
 
             $this->db->where('id', $this->input->post('id'));
@@ -291,7 +288,7 @@ class Admin extends CI_Controller
                 'warna' => $this->input->post('warna'),
                 'bahan_bakar' => $this->input->post('bahan_bakar'),
                 'harga' => $this->input->post('harga'),
-                'email_pembeli' => $emailPembeli
+                'email_pembeli' => $emailPembeli,
             ];
 
             $this->db->where('id', $this->input->post('id'));
@@ -303,7 +300,6 @@ class Admin extends CI_Controller
         }
     }
 
-
     public function configuser()
     {
         $data['title'] = 'User Management';
@@ -314,7 +310,7 @@ class Admin extends CI_Controller
 
         $this->form_validation->set_rules('name', 'Name', 'required|trim');
         $this->form_validation->set_rules('email', 'Email', 'required|trim|valid_email|is_unique[user.email]', [
-            'is_unique' => 'This email already registered!'
+            'is_unique' => 'This email already registered!',
         ]);
         $this->form_validation->set_rules('password', 'Password', 'required|trim|min_length[6]');
         $this->form_validation->set_rules('role_id', 'Role', 'required');
@@ -335,7 +331,7 @@ class Admin extends CI_Controller
                 'role_id' => $this->input->post('role_id'),
                 'is_active' => $this->input->post('is_active'),
                 'image' => 'default.jpg',
-                'datecreated' => time()
+                'datecreated' => time(),
             ];
 
             $this->db->insert('user', $data);
@@ -383,7 +379,7 @@ class Admin extends CI_Controller
                 'role_id' => $this->input->post('role_id'),
                 'is_active' => $this->input->post('is_active'),
                 'image' => 'default.jpg',
-                'datecreated' => time()
+                'datecreated' => time(),
             ];
 
             $this->db->where('id', $this->input->post('id'));
@@ -395,23 +391,17 @@ class Admin extends CI_Controller
         }
     }
 
-
-
-    ///////////////////////////////////////////// P3L 
+    ///////////////////////////////////////////// P3L
 
     public function kelola_pegawai()
     {
         $data['title'] = 'Kelola Data Pegawai';
         $data['user'] = $this->db->get_where('user', ['email' => $this->session->userdata('email')])->row_array();
         $this->load->model('Pegawai_Model', 'menu');
-        $data['dataPegawai'] = $this->menu->getDataBeliMobilAdmin();
+        $data['dataPegawai'] = $this->menu->getDataPegawaiAdmin();
         $data['menu'] = $this->db->get('user_menu')->result_array();
 
-        $this->form_validation->set_rules('name', 'Name', 'required|trim');
-        $this->form_validation->set_rules('merk', 'Merk', 'required|trim');
-        $this->form_validation->set_rules('type', 'Type', 'required|trim');
-        $this->form_validation->set_rules('harga', 'Price', 'required|numeric|trim');
-        $this->form_validation->set_rules('nomorhp', 'Phone Number', 'required|min_length[10]|numeric|trim');
+        $this->form_validation->set_rules('nama', 'Name', 'required|trim');
 
         if ($this->form_validation->run() == false) {
             $data['menu'] = $this->db->get('user_menu')->result_array();
@@ -422,23 +412,36 @@ class Admin extends CI_Controller
             $this->load->view('templates/footer');
         } else {
             $emailPembeli = $data['user']['email'];
-
+            date_default_timezone_set("Asia/Bangkok");
             $data = [
-                'name' => $this->input->post('name'),
-                'merk' => $this->input->post('merk'),
-                'type' => $this->input->post('type'),
-                'harga' => $this->input->post('harga'),
-                'nomorhp' => $this->input->post('nomorhp'),
-                'email_pembeli' => $emailPembeli
+                'nama_pegawai' => $this->input->post('nama'),
+                'alamat_pegawai' => $this->input->post('alamat'),
+                'tanggal_lahir_pegawai' => $this->input->post('tanggal'),
+                'role_pegawai' => $this->input->post('role'),
+                'nomor_hp_pegawai' => $this->input->post('nohp'),
+                'username' => $this->input->post('username'),
+                'password' => $this->input->post('password'),
+                'created_date' => date("Y-m-d H:i:s"),
+                'updated_date' => date("0000:00:0:00:00"),
+                'deleted_date' => date("0000:00:0:00:00"),
             ];
 
-            $this->db->insert('buy_cars', $data);
+            $this->db->insert('data_pegawai', $data);
             $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">
-            New Cars Added
+            Pegawai Berhasil Ditambahkan!
            </div>');
-            redirect('admin/configbuycars');
+            redirect('admin/kelola_pegawai');
         }
     }
 
-    
+    public function hapusPegawai($id)
+    {
+        $this->load->model('Pegawai_Model');
+        $this->Pegawai_Model->deletePegawai($id);
+        $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">
+              Pegawai Berhasil Di Hapus!
+               </div>');
+        redirect('admin/kelola_pegawai');
+    }
+
 }
