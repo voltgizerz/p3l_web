@@ -655,7 +655,8 @@ class Admin extends CI_Controller
         // INI UNTUK DROPDOWN
         $data['data_customer']=$this->menu->select_customer();  
         $data['data_ukuran']=$this->menu->select_ukuran();  
-        $data['data_jenis']=$this->menu->select_jenis();  
+        $data['data_jenis']=$this->menu->select_jenis();
+        
         $data['dataHewan'] = $this->menu->getDataHewanAdmin();
         $data['menu'] = $this->db->get('user_menu')->result_array();
 
