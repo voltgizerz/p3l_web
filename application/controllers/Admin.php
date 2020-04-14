@@ -485,4 +485,85 @@ class Admin extends CI_Controller
         redirect('admin/kelola_pegawai');
     }
 
+
+    public function kelola_jenis_hewan()
+    {
+        $data['title'] = 'Kelola Data Jenis Hewan';
+        $data['user'] = $this->db->get_where('user', ['email' => $this->session->userdata('email')])->row_array();
+        $this->load->model('JenisHewan_Model', 'menu');
+        $data['dataJenisHewan'] = $this->menu->getDataJenisHewanAdmin();
+        $data['menu'] = $this->db->get('user_menu')->result_array();
+
+        $this->form_validation->set_rules('nama', 'Name', 'required|trim');
+
+        if ($this->form_validation->run() == false) {
+            $data['menu'] = $this->db->get('user_menu')->result_array();
+            $this->load->view('templates/header', $data);
+            $this->load->view('templates/sidebar', $data);
+            $this->load->view('templates/topbar', $data);
+            $this->load->view('admin/kelola_jenis_hewan', $data);
+            $this->load->view('templates/footer');
+        } else {
+            $emailPembeli = $data['user']['email'];
+            date_default_timezone_set("Asia/Bangkok");
+            $data = [
+                'nama_jenis_hewan' => $this->input->post('nama'),
+                'created_date' => date("Y-m-d H:i:s"),
+                'updated_date' => date("0000:00:0:00:00"),
+                'deleted_date' => date("0000:00:0:00:00"),
+            ];
+
+            $this->db->insert('data_jenis_hewan', $data);
+            $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">
+            Jenis Hewan Berhasil Ditambahkan!
+           </div>');
+            redirect('admin/kelola_jenis_hewan');
+        }
+    }
+
+    public function updateJenisHewan($id)
+    {
+        $data['title'] =  'Kelola Data Jenis Hewan';
+        $data['user'] = $this->db->get_where('user', ['email' => $this->session->userdata('email')])->row_array();
+        $this->load->model('JenisHewan_Model', 'menu');
+        $data['dataPegawai'] = $this->menu->getJenisHewanId($id);
+        $data['menu'] = $this->db->get('user_menu')->result_array();
+
+        $this->form_validation->set_rules('nama', 'Nama', 'required');
+       
+
+        if ($this->form_validation->run() == false) {
+            $data['menu'] = $this->db->get('user_menu')->result_array();
+            $this->load->view('templates/header', $data);
+            $this->load->view('templates/sidebar', $data);
+            $this->load->view('templates/topbar', $data);
+            $this->load->view('admin/kelola_pegawai', $data);
+            $this->load->view('templates/footer');
+        } else {
+            $emailPembeli = $data['user']['email'];
+            date_default_timezone_set("Asia/Bangkok");
+            $data = [
+                'nama_jenis_hewan' => $this->input->post('nama'),
+                'updated_date' => date("Y-m-d H:i:s")
+            ];
+
+            $this->db->where('id_jenis_hewan', $this->input->post('id'));
+            $this->db->update('data_jenis_hewan', $data);
+            $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">
+            Data Jenis Hewan Sukses di Edit!
+           </div>');
+            redirect('admin/kelola_jenis_hewan');
+        }
+    }
+
+    public function hapusJenisHewan($id)
+    {
+        $this->load->model('JenisHewan_Model');
+        $this->JenisHewan_Model->deleteJenisHewan($id);
+        $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">
+              Jenis Hewan Berhasil Di Hapus!
+               </div>');
+        redirect('admin/kelola_jenis_hewan');
+    }
+
 }
