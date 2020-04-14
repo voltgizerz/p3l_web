@@ -647,4 +647,98 @@ class Admin extends CI_Controller
         redirect('admin/kelola_ukuran_hewan');
     }
 
+    public function kelola_hewan()
+    {
+        $data['title'] = 'Kelola Data Hewan';
+        $data['user'] = $this->db->get_where('user', ['email' => $this->session->userdata('email')])->row_array();
+        $this->load->model('Hewan_Model', 'menu');
+        // INI UNTUK DROPDOWN
+        $data['data_customer']=$this->menu->select_customer();  
+        $data['data_ukuran']=$this->menu->select_ukuran();  
+        $data['data_jenis']=$this->menu->select_jenis();  
+        $data['dataHewan'] = $this->menu->getDataHewanAdmin();
+        $data['menu'] = $this->db->get('user_menu')->result_array();
+
+        $this->form_validation->set_rules('nama', 'Name', 'required|trim');
+
+        if ($this->form_validation->run() == false) {
+            $data['menu'] = $this->db->get('user_menu')->result_array();
+            $this->load->view('templates/header', $data);
+            $this->load->view('templates/sidebar', $data);
+            $this->load->view('templates/topbar', $data);
+            $this->load->view('admin/kelola_hewan', $data);
+            $this->load->view('templates/footer');
+        } else {
+            $emailPembeli = $data['user']['email'];
+            date_default_timezone_set("Asia/Bangkok");
+            $data = [
+                'nama_hewan' => $this->input->post('nama'),
+                'id_jenis_hewan' => $this->input->post('pilih_jenis'),
+                'id_ukuran_hewan' => $this->input->post('pilih_ukuran'),
+                'id_customer' => $this->input->post('pilih_customer'),
+                'tanggal_lahir_hewan' => $this->input->post('tanggal'),
+                'created_date' => date("Y-m-d H:i:s"),
+                'updated_date' => date("0000:00:0:00:00"),
+                'deleted_date' => date("0000:00:0:00:00"),
+            ];
+
+            $this->db->insert('data_hewan', $data);
+            $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">
+            Hewan Berhasil Ditambahkan!
+           </div>');
+            redirect('admin/kelola_hewan');
+        }
+    }
+
+    public function updateHewan($id)
+    {
+        $data['title'] =  'Kelola Data Ukuran Hewan';
+        $data['user'] = $this->db->get_where('user', ['email' => $this->session->userdata('email')])->row_array();
+        $this->load->model('Hewan_Model', 'menu');
+        $data['dataHewan'] = $this->menu->getHewanId($id);
+        $data['data_customer']=$this->menu->select_customer();  
+        $data['menu'] = $this->db->get('user_menu')->result_array();
+
+        $this->form_validation->set_rules('nama', 'Nama', 'required');
+       
+
+        if ($this->form_validation->run() == false) {
+            $data['menu'] = $this->db->get('user_menu')->result_array();
+            $this->load->view('templates/header', $data);
+            $this->load->view('templates/sidebar', $data);
+            $this->load->view('templates/topbar', $data);
+            $this->load->view('admin/kelola_ukuran_hewan', $data);
+            $this->load->view('templates/footer');
+        } else {
+            $emailPembeli = $data['user']['email'];
+            date_default_timezone_set("Asia/Bangkok");
+            $data = [
+                'nama_hewan' => $this->input->post('nama'),
+                'id_jenis_hewan' => $this->input->post('pilih_jenis'),
+                'id_ukuran_hewan' => $this->input->post('pilih_ukuran'),
+                'id_customer' => $this->input->post('pilih_customer'),
+                'tanggal_lahir_hewan' => $this->input->post('tanggal'),
+                'updated_date' => date("Y-m-d H:i:s"),
+                'deleted_date' => date("0000:00:0:00:00"),
+            ];
+
+            $this->db->where('id_hewan', $this->input->post('id'));
+            $this->db->update('data_hewan', $data);
+            $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">
+            Data Hewan Sukses di Edit!
+           </div>');
+            redirect('admin/kelola_hewan');
+        }
+    }
+
+    public function hapusHewan($id)
+    {
+        $this->load->model('Hewan_Model');
+        $this->Hewan_Model->deleteHewan($id);
+        $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">
+              Hewan Berhasil Di Hapus!
+               </div>');
+        redirect('admin/kelola_hewan');
+    }
+
 }
