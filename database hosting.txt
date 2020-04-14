@@ -1,0 +1,5 @@
+Database  Hosting : http://richzauto.000webhostapp.com/
+
+DB Name	 :	id10889086_richzauto
+DB User	  :	id10889086_richzauto
+DB Host	  :	localhost
