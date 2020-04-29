@@ -179,7 +179,7 @@
                     </div>
                     <div class=" form-group">
                         <input type="text" class="form-control" id="username" name="username"
-                            value="<?= $sm['username']; ?>" placeholder="Username">
+                            value="<?= $sm['username']; ?>" placeholder="Username" readonly>
                     </div>
                     <div class="form-group">
                         <input type="password" class="form-control" id="password" name="password" value=""

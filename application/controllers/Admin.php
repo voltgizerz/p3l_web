@@ -128,6 +128,8 @@ class Admin extends CI_Controller
         $this->form_validation->set_rules('tanggal', 'tanggal', 'required|trim|regex_match[/^([0-9]{4})-([0-9]{2})-([0-9]{2})$/]');
         $this->form_validation->set_rules('nama', 'Name', 'required|trim');
         $this->form_validation->set_rules('role','Role','required');
+        $this->form_validation->set_rules('username','Username','required|trim|is_unique[data_pegawai.username]', [
+            'is_unique' => 'Username sudah Terdaftar!' ]);
         if ($this->form_validation->run() == false) {
             $data['menu'] = $this->db->get('user_menu')->result_array();
             $this->load->view('templates/header', $data);
@@ -178,7 +180,6 @@ class Admin extends CI_Controller
 
         $this->form_validation->set_rules('tanggal', 'tanggal', 'required|trim|regex_match[/^([0-9]{4})-([0-9]{2})-([0-9]{2})$/]');
         $this->form_validation->set_rules('nama', 'Nama', 'required');
-
         if ($this->form_validation->run() == false) {
             $data['menu'] = $this->db->get('user_menu')->result_array();
             $this->load->view('templates/header', $data);
@@ -206,7 +207,7 @@ class Admin extends CI_Controller
                 'role_id' =>$role_id,
                 'nomor_hp_pegawai' => $this->input->post('nohp'),
                 'username' => $this->input->post('username'),
-                'password' => $this->input->post('password'),
+                'password' => password_hash($this->input->post('password'), PASSWORD_DEFAULT),
                 'updated_date' => date("Y-m-d H:i:s"),
             ];
 
