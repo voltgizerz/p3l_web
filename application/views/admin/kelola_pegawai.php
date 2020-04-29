@@ -105,7 +105,12 @@
                         <input type="text" class="form-control" id="nohp" name="nohp" placeholder="Nomor Handphone">
                     </div>
                     <div class="form-group">
-                        <input type="text" class="form-control" id="role" name="role" placeholder="Role Pegawai">
+                        <select class="form-control" id="role" name="role">
+                            <option value="">Pilih Customer</option>
+                            <option>Owner</option>
+                            <option>Customer Service</option>
+                            <option>Kasir</option>
+                        </select>
                     </div>
                     <div class="form-group">
                         <input type="text" class="form-control" id="username" name="username" placeholder="Username">
@@ -161,16 +166,24 @@
                             value="<?= $sm['nomor_hp_pegawai']; ?>" placeholder="Full Name">
                     </div>
                     <div class="form-group">
-                        <input type="text" class="form-control" id="role" name="role"
-                            value="<?= $sm['role_pegawai']; ?>" placeholder="Full Name">
+                        <div class="form-group">
+                            <select class="form-control" id="role" name="role">
+                                <option value="">Pilih Customer</option>
+                                <option <?php if($sm['role_pegawai'] == 'Owner'){echo("selected");}?>>Owner</option>
+                                <option <?php if($sm['role_pegawai'] == 'Customer Service'){echo("selected");}?>>
+                                    Customer Service
+                                </option>
+                                <option <?php if($sm['role_pegawai'] == 'Kasir'){echo("selected");}?>>Kasir</option>
+                            </select>
+                        </div>
                     </div>
-                    <div class="form-group">
+                    <div class=" form-group">
                         <input type="text" class="form-control" id="username" name="username"
-                            value="<?= $sm['username']; ?>" placeholder="Full Name">
+                            value="<?= $sm['username']; ?>" placeholder="Username">
                     </div>
                     <div class="form-group">
-                        <input type="text" class="form-control" id="password" name="password"
-                            value="<?= $sm['password']; ?>" placeholder="Full Name">
+                        <input type="password" class="form-control" id="password" name="password" value=""
+                            placeholder="Password">
                     </div>
                 </div>
                 <div class="modal-footer">

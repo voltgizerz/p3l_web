@@ -127,7 +127,7 @@ class Admin extends CI_Controller
 
         $this->form_validation->set_rules('tanggal', 'tanggal', 'required|trim|regex_match[/^([0-9]{4})-([0-9]{2})-([0-9]{2})$/]');
         $this->form_validation->set_rules('nama', 'Name', 'required|trim');
-
+        $this->form_validation->set_rules('role','Role','required');
         if ($this->form_validation->run() == false) {
             $data['menu'] = $this->db->get('user_menu')->result_array();
             $this->load->view('templates/header', $data);
@@ -188,12 +188,22 @@ class Admin extends CI_Controller
             $this->load->view('templates/footer');
         } else {
             $usernamePembeli = $data['user']['username'];
+
+            if($this->input->post('role') == 'Owner'){
+                $role_id = 1;
+            }else if($this->input->post('role') == 'Customer Service'){
+                $role_id = 2;
+            }else{
+                $role_id = 3;
+            }
+            
             date_default_timezone_set("Asia/Bangkok");
             $data = [
                 'nama_pegawai' => $this->input->post('nama'),
                 'alamat_pegawai' => $this->input->post('alamat'),
                 'tanggal_lahir_pegawai' => $this->input->post('tanggal'),
                 'role_pegawai' => $this->input->post('role'),
+                'role_id' =>$role_id,
                 'nomor_hp_pegawai' => $this->input->post('nohp'),
                 'username' => $this->input->post('username'),
                 'password' => $this->input->post('password'),
