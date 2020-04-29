@@ -136,7 +136,15 @@ class Admin extends CI_Controller
             $this->load->view('admin/kelola_pegawai', $data);
             $this->load->view('templates/footer');
         } else {
-            $usernamePembeli = $data['user']['username'];
+
+            if($this->input->post('role') == 'Owner'){
+                $role_id = 1;
+            }else if($this->input->post('role') == 'Customer Service'){
+                $role_id = 2;
+            }else{
+                $role_id = 3;
+            }
+            
             date_default_timezone_set("Asia/Bangkok");
             $data = [
                 'nama_pegawai' => $this->input->post('nama'),
@@ -145,7 +153,7 @@ class Admin extends CI_Controller
                 'role_pegawai' => $this->input->post('role'),
                 'nomor_hp_pegawai' => $this->input->post('nohp'),
                 'username' => $this->input->post('username'),
-                'role_id' => '1',
+                'role_id' => $role_id,
                 'password' => password_hash($this->input->post('password'), PASSWORD_DEFAULT),
                 'created_date' => date("Y-m-d H:i:s"),
                 'updated_date' => date("0000:00:0:00:00"),
