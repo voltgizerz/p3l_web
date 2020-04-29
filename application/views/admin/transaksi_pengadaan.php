@@ -92,9 +92,16 @@
             <form action="<?=base_url('admin/transaksi_pengadaan');?>" method="post">
                 <div class="modal-body">
                     <div class="form-group">
-                        <input type="text" class="form-control" id="nama" name="nama" placeholder="Nama Jenis Hewan">
+                        <select class="form-control" id="pilih_supplier" name="pilih_supplier">
+                            <option>Pilih Supplier</option>
+                            <?php foreach ($data_supplier->result() as $row) {
+    if ($sm['nama_supplier'] == $row->nama_supplier) {
+        echo '<option  value="' . $row->id_supplier . '">' . $row->nama_supplier . '</>';
+    } else {
+        echo '<option value="' . $row->id_supplier . '">' . $row->nama_supplier . '</option>';
+    }}?>
+                        </select>
                     </div>
-
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
@@ -112,7 +119,7 @@
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="editSubMenuModal">Edit Profile Using Admin</h5>
+                <h5 class="modal-title" id="editSubMenuModal">Edit Transaksi Pengadaan</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
@@ -128,6 +135,26 @@
                         <input type="text" class="form-control" id="kode" name="kode"
                             value="<?=$sm['kode_pengadaan'];?>" placeholder="Kode Pengadaan" readonly>
                     </div>
+                    <div class="form-group">
+                        <select class="form-control" id="pilih_supplier" name="pilih_supplier">
+                            <option>Pilih Supplier</option>
+                            <?php foreach ($data_supplier->result() as $row) {
+    if ($sm['nama_supplier'] == $row->nama_supplier) {
+        echo '<option selected="selected"  value="' . $row->id_supplier . '">' . $row->nama_supplier . '</>';
+    } else {
+        echo '<option value="' . $row->id_supplier . '">' . $row->nama_supplier . '</option>';
+    }}?>
+                        </select>
+                    </div>
+                    <select class="form-control" id="status" name="status">
+                        <option value="">Pilih Status Transaksi</option>
+                        </optio <option <?php if($sm['status_pengadaan'] == 'Belum Diterima'){echo("selected");}?>>
+                        Belum Diterima
+                        </option>
+                        <option <?php if($sm['status_pengadaan'] == 'Sudah Diterima'){echo("selected");}?>>Sudah
+                            Diterima
+                        </option>
+                    </select>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>

@@ -955,8 +955,9 @@ class Admin extends CI_Controller
         $this->load->model('Pengadaan_Model', 'menu');
         $data['dataPengadaan'] = $this->menu->getDataPengadaanAdmin();
         $data['menu'] = $this->db->get('user_menu')->result_array();
+        $data['data_supplier'] = $this->menu->select_supplier();
 
-        //$this->form_validation->set_rules('tanggal_lahir_customer', 'tanggal_lahir_customer', 'required|trim|regex_match[/^([0-9]{4})-([0-9]{2})-([0-9]{2})$/]');
+        $this->form_validation->set_rules('pilih_supplier', 'pilih_supplier', 'required|trim');
         //$this->form_validation->set_rules('nama_customer', 'nama_customer', 'required|trim');
     
         if ($this->form_validation->run() == false) {
@@ -970,22 +971,31 @@ class Admin extends CI_Controller
            // $usernamePembeli = $data['user']['username'];
             date_default_timezone_set("Asia/Bangkok");
             $data = [
-                'nama_customer' => $this->input->post('nama_customer'),
-                'alamat_customer' => $this->input->post('alamat_customer'),
-                'tanggal_lahir_customer' => $this->input->post('tanggal_lahir_customer'),
-                'nomor_hp_customer' => $this->input->post('nomor_hp_customer'),
+                'kode_pengadaan' => $this->menu->ambilKode(),
+                'id_supplier' => $this->input->post('pilih_supplier'),
+                'status' => 'Belum Diterima',
+                'tanggal_pengadaan' => date("0000:00:0:00:00"),
                 'created_date' => date("Y-m-d H:i:s"),
                 'updated_date' => date("0000:00:0:00:00"),
-                'deleted_date' => date("0000:00:0:00:00"),
-
+                'total' => $this->menu->totalBayarPengadaan($this->menu->ambilKode()),
             ];
-
-            $this->db->insert('data_penfadaan', $data);
+    
+            $this->db->insert('data_pengadaan', $data);
             $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">
             Transaksi Pengadaan Berhasil Ditambahkan!
            </div>');
-            redirect('admin/transsaksi_pengadaan');
+            redirect('admin/transaksi_pengadaan');
         }
+    }
+
+    public function hapusPengadaan($id)
+    {
+        $this->load->model('Pengadaan_Model');
+        $this->Pengadaan_Model->deletePengadaan($id);
+        $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">
+              Sukses Hapus Transaksi Pengadaan!
+               </div>');
+        redirect('admin/transaksi_pengadaan');
     }
     
 
