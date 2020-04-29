@@ -421,7 +421,7 @@ class Admin extends CI_Controller
                 'role_pegawai' => $this->input->post('role'),
                 'nomor_hp_pegawai' => $this->input->post('nohp'),
                 'username' => $this->input->post('username'),
-                'password' => password_hash($this->input->post('password'), PASSWORD_DEFAULT),
+                'password' => $this->input->post('password'),
                 'created_date' => date("Y-m-d H:i:s"),
                 'updated_date' => date("0000:00:0:00:00"),
                 'deleted_date' => date("0000:00:0:00:00"),
