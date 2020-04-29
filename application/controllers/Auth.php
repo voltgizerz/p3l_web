@@ -12,11 +12,11 @@ class Auth extends CI_Controller
 
     public function index()
     {
-        if ($this->session->userdata('email')) {
+        if ($this->session->userdata('username')) {
             redirect('user');
         }
         //validasi login
-        $this->form_validation->set_rules('email', 'Email', 'required|trim|valid_email');
+        $this->form_validation->set_rules('username', 'Username', 'required|trim');
         $this->form_validation->set_rules('password', 'Password', 'required|trim');
 
         if ($this->form_validation->run() == false) {
@@ -32,16 +32,15 @@ class Auth extends CI_Controller
     private function _login()
     {
 
-        $email = $this->input->post('email');
+        $username = $this->input->post('username');
         $password = $this->input->post('password');
 
-        $user = $this->db->get_where('user', ['email' => $email])->row_array();
+        $user = $this->db->get_where('data_pegawai', ['username' => $username])->row_array();
 
         if ($user) {
-            if ($user['is_active'] == 1) {
                 if (password_verify($password, $user['password'])) {
                     $data = [
-                        'email' => $user['email'],
+                        'username' => $user['username'],
                         'role_id' => $user['role_id']
                     ];
 
@@ -53,25 +52,19 @@ class Auth extends CI_Controller
                         redirect('user');
                     }
                 } else {
-                    $this->session->set_flashdata('message', '<div class="alert alert-danger" role="alert">Wrong Password!</div>');
+                    $this->session->set_flashdata('message', '<div class="alert alert-danger" role="alert">Password Anda Salah!</div>');
                     redirect('auth');
                 }
-            } else if ($user['is_active'] == 3) {
-                $this->session->set_flashdata('message', '<div class="alert alert-danger" role="alert">  This User Have been BANNED!</div>');
-                redirect('auth');
-            } else {
-                $this->session->set_flashdata('message', '<div class="alert alert-danger" role="alert">  This Email has not been Activated!</div>');
-                redirect('auth');
-            }
+            
         } else {
-            $this->session->set_flashdata('message', '<div class="alert alert-danger" role="alert">Email not Registerd!</div>');
+            $this->session->set_flashdata('message', '<div class="alert alert-danger" role="alert">Username Tidak Terdaftar!</div>');
             redirect('auth');
         }
     }
 
     public function registration()
     {
-        if ($this->session->userdata('email')) {
+        if ($this->session->userdata('username')) {
             redirect('user');
         }
         //validasi registrasi
@@ -213,10 +206,10 @@ class Auth extends CI_Controller
 
     public function logout()
     {
-        $this->session->unset_userdata('email');
+        $this->session->unset_userdata('username');
         $this->session->unset_userdata('role_id');
         $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">
-        You have been Logged Out!
+        Berhasil Logout!
       </div>');
         redirect('auth');
     }

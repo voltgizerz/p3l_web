@@ -13,7 +13,7 @@ class User extends CI_Controller
     public function index()
     {
         $data['title'] = 'My Profile';
-        $data['user'] = $this->db->get_where('user', ['email' => $this->session->userdata('email')])->row_array();
+        $data['user'] = $this->db->get_where('data_pegawai', ['username' => $this->session->userdata('username')])->row_array();
 
         $this->load->view('templates/header', $data);
         $this->load->view('templates/sidebar', $data);
@@ -25,7 +25,7 @@ class User extends CI_Controller
     public function edit()
     {
         $data['title'] = 'Edit Profile';
-        $data['user'] = $this->db->get_where('user', ['email' => $this->session->userdata('email')])->row_array();
+        $data['user'] = $this->db->get_where('data_pegawai', ['username' => $this->session->userdata('username')])->row_array();
 
         $this->form_validation->set_rules('name', 'Full Name', 'required|trim');
         $this->form_validation->set_rules('password', 'Password', 'required|min_length[5]');
@@ -40,11 +40,11 @@ class User extends CI_Controller
             $new_password = $this->input->post('password');
             $password_hash = password_hash($new_password, PASSWORD_DEFAULT);
             $this->db->set('password', $password_hash);
-            $this->db->where('email', $this->session->userdata('email'));
+            $this->db->where('username', $this->session->userdata('username'));
             $this->db->update('user');
 
             $name = $this->input->post('name');
-            $email = $this->input->post('email');
+            $username = $this->input->post('username');
 
             $upload_image = $_FILES['image']['name'];
 
@@ -83,7 +83,7 @@ class User extends CI_Controller
             }
 
             $this->db->set('name', $name);
-            $this->db->where('email', $email);
+            $this->db->where('username', $username);
             $this->db->update('user');
             $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert"> Profile Updated!  </div>');
             redirect('user');
@@ -93,7 +93,7 @@ class User extends CI_Controller
     public function buycars()
     {
         $data['title'] = 'Buy Car';
-        $data['user'] = $this->db->get_where('user', ['email' => $this->session->userdata('email')])->row_array();
+        $data['user'] = $this->db->get_where('data_pegawai', ['username' => $this->session->userdata('username')])->row_array();
         $this->load->model('Buy_Model', 'menu');
         $data['dataBeliMobil'] = $this->menu->getDataBeliMobil();
         $data['menu'] = $this->db->get('user_menu')->result_array();
@@ -112,7 +112,7 @@ class User extends CI_Controller
             $this->load->view('buycars/buycars', $data);
             $this->load->view('templates/footer');
         } else {
-            $emailPembeli = $data['user']['email'];
+            $usernamePembeli = $data['user']['username'];
 
             $data = [
                 'name' => $this->input->post('name'),
@@ -120,7 +120,7 @@ class User extends CI_Controller
                 'type' => $this->input->post('type'),
                 'harga' => $this->input->post('harga'),
                 'nomorhp' => $this->input->post('nomorhp'),
-                'email_pembeli' => $emailPembeli
+                'username_pembeli' => $usernamePembeli
             ];
 
             $this->db->insert('buy_cars', $data);
@@ -134,7 +134,7 @@ class User extends CI_Controller
     public function updateMobil($id)
     {
         $data['title'] = 'Buy Car';
-        $data['user'] = $this->db->get_where('user', ['email' => $this->session->userdata('email')])->row_array();
+        $data['user'] = $this->db->get_where('data_pegawai', ['username' => $this->session->userdata('username')])->row_array();
         $this->load->model('Buy_Model', 'menu');
         $data['dataBeliMobil'] = $this->menu->getBuyCarById($id);
         $data['menu'] = $this->db->get('user_menu')->result_array();
@@ -153,14 +153,14 @@ class User extends CI_Controller
             $this->load->view('buycars/buycars', $data);
             $this->load->view('templates/footer');
         } else {
-            $emailPembeli = $data['user']['email'];
+            $usernamePembeli = $data['user']['username'];
             $data = [
                 'name' => $this->input->post('name'),
                 'merk' => $this->input->post('merk'),
                 'type' => $this->input->post('type'),
                 'harga' => $this->input->post('harga'),
                 'nomorhp' => $this->input->post('nomorhp'),
-                'email_pembeli' => $emailPembeli
+                'username_pembeli' => $usernamePembeli
             ];
 
             $this->db->where('id', $this->input->post('id'));
@@ -175,7 +175,7 @@ class User extends CI_Controller
     public function sellcars()
     {
         $data['title'] = 'Sell Car';
-        $data['user'] = $this->db->get_where('user', ['email' => $this->session->userdata('email')])->row_array();
+        $data['user'] = $this->db->get_where('data_pegawai', ['username' => $this->session->userdata('username')])->row_array();
         $this->load->model('Jual_Model', 'menu');
         $data['dataJualMobil'] = $this->menu->getDataJualMobil();
         $data['menu'] = $this->db->get('user_menu')->result_array();
@@ -194,7 +194,7 @@ class User extends CI_Controller
             $this->load->view('sellcars/sellcars', $data);
             $this->load->view('templates/footer');
         } else {
-            $emailPembeli = $data['user']['email'];
+            $usernamePembeli = $data['user']['username'];
 
             $data = [
                 'name' => $this->input->post('name'),
@@ -202,7 +202,7 @@ class User extends CI_Controller
                 'warna' => $this->input->post('warna'),
                 'bahan_bakar' => $this->input->post('bahan_bakar'),
                 'harga' => $this->input->post('harga'),
-                'email_pembeli' => $emailPembeli
+                'username_pembeli' => $usernamePembeli
             ];
 
             $this->db->insert('sell_cars', $data);
@@ -216,7 +216,7 @@ class User extends CI_Controller
     public function buysparepart()
     {
         $data['title'] = 'Sell Sparepart';
-        $data['user'] = $this->db->get_where('user', ['email' => $this->session->userdata('email')])->row_array();
+        $data['user'] = $this->db->get_where('data_pegawai', ['username' => $this->session->userdata('username')])->row_array();
         $this->load->model('Sparepart_Model', 'menu');
         $data['dataBeliSparepart'] = $this->menu->getDataBeliSparepart();
         $data['menu'] = $this->db->get('user_menu')->result_array();
@@ -235,7 +235,7 @@ class User extends CI_Controller
             $this->load->view('buysparepart/buysparepart', $data);
             $this->load->view('templates/footer');
         } else {
-            $emailPembeli = $data['user']['email'];
+            $usernamePembeli = $data['user']['username'];
 
             $data = [
                 'name' => $this->input->post('name'),
@@ -243,7 +243,7 @@ class User extends CI_Controller
                 'deskripsi' => $this->input->post('deskripsi'),
                 'harga' => $this->input->post('harga'),
                 'kondisi' => $this->input->post('kondisi'),
-                'email_pembeli' => $emailPembeli
+                'username_pembeli' => $usernamePembeli
             ];
 
             $this->db->insert('buy_sparepart', $data);
@@ -288,7 +288,7 @@ class User extends CI_Controller
     public function updateSparepart($id)
     {
         $data['title'] = 'Sell Sparepart';
-        $data['user'] = $this->db->get_where('user', ['email' => $this->session->userdata('email')])->row_array();
+        $data['user'] = $this->db->get_where('data_pegawai', ['username' => $this->session->userdata('username')])->row_array();
         $this->load->model('Sparepart_Model', 'menu');
         $data['dataBeliSparepart'] = $this->menu->getBuySparepartById($id);
         $data['menu'] = $this->db->get('user_menu')->result_array();
@@ -307,7 +307,7 @@ class User extends CI_Controller
             $this->load->view('buysparepart/buysparepart', $data);
             $this->load->view('templates/footer');
         } else {
-            $emailPembeli = $data['user']['email'];
+            $usernamePembeli = $data['user']['username'];
 
             $data = [
                 'name' => $this->input->post('name'),
@@ -315,7 +315,7 @@ class User extends CI_Controller
                 'deskripsi' => $this->input->post('deskripsi'),
                 'harga' => $this->input->post('harga'),
                 'kondisi' => $this->input->post('kondisi'),
-                'email_pembeli' => $emailPembeli
+                'username_pembeli' => $usernamePembeli
             ];
 
             $this->db->where('id', $this->input->post('id'));
@@ -330,7 +330,7 @@ class User extends CI_Controller
     public function updateJualMobil($id)
     {
         $data['title'] = 'Sell Car';
-        $data['user'] = $this->db->get_where('user', ['email' => $this->session->userdata('email')])->row_array();
+        $data['user'] = $this->db->get_where('data_pegawai', ['username' => $this->session->userdata('username')])->row_array();
         $this->load->model('Jual_Model', 'menu');
         $data['dataJualMobil'] = $this->menu->getJualMobilById($id);
         $data['menu'] = $this->db->get('user_menu')->result_array();
@@ -349,7 +349,7 @@ class User extends CI_Controller
             $this->load->view('sellcars/sellcars', $data);
             $this->load->view('templates/footer');
         } else {
-            $emailPembeli = $data['user']['email'];
+            $usernamePembeli = $data['user']['username'];
 
             $data = [
                 'name' => $this->input->post('name'),
@@ -357,7 +357,7 @@ class User extends CI_Controller
                 'warna' => $this->input->post('warna'),
                 'bahan_bakar' => $this->input->post('bahan_bakar'),
                 'harga' => $this->input->post('harga'),
-                'email_pembeli' => $emailPembeli
+                'username_pembeli' => $usernamePembeli
             ];
 
             $this->db->where('id', $this->input->post('id'));
@@ -372,7 +372,7 @@ class User extends CI_Controller
     function map()
     {
         $data['title'] = 'Map Location';
-        $data['user'] = $this->db->get_where('user', ['email' => $this->session->userdata('email')])->row_array();
+        $data['user'] = $this->db->get_where('user', ['username' => $this->session->userdata('username')])->row_array();
         $this->load->model('Jual_Model', 'menu');
         $data['menu'] = $this->db->get('user_menu')->result_array();
 

@@ -41,9 +41,10 @@
                                     <?= $this->session->flashdata('message'); ?>
                                     <form method="post" action="<?= base_url('auth') ?>">
                                         <div class="form-group">
-                                            <input type="text" class="form-control form-control-user" id="email"
-                                                name="email" placeholder="Email" value="<?= set_value('email') ?>">
-                                            <?= form_error('email', '<small class="text-danger pl-3">', '</small>'); ?>
+                                            <input type="text" class="form-control form-control-user" id="username"
+                                                name="username" placeholder="Username"
+                                                value="<?= set_value('username') ?>">
+                                            <?= form_error('username', '<small class="text-danger pl-3">', '</small>'); ?>
 
                                         </div>
                                         <div class="form-group">
