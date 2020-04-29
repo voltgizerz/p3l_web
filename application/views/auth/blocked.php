@@ -9,7 +9,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>SB Admin 2 - 404</title>
+    <title>Kouvee PetShop - 403</title>
 
     <!-- Custom fonts for this template-->
     <link href="<?= base_url('assets/'); ?>vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
@@ -42,8 +42,10 @@
                     <div class="text-center">
                         <div class="error mx-auto" data-text="403">403</div>
                         <p class="lead text-gray-800 mb-5">Access Blocked</p>
-                        <p class="text-gray-500 mb-0">SEPERRINYA KAMU EHILANGAN ARAH TUJUANk...</p>
-                        <a href="<?= base_url('user'); ?>">&larr; Kembali ke Dashboard</a>
+                        <p class="text-gray-500 mb-0">Halaman yang Kamu Cari Tidak dapat Diakses...</p>
+                        <?php
+                             ?>
+                        <a href="#" onclick="history.go(-1)">&larr; Kembali ke Dashboard</a>
                     </div>
 
                 </div>
@@ -53,10 +55,10 @@
             <!-- End of Main Content -->
 
             <!-- Footer -->
-            <footer class="sticky-footer bg-white">
+            <footer class=" sticky-footer bg-white">
                 <div class="container my-auto">
                     <div class="copyright text-center my-auto">
-                        <span>Copyright &copy; KouvePetShop 2020</span>
+                        <span>Copyright &copy; Kouve PetShop 2020</span>
                     </div>
                 </div>
             </footer>
@@ -84,7 +86,8 @@
                         <span aria-hidden="true">×</span>
                     </button>
                 </div>
-                <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
+                <div class="modal-body">Select "Logout" below if you are ready to end your current session.
+                </div>
                 <div class="modal-footer">
                     <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
                     <a class="btn btn-primary" href="login.html">Logout</a>

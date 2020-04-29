@@ -7,7 +7,7 @@ class Cs extends CI_Controller
     public function __construct()
     {
         parent::__construct();
-      
+        is_logged_in();
     }
 
     public function index()
@@ -22,5 +22,4 @@ class Cs extends CI_Controller
         $this->load->view('templates/footer');
     }
 
-   
 }

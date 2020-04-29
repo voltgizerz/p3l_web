@@ -9,7 +9,7 @@ function is_logged_in()
     } else {
         $role_id = $ci->session->userdata('role_id');
         $menu = $ci->uri->segment(1);
-
+          
         $queryMenu = $ci->db->get_where('user_menu', ['menu' => $menu])->row_array();
         $menu_id = $queryMenu['id'];
 
