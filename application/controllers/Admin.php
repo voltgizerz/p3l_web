@@ -546,7 +546,7 @@ class Admin extends CI_Controller
         $data['menu'] = $this->db->get('user_menu')->result_array();
 
         $this->form_validation->set_rules('nama', 'Name', 'required|trim');
-
+test
         if ($this->form_validation->run() == false) {
             $data['menu'] = $this->db->get('user_menu')->result_array();
             $this->load->view('templates/header', $data);
