@@ -14,7 +14,6 @@ class Jual_model extends CI_Model
 
     public function getDataJualMobilAdmin()
     {
-
         return $this->db->get_where('sell_cars')->result_array();
     }
 
