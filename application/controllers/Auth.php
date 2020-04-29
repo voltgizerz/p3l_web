@@ -16,7 +16,7 @@ class Auth extends CI_Controller
             redirect('admin');
         }else if($this->session->userdata('role_id') == '2' ){
             redirect('cs');
-        }else{
+        }else if ($this->session->userdata('role_id') == '3' ){
             redirect('kasir');
         }
         //validasi login
