@@ -79,7 +79,7 @@ class Admin extends CI_Controller
     public function updateMember($id)
     {
         $data['title'] = 'User Management';
-        $data['user'] = $this->db->get_where('user', ['username' => $this->session->userdata('username')])->row_array();
+        $data['user'] = $this->db->get_where('data_pegawai', ['username' => $this->session->userdata('username')])->row_array();
         $this->load->model('Member_Model', 'menu');
         $data['dataMember'] = $this->menu->getMemberId($id);
         $data['menu'] = $this->db->get('user_menu')->result_array();
@@ -120,7 +120,7 @@ class Admin extends CI_Controller
     public function kelola_pegawai()
     {
         $data['title'] = 'Kelola Data Pegawai';
-        $data['user'] = $this->db->get_where('user', ['username' => $this->session->userdata('username')])->row_array();
+        $data['user'] = $this->db->get_where('data_pegawai', ['username' => $this->session->userdata('username')])->row_array();
         $this->load->model('Pegawai_Model', 'menu');
         $data['dataPegawai'] = $this->menu->getDataPegawaiAdmin();
         $data['menu'] = $this->db->get('user_menu')->result_array();
@@ -163,7 +163,7 @@ class Admin extends CI_Controller
     public function updatePegawai($id)
     {
         $data['title'] = 'Kelola Data Pegawai';
-        $data['user'] = $this->db->get_where('user', ['username' => $this->session->userdata('username')])->row_array();
+        $data['user'] = $this->db->get_where('data_pegawai', ['username' => $this->session->userdata('username')])->row_array();
         $this->load->model('Pegawai_model', 'menu');
         $data['dataPegawai'] = $this->menu->getPegawaiId($id);
         $data['menu'] = $this->db->get('user_menu')->result_array();
@@ -214,7 +214,7 @@ class Admin extends CI_Controller
     public function cariPegawai()
     {
         $data['title'] = 'Kelola Data Pegawai';
-        $data['user'] = $this->db->get_where('user', ['username' => $this->session->userdata('username')])->row_array();
+        $data['user'] = $this->db->get_where('data_pegawai', ['username' => $this->session->userdata('username')])->row_array();
         $this->load->model('Pegawai_Model', 'menu');
         // INI UNTUK DROPDOWN
         
@@ -265,7 +265,7 @@ class Admin extends CI_Controller
     public function kelola_jenis_hewan()
     {
         $data['title'] = 'Kelola Data Jenis Hewan';
-        $data['user'] = $this->db->get_where('user', ['username' => $this->session->userdata('username')])->row_array();
+        $data['user'] = $this->db->get_where('data_pegawai', ['username' => $this->session->userdata('username')])->row_array();
         $this->load->model('JenisHewan_Model', 'menu');
         $data['dataJenisHewan'] = $this->menu->getDataJenisHewanAdmin();
         $data['menu'] = $this->db->get('user_menu')->result_array();
@@ -300,7 +300,7 @@ class Admin extends CI_Controller
     public function updateJenisHewan($id)
     {
         $data['title'] = 'Kelola Data Jenis Hewan';
-        $data['user'] = $this->db->get_where('user', ['username' => $this->session->userdata('username')])->row_array();
+        $data['user'] = $this->db->get_where('data_pegawai', ['username' => $this->session->userdata('username')])->row_array();
         $this->load->model('JenisHewan_Model', 'menu');
         $data['dataJenisHewan'] = $this->menu->getJenisHewanId($id);
         $data['menu'] = $this->db->get('user_menu')->result_array();
@@ -344,7 +344,7 @@ class Admin extends CI_Controller
     public function cariJenisHewan()
     {
         $data['title'] = 'Kelola Data Jenis Hewan';
-        $data['user'] = $this->db->get_where('user', ['username' => $this->session->userdata('username')])->row_array();
+        $data['user'] = $this->db->get_where('data_pegawai', ['username' => $this->session->userdata('username')])->row_array();
         $this->load->model('JenisHewan_Model', 'menu');
         // INI UNTUK DROPDOWN
         
@@ -388,7 +388,7 @@ class Admin extends CI_Controller
     public function kelola_ukuran_hewan()
     {
         $data['title'] = 'Kelola Data Ukuran Hewan';
-        $data['user'] = $this->db->get_where('user', ['username' => $this->session->userdata('username')])->row_array();
+        $data['user'] = $this->db->get_where('data_pegawai', ['username' => $this->session->userdata('username')])->row_array();
         $this->load->model('UkuranHewan_Model', 'menu');
         $data['dataUkuranHewan'] = $this->menu->getDataUkuranHewanAdmin();
         $data['menu'] = $this->db->get('user_menu')->result_array();
@@ -423,7 +423,7 @@ class Admin extends CI_Controller
     public function updateUkuranHewan($id)
     {
         $data['title'] = 'Kelola Data Ukuran Hewan';
-        $data['user'] = $this->db->get_where('user', ['username' => $this->session->userdata('username')])->row_array();
+        $data['user'] = $this->db->get_where('data_pegawai', ['username' => $this->session->userdata('username')])->row_array();
         $this->load->model('UkuranHewan_Model', 'menu');
         $data['dataUkuranHewan'] = $this->menu->getUkuranHewanId($id);
         $data['menu'] = $this->db->get('user_menu')->result_array();
@@ -467,7 +467,7 @@ class Admin extends CI_Controller
     public function cariUkuranHewan()
     {
         $data['title'] = 'Kelola Data Ukuran Hewan';
-        $data['user'] = $this->db->get_where('user', ['username' => $this->session->userdata('username')])->row_array();
+        $data['user'] = $this->db->get_where('data_pegawai', ['username' => $this->session->userdata('username')])->row_array();
         $this->load->model('UkuranHewan_Model', 'menu');
         // INI UNTUK DROPDOWN
         
@@ -511,7 +511,7 @@ class Admin extends CI_Controller
     public function kelola_hewan()
     {
         $data['title'] = 'Kelola Data Hewan';
-        $data['user'] = $this->db->get_where('user', ['username' => $this->session->userdata('username')])->row_array();
+        $data['user'] = $this->db->get_where('data_pegawai', ['username' => $this->session->userdata('username')])->row_array();
         $this->load->model('Hewan_Model', 'menu');
         // INI UNTUK DROPDOWN
         $data['data_customer'] = $this->menu->select_customer();
@@ -556,7 +556,7 @@ class Admin extends CI_Controller
     public function updateHewan($id)
     {
         $data['title'] = 'Kelola Data Ukuran Hewan';
-        $data['user'] = $this->db->get_where('user', ['username' => $this->session->userdata('username')])->row_array();
+        $data['user'] = $this->db->get_where('data_pegawai', ['username' => $this->session->userdata('username')])->row_array();
         $this->load->model('Hewan_Model', 'menu');
         $data['dataHewan'] = $this->menu->getHewanId($id);
         $data['data_customer'] = $this->menu->select_customer();
@@ -606,7 +606,7 @@ class Admin extends CI_Controller
     public function kelola_supplier()
     {
         $data['title'] = 'Kelola Data Supplier';
-        $data['user'] = $this->db->get_where('user', ['username' => $this->session->userdata('username')])->row_array();
+        $data['user'] = $this->db->get_where('data_pegawai', ['username' => $this->session->userdata('username')])->row_array();
         $this->load->model('Supplier_Model', 'menu');
         $data['dataSupplier'] = $this->menu->getDataSupplierAdmin();
         $data['menu'] = $this->db->get('user_menu')->result_array();
@@ -647,7 +647,7 @@ class Admin extends CI_Controller
     public function updateSupplier($id)
     {
         $data['title'] = 'Kelola Data Supplier';
-        $data['user'] = $this->db->get_where('user', ['username' => $this->session->userdata('username')])->row_array();
+        $data['user'] = $this->db->get_where('data_pegawai', ['username' => $this->session->userdata('username')])->row_array();
         $this->load->model('Supplier_Model', 'menu');
         $data['dataSupplier'] = $this->menu->getSupplierId($id);
         $data['menu'] = $this->db->get('user_menu')->result_array();
@@ -694,7 +694,7 @@ class Admin extends CI_Controller
     public function cariSupplier()
     {
         $data['title'] = 'Kelola Data Supplier';
-        $data['user'] = $this->db->get_where('user', ['username' => $this->session->userdata('username')])->row_array();
+        $data['user'] = $this->db->get_where('data_pegawai', ['username' => $this->session->userdata('username')])->row_array();
         $this->load->model('Supplier_Model', 'menu');
         // INI UNTUK DROPDOWN
         
@@ -739,7 +739,7 @@ class Admin extends CI_Controller
     public function kelola_customer()
     {
         $data['title'] = 'Kelola Data Customer';
-        $data['user'] = $this->db->get_where('user', ['username' => $this->session->userdata('username')])->row_array();
+        $data['user'] = $this->db->get_where('data_pegawai', ['username' => $this->session->userdata('username')])->row_array();
         $this->load->model('Customer_Model', 'menu');
         $data['dataCustomer'] = $this->menu->getDataCustomerAdmin();
         $data['menu'] = $this->db->get('user_menu')->result_array();
@@ -782,7 +782,7 @@ class Admin extends CI_Controller
     public function updateCustomer($id)
     {
         $data['title'] = 'Kelola Data Customer';
-        $data['user'] = $this->db->get_where('user', ['username' => $this->session->userdata('username')])->row_array();
+        $data['user'] = $this->db->get_where('data_pegawai', ['username' => $this->session->userdata('username')])->row_array();
         $this->load->model('Customer_Model', 'menu');
         $data['dataCustomer'] = $this->menu->getCustomerId($id);
         $data['menu'] = $this->db->get('user_menu')->result_array();
@@ -831,7 +831,7 @@ class Admin extends CI_Controller
     public function cariCustomer()
     {
         $data['title'] = 'Kelola Data Customer';
-        $data['user'] = $this->db->get_where('user', ['username' => $this->session->userdata('username')])->row_array();
+        $data['user'] = $this->db->get_where('data_pegawai', ['username' => $this->session->userdata('username')])->row_array();
         $this->load->model('Customer_Model', 'menu');
         // INI UNTUK DROPDOWN
         
@@ -879,7 +879,7 @@ class Admin extends CI_Controller
     public function cariHewan()
     {
         $data['title'] = 'Kelola Data Hewan';
-        $data['user'] = $this->db->get_where('user', ['username' => $this->session->userdata('username')])->row_array();
+        $data['user'] = $this->db->get_where('data_pegawai', ['username' => $this->session->userdata('username')])->row_array();
         $this->load->model('Hewan_Model', 'menu');
         // INI UNTUK DROPDOWN
         $data['data_customer'] = $this->menu->select_customer();
