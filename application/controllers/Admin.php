@@ -1112,6 +1112,16 @@ class Admin extends CI_Controller
         }
     }
 
+    public function hapusDetailPengadaan($id)
+    {
+        $this->load->model('Pengadaan_Model');
+        $this->Pengadaan_Model->deleteDetailPengadaan($id);
+        $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">
+              Sukses Hapus Transaksi Pengadaan!
+               </div>');
+        redirect('admin/detail_pengadaan/7');
+    }
+
 
     
 

@@ -113,4 +113,27 @@ class Pengadaan_model extends CI_Model
         return $query;
     }
 
+    public function deleteDetailPengadaan($id)
+    {
+        //AMMBIL KODE TRXNYA DLU 
+        $kode = $this->db->get_where('data_detail_pengadaan', ['id_detail_pengadaan' => $id])->row()->kode_pengadaan_fk;
+        $this->db->delete('data_detail_pengadaan', ['id_detail_pengadaan' => $id]);
+
+        //CARI NILAI TOTAL HARGA UPDATE
+        $this->db->select('data_detail_pengadaan.id_produk_fk,data_detail_pengadaan.jumlah_pengadaan,data_produk.harga_produk');
+        $this->db->join('data_produk', 'data_produk.id_produk = data_detail_pengadaan.id_produk_fk');
+        $this->db->where('data_detail_pengadaan.kode_pengadaan_fk', $kode);
+        $this->db->from('data_detail_pengadaan');
+        $query = $this->db->get();
+        $arrTemp = json_decode(json_encode($query->result()), true);
+        // NILAI TAMPUNG TOTAL HARGA YANG BARU
+        $temp = 0;
+        for ($i = 0; $i < count($arrTemp); $i++) {
+            $temp = $temp + $arrTemp[$i]['jumlah_pengadaan'] * $arrTemp[$i]['harga_produk'];
+        }
+        //UPDATE NILAI TOTAL PENGADAAN
+        $this->db->where('kode_pengadaan', $kode)->update('data_pengadaan', ['total' => '0']);
+
+    }
+
 }
