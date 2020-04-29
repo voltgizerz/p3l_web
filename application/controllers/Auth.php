@@ -12,8 +12,12 @@ class Auth extends CI_Controller
 
     public function index()
     {
-        if ($this->session->userdata('username')) {
-            redirect('user');
+        if ($this->session->userdata('role_id') == '1' ) {
+            redirect('admin');
+        }else if($this->session->userdata('role_id') == '2' ){
+            redirect('cs');
+        }else{
+            redirect('kasir');
         }
         //validasi login
         $this->form_validation->set_rules('username', 'Username', 'required|trim');
