@@ -1,7 +1,6 @@
 <?php
 defined('BASEPATH') or exit('No direct script access allowed');
 
-
 class Pengadaan_model extends CI_Model
 {
     public function getDataBeliMobil()
@@ -24,11 +23,11 @@ class Pengadaan_model extends CI_Model
     public function getDataDetailPengadaanAdmin($id)
     {
         $data = $this->db->get_where('data_pengadaan', ['id_pengadaan' => $id])->row()->kode_pengadaan;
-        
+
         $this->db->select('data_detail_pengadaan.id_detail_pengadaan,data_detail_pengadaan.id_produk_fk,data_produk.nama_produk,data_produk.gambar_produk,data_detail_pengadaan.kode_pengadaan_fk,data_detail_pengadaan.satuan_pengadaan,data_detail_pengadaan.jumlah_pengadaan,data_detail_pengadaan.tanggal_pengadaan');
         $this->db->join('data_produk', 'data_produk.id_produk = data_detail_pengadaan.id_produk_fk');
         $this->db->from('data_detail_pengadaan');
-        $this->db->where('kode_pengadaan_fk',$data);
+        $this->db->where('kode_pengadaan_fk', $data);
         $query = $this->db->get();
 
         return $query->result_array();
@@ -46,28 +45,28 @@ class Pengadaan_model extends CI_Model
         $this->db->select('data_pengadaan.id_pengadaan,data_pengadaan.kode_pengadaan,data_pengadaan.id_supplier,data_supplier.nama_supplier,data_pengadaan.status as status_pengadaan,data_pengadaan.tanggal_pengadaan,data_pengadaan.tanggal_pengadaan,data_pengadaan.tanggal_pengadaan,data_pengadaan.total AS total_pengadaan,data_pengadaan.created_date,data_pengadaan.updated_date');
         $this->db->join('data_supplier', 'data_supplier.id_supplier = data_pengadaan.id_supplier');
         $this->db->from('data_pengadaan');
-        $this->db->where('id_pengadaan',$id);
+        $this->db->where('id_pengadaan', $id);
         $query = $this->db->get();
 
         return $query->result_array();
     }
 
-    public function cariCustomer($berdasarkan,$yangdicari){
+    public function cariCustomer($berdasarkan, $yangdicari)
+    {
         $this->db->select('*');
         $this->db->from('data_customer');
 
-
-        switch($berdasarkan){
+        switch ($berdasarkan) {
             case "":
-                $this->db->like('nama_customer',$yangdicari);
-                $this->db->or_like('id_customer',$yangdicari);
-            break;
+                $this->db->like('nama_customer', $yangdicari);
+                $this->db->or_like('id_customer', $yangdicari);
+                break;
 
             case "id_customer":
-                $this->db->where('id_customer',$yangdicari);
-            
+                $this->db->where('id_customer', $yangdicari);
+
             default:
-            $this->db->like($berdasarkan,$yangdicari);
+                $this->db->like($berdasarkan, $yangdicari);
         }
         return $this->db->get();
     }
@@ -102,15 +101,16 @@ class Pengadaan_model extends CI_Model
         return $temp;
     }
 
-    public function select_supplier(){
+    public function select_supplier()
+    {
         $query = $this->db->get('data_supplier');
         return $query;
     }
 
-    public function select_produk(){
+    public function select_produk()
+    {
         $query = $this->db->get('data_produk');
         return $query;
     }
-    
 
 }

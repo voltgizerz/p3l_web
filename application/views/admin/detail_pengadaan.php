@@ -45,10 +45,10 @@
                     <td style="text-align:center;"><?=$sm['jumlah_pengadaan']?></td>
                     <td style="text-align:center;"><?=$sm['tanggal_pengadaan']?></td>
                     <td style="text-align:center;">
-                        <a href="<?=base_url();?>admin/updatePengadaan/<?=$sm['id_pengadaan'];?>"
+                        <a href="<?=base_url();?>admin/updateDetailPengadaan/<?=$sm['id_detail_pengadaan'];?>"
                             class="badge badge-primary mb-3" data-toggle="modal"
-                            data-target="#editSubMenuModal<?=$sm['id_pengadaan'];?>">EDIT</a>
-                        <a href="<?=base_url();?>admin/hapusPengadaan/<?=$sm['id_pengadaan'];?>"
+                            data-target="#editSubMenuModal<?=$sm['id_detail_pengadaan'];?>">EDIT</a>
+                        <a href="<?=base_url();?>admin/hapusDetailPengadaan/<?=$sm['id_detail_pengadaan'];?>"
                             class="badge badge-danger mb-3">DELETE</a>
                     </td>
                 </tr>
@@ -72,9 +72,32 @@
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <form action="<?=base_url('admin/detail_pengadaan');?>" method="post">
+            <form action="<?=base_url();?>admin/detail_pengadaan/<?=$id_pengadaan;?>" method="post">
                 <div class="modal-body">
+                    <div class="form-group">
+                        <select class="form-control" id="pilih_produk" name="pilih_produk">
+                            <option>Pilih Produk Pengadaan</option>
+                            <?php foreach ($data_produk->result() as $row) {
+    if ($sm['nama_produk'] == $row->nama_produk) {
+        echo '<option selected="selected"  value="' . $row->id_produk . '">' . $row->nama_produk . '</>';
+    } else {
+        echo '<option value="' . $row->id_produk . '">' . $row->nama_produk . '</option>';
+    }}?>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <input type="text" class="form-control" id="jumlah_pengadaan" name="jumlah_pengadaan"
+                            placeholder="Jumlah Pengadaan">
+                    </div>
 
+                    <div class="form-group">
+                        <select class="form-control" id="satuan" name="satuan">
+                            <option value="">Pilih Satuan Pengadaan</option>
+                            <option>Pack</option>
+                            <option>Botol</option>
+                            <option>Sachet</option>
+                        </select>
+                    </div>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
@@ -87,7 +110,7 @@
 
 <?php foreach ($dataDetailPengadaan as $sm): ?>
 <!-- Modal edit -->
-<div class="modal fade" id="editSubMenuModal<?=$sm['id_pengadaan'];?>" tabindex="-1" role="dialog"
+<div class="modal fade" id="editSubMenuModal<?=$sm['id_detail_pengadaan'];?>" tabindex="-1" role="dialog"
     aria-labelledby="#editSubMenuModal" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
@@ -97,35 +120,24 @@
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <form action="<?=base_url();?>admin/updatePengadaan/<?=$sm['id_pengadaan'];?>" method="post">
+            <form action="<?=base_url();?>admin/updatePengadaan/<?=$sm['id_detail_pengadaan'];?>" method="post">
 
                 <div class="modal-body">
                     <div class="form-group">
-                        <input hidden type="text" class="form-control" value="<?=$sm['id_pengadaan'];?>" id="id"
+                        <input hidden type="text" class="form-control" value="<?=$sm['id_detail_pengadaan'];?>" id="id"
                             name="id">
                     </div>
                     <div class="form-group">
                         <input type="text" class="form-control" id="kode" name="kode"
-                            value="<?=$sm['kode_pengadaan'];?>" placeholder="Kode Pengadaan" readonly>
-                    </div>
-                    <div class="form-group">
-                        <select class="form-control" id="pilih_supplier" name="pilih_supplier">
-                            <option>Pilih Supplier</option>
-                            <?php foreach ($data_supplier->result() as $row) {
-    if ($sm['nama_supplier'] == $row->nama_supplier) {
-        echo '<option selected="selected"  value="' . $row->id_supplier . '">' . $row->nama_supplier . '</>';
-    } else {
-        echo '<option value="' . $row->id_supplier . '">' . $row->nama_supplier . '</option>';
-    }}?>
-                        </select>
+                            value="<?=$sm['satuan_pengadaan'];?>" placeholder="Kode Pengadaan" readonly>
                     </div>
                     <div class="form-group">
                         <select class="form-control" id="status" name="status">
                             <option value="">Pilih Status Transaksi</option>
-                            <option <?php if($sm['status_pengadaan'] == 'Belum Diterima'){echo("selected");}?>>Belum
+                            <option <?php if ($sm['status_pengadaan'] == 'Belum Diterima') {echo ("selected");}?>>Belum
                                 Diterima
                             </option>
-                            <option <?php if($sm['status_pengadaan'] == 'Sudah Diterima'){echo("selected");}?>>Sudah
+                            <option <?php if ($sm['status_pengadaan'] == 'Sudah Diterima') {echo ("selected");}?>>Sudah
                                 Diterima
                             </option>
                         </select>

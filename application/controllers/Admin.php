@@ -1065,9 +1065,9 @@ class Admin extends CI_Controller
         $data['dataDetailPengadaan'] = $this->menu->getDataDetailPengadaanAdmin($id);
         $data['menu'] = $this->db->get('user_menu')->result_array();
         $data['data_produk'] = $this->menu->select_produk();
-
-        $this->form_validation->set_rules('pilih_supplier', 'pilih_supplier', 'required|trim');
-        //$this->form_validation->set_rules('nama_customer', 'nama_customer', 'required|trim');
+        $data['id_pengadaan'] = $id;
+        $this->form_validation->set_rules('pilih_produk', 'pilih_produk', 'required|trim');
+        $this->form_validation->set_rules('satuan', 'satuan', 'required|trim');
 
         if ($this->form_validation->run() == false) {
             $data['menu'] = $this->db->get('user_menu')->result_array();
@@ -1079,10 +1079,11 @@ class Admin extends CI_Controller
         } else {
             // $usernamePembeli = $data['user']['username'];
             date_default_timezone_set("Asia/Bangkok");
+            $kode = $this->db->get_where('data_pengadaan', ['id_pengadaan' => $id])->row()->kode_pengadaan;
             $data = [
-                'id_produk_fk' => $this->input->post('id_produk_fk'),
-                'kode_pengadaan_fk' => $this->input->post('kode_pengadaan_fk'),
-                'satuan_pengadaan' => $this->input->post('satuan_pengadaan'),
+                'id_produk_fk' => $this->input->post('pilih_produk'),
+                'kode_pengadaan_fk' => $kode,
+                'satuan_pengadaan' => $this->input->post('satuan'),
                 'jumlah_pengadaan' => $this->input->post('jumlah_pengadaan'),
                 'tanggal_pengadaan' => date("Y-m-d H:i:s"),
             ];
@@ -1091,7 +1092,7 @@ class Admin extends CI_Controller
             $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">
             Produk Pengadaan Berhasil Ditambahkan!
            </div>');
-            redirect('admin/detail_pengadaan');
+           redirect('admin/detail_pengadaan/'.$id);
         }
     }
 
