@@ -946,4 +946,47 @@ class Admin extends CI_Controller
         }
     }
 
+    ///TRANSAKSI
+
+    public function transaksi_pengadaan()
+    {
+        $data['title'] = 'Transaksi Pengadaan';
+        $data['user'] = $this->db->get_where('data_pegawai', ['username' => $this->session->userdata('username')])->row_array();
+        $this->load->model('Pengadaan_Model', 'menu');
+        $data['dataPengadaan'] = $this->menu->getDataPengadaanAdmin();
+        $data['menu'] = $this->db->get('user_menu')->result_array();
+
+        //$this->form_validation->set_rules('tanggal_lahir_customer', 'tanggal_lahir_customer', 'required|trim|regex_match[/^([0-9]{4})-([0-9]{2})-([0-9]{2})$/]');
+        //$this->form_validation->set_rules('nama_customer', 'nama_customer', 'required|trim');
+    
+        if ($this->form_validation->run() == false) {
+            $data['menu'] = $this->db->get('user_menu')->result_array();
+            $this->load->view('templates/header', $data);
+            $this->load->view('templates/sidebar', $data);
+            $this->load->view('templates/topbar', $data);
+            $this->load->view('admin/transaksi_pengadaan', $data);
+            $this->load->view('templates/footer');
+        } else {
+           // $usernamePembeli = $data['user']['username'];
+            date_default_timezone_set("Asia/Bangkok");
+            $data = [
+                'nama_customer' => $this->input->post('nama_customer'),
+                'alamat_customer' => $this->input->post('alamat_customer'),
+                'tanggal_lahir_customer' => $this->input->post('tanggal_lahir_customer'),
+                'nomor_hp_customer' => $this->input->post('nomor_hp_customer'),
+                'created_date' => date("Y-m-d H:i:s"),
+                'updated_date' => date("0000:00:0:00:00"),
+                'deleted_date' => date("0000:00:0:00:00"),
+
+            ];
+
+            $this->db->insert('data_penfadaan', $data);
+            $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">
+            Transaksi Pengadaan Berhasil Ditambahkan!
+           </div>');
+            redirect('admin/transsaksi_pengadaan');
+        }
+    }
+    
+
 }
