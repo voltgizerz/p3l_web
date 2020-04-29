@@ -1065,6 +1065,8 @@ class Admin extends CI_Controller
         $data['dataDetailPengadaan'] = $this->menu->getDataDetailPengadaanAdmin($id);
         $data['menu'] = $this->db->get('user_menu')->result_array();
         $data['data_produk'] = $this->menu->select_produk();
+        $kode = $this->db->get_where('data_pengadaan', ['id_pengadaan' => $id])->row()->kode_pengadaan;
+        $data['kode_pengadaan'] =$kode;
         $data['id_pengadaan'] = $id;
         $this->form_validation->set_rules('pilih_produk', 'pilih_produk', 'required|trim');
         $this->form_validation->set_rules('satuan', 'satuan', 'required|trim');
@@ -1079,7 +1081,6 @@ class Admin extends CI_Controller
         } else {
             // $usernamePembeli = $data['user']['username'];
             date_default_timezone_set("Asia/Bangkok");
-            $kode = $this->db->get_where('data_pengadaan', ['id_pengadaan' => $id])->row()->kode_pengadaan;
             $data = [
                 'id_produk_fk' => $this->input->post('pilih_produk'),
                 'kode_pengadaan_fk' => $kode,
@@ -1089,6 +1090,21 @@ class Admin extends CI_Controller
             ];
 
             $this->db->insert('data_detail_pengadaan', $data);
+
+            $this->db->select('data_detail_pengadaan.id_produk_fk,data_detail_pengadaan.jumlah_pengadaan,data_produk.harga_produk');
+            $this->db->join('data_produk', 'data_produk.id_produk = data_detail_pengadaan.id_produk_fk');
+            $this->db->where('data_detail_pengadaan.kode_pengadaan_fk', $data['kode_pengadaan_fk']);
+            $this->db->from('data_detail_pengadaan');
+            $query = $this->db->get();
+            $arrTemp = json_decode(json_encode($query->result()), true);
+            // NILAI TAMPUNG TOTAL HARGA YANG BARU
+            $temp = 0;
+            for ($i = 0; $i < count($arrTemp); $i++) {
+                $temp = $temp + $arrTemp[$i]['jumlah_pengadaan'] * $arrTemp[$i]['harga_produk'];
+            }
+            //UPDATE NILAI TOTAL PENGADAAN
+            $this->db->where('kode_pengadaan', $data['kode_pengadaan_fk'])->update('data_pengadaan', ['total' => $temp]);
+    
             $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">
             Produk Pengadaan Berhasil Ditambahkan!
            </div>');

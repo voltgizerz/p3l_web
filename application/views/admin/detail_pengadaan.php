@@ -2,8 +2,8 @@
 <div class="container-fluid">
 
     <!-- Page Heading -->
-    <h1 class="h3 mb-4 text-gray-800"><?=$title?> Detail - Admin AREA</h1>
-
+    <h1 class="h3 mb-4 text-gray-800"><?=$title?> Detail - Owner AREA</h1>
+    <h1 class="h3 mb-4 text-gray-800"><?=$kode_pengadaan?></h1>
 
 
 </div>
@@ -40,8 +40,9 @@
                 <tr>
                     <th scope="row" class="text-center"><?=$i?></th>
                     <td style="text-align:center;"><?=$sm['nama_produk']?></td>
-                    <td style="text-align:center;"><?=$sm['gambar_produk']?></td>
-                    <td style="text-align:center;"><?=$sm['satuan_pengadaan']?></td>
+                    <td style="text-align:center;"><img height="100" width="100"
+                            src="<?=base_url();?><?=$sm['gambar_produk']?>" </td>
+                    <td style=" text-align:center;"><?=$sm['satuan_pengadaan']?></td>
                     <td style="text-align:center;"><?=$sm['jumlah_pengadaan']?></td>
                     <td style="text-align:center;"><?=$sm['tanggal_pengadaan']?></td>
                     <td style="text-align:center;">
