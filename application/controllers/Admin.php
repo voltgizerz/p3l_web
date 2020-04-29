@@ -1124,6 +1124,68 @@ class Admin extends CI_Controller
         redirect('admin/detail_pengadaan/'.$idtrx);
     }
 
+    public function updateDetailPengadaan($id)
+    {
+        $data['title'] = 'Transaksi Pengadaan';
+        $data['user'] = $this->db->get_where('data_pegawai', ['username' => $this->session->userdata('username')])->row_array();
+        $this->load->model('Pengadaan_Model', 'menu');
+        $data['dataPengadaan'] = $this->menu->getDetailPengadaanId($id);
+        $data['menu'] = $this->db->get('user_menu')->result_array();
+        $data['data_supplier'] = $this->menu->select_supplier();
+
+        $this->form_validation->set_rules('pilih_produk', 'pilih_produk', 'required|trim');
+        $this->form_validation->set_rules('status', 'status', 'required');
+        if ($this->form_validation->run() == false) {
+            $data['menu'] = $this->db->get('user_menu')->result_array();
+            $this->load->view('templates/header', $data);
+            $this->load->view('templates/sidebar', $data);
+            $this->load->view('templates/topbar', $data);
+            $this->load->view('admin/transaksi_pengadaan', $data);
+            $this->load->view('templates/footer');
+        } else {
+            date_default_timezone_set("Asia/Bangkok");
+            $data = [
+                'id_produk_fk' => $this->input->id_produk_fk,
+                'satuan_pengadaan' => $this->input->satuan_pengadaan,
+                'jumlah_pengadaan' => $this->input->jumlah_pengadaan,
+            ];
+
+            if ($this->db->where('id_pengadaan', $id)->update('data_pengadaan', $data)) {
+
+                $data = $this->db->get_where('data_pengadaan', ['id_pengadaan' => $id])->result_array();
+
+                if ($data['status'] == "Sudah Diterima") {
+                    $this->db->select('*');
+                    $this->db->from('data_detail_pengadaan');
+                    $this->db->where('kode_pengadaan_fk', $data['kode_pengadaan']);
+                    $query = $this->db->get();
+                    $arrProdukPengadaan = $query->result_array();
+                    //memasukan stok produk ke data produk
+                    for ($i = 0; $i < count($arrProdukPengadaan); $i++) {
+                        //AMBIL STOK PRODUK LAMA
+                        $this->db->select('stok_produk');
+                        $this->db->from('data_produk');
+                        $this->db->where('id_produk', $arrProdukPengadaan[$i]['id_produk_fk']);
+                        $arrStokLama = $this->db->get()->result_array();
+                        // TAMBAH STOK PRODUK
+                        $this->db->where('id_produk', $arrProdukPengadaan[$i]['id_produk_fk'])->update('data_produk', ['stok_produk' => $arrStokLama[0]['stok_produk'] + $arrProdukPengadaan[$i]['jumlah_pengadaan']]);
+                    }
+                    $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">
+            Transaksi Pengadaan Sukses di Edit!
+           </div>');
+                    redirect('admin/transaksi_pengadaan');
+                } else {
+
+                    $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">
+            Transaksi Pengadaan Sukses di Edit!
+           </div>');
+                    redirect('admin/transaksi_pengadaan');
+                }
+            }
+
+        }
+    }
+
 
     
 

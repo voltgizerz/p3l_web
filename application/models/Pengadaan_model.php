@@ -51,6 +51,15 @@ class Pengadaan_model extends CI_Model
         return $query->result_array();
     }
 
+    public function getDetailPengadaanId($id)
+    {
+        $this->db->select('data_detail_pengadaan.id_detail_pengadaan,data_detail_pengadaan.id_produk_fk,data_produk.nama_produk,data_produk.gambar_produk,data_detail_pengadaan.kode_pengadaan_fk,data_detail_pengadaan.satuan_pengadaan,data_detail_pengadaan.jumlah_pengadaan,data_detail_pengadaan.tanggal_pengadaan');
+        $this->db->join('data_produk', 'data_produk.id_produk = data_detail_pengadaan.id_produk_fk');
+        $this->db->where('id_detail_pengadaan', $id);
+        $query = $this->db->get();
+        return $query->result_array();
+    }
+
     public function cariCustomer($berdasarkan, $yangdicari)
     {
         $this->db->select('*');
@@ -132,7 +141,7 @@ class Pengadaan_model extends CI_Model
             $temp = $temp + $arrTemp[$i]['jumlah_pengadaan'] * $arrTemp[$i]['harga_produk'];
         }
         //UPDATE NILAI TOTAL PENGADAAN
-        $this->db->where('kode_pengadaan', $kode)->update('data_pengadaan', ['total' => $temp]);
+        $this->db->where('kode_pengadaan', $kode)->update('data_pengadaan', ['total' => $temp,'updated_date' =>date("Y-m-d H:i:s")]);
 
     }
 
