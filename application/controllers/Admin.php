@@ -1055,7 +1055,47 @@ class Admin extends CI_Controller
             }
 
         }
-
     }
+
+    public function detail_pengadaan($id)
+    {
+        $data['title'] = 'Transaksi Pengadaan';
+        $data['user'] = $this->db->get_where('data_pegawai', ['username' => $this->session->userdata('username')])->row_array();
+        $this->load->model('Pengadaan_Model', 'menu');
+        $data['dataDetailPengadaan'] = $this->menu->getDataDetailPengadaanAdmin($id);
+        $data['menu'] = $this->db->get('user_menu')->result_array();
+        $data['data_produk'] = $this->menu->select_produk();
+
+        $this->form_validation->set_rules('pilih_supplier', 'pilih_supplier', 'required|trim');
+        //$this->form_validation->set_rules('nama_customer', 'nama_customer', 'required|trim');
+
+        if ($this->form_validation->run() == false) {
+            $data['menu'] = $this->db->get('user_menu')->result_array();
+            $this->load->view('templates/header', $data);
+            $this->load->view('templates/sidebar', $data);
+            $this->load->view('templates/topbar', $data);
+            $this->load->view('admin/detail_pengadaan', $data);
+            $this->load->view('templates/footer');
+        } else {
+            // $usernamePembeli = $data['user']['username'];
+            date_default_timezone_set("Asia/Bangkok");
+            $data = [
+                'id_produk_fk' => $this->input->post('id_produk_fk'),
+                'kode_pengadaan_fk' => $this->input->post('kode_pengadaan_fk'),
+                'satuan_pengadaan' => $this->input->post('satuan_pengadaan'),
+                'jumlah_pengadaan' => $this->input->post('jumlah_pengadaan'),
+                'tanggal_pengadaan' => date("Y-m-d H:i:s"),
+            ];
+
+            $this->db->insert('data_detail_pengadaan', $data);
+            $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">
+            Produk Pengadaan Berhasil Ditambahkan!
+           </div>');
+            redirect('admin/detail_pengadaan');
+        }
+    }
+
+
+    
 
 }

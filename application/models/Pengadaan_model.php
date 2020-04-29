@@ -21,6 +21,19 @@ class Pengadaan_model extends CI_Model
         return $query->result_array();
     }
 
+    public function getDataDetailPengadaanAdmin($id)
+    {
+        $data = $this->db->get_where('data_pengadaan', ['id_pengadaan' => $id])->row()->kode_pengadaan;
+        
+        $this->db->select('data_detail_pengadaan.id_detail_pengadaan,data_detail_pengadaan.id_produk_fk,data_produk.nama_produk,data_produk.gambar_produk,data_detail_pengadaan.kode_pengadaan_fk,data_detail_pengadaan.satuan_pengadaan,data_detail_pengadaan.jumlah_pengadaan,data_detail_pengadaan.tanggal_pengadaan');
+        $this->db->join('data_produk', 'data_produk.id_produk = data_detail_pengadaan.id_produk_fk');
+        $this->db->from('data_detail_pengadaan');
+        $this->db->where('kode_pengadaan_fk',$data);
+        $query = $this->db->get();
+
+        return $query->result_array();
+    }
+
     public function deletePengadaan($id)
     {
         $data = $this->db->get_where('data_pengadaan', ['id_pengadaan' => $id])->result_array();
@@ -93,5 +106,11 @@ class Pengadaan_model extends CI_Model
         $query = $this->db->get('data_supplier');
         return $query;
     }
+
+    public function select_produk(){
+        $query = $this->db->get('data_produk');
+        return $query;
+    }
+    
 
 }

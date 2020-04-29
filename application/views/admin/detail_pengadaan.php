@@ -2,7 +2,7 @@
 <div class="container-fluid">
 
     <!-- Page Heading -->
-    <h1 class="h3 mb-4 text-gray-800"><?=$title?> - Admin AREA</h1>
+    <h1 class="h3 mb-4 text-gray-800"><?=$title?> Detail - Admin AREA</h1>
 
 
 
@@ -16,54 +16,34 @@
             <?=validation_errors();?>
         </div>
         <?php endif;?>
-        <a href="" class="btn btn-primary mb-3" data-toggle="modal" data-target="#newSubMenuModal">TAMBAH TRANSAKSI
+        <a href="" class="btn btn-primary mb-3" data-toggle="modal" data-target="#newSubMenuModal">TAMBAH PRODUK
             PENGADAAN</a>
 
-        <div class="form-group">
-            <?php echo form_open("admin/cariPengadaan"); ?>
-            <select name="cariberdasarkan">
-                <option value="">Cari Berdasarkan</option>
-                <option value="id_transaksi_pengadaan">Id Pengadaan</option>
-                <option value="kode_pengadaan">Kode Pengadaan</option>
-            </select>
-            <input name="yangdicari" id="" type="text">
-            <input type="submit" name="cari" value="Cari">
-            <?php echo form_close(); ?>
-        </div>
+
         <?=$this->session->flashdata('message');?>
 
         <table class="table table-striped table-dark table-hover  table-responsive-sm">
             <thead>
                 <tr>
                     <th scope="col" class="text-center">No</th>
-                    <th scope="col" class="text-center">Kode Pengadaan</th>
-                    <th scope="col" class="text-center">Nama Supplier</th>
-                    <th scope="col" class="text-center">Status</th>
+                    <th scope="col" class="text-center">Nama Produk</th>
+                    <th scope="col" class="text-center">Gambar Produk</th>
+                    <th scope="col" class="text-center">Satuan Pengadaan</th>
+                    <th scope="col" class="text-center">Jumlah Pengadaan</th>
                     <th scope="col" class="text-center">Tanggal Pengadaan</th>
-                    <th scope="col" class="text-center">Total</th>
-                    <th scope="col" class="text-center">Detail Transaksi</th>
-                    <th scope="col" class="text-center">Created Date</th>
-                    <th scope="col" class="text-center">Updated Date</th>
                     <th scope="col" class="text-center">Action</th>
                 </tr>
             </thead>
             <tbody>
                 <?php $i = 1;?>
-                <?php foreach ($dataPengadaan as $sm): ?>
+                <?php foreach ($dataDetailPengadaan as $sm): ?>
                 <tr>
                     <th scope="row" class="text-center"><?=$i?></th>
-                    <td style="text-align:center;"><?=$sm['kode_pengadaan']?></td>
-                    <td style="text-align:center;"><?=$sm['nama_supplier']?></td>
-                    <td style="text-align:center;"><?=$sm['status_pengadaan']?></td>
+                    <td style="text-align:center;"><?=$sm['nama_produk']?></td>
+                    <td style="text-align:center;"><?=$sm['gambar_produk']?></td>
+                    <td style="text-align:center;"><?=$sm['satuan_pengadaan']?></td>
+                    <td style="text-align:center;"><?=$sm['jumlah_pengadaan']?></td>
                     <td style="text-align:center;"><?=$sm['tanggal_pengadaan']?></td>
-                    <td style="text-align:center;"><?=$sm['total_pengadaan']?></td>
-                    <td style="text-align:center;">
-                        <a href="<?=base_url();?>admin/detail_pengadaan/<?=$sm['id_pengadaan'];?>"
-                            class="badge badge-info mb-3">INFO</a>
-                    </td>
-                    <td style="text-align:center;"><?=$sm['created_date']?></td>
-                    <td style="text-align:center;"><?=$sm['updated_date']?></td>
-
                     <td style="text-align:center;">
                         <a href="<?=base_url();?>admin/updatePengadaan/<?=$sm['id_pengadaan'];?>"
                             class="badge badge-primary mb-3" data-toggle="modal"
@@ -87,24 +67,14 @@
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="newMenuModal">Tambah Transaksi Pengadaan</h5>
+                <h5 class="modal-title" id="newMenuModal">Tambah Produk Pengadaan</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <form action="<?=base_url('admin/transaksi_pengadaan');?>" method="post">
+            <form action="<?=base_url('admin/detail_pengadaan');?>" method="post">
                 <div class="modal-body">
-                    <div class="form-group">
-                        <select class="form-control" id="pilih_supplier" name="pilih_supplier">
-                            <option>Pilih Supplier</option>
-                            <?php foreach ($data_supplier->result() as $row) {
-    if ($sm['nama_supplier'] == $row->nama_supplier) {
-        echo '<option  value="' . $row->id_supplier . '">' . $row->nama_supplier . '</>';
-    } else {
-        echo '<option value="' . $row->id_supplier . '">' . $row->nama_supplier . '</option>';
-    }}?>
-                        </select>
-                    </div>
+
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
@@ -115,7 +85,7 @@
     </div>
 </div>
 
-<?php foreach ($dataPengadaan as $sm): ?>
+<?php foreach ($dataDetailPengadaan as $sm): ?>
 <!-- Modal edit -->
 <div class="modal fade" id="editSubMenuModal<?=$sm['id_pengadaan'];?>" tabindex="-1" role="dialog"
     aria-labelledby="#editSubMenuModal" aria-hidden="true">
