@@ -98,7 +98,8 @@
                         <input type="text" class="form-control" id="alamat" name="alamat" placeholder="Alamat Pegawai">
                     </div>
                     <div class="form-group">
-                        <input type="text" class="form-control" id="tanggal" name="tanggal" placeholder="Tanggal Lahir (YYYY-MM-DD) ">
+                        <input type="date" class="form-control" id="tanggal" name="tanggal"
+                            placeholder="Tanggal Lahir (YYYY-MM-DD) ">
                     </div>
                     <div class="form-group">
                         <input type="text" class="form-control" id="nohp" name="nohp" placeholder="Nomor Handphone">
@@ -152,7 +153,7 @@
                             value="<?= $sm['alamat_pegawai']; ?>" placeholder="Full Name">
                     </div>
                     <div class="form-group">
-                        <input type="text" class="form-control" id="tanggal" name="tanggal"
+                        <input type="date" class="form-control" id="tanggal" name="tanggal"
                             value="<?= $sm['tanggal_lahir_pegawai']; ?>" placeholder="Tanggal Lahir (YYYY-MM-DD)">
                     </div>
                     <div class="form-group">

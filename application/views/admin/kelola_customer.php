@@ -86,16 +86,20 @@
             <form action="<?= base_url('admin/kelola_customer'); ?>" method="post">
                 <div class="modal-body">
                     <div class="form-group">
-                        <input type="text" class="form-control" id="nama_customer" name="nama_customer" placeholder="Nama Customer">
+                        <input type="text" class="form-control" id="nama_customer" name="nama_customer"
+                            placeholder="Nama Customer">
                     </div>
                     <div class="form-group">
-                        <input type="text" class="form-control" id="alamat_customer" name="alamat_customer" placeholder="Alamat Customer">
+                        <input type="text" class="form-control" id="alamat_customer" name="alamat_customer"
+                            placeholder="Alamat Customer">
                     </div>
                     <div class="form-group">
-                        <input type="text" class="form-control" id="tanggal_lahir_customer" name="tanggal_lahir_customer" placeholder="Tanggal Lahir (YYYY-MM-DD)">
+                        <input type="date" class="form-control" id="tanggal_lahir_customer"
+                            name="tanggal_lahir_customer" placeholder="Tanggal Lahir (YYYY-MM-DD)">
                     </div>
                     <div class="form-group">
-                        <input type="text" class="form-control" id="nomor_hp_customer" name="nomor_hp_customer" placeholder="Nomor HP">
+                        <input type="text" class="form-control" id="nomor_hp_customer" name="nomor_hp_customer"
+                            placeholder="Nomor HP">
                     </div>
                 </div>
                 <div class="modal-footer">
@@ -121,23 +125,28 @@
             </div>
             <form action="<?= base_url(); ?>admin/updateCustomer/<?= $sm['id_customer']; ?>" method="post">
                 <div class="modal-body">
-                <div class="form-group">
+                    <div class="form-group">
                         <input hidden type="text" class="form-control" value="<?= $sm['id_customer']; ?>" id="id"
                             name="id">
                     </div>
                     <div class="form-group">
-                            <input type="text" class="form-control" id="nama" name="nama" value="<?= $sm['nama_customer']; ?>" placeholder="Nama Customer">
-                        </div>
-                        <div class="form-group">
-                            <input type="text" class="form-control" id="alamat_customer" name="alamat_customer" value="<?= $sm['alamat_customer']; ?>" placeholder="Alamat Customer">
-                        </div>
-                        <div class="form-group">
-                            <input type="text" class="form-control" id="tanggal_lahir_customer" name="tanggal_lahir_customer" value="<?= $sm['tanggal_lahir_customer']; ?>" placeholder="Tanggal Lahir (YYYY-MM-DD)">
-                        </div>
-                        <div class="form-group">
-                            <input type="text" class="form-control" id="nomor_hp_customer" name="nomor_hp_customer" value="<?= $sm['nomor_hp_customer']; ?>" placeholder="Nomor HP">
-                        </div>
+                        <input type="text" class="form-control" id="nama" name="nama"
+                            value="<?= $sm['nama_customer']; ?>" placeholder="Nama Customer">
                     </div>
+                    <div class="form-group">
+                        <input type="text" class="form-control" id="alamat_customer" name="alamat_customer"
+                            value="<?= $sm['alamat_customer']; ?>" placeholder="Alamat Customer">
+                    </div>
+                    <div class="form-group">
+                        <input type="date" class="form-control" id="tanggal_lahir_customer"
+                            name="tanggal_lahir_customer" value="<?= $sm['tanggal_lahir_customer']; ?>"
+                            placeholder="Tanggal Lahir (YYYY-MM-DD)">
+                    </div>
+                    <div class="form-group">
+                        <input type="text" class="form-control" id="nomor_hp_customer" name="nomor_hp_customer"
+                            value="<?= $sm['nomor_hp_customer']; ?>" placeholder="Nomor HP">
+                    </div>
+                </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                     <button type="submit" class="btn btn-primary">Edit</button>
