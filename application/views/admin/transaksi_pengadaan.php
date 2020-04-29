@@ -146,15 +146,17 @@
     }}?>
                         </select>
                     </div>
-                    <select class="form-control" id="status" name="status">
-                        <option value="">Pilih Status Transaksi</option>
-                        </optio <option <?php if($sm['status_pengadaan'] == 'Belum Diterima'){echo("selected");}?>>
-                        Belum Diterima
-                        </option>
-                        <option <?php if($sm['status_pengadaan'] == 'Sudah Diterima'){echo("selected");}?>>Sudah
-                            Diterima
-                        </option>
-                    </select>
+                    <div class="form-group">
+                        <select class="form-control" id="status" name="status">
+                            <option value="">Pilih Status Transaksi</option>
+                            <option <?php if($sm['status_pengadaan'] == 'Belum Diterima'){echo("selected");}?>>Belum
+                                Diterima
+                            </option>
+                            <option <?php if($sm['status_pengadaan'] == 'Sudah Diterima'){echo("selected");}?>>Sudah
+                                Diterima
+                            </option>
+                        </select>
+                    </div>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>

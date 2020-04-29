@@ -106,7 +106,7 @@
                     </div>
                     <div class="form-group">
                         <select class="form-control" id="role" name="role">
-                            <option value="">Pilih Customer</option>
+                            <option value="">Pilih Role</option>
                             <option>Owner</option>
                             <option>Customer Service</option>
                             <option>Kasir</option>
@@ -168,7 +168,7 @@
                     <div class="form-group">
                         <div class="form-group">
                             <select class="form-control" id="role" name="role">
-                                <option value="">Pilih Customer</option>
+                                <option value="">Pilih Role</option>
                                 <option <?php if($sm['role_pegawai'] == 'Owner'){echo("selected");}?>>Owner</option>
                                 <option <?php if($sm['role_pegawai'] == 'Customer Service'){echo("selected");}?>>
                                     Customer Service

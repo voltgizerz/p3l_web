@@ -28,9 +28,15 @@ class Pengadaan_model extends CI_Model
         $this->db->delete('data_pengadaan', ['id_pengadaan' => $id]);
     }
 
-    public function getCustomerId($id)
+    public function getPengadaanId($id)
     {
-        return $this->db->get_where('data_customer', ['id_customer' => $id])->result_array();
+        $this->db->select('data_pengadaan.id_pengadaan,data_pengadaan.kode_pengadaan,data_pengadaan.id_supplier,data_supplier.nama_supplier,data_pengadaan.status as status_pengadaan,data_pengadaan.tanggal_pengadaan,data_pengadaan.tanggal_pengadaan,data_pengadaan.tanggal_pengadaan,data_pengadaan.total AS total_pengadaan,data_pengadaan.created_date,data_pengadaan.updated_date');
+        $this->db->join('data_supplier', 'data_supplier.id_supplier = data_pengadaan.id_supplier');
+        $this->db->from('data_pengadaan');
+        $this->db->where('id_pengadaan',$id);
+        $query = $this->db->get();
+
+        return $query->result_array();
     }
 
     public function cariCustomer($berdasarkan,$yangdicari){
