@@ -445,8 +445,7 @@ class Admin extends CI_Controller
         $this->load->model('UkuranHewan_Model', 'menu');
         $data['dataUkuranHewan'] = $this->menu->getDataLogUkuranHewan();
         $data['menu'] = $this->db->get('user_menu')->result_array();
-        
-        
+
         if (!isset($_POST['log'])) {
             $this->form_validation->set_rules('nama', 'Name', 'required|trim');
         }
@@ -458,8 +457,9 @@ class Admin extends CI_Controller
             $this->load->view('templates/topbar', $data);
             $this->load->view('admin/logUkuranHewan', $data);
             $this->load->view('templates/footer');
+            header("Cache-Control: no cache");
         } else {
-            $usernamePembeli = $data['user']['username'];
+
             date_default_timezone_set("Asia/Bangkok");
             $data = [
                 'ukuran_hewan' => $this->input->post('nama'),
@@ -474,6 +474,17 @@ class Admin extends CI_Controller
            </div>');
             redirect('admin/kelola_ukuran_hewan');
         }
+    }
+
+    public function restoreUkuranHewan($id)
+    {
+        $data['title'] = 'Kelola Data Ukuran Hewan';
+        $this->load->model('UkuranHewan_Model');
+        $this->UkuranHewan_Model->restoreUkuranHewan($id);
+        $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">
+              Ukuran Hewan Berhasil Di Restore!
+               </div>');
+        redirect('admin/kelola_ukuran_hewan');
     }
 
     public function updateUkuranHewan($id)
@@ -654,16 +665,16 @@ class Admin extends CI_Controller
     {
         $this->load->model('Hewan_Model');
         $this->Hewan_Model->deleteHewan($id);
-        if( $this->Hewan_Model->deleteHewan($id) == -1){
+        if ($this->Hewan_Model->deleteHewan($id) == -1) {
             $this->session->set_flashdata('message', '<div class="alert alert-danger" role="alert">
             Hewan Gagal Di Hapus, Data Masih digunakan!
              </div>');
-      redirect('admin/kelola_hewan');
-        }else{
-             $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">
+            redirect('admin/kelola_hewan');
+        } else {
+            $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">
               Hewan Berhasil Di Hapus!
                </div>');
-        redirect('admin/kelola_hewan');
+            redirect('admin/kelola_hewan');
         }
     }
     public function kelola_supplier()
@@ -883,16 +894,16 @@ class Admin extends CI_Controller
     {
         $this->load->model('Customer_Model');
         $this->Customer_Model->deleteCustomer($id);
-        if( $this->Customer_Model->deleteCustomer($id) == -1){
+        if ($this->Customer_Model->deleteCustomer($id) == -1) {
             $this->session->set_flashdata('message', '<div class="alert alert-danger" role="alert">
             Customer Gagal Di Hapus, Data Masih digunakan!
              </div>');
-      redirect('admin/kelola_customer');
-        }else{
-             $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">
+            redirect('admin/kelola_customer');
+        } else {
+            $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">
               Customer Berhasil Di Hapus!
                </div>');
-        redirect('admin/kelola_customer');
+            redirect('admin/kelola_customer');
         }
     }
 
@@ -1073,7 +1084,7 @@ class Admin extends CI_Controller
                 'updated_date' => date("Y-m-d H:i:s"),
                 'tanggal_pengadaan' => date("Y-m-d H:i:s"),
             ];
-            
+
             if ($this->db->where('id_pengadaan', $id)->update('data_pengadaan', $data)) {
 
                 $data = $this->db->get_where('data_pengadaan', ['id_pengadaan' => $id])->result_array();

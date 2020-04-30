@@ -51,4 +51,11 @@ class UkuranHewan_model extends CI_Model
         return $this->db->get();
     }
 
+    public function restoreUkuranHewan($id)
+    {
+        $this->db->where('id_ukuran_hewan', $id);
+        $this->db->update('data_ukuran_hewan', ['deleted_date' => '0000-00-00 00:00:00','created_date' => date("Y-m-d H:i:s")]);
+ 
+    }
+
 }

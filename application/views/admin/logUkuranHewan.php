@@ -23,17 +23,7 @@
         <input type="submit" name="log" class="btn btn-danger mb-3" value="LOG DELETE UKURAN HEWAN">
         <?php echo form_close(); ?>
 
-        <div class="form-group">
-            <?php echo form_open("admin/cariUkuranHewan"); ?>
-            <select name="cariberdasarkan">
-                <option value="">Cari Berdasarkan</option>
-                <option value="id_ukuran_hewan">Id Ukuran Hewan</option>
-                <option value="ukuran_hewan">Ukuran Hewan</option>
-            </select>
-            <input name="yangdicari" id="" type="text">
-            <input type="submit" name="cari" value="Cari">
-            <?php echo form_close(); ?>
-        </div>
+
         <?= $this->session->flashdata('message'); ?>
 
 
@@ -56,9 +46,8 @@
 
                     <td style="text-align:center;">
                         <a href="<?= base_url(); ?>admin/restoreUkuranHewan/<?= $sm['id_ukuran_hewan']; ?>"
-                            class="badge badge-primary mb-3" data-toggle="modal"
-                            data-target="#editSubMenuModal<?= $sm['id_ukuran_hewan']; ?>">RESTORE</a>
-                        <a href="<?= base_url(); ?>admin/deletePermUkuranHewan/<?= $sm['id_ukuran_hewan']; ?>"
+                            class="badge badge-primary mb-3">RESTORE</a>
+                        <a href=" <?= base_url(); ?>admin/deletePermUkuranHewan/<?= $sm['id_ukuran_hewan']; ?>"
                             class="badge badge-danger mb-3">DELETE PREMANENT</a>
                     </td>
                 </tr>
