@@ -23,7 +23,7 @@ class UkuranHewan_model extends CI_Model
     public function deleteUkuranHewan($id)
     {
         $this->db->where('id_ukuran_hewan', $id);
-        $this->db->delete('data_ukuran_hewan');
+        $this->db->update('data_ukuran_hewan', ['created_date' => '0000-00-00 00:00:00','deleted_date' => date("Y-m-d H:i:s")]);
     }
 
     public function getUkuranHewanId($id)
