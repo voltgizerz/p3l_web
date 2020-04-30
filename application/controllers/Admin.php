@@ -438,6 +438,44 @@ class Admin extends CI_Controller
         }
     }
 
+    public function logUkuranHewan()
+    {
+        $data['title'] = 'Kelola Data Ukuran Hewan';
+        $data['user'] = $this->db->get_where('data_pegawai', ['username' => $this->session->userdata('username')])->row_array();
+        $this->load->model('UkuranHewan_Model', 'menu');
+        $data['dataUkuranHewan'] = $this->menu->getDataLogUkuranHewan();
+        $data['menu'] = $this->db->get('user_menu')->result_array();
+        
+        
+        if (!isset($_POST['log'])) {
+            $this->form_validation->set_rules('nama', 'Name', 'required|trim');
+        }
+
+        if ($this->form_validation->run() == false) {
+            $data['menu'] = $this->db->get('user_menu')->result_array();
+            $this->load->view('templates/header', $data);
+            $this->load->view('templates/sidebar', $data);
+            $this->load->view('templates/topbar', $data);
+            $this->load->view('admin/logUkuranHewan', $data);
+            $this->load->view('templates/footer');
+        } else {
+            $usernamePembeli = $data['user']['username'];
+            date_default_timezone_set("Asia/Bangkok");
+            $data = [
+                'ukuran_hewan' => $this->input->post('nama'),
+                'created_date' => date("Y-m-d H:i:s"),
+                'updated_date' => date("0000:00:0:00:00"),
+                'deleted_date' => date("0000:00:0:00:00"),
+            ];
+
+            $this->db->insert('data_ukuran_hewan', $data);
+            $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">
+            Jenis Hewan Berhasil Ditambahkan!
+           </div>');
+            redirect('admin/kelola_ukuran_hewan');
+        }
+    }
+
     public function updateUkuranHewan($id)
     {
         $data['title'] = 'Kelola Data Ukuran Hewan';

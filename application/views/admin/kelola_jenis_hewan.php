@@ -49,11 +49,11 @@
                 <?php foreach ($dataJenisHewan as $sm) : ?>
                 <tr>
                     <th scope="row" class="text-center"><?= $i ?></th>
-                    <td><?= $sm['nama_jenis_hewan'] ?></td>
-                    <td><?= $sm['created_date'] ?></td>
-                    <td><?= $sm['updated_date'] ?></td>
+                    <td style="text-align:center;"><?= $sm['nama_jenis_hewan'] ?></td>
+                    <td style="text-align:center;"><?= $sm['created_date'] ?></td>
+                    <td style="text-align:center;"><?= $sm['updated_date'] ?></td>
 
-                    <td>
+                    <td style="text-align:center;">
                         <a href="<?= base_url(); ?>admin/updateJenisHewan/<?= $sm['id_jenis_hewan']; ?>"
                             class="badge badge-primary mb-3" data-toggle="modal"
                             data-target="#editSubMenuModal<?= $sm['id_jenis_hewan']; ?>">EDIT</a>

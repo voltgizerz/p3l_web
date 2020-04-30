@@ -51,7 +51,7 @@
                 <?php foreach ($dataCustomer as $sm) : ?>
                 <tr>
                     <th scope="row" class="text-center"><?= $i ?></th>
-                    <td><?= $sm['nama_customer'] ?></td>
+                    <td style="text-align:center;"><?= $sm['nama_customer'] ?></td>
                     <td class="text-center"><?= $sm['alamat_customer'] ?></td>
                     <td class="text-center"><?= $sm['tanggal_lahir_customer'] ?></td>
                     <td class="text-center"><?= $sm['nomor_hp_customer'] ?></td>

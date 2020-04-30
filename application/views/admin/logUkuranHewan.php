@@ -2,7 +2,7 @@
 <div class="container-fluid">
 
     <!-- Page Heading -->
-    <h1 class="h3 mb-4 text-gray-800"><?= $title ?> - Admin AREA</h1>
+    <h1 class="h3 mb-4 text-gray-800"><?= $title ?> - Log Delete Admin AREA</h1>
 
 
 
@@ -42,8 +42,7 @@
                 <tr>
                     <th scope="col" class="text-center">No</th>
                     <th scope="col" class="text-center">Nama Ukuran Hewan</th>
-                    <th scope="col" class="text-center">Created Date</th>
-                    <th scope="col" class="text-center">Updated Date</th>
+                    <th scope="col" class="text-center">Deleted Date</th>
                     <th scope="col" class="text-center">Action</th>
                 </tr>
             </thead>
@@ -53,15 +52,14 @@
                 <tr>
                     <th scope="row" class="text-center"><?= $i ?></th>
                     <td style="text-align:center;"><?= $sm['ukuran_hewan'] ?></td>
-                    <td style="text-align:center;"><?= $sm['created_date'] ?></td>
-                    <td style="text-align:center;"><?= $sm['updated_date'] ?></td>
+                    <td style="text-align:center;"><?= $sm['deleted_date'] ?></td>
 
-                    <td>
-                        <a href="<?= base_url(); ?>admin/updateUkuranHewan/<?= $sm['id_ukuran_hewan']; ?>"
+                    <td style="text-align:center;">
+                        <a href="<?= base_url(); ?>admin/restoreUkuranHewan/<?= $sm['id_ukuran_hewan']; ?>"
                             class="badge badge-primary mb-3" data-toggle="modal"
-                            data-target="#editSubMenuModal<?= $sm['id_ukuran_hewan']; ?>">EDIT</a>
-                        <a href="<?= base_url(); ?>admin/hapusUkuranHewan/<?= $sm['id_ukuran_hewan']; ?>"
-                            class="badge badge-danger mb-3">DELETE</a>
+                            data-target="#editSubMenuModal<?= $sm['id_ukuran_hewan']; ?>">RESTORE</a>
+                        <a href="<?= base_url(); ?>admin/deletePermUkuranHewan/<?= $sm['id_ukuran_hewan']; ?>"
+                            class="badge badge-danger mb-3">DELETE PREMANENT</a>
                     </td>
                 </tr>
                 <?php $i++; ?>

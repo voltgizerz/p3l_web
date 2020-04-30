@@ -50,12 +50,12 @@
                 <tr>
                     <th scope="row" class="text-center"><?=$i?></th>
                     <td><?=$sm['nama_hewan']?></td>
-                    <td><?=$sm['nama_jenis_hewan']?></td>
-                    <td><?=$sm['ukuran_hewan']?></td>
-                    <td><?=$sm['tanggal_lahir_hewan']?></td>
-                    <td><?=$sm['nama_customer']?></td>
-                    <td><?=$sm['created_date']?></td>
-                    <td><?=$sm['updated_date']?></td>
+                    <td style="text-align:center;"><?=$sm['nama_jenis_hewan']?></td>
+                    <td style="text-align:center;"><?=$sm['ukuran_hewan']?></td>
+                    <td style="text-align:center;"><?=$sm['tanggal_lahir_hewan']?></td>
+                    <td style="text-align:center;"><?=$sm['nama_customer']?></td>
+                    <td style="text-align:center;"><?=$sm['created_date']?></td>
+                    <td style="text-align:center;"><?=$sm['updated_date']?></td>
 
                     <td>
                         <a href="<?=base_url();?>admin/updateHewan/<?=$sm['id_hewan'];?>"
