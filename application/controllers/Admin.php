@@ -616,10 +616,17 @@ class Admin extends CI_Controller
     {
         $this->load->model('Hewan_Model');
         $this->Hewan_Model->deleteHewan($id);
-        $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">
+        if( $this->Hewan_Model->deleteHewan($id) == -1){
+            $this->session->set_flashdata('message', '<div class="alert alert-danger" role="alert">
+            Hewan Gagal Di Hapus, Data Masih digunakan!
+             </div>');
+      redirect('admin/kelola_hewan');
+        }else{
+             $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">
               Hewan Berhasil Di Hapus!
                </div>');
         redirect('admin/kelola_hewan');
+        }
     }
     public function kelola_supplier()
     {

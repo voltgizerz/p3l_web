@@ -25,8 +25,18 @@ class Hewan_model extends CI_Model
 
     public function deleteHewan($id)
     {
-        $this->db->where('id_hewan', $id);
-        $this->db->delete('data_hewan');
+        $this->db->db_debug = false;
+        if ($this->db->delete('data_hewab', ['id_hewan' => $id]) == false) {
+            //INI JIKA DATA INI SEDANG DIGUNAKAN
+            $rowAffected = $this->db->affected_rows();
+            $e = $this->db->error();
+
+            if ($e['code'] == 1451) {
+                return -1;
+            } else {
+                return $rowAffected;
+            }
+        }
     }
 
     public function getHewanId($id)
