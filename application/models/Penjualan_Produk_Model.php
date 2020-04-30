@@ -26,14 +26,14 @@ class Penjualan_Produk_model extends CI_Model
         return $query->result_array();
     }
 
-    public function getDataDetailPengadaanAdmin($id)
+    public function getDataDetailPenjualanProdukAdmin($id)
     {
-        $data = $this->db->get_where('data_pengadaan', ['id_pengadaan' => $id])->row()->kode_pengadaan;
+        $data = $this->db->get_where('data_transaksi_penjualan_produk', ['id_transaksi_penjualan_produk' => $id])->row()->kode_transaksi_penjualan_produk;
 
-        $this->db->select('data_detail_pengadaan.id_detail_pengadaan,data_detail_pengadaan.id_produk_fk,data_produk.nama_produk,data_produk.gambar_produk,data_detail_pengadaan.kode_pengadaan_fk,data_detail_pengadaan.satuan_pengadaan,data_detail_pengadaan.jumlah_pengadaan,data_detail_pengadaan.tanggal_pengadaan');
-        $this->db->join('data_produk', 'data_produk.id_produk = data_detail_pengadaan.id_produk_fk');
-        $this->db->from('data_detail_pengadaan');
-        $this->db->where('kode_pengadaan_fk', $data);
+        $this->db->select('data_detail_penjualan_produk.id_detail_penjualan_produk,data_detail_penjualan_produk.kode_transaksi_penjualan_produk_fk,data_detail_penjualan_produk.id_produk_penjualan_fk,data_detail_penjualan_produk.jumlah_produk,data_detail_penjualan_produk.subtotal,data_produk.nama_produk,data_produk.gambar_produk');
+        $this->db->join('data_produk', 'data_produk.id_produk = data_detail_penjualan_produk.id_produk_penjualan_fk');
+        $this->db->where('kode_transaksi_penjualan_produk_fk', $data);
+        $this->db->from('data_detail_penjualan_produk');
         $query = $this->db->get();
 
         return $query->result_array();

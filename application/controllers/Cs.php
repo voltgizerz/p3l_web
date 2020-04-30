@@ -106,4 +106,73 @@ class Cs extends CI_Controller
                    </div>');
             redirect('cs/transaksi_penjualan_produk');
         }
+
+        public function detail_penjualan_produk($id)
+        {
+        $data['title'] = 'Transaksi Penjualan Produk';
+        $data['user'] = $this->db->get_where('data_pegawai', ['username' => $this->session->userdata('username')])->row_array();
+        $this->load->model('Penjualan_Produk_Model', 'menu');
+        $data['dataDetailPenjualanProduk'] = $this->menu->getDataDetailPenjualanProdukAdmin($id);
+        $data['menu'] = $this->db->get('user_menu')->result_array();
+        $data['data_produk'] = $this->menu->select_produk();
+        $kode = $this->db->get_where('data_transaksi_penjualan_produk', ['id_transaksi_penjualan_produk' => $id])->row()->kode_transaksi_penjualan_produk;
+        $data['kode_penjualan'] = $kode;
+        $data['id_penjualan'] = $id;
+        $this->form_validation->set_rules('pilih_produk', 'pilih_produk', 'required|trim');
+        
+
+        if ($this->form_validation->run() == false) {
+            $data['menu'] = $this->db->get('user_menu')->result_array();
+            $this->load->view('templates/header', $data);
+            $this->load->view('templates/sidebar', $data);
+            $this->load->view('templates/topbar', $data);
+            $this->load->view('cs/detail_penjualan_produk', $data);
+            $this->load->view('templates/footer');
+        } else {
+            // $usernamePembeli = $data['user']['username'];
+            date_default_timezone_set("Asia/Bangkok");
+            $data = [
+                'kode_transaksi_penjualan_produk_fk' => $kode,
+                'id_produk_penjualan_fk' => $this->input->post('pilih_produk'),
+                'jumlah_produk' => $this->input->post('jumlah_produk'),
+                'subtotal' => '0',
+            ];
+
+            $this->db->insert('data_detail_penjualan_produk', $data);
+            $rowcreate = $this->db->affected_rows();
+            //CARI NILAI SUBTOTAL PRODUK DETAIL HARGA UPDATE
+            $this->db->select('data_detail_penjualan_produk.id_produk_penjualan_fk,data_detail_penjualan_produk.jumlah_produk,data_produk.harga_produk');
+            $this->db->join('data_produk', 'data_produk.id_produk = data_detail_penjualan_produk.id_produk_penjualan_fk');
+            $this->db->where('data_detail_penjualan_produk.subtotal', '0');
+            $this->db->from('data_detail_penjualan_produk');
+            $query = $this->db->get();
+            $arrTemp = json_decode(json_encode($query->result()), true);
+    
+            // NILAI TAMPUNG SUB TOTAL  DETAIL PENJUALAN HARGA YANG BARU
+            $temp = $arrTemp[0]['jumlah_produk'] * $arrTemp[0]['harga_produk'];
+            //UPDATE NILAI TOTAL PENGADAAN
+            $this->db->where('subtotal', '0')->update('data_detail_penjualan_produk', ['subtotal' => $temp]);
+    
+            //CARI NILAI TOTAL HARGA UPDATE
+            $this->db->select('data_detail_penjualan_produk.id_produk_penjualan_fk,data_detail_penjualan_produk.jumlah_produk,data_produk.harga_produk');
+            $this->db->join('data_produk', 'data_produk.id_produk = data_detail_penjualan_produk.id_produk_penjualan_fk');
+            $this->db->where('data_detail_penjualan_produk.kode_transaksi_penjualan_produk_fk', $data['kode_transaksi_penjualan_produk_fk']);
+            $this->db->from('data_detail_penjualan_produk');
+            $query = $this->db->get();
+            $arrTemp = json_decode(json_encode($query->result()), true);
+    
+            // NILAI TAMPUNG TOTAL HARGA PENJUALAN YANG BARU
+            $temp = 0;
+            for ($i = 0; $i < count($arrTemp); $i++) {
+                $temp = $temp + $arrTemp[$i]['jumlah_produk'] * $arrTemp[$i]['harga_produk'];
+            }
+            //UPDATE NILAI TOTAL PENGADAAN
+            $this->db->where('kode_transaksi_penjualan_produk', $data['kode_transaksi_penjualan_produk_fk'])->update('data_transaksi_penjualan_produk', ['total_penjualan_produk' => $temp]);
+    
+            $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">
+            Produk Penjualan Berhasil Ditambahkan!
+           </div>');
+            redirect('cs/detail_penjualan_produk/' . $id);
+            }
+        }
     }
