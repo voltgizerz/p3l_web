@@ -46,6 +46,7 @@ class Auth extends CI_Controller
                     $data = [
                         'username' => $user['username'],
                         'role_id' => $user['role_id'],
+                        'id_pegawai'=> $user['id_pegawai'],
                         'nama_pegawai'  => $user['nama_pegawai'],
                         'role'  => $user['role']
                     ];

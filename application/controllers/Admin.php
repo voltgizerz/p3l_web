@@ -196,7 +196,6 @@ class Admin extends CI_Controller
             $this->load->view('admin/kelola_pegawai', $data);
             $this->load->view('templates/footer');
         } else {
-            $usernamePembeli = $data['user']['username'];
 
             if ($this->input->post('role') == 'Owner') {
                 $role_id = 1;
