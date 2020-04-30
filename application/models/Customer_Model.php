@@ -1,7 +1,6 @@
 <?php
 defined('BASEPATH') or exit('No direct script access allowed');
 
-
 class Customer_model extends CI_Model
 {
     public function getDataBeliMobil()
@@ -18,8 +17,18 @@ class Customer_model extends CI_Model
 
     public function deleteCustomer($id)
     {
-        $this->db->where('id_customer', $id);
-        $this->db->delete('data_customer');
+        $this->db->db_debug = false;
+        if ($this->db->delete('data_customer', ['id_customer' => $id]) == false) {
+            //INI JIKA DATA INI SEDANG DIGUNAKAN
+            $rowAffected = $this->db->affected_rows();
+            $e = $this->db->error();
+
+            if ($e['code'] == 1451) {
+                return -1;
+            } else {
+                return $rowAffected;
+            }
+        }
     }
 
     public function getCustomerId($id)
@@ -27,22 +36,22 @@ class Customer_model extends CI_Model
         return $this->db->get_where('data_customer', ['id_customer' => $id])->result_array();
     }
 
-    public function cariCustomer($berdasarkan,$yangdicari){
+    public function cariCustomer($berdasarkan, $yangdicari)
+    {
         $this->db->select('*');
         $this->db->from('data_customer');
 
-
-        switch($berdasarkan){
+        switch ($berdasarkan) {
             case "":
-                $this->db->like('nama_customer',$yangdicari);
-                $this->db->or_like('id_customer',$yangdicari);
-            break;
+                $this->db->like('nama_customer', $yangdicari);
+                $this->db->or_like('id_customer', $yangdicari);
+                break;
 
             case "id_customer":
-                $this->db->where('id_customer',$yangdicari);
-            
+                $this->db->where('id_customer', $yangdicari);
+
             default:
-            $this->db->like($berdasarkan,$yangdicari);
+                $this->db->like($berdasarkan, $yangdicari);
         }
         return $this->db->get();
     }

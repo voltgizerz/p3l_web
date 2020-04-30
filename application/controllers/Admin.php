@@ -838,10 +838,17 @@ class Admin extends CI_Controller
     {
         $this->load->model('Customer_Model');
         $this->Customer_Model->deleteCustomer($id);
-        $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">
+        if( $this->Customer_Model->deleteCustomer($id) == -1){
+            $this->session->set_flashdata('message', '<div class="alert alert-danger" role="alert">
+            Customer Gagal Di Hapus, Data Masih digunakan!
+             </div>');
+      redirect('admin/kelola_customer');
+        }else{
+             $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">
               Customer Berhasil Di Hapus!
                </div>');
         redirect('admin/kelola_customer');
+        }
     }
 
     public function cariCustomer()
