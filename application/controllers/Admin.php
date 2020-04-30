@@ -524,11 +524,26 @@ class Admin extends CI_Controller
     public function hapusUkuranHewan($id)
     {
         $this->load->model('UkuranHewan_Model');
-        $this->UkuranHewan_Model->deleteUkuranHewan($id);
-        $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">
+        if ($this->UkuranHewan_Model->deleteUkuranHewan($id) == -1) {
+            $this->session->set_flashdata('message', '<div class="alert alert-danger" role="alert">
+            Ukuran Hewan Gagal Di Hapus, Data Masih digunakan!
+             </div>');
+            redirect('admin/kelola_ukuran_hewan');
+        } else {
+            $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">
               Ukuran Hewan Berhasil Di Hapus!
                </div>');
-        redirect('admin/kelola_ukuran_hewan');
+            redirect('admin/kelola_ukuran_hewan');
+        }
+    }
+
+    public function deletePermUkuranHewan($id){
+        $this->load->model('UkuranHewan_Model');
+        $this->UkuranHewan_Model->deletePermUkuranHewan($id);
+        $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">
+              Ukuran Hewan Berhasil Di Hapus Permanent!
+               </div>');
+        redirect('admin/logUkuranHewan');
     }
 
     public function cariUkuranHewan()
