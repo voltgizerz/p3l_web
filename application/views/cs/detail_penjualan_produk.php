@@ -44,10 +44,10 @@
                     <td style="text-align:center;"><?=$sm['jumlah_produk']?></td>
                     <td style="text-align:center;"><?=$sm['subtotal']?></td>
                     <td style="text-align:center;">
-                        <a href="<?=base_url();?>admin/updateDetailPenjualanProduk/<?=$sm['id_detail_penjualan_produk'];?>"
+                        <a href="<?=base_url();?>cs/updateDetailPenjualanProduk/<?=$sm['id_detail_penjualan_produk'];?>"
                             class="badge badge-primary mb-3" data-toggle="modal"
                             data-target="#editSubMenuModal<?=$sm['id_detail_penjualan_produk'];?>">EDIT</a>
-                        <a href="<?=base_url();?>admin/hapusDetailPenjualanProduk/<?=$sm['id_detail_penjualan_produk'];?>"
+                        <a href="<?=base_url();?>cs/hapusDetailPenjualanProduk/<?=$sm['id_detail_penjualan_produk'];?>"
                             class="badge badge-danger mb-3">DELETE</a>
                     </td>
                 </tr>
@@ -111,7 +111,7 @@
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <form action="<?=base_url();?>admin/updateDetailPengadaan/<?=$id_penjualan;?>" method="post">
+            <form action="<?=base_url();?>cs/updateDetailPengadaan/<?=$id_penjualan;?>" method="post">
 
                 <div class="modal-body">
                     <div class="form-group">
