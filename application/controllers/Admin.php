@@ -171,6 +171,8 @@ class Admin extends CI_Controller
     public function updatePegawai($id)
     {
         $data['title'] = 'Kelola Data Pegawai';
+        $cekUsername = $this->db->get_where('data_pegawai', ['id_pegawai' => $id])->row()->username;
+    
         $data['user'] = $this->db->get_where('data_pegawai', ['username' => $this->session->userdata('username')])->row_array();
         $this->load->model('Pegawai_model', 'menu');
         $data['dataPegawai'] = $this->menu->getPegawaiId($id);
@@ -179,6 +181,13 @@ class Admin extends CI_Controller
         $this->form_validation->set_rules('tanggal', 'tanggal', 'required|trim|regex_match[/^([0-9]{4})-([0-9]{2})-([0-9]{2})$/]');
         $this->form_validation->set_rules('nama', 'Nama', 'required');
         $this->form_validation->set_rules('role', 'Role', 'required');
+
+        if($this->input->post('username') == $cekUsername){
+            $this->form_validation->set_rules('username', 'Username', 'required');
+        }else{
+            $this->form_validation->set_rules('username', 'Username', 'required|trim|is_unique[data_pegawai.username]', [
+                'is_unique' => 'Username sudah Terdaftar!']);
+        }
         if ($this->form_validation->run() == false) {
             $data['menu'] = $this->db->get('user_menu')->result_array();
             $this->load->view('templates/header', $data);
