@@ -13,7 +13,7 @@ class Supplier_model extends CI_Model
 
     public function getDataSupplierAdmin()
     {
-        return $this->db->get_where('data_supplier')->result_array();
+        return $this->db->get_where('data_supplier', ['deleted_date' => '0000-00-00 00:00:00'])->result_array();
     }
 
     public function deleteSupplier($id)

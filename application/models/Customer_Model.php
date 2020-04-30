@@ -13,7 +13,7 @@ class Customer_model extends CI_Model
 
     public function getDataCustomerAdmin()
     {
-        return $this->db->get_where('data_customer')->result_array();
+        return $this->db->get_where('data_customer', ['deleted_date' => '0000-00-00 00:00:00'])->result_array();
     }
 
     public function deleteCustomer($id)

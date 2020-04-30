@@ -6,7 +6,7 @@ class Pegawai_model extends CI_Model
 
     public function getDataPegawaiAdmin()
     {
-        return $this->db->get_where('data_pegawai')->result_array();
+        return $this->db->get_where('data_pegawai', ['deleted_date' => '0000-00-00 00:00:00'])->result_array();
     }
 
     public function deletePegawai($id)

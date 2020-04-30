@@ -12,7 +12,7 @@ class JenisHewan_model extends CI_Model
 
     public function getDataJenisHewanAdmin()
     {
-        return $this->db->get_where('data_jenis_hewan')->result_array();
+        return $this->db->get_where('data_jenis_hewan', ['deleted_date' => '0000-00-00 00:00:00'])->result_array();
     }
 
     public function deleteJenisHewan($id)
