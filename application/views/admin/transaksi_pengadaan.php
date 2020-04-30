@@ -64,9 +64,15 @@
                     <td style="text-align:center;"><?=$sm['updated_date']?></td>
 
                     <td style="text-align:center;">
+                        <?php if ($sm['status_pengadaan'] == 'Sudah Diterima'){
+                            $hide="hidden";
+                        }else{
+                            $hide="visible";
+                        } ?>
                         <a href="<?=base_url();?>admin/updatePengadaan/<?=$sm['id_pengadaan'];?>"
                             class="badge badge-primary mb-3" data-toggle="modal"
-                            data-target="#editSubMenuModal<?=$sm['id_pengadaan'];?>">EDIT</a>
+                            data-target="#editSubMenuModal<?=$sm['id_pengadaan'];?>"
+                            style="visibility: <?=$hide?>">EDIT</a>
                         <a href="<?=base_url();?>admin/hapusPengadaan/<?=$sm['id_pengadaan'];?>"
                             class="badge badge-danger mb-3">DELETE</a>
                     </td>
