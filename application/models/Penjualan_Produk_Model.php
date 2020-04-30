@@ -46,12 +46,18 @@ class Penjualan_Produk_model extends CI_Model
         $this->db->delete('data_pengadaan', ['id_pengadaan' => $id]);
     }
 
-    public function getPengadaanId($id)
+    public function getPenjualanProdukId($id)
     {
-        $this->db->select('data_pengadaan.id_pengadaan,data_pengadaan.kode_pengadaan,data_pengadaan.id_supplier,data_supplier.nama_supplier,data_pengadaan.status as status_pengadaan,data_pengadaan.tanggal_pengadaan,data_pengadaan.tanggal_pengadaan,data_pengadaan.tanggal_pengadaan,data_pengadaan.total AS total_pengadaan,data_pengadaan.created_date,data_pengadaan.updated_date');
-        $this->db->join('data_supplier', 'data_supplier.id_supplier = data_pengadaan.id_supplier');
-        $this->db->from('data_pengadaan');
-        $this->db->where('id_pengadaan', $id);
+        $this->db->select('data_transaksi_penjualan_produk.id_transaksi_penjualan_produk,data_transaksi_penjualan_produk.kode_transaksi_penjualan_produk
+        ,data_transaksi_penjualan_produk.tanggal_penjualan_produk,
+        data_transaksi_penjualan_produk.tanggal_pembayaran_produk,data_transaksi_penjualan_produk.diskon,
+        data_transaksi_penjualan_produk.total_penjualan_produk,data_transaksi_penjualan_produk.total_harga,data_transaksi_penjualan_produk.status_penjualan,data_transaksi_penjualan_produk.status_pembayaran,data_transaksi_penjualan_produk.id_cs,
+        data_transaksi_penjualan_produk.id_kasir,data_transaksi_penjualan_produk.created_date,data_transaksi_penjualan_produk.updated_date,
+        data_pegawai.nama_pegawai AS nama_cs, a.nama_pegawai AS nama_kasir');
+        $this->db->join('data_pegawai', 'data_pegawai.id_pegawai = data_transaksi_penjualan_produk.id_cs');
+        $this->db->join('data_pegawai a', 'a.id_pegawai = data_transaksi_penjualan_produk.id_kasir');
+        $this->db->where('id_transaksi_penjualan_produk', $id);
+        $this->db->from('data_transaksi_penjualan_produk');
         $query = $this->db->get();
 
         return $query->result_array();

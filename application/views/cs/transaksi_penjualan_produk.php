@@ -19,7 +19,7 @@
             PENJUALAN PRODUK</a>
 
         <div class="form-group">
-            <?php echo form_open("admin/cariPengadaan"); ?>
+            <?php echo form_open("cs/cariPengadaan"); ?>
             <select name="cariberdasarkan">
                 <option value="">Cari Berdasarkan</option>
                 <option value="kode_pengadaan">Kode Penjualan</option>
@@ -56,7 +56,7 @@
                     <td style="text-align:center;"><?=$sm['status_penjualan']?></td>
 
                     <td style="text-align:center;">
-                        <a href="<?=base_url();?>admin/detail_penjualan_produk/<?=$sm['id_transaksi_penjualan_produk'];?>"
+                        <a href="<?=base_url();?>cs/detail_penjualan_produk/<?=$sm['id_transaksi_penjualan_produk'];?>"
                             class="badge badge-info mb-3">INFO</a>
                     </td>
                     <td style="text-align:center;"><?=$sm['created_date']?></td>
@@ -68,11 +68,11 @@
                         }else{
                             $hide="visible";
                         } ?>
-                        <a href="<?=base_url();?>admin/updatePenjualanProduk/<?=$sm['id_transaksi_penjualan_produk'];?>"
+                        <a href="<?=base_url();?>cs/updatePenjualanProduk/<?=$sm['id_transaksi_penjualan_produk'];?>"
                             class="badge badge-primary mb-3" data-toggle="modal"
                             data-target="#editSubMenuModal<?=$sm['id_transaksi_penjualan_produk'];?>"
                             style="visibility: <?=$hide?>">EDIT</a>
-                        <a href="<?=base_url();?>admin/updatePenjualanProduk/<?=$sm['id_transaksi_penjualan_produk'];?>"
+                        <a href="<?=base_url();?>cs/updatePenjualanProduk/<?=$sm['id_transaksi_penjualan_produk'];?>"
                             class="badge badge-danger mb-3">DELETE</a>
                     </td>
                 </tr>
@@ -129,11 +129,14 @@
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <form action="<?=base_url();?>admin/updatePengadaan/<?=$sm['id_transaksi_penjualan_produk'];?>"
+            <form action="<?=base_url();?>cs/updatePenjualanProduk/<?=$sm['id_transaksi_penjualan_produk'];?>"
                 method="post">
 
                 <div class="modal-body">
-
+                    <div class="form-group">
+                        <input hidden type="text" class="form-control"
+                            value="<?=$sm['id_transaksi_penjualan_produk'];?>" id="id" name="id">
+                    </div>
                     <div class="form-group">
                         <select class="form-control" id="status_penjualan" name="status_penjualan">
                             <option value="">Pilih Status Transaksi</option>
