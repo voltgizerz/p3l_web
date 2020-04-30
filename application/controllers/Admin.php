@@ -1182,4 +1182,52 @@ class Admin extends CI_Controller
         }
     }
 
+    public function cariPengadaan()
+    {
+        $data['title'] = 'Transaksi Pengadaan';
+        $data['user'] = $this->db->get_where('data_pegawai', ['username' => $this->session->userdata('username')])->row_array();
+        $this->load->model('Pengadaan_Model', 'menu');
+        //SEARCHING
+        $data['cariberdasarkan'] = $this->input->post("cariberdasarkan");
+        $data['yangdicari'] = $this->input->post("yangdicari");
+        $data['dataPengadaan'] = $this->menu->cariPengadaan($data['cariberdasarkan'], $data['yangdicari'])->result_array();
+        
+        $data['menu'] = $this->db->get('user_menu')->result_array();
+        $data['data_supplier'] = $this->menu->select_supplier();
+
+        
+
+        if (!isset($_POST['cari'])) {
+        $this->form_validation->set_rules('pilih_supplier', 'pilih_supplier', 'required|trim');
+        //$this->form_validation->set_rules('nama_customer', 'nama_customer', 'required|trim');
+        }
+        
+        if ($this->form_validation->run() == false) {
+            $data['menu'] = $this->db->get('user_menu')->result_array();
+            $this->load->view('templates/header', $data);
+            $this->load->view('templates/sidebar', $data);
+            $this->load->view('templates/topbar', $data);
+            $this->load->view('admin/transaksi_pengadaan', $data);
+            $this->load->view('templates/footer');
+        } else {
+            // $usernamePembeli = $data['user']['username'];
+            date_default_timezone_set("Asia/Bangkok");
+            $data = [
+                'kode_pengadaan' => $this->menu->ambilKode(),
+                'id_supplier' => $this->input->post('pilih_supplier'),
+                'status' => 'Belum Diterima',
+                'tanggal_pengadaan' => date("0000:00:0:00:00"),
+                'created_date' => date("Y-m-d H:i:s"),
+                'updated_date' => date("0000:00:0:00:00"),
+                'total' => $this->menu->totalBayarPengadaan($this->menu->ambilKode()),
+            ];
+
+            $this->db->insert('data_pengadaan', $data);
+            $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">
+            Transaksi Pengadaan Berhasil Ditambahkan!
+           </div>');
+            redirect('admin/transaksi_pengadaan');
+        }
+    }
+
 }

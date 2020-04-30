@@ -24,6 +24,7 @@
                 <option value="">Cari Berdasarkan</option>
                 <option value="kode_pengadaan">Kode Pengadaan</option>
                 <option value="nama_supplier">Nama Supplier</option>
+                <option value="status">Status Pengadaan</option>
             </select>
             <input name="yangdicari" id="" type="text">
             <input type="submit" name="cari" value="Cari">

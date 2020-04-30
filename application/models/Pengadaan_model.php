@@ -146,4 +146,27 @@ class Pengadaan_model extends CI_Model
 
     }
 
+    public function cariPengadaan($berdasarkan,$yangdicari){
+        $this->db->select('data_pengadaan.id_pengadaan,data_pengadaan.kode_pengadaan,data_pengadaan.id_supplier,data_supplier.nama_supplier,data_pengadaan.status as status_pengadaan,data_pengadaan.tanggal_pengadaan,data_pengadaan.tanggal_pengadaan,data_pengadaan.tanggal_pengadaan,data_pengadaan.total AS total_pengadaan,data_pengadaan.created_date,data_pengadaan.updated_date');
+        $this->db->join('data_supplier', 'data_supplier.id_supplier = data_pengadaan.id_supplier');
+        $this->db->from('data_pengadaan');
+
+
+        switch($berdasarkan){
+            case "":
+                $this->db->like('kode_pengadaan',$yangdicari);
+                $this->db->or_like('nama_supplier',$yangdicari);
+                $this->db->or_like('status',$yangdicari);
+                
+            break;
+
+            case "kode_pengadaan":
+                $this->db->where('kode_pengadaan',$yangdicari);
+            
+            default:
+            $this->db->like($berdasarkan,$yangdicari);
+        }
+        return $this->db->get();
+    }
+
 }
