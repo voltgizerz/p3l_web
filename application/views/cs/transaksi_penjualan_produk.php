@@ -2,7 +2,7 @@
 <div class="container-fluid">
 
     <!-- Page Heading -->
-    <h1 class="h3 mb-4 text-gray-800"><?=$title?> - Owner AREA</h1>
+    <h1 class="h3 mb-4 text-gray-800"><?=$title?> - Customer Service AREA</h1>
 
 
 </div>
@@ -72,7 +72,7 @@
                             class="badge badge-primary mb-3" data-toggle="modal"
                             data-target="#editSubMenuModal<?=$sm['id_transaksi_penjualan_produk'];?>"
                             style="visibility: <?=$hide?>">EDIT</a>
-                        <a href="<?=base_url();?>cs/updatePenjualanProduk/<?=$sm['id_transaksi_penjualan_produk'];?>"
+                        <a href="<?=base_url();?>cs/hapusPenjualanProduk/<?=$sm['id_transaksi_penjualan_produk'];?>"
                             class="badge badge-danger mb-3">DELETE</a>
                     </td>
                 </tr>

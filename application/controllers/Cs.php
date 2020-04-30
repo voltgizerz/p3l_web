@@ -96,4 +96,14 @@ class Cs extends CI_Controller
             }
 
         }
+        
+        public function hapusPenjualanProduk($id)
+        {
+            $this->load->model('Penjualan_Produk_Model');
+            $this->Penjualan_Produk_Model->deletePenjualanProduk($id);
+            $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">
+                  Sukses Hapus Transaksi Penjualan Produk!
+                   </div>');
+            redirect('cs/transaksi_penjualan_produk');
+        }
     }

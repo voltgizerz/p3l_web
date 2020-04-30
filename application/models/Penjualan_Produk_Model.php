@@ -39,11 +39,11 @@ class Penjualan_Produk_model extends CI_Model
         return $query->result_array();
     }
 
-    public function deletePengadaan($id)
+    public function deletePenjualanProduk($id)
     {
-        $data = $this->db->get_where('data_pengadaan', ['id_pengadaan' => $id])->result_array();
-        $this->db->delete('data_detail_pengadaan', ['kode_pengadaan_fk' => $data['kode_pengadaan']]);
-        $this->db->delete('data_pengadaan', ['id_pengadaan' => $id]);
+        $data = $this->db->get_where('data_transaksi_penjualan_produk', ['id_transaksi_penjualan_produk' => $id])->result_array();
+        $this->db->delete('data_detail_penjualan_produk', ['kode_transaksi_penjualan_produk_fk' => $data['kode_transaksi_penjualan_produk']]);
+        $this->db->delete('data_transaksi_penjualan_produk', ['id_transaksi_penjualan_produk' => $id]);
     }
 
     public function getPenjualanProdukId($id)
@@ -122,15 +122,6 @@ class Penjualan_Produk_model extends CI_Model
             $temp = $temp + $arrTemp[$i]['jumlah_pengadaan'] * $arrTemp[$i]['harga_produk'];
         }
         return $temp;
-    }
-
-    public function select_supplier()
-    {
-        $this->db->select('*');
-        $this->db->where('deleted_date', '0000-00-00 00:00:00');
-        $this->db->from('data_supplier');
-        $query = $this->db->get();
-        return $query;
     }
 
     public function select_produk()
