@@ -80,9 +80,9 @@
                             <option value="">Pilih Produk Pengadaan</option>
                             <?php foreach ($data_produk->result() as $row) {
     if ($sm['nama_produk'] == $row->nama_produk) {
-        echo '<option  value="' . $row->id_produk . '">' . $row->nama_produk . '</>';
+        echo '<option  value="' . $row->id_produk . '">' . $row->nama_produk.' | Stok Saat Ini : '. $row->stok_produk.'</.>';
     } else {
-        echo '<option value="' . $row->id_produk . '">' . $row->nama_produk . '</option>';
+        echo '<option value="' . $row->id_produk . '">' . $row->nama_produk .' | Stok Saat Ini : '. $row->stok_produk. '</option>';
     }}?>
                         </select>
                     </div>
@@ -134,9 +134,9 @@
                             <option value="">Pilih Produk Pengadaan</option>
                             <?php foreach ($data_produk->result() as $row) {
     if ($sm['nama_produk'] == $row->nama_produk) {
-        echo '<option selected="selected"  value="' . $row->id_produk . '">' . $row->nama_produk . '</>';
+        echo '<option selected="selected"  value="' . $row->id_produk . '">' . $row->nama_produk .' | Stok Saat Ini : '. $row->stok_produk. '</>';
     } else {
-        echo '<option value="' . $row->id_produk . '">' . $row->nama_produk . '</option>';
+        echo '<option value="' . $row->id_produk . '">' . $row->nama_produk .' | Stok Saat Ini : '. $row->stok_produk. '</option>';
     }}?>
                         </select>
                     </div>

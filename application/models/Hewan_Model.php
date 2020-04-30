@@ -35,19 +35,28 @@ class Hewan_model extends CI_Model
 
     public function select_customer()
     {
-        $query = $this->db->get('data_customer');
+        $this->db->select('*');
+        $this->db->where('deleted_date', '0000-00-00 00:00:00');
+        $this->db->from('data_customer');
+        $query = $this->db->get();
         return $query;
     }
 
     public function select_jenis()
     {
-        $query = $this->db->get('data_jenis_hewan');
+        $this->db->select('*');
+        $this->db->where('deleted_date', '0000-00-00 00:00:00');
+        $this->db->from('data_jenis_hewan');
+        $query = $this->db->get();
         return $query;
     }
 
     public function select_ukuran()
     {
-        $query = $this->db->get('data_ukuran_hewan');
+        $this->db->select('*');
+        $this->db->where('deleted_date', '0000-00-00 00:00:00');
+        $this->db->from('data_ukuran_hewan');
+        $query = $this->db->get();
         return $query;
     }
 

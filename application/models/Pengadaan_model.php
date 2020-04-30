@@ -113,13 +113,19 @@ class Pengadaan_model extends CI_Model
 
     public function select_supplier()
     {
-        $query = $this->db->get('data_supplier');
+        $this->db->select('*');
+        $this->db->where('deleted_date', '0000-00-00 00:00:00');
+        $this->db->from('data_supplier');
+        $query = $this->db->get();
         return $query;
     }
 
     public function select_produk()
     {
-        $query = $this->db->get('data_produk');
+        $this->db->select('*');
+        $this->db->where('deleted_date', '0000-00-00 00:00:00');
+        $this->db->from('data_produk');
+        $query = $this->db->get();
         return $query;
     }
 
