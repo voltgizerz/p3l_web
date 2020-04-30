@@ -17,9 +17,10 @@
         </div>
         <?php endif; ?>
         <a href="" class="btn btn-primary mb-3" data-toggle="modal" data-target="#newSubMenuModal">TAMBAH CUSTOMERS</a>
-        
+        <a href="" class="btn btn-danger mb-3" data-toggle="modal" data-target="#newSubMenuModal">LOG DELETE
+            SUPPLIER</a>
         <div class="form-group">
-        <?php echo form_open("admin/cariSupplier"); ?>
+            <?php echo form_open("admin/cariSupplier"); ?>
             <select name="cariberdasarkan">
                 <option value="">Cari Berdasarkan</option>
                 <option value="id_supplier">Id Supplier</option>
@@ -85,13 +86,16 @@
             <form action="<?= base_url('admin/kelola_supplier'); ?>" method="post">
                 <div class="modal-body">
                     <div class="form-group">
-                        <input type="text" class="form-control" id="nama_supplier" name="nama_supplier" placeholder="Nama Supplier">
+                        <input type="text" class="form-control" id="nama_supplier" name="nama_supplier"
+                            placeholder="Nama Supplier">
                     </div>
                     <div class="form-group">
-                        <input type="text" class="form-control" id="alamat_supplier" name="alamat_supplier" placeholder="Alamat Supplier">
+                        <input type="text" class="form-control" id="alamat_supplier" name="alamat_supplier"
+                            placeholder="Alamat Supplier">
                     </div>
                     <div class="form-group">
-                        <input type="text" class="form-control" id="nomor_telepon_supplier" name="nomor_telepon_supplier" placeholder="Nomor Telepon">
+                        <input type="text" class="form-control" id="nomor_telepon_supplier"
+                            name="nomor_telepon_supplier" placeholder="Nomor Telepon">
                     </div>
                 </div>
                 <div class="modal-footer">
@@ -117,20 +121,24 @@
             </div>
             <form action="<?= base_url(); ?>admin/updateSupplier/<?= $sm['id_supplier']; ?>" method="post">
                 <div class="modal-body">
-                <div class="form-group">
+                    <div class="form-group">
                         <input hidden type="text" class="form-control" value="<?= $sm['id_supplier']; ?>" id="id"
                             name="id">
                     </div>
                     <div class="form-group">
-                            <input type="text" class="form-control" id="nama" name="nama" value="<?= $sm['nama_supplier']; ?>" placeholder="Nama Supplier">
-                        </div>
-                        <div class="form-group">
-                            <input type="text" class="form-control" id="alamat_supplier" name="alamat_supplier" value="<?= $sm['alamat_supplier']; ?>" placeholder="Alamat Supplier">
-                        </div>
-                        <div class="form-group">
-                            <input type="text" class="form-control" id="nomor_telepon_supplier" name="nomor_telepon_supplier" value="<?= $sm['nomor_telepon_supplier']; ?>" placeholder="Nomor HP">
-                        </div>
+                        <input type="text" class="form-control" id="nama" name="nama"
+                            value="<?= $sm['nama_supplier']; ?>" placeholder="Nama Supplier">
                     </div>
+                    <div class="form-group">
+                        <input type="text" class="form-control" id="alamat_supplier" name="alamat_supplier"
+                            value="<?= $sm['alamat_supplier']; ?>" placeholder="Alamat Supplier">
+                    </div>
+                    <div class="form-group">
+                        <input type="text" class="form-control" id="nomor_telepon_supplier"
+                            name="nomor_telepon_supplier" value="<?= $sm['nomor_telepon_supplier']; ?>"
+                            placeholder="Nomor HP">
+                    </div>
+                </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                     <button type="submit" class="btn btn-primary">Edit</button>

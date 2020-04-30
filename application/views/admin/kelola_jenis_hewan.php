@@ -18,8 +18,10 @@
         <?php endif; ?>
         <a href="" class="btn btn-primary mb-3" data-toggle="modal" data-target="#newSubMenuModal">TAMBAH JENIS
             HEWAN</a>
+        <a href="" class="btn btn-danger mb-3" data-toggle="modal" data-target="#newSubMenuModal">LOG DELETE
+            JENIS HEWAN</a>
 
-            <div class="form-group">
+        <div class="form-group">
             <?php echo form_open("admin/cariJenisHewan"); ?>
             <select name="cariberdasarkan">
                 <option value="">Cari Berdasarkan</option>

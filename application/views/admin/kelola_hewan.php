@@ -14,6 +14,8 @@
         </div>
         <?php endif;?>
         <a href="" class="btn btn-primary mb-3" data-toggle="modal" data-target="#newSubMenuModal">TAMBAH HEWAN</a>
+        <a href="" class="btn btn-danger mb-3" data-toggle="modal" data-target="#newSubMenuModal">LOG DELETE
+            HEWAN</a>
         <div class="form-group">
             <?php echo form_open("admin/cariHewan"); ?>
             <select name="cariberdasarkan">
