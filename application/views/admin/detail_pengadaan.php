@@ -77,10 +77,10 @@
                 <div class="modal-body">
                     <div class="form-group">
                         <select class="form-control" id="pilih_produk" name="pilih_produk">
-                            <option>Pilih Produk Pengadaan</option>
+                            <option value="">Pilih Produk Pengadaan</option>
                             <?php foreach ($data_produk->result() as $row) {
     if ($sm['nama_produk'] == $row->nama_produk) {
-        echo '<option selected="selected"  value="' . $row->id_produk . '">' . $row->nama_produk . '</>';
+        echo '<option  value="' . $row->id_produk . '">' . $row->nama_produk . '</>';
     } else {
         echo '<option value="' . $row->id_produk . '">' . $row->nama_produk . '</option>';
     }}?>
@@ -116,33 +116,43 @@
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="editSubMenuModal">Edit Transaksi Pengadaan</h5>
+                <h5 class="modal-title" id="editSubMenuModal">Edit Produk Pengadaan</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <form action="<?=base_url();?>admin/detail_pengadaan/<?=$id_pengadaan;?>" method="post">
+            <form action="<?=base_url();?>admin/updateDetailPengadaan/<?=$sm['id_detail_pengadaan'];?>" method="post">
 
                 <div class="modal-body">
                     <div class="form-group">
                         <input hidden type="text" class="form-control" value="<?=$sm['id_detail_pengadaan'];?>" id="id"
                             name="id">
                     </div>
+
                     <div class="form-group">
-                        <input type="text" class="form-control" id="kode" name="kode"
-                            value="<?=$sm['satuan_pengadaan'];?>" placeholder="Kode Pengadaan" readonly>
-                    </div>
-                    <div class="form-group">
-                        <select class="form-control" id="status" name="status">
-                            <option value="">Pilih Status Transaksi</option>
-                            <option <?php if ($sm['status_pengadaan'] == 'Belum Diterima') {echo ("selected");}?>>Belum
-                                Diterima
-                            </option>
-                            <option <?php if ($sm['status_pengadaan'] == 'Sudah Diterima') {echo ("selected");}?>>Sudah
-                                Diterima
-                            </option>
+                        <select class="form-control" id="pilih_produk" name="pilih_produk">
+                            <option value="">Pilih Produk Pengadaan</option>
+                            <?php foreach ($data_produk->result() as $row) {
+    if ($sm['nama_produk'] == $row->nama_produk) {
+        echo '<option selected="selected"  value="' . $row->id_produk . '">' . $row->nama_produk . '</>';
+    } else {
+        echo '<option value="' . $row->id_produk . '">' . $row->nama_produk . '</option>';
+    }}?>
                         </select>
                     </div>
+                    <div class="form-group">
+                        <input type="text" class="form-control" id="jumlah_pengadaan" name="jumlah_pengadaan"
+                            placeholder="Jumlah Pengadaan" value="<?=$sm['jumlah_pengadaan'];?>">
+                    </div>
+                    <div class="form-group">
+                        <select class="form-control" id="satuan" name="satuan">
+                            <option value="">Pilih Satuan Pengadaan</option>
+                            <option <?php if($sm['satuan_pengadaan'] == 'Pack'){echo("selected");}?>>Pack</option>
+                            <option <?php if($sm['satuan_pengadaan'] == 'Botol'){echo("selected");}?>>Botol</option>
+                            <option <?php if($sm['satuan_pengadaan'] == 'Sachet'){echo("selected");}?>>Sachet</option>
+                        </select>
+                    </div>
+
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>

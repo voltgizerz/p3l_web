@@ -1066,7 +1066,7 @@ class Admin extends CI_Controller
         $data['menu'] = $this->db->get('user_menu')->result_array();
         $data['data_produk'] = $this->menu->select_produk();
         $kode = $this->db->get_where('data_pengadaan', ['id_pengadaan' => $id])->row()->kode_pengadaan;
-        $data['kode_pengadaan'] =$kode;
+        $data['kode_pengadaan'] = $kode;
         $data['id_pengadaan'] = $id;
         $this->form_validation->set_rules('pilih_produk', 'pilih_produk', 'required|trim');
         $this->form_validation->set_rules('satuan', 'satuan', 'required|trim');
@@ -1104,11 +1104,11 @@ class Admin extends CI_Controller
             }
             //UPDATE NILAI TOTAL PENGADAAN
             $this->db->where('kode_pengadaan', $data['kode_pengadaan_fk'])->update('data_pengadaan', ['total' => $temp]);
-    
+
             $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">
             Produk Pengadaan Berhasil Ditambahkan!
            </div>');
-           redirect('admin/detail_pengadaan/'.$id);
+            redirect('admin/detail_pengadaan/' . $id);
         }
     }
 
@@ -1121,72 +1121,65 @@ class Admin extends CI_Controller
         $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">
               Sukses Hapus Produk Transaksi Pengadaan!
                </div>');
-        redirect('admin/detail_pengadaan/'.$idtrx);
+        redirect('admin/detail_pengadaan/' . $idtrx);
     }
 
     public function updateDetailPengadaan($id)
     {
+        $kode = $this->db->get_where('data_detail_pengadaan', ['id_detail_pengadaan' => $id])->row()->kode_pengadaan_fk;
+        $idtrx = $this->db->get_where('data_pengadaan', ['kode_pengadaan' => $kode])->row()->id_pengadaan;
         $data['title'] = 'Transaksi Pengadaan';
         $data['user'] = $this->db->get_where('data_pegawai', ['username' => $this->session->userdata('username')])->row_array();
         $this->load->model('Pengadaan_Model', 'menu');
-        $data['dataPengadaan'] = $this->menu->getDetailPengadaanId($id);
+        $data['dataDetailPengadaan'] = $this->menu->getDetailPengadaanId($id);
         $data['menu'] = $this->db->get('user_menu')->result_array();
-        $data['data_supplier'] = $this->menu->select_supplier();
+        $data['data_produk'] = $this->menu->select_produk();
+        $data['kode_pengadaan'] = $kode;
+        $data['id_pengadaan'] = $id;
 
-        $this->form_validation->set_rules('pilih_produk', 'pilih_produk', 'required|trim');
-        $this->form_validation->set_rules('status', 'status', 'required');
+        $this->form_validation->set_rules('pilih_produk', 'pilih_produk', 'required');
+        $this->form_validation->set_rules('satuan', 'satuan', 'required');
         if ($this->form_validation->run() == false) {
             $data['menu'] = $this->db->get('user_menu')->result_array();
             $this->load->view('templates/header', $data);
             $this->load->view('templates/sidebar', $data);
             $this->load->view('templates/topbar', $data);
-            $this->load->view('admin/transaksi_pengadaan', $data);
+            $this->load->view('admin/detail_pengadaan', $data);
             $this->load->view('templates/footer');
         } else {
             date_default_timezone_set("Asia/Bangkok");
             $data = [
-                'id_produk_fk' => $this->input->id_produk_fk,
-                'satuan_pengadaan' => $this->input->satuan_pengadaan,
-                'jumlah_pengadaan' => $this->input->jumlah_pengadaan,
+                'id_produk_fk' => $this->input->post('pilih_produk'),
+                'satuan_pengadaan' => $this->input->post('satuan'),
+                'jumlah_pengadaan' => $this->input->post('jumlah_pengadaan'),
             ];
-
-            if ($this->db->where('id_pengadaan', $id)->update('data_pengadaan', $data)) {
-
-                $data = $this->db->get_where('data_pengadaan', ['id_pengadaan' => $id])->result_array();
-
-                if ($data['status'] == "Sudah Diterima") {
-                    $this->db->select('*');
-                    $this->db->from('data_detail_pengadaan');
-                    $this->db->where('kode_pengadaan_fk', $data['kode_pengadaan']);
-                    $query = $this->db->get();
-                    $arrProdukPengadaan = $query->result_array();
-                    //memasukan stok produk ke data produk
-                    for ($i = 0; $i < count($arrProdukPengadaan); $i++) {
-                        //AMBIL STOK PRODUK LAMA
-                        $this->db->select('stok_produk');
-                        $this->db->from('data_produk');
-                        $this->db->where('id_produk', $arrProdukPengadaan[$i]['id_produk_fk']);
-                        $arrStokLama = $this->db->get()->result_array();
-                        // TAMBAH STOK PRODUK
-                        $this->db->where('id_produk', $arrProdukPengadaan[$i]['id_produk_fk'])->update('data_produk', ['stok_produk' => $arrStokLama[0]['stok_produk'] + $arrProdukPengadaan[$i]['jumlah_pengadaan']]);
-                    }
-                    $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">
-            Transaksi Pengadaan Sukses di Edit!
-           </div>');
-                    redirect('admin/transaksi_pengadaan');
-                } else {
-
-                    $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">
-            Transaksi Pengadaan Sukses di Edit!
-           </div>');
-                    redirect('admin/transaksi_pengadaan');
+            
+            if ($this->db->where('id_detail_pengadaan', $id)->update('data_detail_pengadaan', $data)) {
+                //CARI NILAI TOTAL HARGA UPDATE
+                $this->db->select('data_detail_pengadaan.id_produk_fk,data_detail_pengadaan.jumlah_pengadaan,data_produk.harga_produk');
+                $this->db->join('data_produk', 'data_produk.id_produk = data_detail_pengadaan.id_produk_fk');
+                $this->db->where('data_detail_pengadaan.kode_pengadaan_fk', $kode);
+                $this->db->from('data_detail_pengadaan');
+                $query = $this->db->get();
+                $arrTemp = json_decode(json_encode($query->result()), true);
+                // NILAI TAMPUNG TOTAL HARGA YANG BARU
+                $temp = 0;
+                for ($i = 0; $i < count($arrTemp); $i++) {
+                    $temp = $temp + $arrTemp[$i]['jumlah_pengadaan'] * $arrTemp[$i]['harga_produk'];
                 }
-            }
+                //UPDATE NILAI TOTAL PENGADAAN
+                $this->db->where('kode_pengadaan', $kode)->update('data_pengadaan', ['total' => $temp, 'updated_date' => date("Y-m-d H:i:s")]);
 
+                $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">
+            Produk Pengadaan Sukses di Edit!
+           </div>');
+                redirect('admin/detail_pengadaan/'.$idtrx);
+            }
+            $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">
+            Produk Pengadaan Sukses di Edit!
+           </div>');
+            redirect('admin/detail_pengadaan/'.$idtrx);
         }
     }
-
-
-    
 
 }
