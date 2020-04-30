@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Apr 29, 2020 at 11:13 AM
+-- Generation Time: Apr 30, 2020 at 09:21 AM
 -- Server version: 10.4.11-MariaDB
 -- PHP Version: 7.4.1
 
@@ -116,6 +116,17 @@ CREATE TABLE `data_detail_pengadaan` (
   `jumlah_pengadaan` int(200) NOT NULL,
   `tanggal_pengadaan` datetime NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `data_detail_pengadaan`
+--
+
+INSERT INTO `data_detail_pengadaan` (`id_detail_pengadaan`, `id_produk_fk`, `kode_pengadaan_fk`, `satuan_pengadaan`, `jumlah_pengadaan`, `tanggal_pengadaan`) VALUES
+(92, 1, 'PO-2020-04-23-10', 'Pack', 7, '2020-04-30 10:15:51'),
+(98, 1, 'PO-2020-04-23-10', 'Pack', 7, '2020-04-30 10:32:55'),
+(99, 1, 'PO-2020-04-23-10', 'Pack', 7, '2020-04-30 10:36:06'),
+(100, 8, 'PO-2020-04-23-10', 'Pack', 7, '2020-04-30 10:36:13'),
+(101, 1, 'PO-2020-04-19-07', 'Pack', 7, '2020-04-30 11:31:17');
 
 -- --------------------------------------------------------
 
@@ -271,13 +282,13 @@ CREATE TABLE `data_pegawai` (
 --
 
 INSERT INTO `data_pegawai` (`id_pegawai`, `nama_pegawai`, `alamat_pegawai`, `tanggal_lahir_pegawai`, `nomor_hp_pegawai`, `role_pegawai`, `username`, `password`, `role_id`, `created_date`, `updated_date`, `deleted_date`) VALUES
-(1, 'Felix Fernando Wijaya', 'Jalan Mangga no 287', '1999-10-10', '087878787878', 'Owner', 'felix', '$2y$10$UxJ8q7VA0blC6UdWio7zBOs04TH/6Sj/O9VE4tV3rt/4lV27OQYmu', 1, '2020-03-05 00:30:05', '2020-03-30 18:33:50', '0000-00-00 00:00:00'),
+(1, 'Felix Fernando Wijaya', 'Jalan Mangga no 287', '1999-10-10', '087878787878', 'Owner', 'felix', '$2y$10$q.2GrPsLdvKRpCx9sfZAGOVY2F/oVl3mGDDQ3CNwB100Jc2wElnp6', 1, '2020-03-05 00:30:05', '2020-04-29 17:59:33', '0000-00-00 00:00:00'),
 (2, 'BANG WAWAN', 'asdasd', '1999-10-10', '087878787878', 'Owner', 'isaac', '$2y$10$o6xiQU9nfElX13K1MqYNAeN6eEgCNFxrw5/pZfuFUNUXGqOyYO69S', 1, '2020-03-05 00:30:05', '2020-03-30 06:05:36', '0000-00-00 00:00:00'),
 (3, 'BANG WAWAN n', 'asdasd', '1999-10-10', '087878787878', 'Owner', 'aliandocool', '$2y$10$GBUh94SE6S6gD/9ethFH7e3IxSrQnnTw.9HHQEHIl8wFaDxG3fDOW', 1, '2020-03-05 00:30:05', '2020-03-30 06:07:29', '0000-00-00 00:00:00'),
 (11, 'BANG WAWAN', 'asdasd', '1999-10-10', '087878787878', 'Owner', 'kanggenji', 'felix', 0, '2020-03-25 17:06:12', '2020-03-30 05:26:27', '0000-00-00 00:00:00'),
-(19, 'GENJI', 'Segaran', '2020-12-12', '087878787878', 'Admin', 'tatang', '$2y$10$JhRxRngu/7Pa8ATWSbFfzOB.oa3K1vfMurAkdOKz3271XrbTJZMXi', 2, '2020-04-29 12:15:24', '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
-(20, 'jodi', 'JOINI', '2020-12-12', '087878787878', 'totok', 'totok', '$2y$10$YG0eKcyqy6GkU0WiEHRPWOkDkn9vsmeERoIKKoUjbqn8rX5ICeru6', 3, '2020-04-29 14:41:07', '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
-(29, 'TOKOPEDIA', 'JOINI', '2020-04-07', '087878787878', 'Customer Service', 'udin', 'udin', 2, '2020-04-29 16:09:16', '2020-04-29 16:09:48', '0000-00-00 00:00:00');
+(19, 'GENJI', 'Segaran', '2020-12-12', '087878787878', 'Customer Service', 'tatang', '$2y$10$SjXI6NzIgQq13Fd6BKegzO.MtpCPW6XP4u0X7fh3RovsnVvhRt1mW', 2, '2020-04-29 12:15:24', '2020-04-29 17:59:39', '0000-00-00 00:00:00'),
+(20, 'jodi', 'JOINI', '2020-12-12', '087878787878', 'Kasir', 'totok', '$2y$10$L4OBXdFSRDynmnAgOTpZ8eb2B0pKhZnQGaNtOi7SlEmJi/jZcSOxC', 3, '2020-04-29 14:41:07', '2020-04-29 17:59:45', '0000-00-00 00:00:00'),
+(29, 'TOKOPEDIA', 'JOINI', '2020-04-07', '087878787878', 'Kasir', 'udin', '$2y$10$9UbzxgTywBe7YPfvxCsH7.CXlyFuksknTS7y2tnFlgmsEPcXc85Rm', 3, '2020-04-29 16:09:16', '2020-04-29 19:54:32', '0000-00-00 00:00:00');
 
 -- --------------------------------------------------------
 
@@ -301,8 +312,9 @@ CREATE TABLE `data_pengadaan` (
 --
 
 INSERT INTO `data_pengadaan` (`id_pengadaan`, `kode_pengadaan`, `id_supplier`, `status`, `tanggal_pengadaan`, `total`, `created_date`, `updated_date`) VALUES
-(7, 'PO-2020-04-19-07', 3, 'Belum Diterima', '2020-04-19 16:35:57', 0, '2020-04-14 12:18:38', '2020-04-23 12:33:05'),
-(10, 'PO-2020-04-23-10', 2, 'Belum Diterima', '2020-04-23 13:05:57', 0, '2020-04-23 13:05:57', '0000-00-00 00:00:00');
+(7, 'PO-2020-04-19-07', 1, 'Belum Diterima', '2020-04-30 11:37:11', 1400000, '2020-04-14 12:18:38', '2020-04-30 11:37:11'),
+(10, 'PO-2020-04-23-10', 2, 'Sudah Diterima', '2020-04-29 19:59:50', 5826261, '2020-04-23 13:05:57', '2020-04-30 05:32:47'),
+(14, 'PO-2020-04-30-14', 1, 'Belum Diterima', '0000-00-00 00:00:00', 0, '2020-04-30 11:27:47', '0000-00-00 00:00:00');
 
 -- --------------------------------------------------------
 
@@ -328,7 +340,7 @@ CREATE TABLE `data_produk` (
 --
 
 INSERT INTO `data_produk` (`id_produk`, `nama_produk`, `harga_produk`, `stok_produk`, `gambar_produk`, `gambar_produk_desktop`, `stok_minimal_produk`, `created_date`, `updated_date`, `deleted_date`) VALUES
-(1, 'Royal Canin Mini Adult', 200000, 42, 'upload/gambar_produk/royalcanin.jpg', '', 10, '2020-03-05 01:50:41', '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
+(1, 'Royal Canin Mini Adult', 200000, 49, 'upload/gambar_produk/royalcanin.jpg', '', 10, '2020-03-05 01:50:41', '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
 (2, 'Snack Jerry High Carrot', 20000, 9, 'upload/gambar_produk/snack.jpg', '', 10, '2020-03-05 01:50:41', '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
 (3, 'Vita Fortan ', 50000, 134, 'upload/gambar_produk/vitafortan.jpg', '', 10, '2020-03-05 01:50:41', '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
 (6, 'Asinan Kucing', 232323, 232, 'upload/gambar_produk/img6147.jpg', '', 10, '2020-03-11 18:02:55', '2020-04-07 08:35:04', '0000-00-00 00:00:00'),
@@ -491,7 +503,9 @@ INSERT INTO `data_ukuran_hewan` (`id_ukuran_hewan`, `ukuran_hewan`, `created_dat
 (1, 'Small', '2020-03-05 00:37:35', '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
 (2, 'Medium', '2020-03-05 00:37:35', '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
 (3, 'Large', '2020-03-05 00:37:35', '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
-(15, 'nigga', '2020-04-18 20:35:22', '2020-04-18 20:35:27', '0000-00-00 00:00:00');
+(15, 'nigga', '2020-04-18 20:35:22', '2020-04-18 20:35:27', '0000-00-00 00:00:00'),
+(17, 'WAW', '2020-04-30 09:09:55', '2020-04-30 13:07:28', '0000-00-00 00:00:00'),
+(20, 'jodi', '2020-04-30 14:21:21', '0000-00-00 00:00:00', '0000-00-00 00:00:00');
 
 -- --------------------------------------------------------
 
@@ -652,7 +666,9 @@ INSERT INTO `user_sub_menu` (`id`, `menu_id`, `title`, `url`, `icon`, `is_active
 (46, 3, 'Dashboard Kasir', 'Kasir', 'fas fa-fw fa-folder', 1),
 (47, 3, 'Transaksi Pembayaran Produk', 'kasir/transaksi_pembayaran_produk', 'fas fa-cash-register', 1),
 (48, 3, 'Transaksi Pembayaran Layanan', 'kasir/transaksi_pembayaran_layanan', 'fas fa-cash-register', 1),
-(49, 1, 'Transaksi Pengadaan ', 'admin/transaksi_pengadaan', 'fas fa-handshake', 1);
+(50, 1, 'Kelola Data Produk', 'admin/kelola_produk', 'fas fa-users-cog', 1),
+(51, 1, 'Kelola Data Layanan', 'admin/kelola_layanan', 'fas fa-users-cog', 1),
+(52, 1, 'Transaksi Pengadaan', 'admin/transaksi_pengadaan', 'fas fa-handshake', 1);
 
 -- --------------------------------------------------------
 
@@ -852,13 +868,13 @@ ALTER TABLE `buy_cars`
 -- AUTO_INCREMENT for table `data_customer`
 --
 ALTER TABLE `data_customer`
-  MODIFY `id_customer` int(200) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=53;
+  MODIFY `id_customer` int(200) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=54;
 
 --
 -- AUTO_INCREMENT for table `data_detail_pengadaan`
 --
 ALTER TABLE `data_detail_pengadaan`
-  MODIFY `id_detail_pengadaan` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=69;
+  MODIFY `id_detail_pengadaan` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=102;
 
 --
 -- AUTO_INCREMENT for table `data_detail_penjualan_produk`
@@ -894,7 +910,7 @@ ALTER TABLE `data_pegawai`
 -- AUTO_INCREMENT for table `data_pengadaan`
 --
 ALTER TABLE `data_pengadaan`
-  MODIFY `id_pengadaan` int(255) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `id_pengadaan` int(255) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 
 --
 -- AUTO_INCREMENT for table `data_produk`
@@ -918,7 +934,7 @@ ALTER TABLE `data_transaksi_penjualan_produk`
 -- AUTO_INCREMENT for table `data_ukuran_hewan`
 --
 ALTER TABLE `data_ukuran_hewan`
-  MODIFY `id_ukuran_hewan` int(200) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
+  MODIFY `id_ukuran_hewan` int(200) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
 
 --
 -- AUTO_INCREMENT for table `sell_cars`
@@ -942,7 +958,7 @@ ALTER TABLE `user_access_menu`
 -- AUTO_INCREMENT for table `user_menu`
 --
 ALTER TABLE `user_menu`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT for table `user_role`
@@ -954,7 +970,7 @@ ALTER TABLE `user_role`
 -- AUTO_INCREMENT for table `user_sub_menu`
 --
 ALTER TABLE `user_sub_menu`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=50;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=54;
 
 --
 -- AUTO_INCREMENT for table `user_token`

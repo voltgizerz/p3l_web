@@ -411,8 +411,10 @@ class Admin extends CI_Controller
         $data['dataUkuranHewan'] = $this->menu->getDataUkuranHewanAdmin();
         $data['menu'] = $this->db->get('user_menu')->result_array();
 
-        $this->form_validation->set_rules('nama', 'Name', 'required|trim');
-
+        $this->form_validation->set_rules('nama', 'Name', 'required|trim|is_unique[data_ukuran_hewan.ukuran_hewan]', [
+            'is_unique' => 'Ukuran Hewan Sudah Ada!',
+        ]);
+    
         if ($this->form_validation->run() == false) {
             $data['menu'] = $this->db->get('user_menu')->result_array();
             $this->load->view('templates/header', $data);
@@ -490,12 +492,21 @@ class Admin extends CI_Controller
     public function updateUkuranHewan($id)
     {
         $data['title'] = 'Kelola Data Ukuran Hewan';
+        $cekUkuran = $this->db->get_where('data_ukuran_hewan', ['id_ukuran_hewan' => $id])->row()->ukuran_hewan;
         $data['user'] = $this->db->get_where('data_pegawai', ['username' => $this->session->userdata('username')])->row_array();
         $this->load->model('UkuranHewan_Model', 'menu');
         $data['dataUkuranHewan'] = $this->menu->getUkuranHewanId($id);
         $data['menu'] = $this->db->get('user_menu')->result_array();
 
-        $this->form_validation->set_rules('nama', 'Nama', 'required');
+
+
+        if($cekUkuran == $this->input->post('nama')){
+            $this->form_validation->set_rules('nama', 'Name', 'required|trim');
+        }else{
+            $this->form_validation->set_rules('nama', 'Name', 'required|trim|is_unique[data_ukuran_hewan.ukuran_hewan]', [
+                'is_unique' => 'Ukuran Hewan Sudah Ada!',
+            ]);
+        }
 
         if ($this->form_validation->run() == false) {
             $data['menu'] = $this->db->get('user_menu')->result_array();
@@ -505,12 +516,11 @@ class Admin extends CI_Controller
             $this->load->view('admin/kelola_ukuran_hewan', $data);
             $this->load->view('templates/footer');
         } else {
-            $usernamePembeli = $data['user']['username'];
-            date_default_timezone_set("Asia/Bangkok");
             $data = [
                 'ukuran_hewan' => $this->input->post('nama'),
                 'updated_date' => date("Y-m-d H:i:s"),
             ];
+            date_default_timezone_set("Asia/Bangkok");
 
             $this->db->where('id_ukuran_hewan', $this->input->post('id'));
             $this->db->update('data_ukuran_hewan', $data);
