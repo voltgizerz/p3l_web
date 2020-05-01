@@ -88,16 +88,16 @@ class Penjualan_Produk_model extends CI_Model
         switch ($berdasarkan) {
             case "":
                 $this->db->like('kode_transaksi_penjualan_produk', $yangdicari);
-                $this->db->or_like('nama_pegawai', $yangdicari);
+                $this->db->or_like('data_pegawai.nama_pegawai', $yangdicari);
                 break;
 
             case "kode_penjualan":
-                $this->db->where('kode_transaksi_penjualan_produk', $yangdicari);
+                $this->db->like('kode_transaksi_penjualan_produk', $yangdicari);
                 break;
 
             case "nama_cs":
-                $this->db->where('nama_pegawai', $yangdicari);
-
+                $this->db->like('data_pegawai.nama_pegawai', $yangdicari);
+                break;
             default:
                 $this->db->like($berdasarkan, $yangdicari);
         }

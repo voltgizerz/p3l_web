@@ -288,11 +288,12 @@ class Cs extends CI_Controller
         $data['title'] = 'Transaksi Penjualan Produk';
         $data['user'] = $this->db->get_where('data_pegawai', ['username' => $this->session->userdata('username')])->row_array();
         $this->load->model('Penjualan_Produk_Model', 'menu');
-        $data['dataPenjualanProduk'] = $this->menu->getDataPenjualanProdukAdmin();
         $data['menu'] = $this->db->get('user_menu')->result_array();
 
+        //UNTUK SERACHING DATA
         $data['cariberdasarkan'] = $this->input->post("cariberdasarkan");
         $data['yangdicari'] = $this->input->post("yangdicari");
+        $data['dataPenjualanProduk'] = $this->menu->cariPenjualanProduk($data['cariberdasarkan'], $data['yangdicari'])->result_array();
         $data["jumlah"] = count($data["dataPenjualanProduk"]);
 
         if (!isset($_POST['cari'])) {

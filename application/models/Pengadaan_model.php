@@ -111,7 +111,7 @@ class Pengadaan_model extends CI_Model
 
     public function deleteDetailPengadaan($id)
     {
-        //AMMBIL KODE TRXNYA DLU 
+        //AMMBIL KODE TRXNYA DLU
         $kode = $this->db->get_where('data_detail_pengadaan', ['id_detail_pengadaan' => $id])->row()->kode_pengadaan_fk;
         $this->db->delete('data_detail_pengadaan', ['id_detail_pengadaan' => $id]);
 
@@ -128,37 +128,37 @@ class Pengadaan_model extends CI_Model
             $temp = $temp + $arrTemp[$i]['jumlah_pengadaan'] * $arrTemp[$i]['harga_produk'];
         }
         //UPDATE NILAI TOTAL PENGADAAN
-        $this->db->where('kode_pengadaan', $kode)->update('data_pengadaan', ['total' => $temp,'updated_date' =>date("Y-m-d H:i:s")]);
+        $this->db->where('kode_pengadaan', $kode)->update('data_pengadaan', ['total' => $temp, 'updated_date' => date("Y-m-d H:i:s")]);
 
     }
 
-    public function cariPengadaan($berdasarkan,$yangdicari){
+    public function cariPengadaan($berdasarkan, $yangdicari)
+    {
         $this->db->select('data_pengadaan.id_pengadaan,data_pengadaan.kode_pengadaan,data_pengadaan.id_supplier,data_supplier.nama_supplier,data_pengadaan.status as status_pengadaan,data_pengadaan.tanggal_pengadaan,data_pengadaan.tanggal_pengadaan,data_pengadaan.tanggal_pengadaan,data_pengadaan.total AS total_pengadaan,data_pengadaan.created_date,data_pengadaan.updated_date');
         $this->db->join('data_supplier', 'data_supplier.id_supplier = data_pengadaan.id_supplier');
         $this->db->from('data_pengadaan');
 
-
-        switch($berdasarkan){
+        switch ($berdasarkan) {
             case "":
-                $this->db->like('kode_pengadaan',$yangdicari);
-                $this->db->or_like('nama_supplier',$yangdicari);
-                $this->db->or_like('status',$yangdicari);
-                
-            break;
+                $this->db->like('kode_pengadaan', $yangdicari);
+                $this->db->or_like('nama_supplier', $yangdicari);
+                $this->db->or_like('status', $yangdicari);
+                break;
 
             case "kode_pengadaan":
-                $this->db->like('kode_pengadaan',$yangdicari);
-                $this->db->or_like('nama_supplier',$yangdicari);
-                $this->db->or_like('status',$yangdicari);
+                $this->db->like('kode_pengadaan', $yangdicari);
+                break;
+                
             case "nama_supplier":
-                $this->db->or_like('nama_supplier',$yangdicari);
-                $this->db->or_like('status',$yangdicari);
-
-             case "status":
-                    $this->db->like('status',$yangdicari);
-            
+                $this->db->like('nama_supplier', $yangdicari);
+                break;
+                
+            case "status":
+                $this->db->like('status', $yangdicari);
+                break;
+                
             default:
-            $this->db->like($berdasarkan,$yangdicari);
+                $this->db->like($berdasarkan, $yangdicari);
         }
         return $this->db->get();
     }
