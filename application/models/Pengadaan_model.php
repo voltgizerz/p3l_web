@@ -61,26 +61,6 @@ class Pengadaan_model extends CI_Model
         return $query->result_array();
     }
 
-    public function cariCustomer($berdasarkan, $yangdicari)
-    {
-        $this->db->select('*');
-        $this->db->from('data_customer');
-
-        switch ($berdasarkan) {
-            case "":
-                $this->db->like('nama_customer', $yangdicari);
-                $this->db->or_like('id_customer', $yangdicari);
-                break;
-
-            case "id_customer":
-                $this->db->where('id_customer', $yangdicari);
-
-            default:
-                $this->db->like($berdasarkan, $yangdicari);
-        }
-        return $this->db->get();
-    }
-
     public function ambilKode()
     {
         date_default_timezone_set("Asia/Bangkok");
@@ -167,7 +147,15 @@ class Pengadaan_model extends CI_Model
             break;
 
             case "kode_pengadaan":
-                $this->db->where('kode_pengadaan',$yangdicari);
+                $this->db->like('kode_pengadaan',$yangdicari);
+                $this->db->or_like('nama_supplier',$yangdicari);
+                $this->db->or_like('status',$yangdicari);
+            case "nama_supplier":
+                $this->db->or_like('nama_supplier',$yangdicari);
+                $this->db->or_like('status',$yangdicari);
+
+             case "status":
+                    $this->db->like('status',$yangdicari);
             
             default:
             $this->db->like($berdasarkan,$yangdicari);

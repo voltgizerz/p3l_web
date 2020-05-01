@@ -73,19 +73,30 @@ class Penjualan_Produk_model extends CI_Model
         return $query->result_array();
     }
 
-    public function cariCustomer($berdasarkan, $yangdicari)
+    public function cariPenjualanProduk($berdasarkan, $yangdicari)
     {
-        $this->db->select('*');
-        $this->db->from('data_customer');
+        $this->db->select('data_transaksi_penjualan_produk.id_transaksi_penjualan_produk,data_transaksi_penjualan_produk.kode_transaksi_penjualan_produk
+        ,data_transaksi_penjualan_produk.tanggal_penjualan_produk,
+        data_transaksi_penjualan_produk.tanggal_pembayaran_produk,data_transaksi_penjualan_produk.diskon,
+        data_transaksi_penjualan_produk.total_penjualan_produk,data_transaksi_penjualan_produk.total_harga,data_transaksi_penjualan_produk.status_penjualan,data_transaksi_penjualan_produk.status_pembayaran,data_transaksi_penjualan_produk.id_cs,
+        data_transaksi_penjualan_produk.id_kasir,data_transaksi_penjualan_produk.created_date,data_transaksi_penjualan_produk.updated_date,
+        data_pegawai.nama_pegawai AS nama_cs, a.nama_pegawai AS nama_kasir');
+        $this->db->join('data_pegawai', 'data_pegawai.id_pegawai = data_transaksi_penjualan_produk.id_cs');
+        $this->db->join('data_pegawai a', 'a.id_pegawai = data_transaksi_penjualan_produk.id_kasir');
+        $this->db->from('data_transaksi_penjualan_produk');
 
         switch ($berdasarkan) {
             case "":
-                $this->db->like('nama_customer', $yangdicari);
-                $this->db->or_like('id_customer', $yangdicari);
+                $this->db->like('kode_transaksi_penjualan_produk', $yangdicari);
+                $this->db->or_like('nama_pegawai', $yangdicari);
                 break;
 
-            case "id_customer":
-                $this->db->where('id_customer', $yangdicari);
+            case "kode_penjualan":
+                $this->db->where('kode_transaksi_penjualan_produk', $yangdicari);
+                break;
+
+            case "nama_cs":
+                $this->db->where('nama_pegawai', $yangdicari);
 
             default:
                 $this->db->like($berdasarkan, $yangdicari);
@@ -107,7 +118,6 @@ class Penjualan_Produk_model extends CI_Model
             return ("PR-" . $hari . $bln . $thn . "-0" . $result[0]->Auto_increment);
         }
     }
-
 
     public function totalBayarPengadaan($kode)
     {
@@ -133,31 +143,31 @@ class Penjualan_Produk_model extends CI_Model
         return $query;
     }
 
-
-    public function cariPengadaan($berdasarkan,$yangdicari){
+    public function cariPengadaan($berdasarkan, $yangdicari)
+    {
         $this->db->select('data_pengadaan.id_pengadaan,data_pengadaan.kode_pengadaan,data_pengadaan.id_supplier,data_supplier.nama_supplier,data_pengadaan.status as status_pengadaan,data_pengadaan.tanggal_pengadaan,data_pengadaan.tanggal_pengadaan,data_pengadaan.tanggal_pengadaan,data_pengadaan.total AS total_pengadaan,data_pengadaan.created_date,data_pengadaan.updated_date');
         $this->db->join('data_supplier', 'data_supplier.id_supplier = data_pengadaan.id_supplier');
         $this->db->from('data_pengadaan');
 
-
-        switch($berdasarkan){
+        switch ($berdasarkan) {
             case "":
-                $this->db->like('kode_pengadaan',$yangdicari);
-                $this->db->or_like('nama_supplier',$yangdicari);
-                $this->db->or_like('status',$yangdicari);
-                
-            break;
+                $this->db->like('kode_pengadaan', $yangdicari);
+                $this->db->or_like('nama_supplier', $yangdicari);
+                $this->db->or_like('status', $yangdicari);
+
+                break;
 
             case "kode_pengadaan":
-                $this->db->where('kode_pengadaan',$yangdicari);
-            
+                $this->db->where('kode_pengadaan', $yangdicari);
+
             default:
-            $this->db->like($berdasarkan,$yangdicari);
+                $this->db->like($berdasarkan, $yangdicari);
         }
         return $this->db->get();
     }
 
-    public function deleteDetailPenjualanProduk($id){
+    public function deleteDetailPenjualanProduk($id)
+    {
 
         $kode = $this->db->get_where('data_detail_penjualan_produk', ['id_detail_penjualan_produk' => $id])->row()->kode_transaksi_penjualan_produk_fk;
         $this->db->delete('data_detail_penjualan_produk', ['id_detail_penjualan_produk' => $id]);

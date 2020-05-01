@@ -22,8 +22,8 @@
             <?php echo form_open("cs/cariPenjualanProduk"); ?>
             <select name="cariberdasarkan">
                 <option value="">Cari Berdasarkan</option>
-                <option value="kode_pengadaan">Kode Penjualan</option>
-                <option value="nama_supplier">Nama Penjual</option>
+                <option value="kode_penjualan">Kode Penjualan</option>
+                <option value="nama_cs">Nama Customer Service</option>
             </select>
             <input name="yangdicari" id="" type="text">
             <input type="submit" name="cari" value="Cari">
