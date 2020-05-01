@@ -11,13 +11,14 @@
 
 <div class="row">
     <div class="col-lg ml-3 mr-3">
+
+        <a href="" class="btn btn-primary mb-3" data-toggle="modal" data-target="#newSubMenuModal">TAMBAH PRODUK
+            PENJUALAN</a>
         <?php if (validation_errors()): ?>
         <div class="alert alert-danger" role="alert">
             <?=validation_errors();?>
         </div>
         <?php endif;?>
-        <a href="" class="btn btn-primary mb-3" data-toggle="modal" data-target="#newSubMenuModal">TAMBAH PRODUK
-            PENJUALAN</a>
 
 
         <?=$this->session->flashdata('message');?>

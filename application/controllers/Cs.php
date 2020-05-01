@@ -123,9 +123,11 @@ class Cs extends CI_Controller
         if ($this->input->post('pilih_produk') != null) {
             $cekStok = $this->db->get_where('data_produk', ['id_produk' => $this->input->post('pilih_produk')])->row()->stok_produk;
             if ($cekStok < $this->input->post('jumlah_produk')) {
+                
                 $this->form_validation->set_rules('jumlah_produk', 'jumlah_produk', 'required|less_than['.$cekStok.']', [
                     'less_than' => 'Stok Produk Tersedia Hanya : '.$cekStok]);
             } else {
+                $this->form_validation->set_rules('jumlah_produk', 'jumlah_produk', 'required');
                 $this->form_validation->set_rules('pilih_produk', 'pilih_produk', 'required');
             }
         }
@@ -218,6 +220,7 @@ class Cs extends CI_Controller
                    </div>');
         } else {
             $this->form_validation->set_rules('pilih_produk', 'pilih_produk', 'required');
+            $this->form_validation->set_rules('jumlah_produk', 'jumlah_produk', 'required');
         }
 
         if ($this->form_validation->run() == false) {

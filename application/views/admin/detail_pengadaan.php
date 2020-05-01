@@ -11,13 +11,14 @@
 
 <div class="row">
     <div class="col-lg ml-3 mr-3">
+
+        <a href="" class="btn btn-primary mb-3" data-toggle="modal" data-target="#newSubMenuModal">TAMBAH PRODUK
+            PENGADAAN</a>
         <?php if (validation_errors()): ?>
         <div class="alert alert-danger" role="alert">
             <?=validation_errors();?>
         </div>
         <?php endif;?>
-        <a href="" class="btn btn-primary mb-3" data-toggle="modal" data-target="#newSubMenuModal">TAMBAH PRODUK
-            PENGADAAN</a>
 
 
         <?=$this->session->flashdata('message');?>
@@ -80,9 +81,9 @@
                             <option value="">Pilih Produk Pengadaan</option>
                             <?php foreach ($data_produk->result() as $row) {
     if ($sm['nama_produk'] == $row->nama_produk) {
-        echo '<option  value="' . $row->id_produk . '">' . $row->nama_produk.' | Stok Saat Ini : '. $row->stok_produk.'</.>';
+        echo '<option  value="' . $row->id_produk . '">' . $row->nama_produk . ' | Stok Saat Ini : ' . $row->stok_produk . '</.>';
     } else {
-        echo '<option value="' . $row->id_produk . '">' . $row->nama_produk .' | Stok Saat Ini : '. $row->stok_produk. '</option>';
+        echo '<option value="' . $row->id_produk . '">' . $row->nama_produk . ' | Stok Saat Ini : ' . $row->stok_produk . '</option>';
     }}?>
                         </select>
                     </div>
@@ -134,9 +135,9 @@
                             <option value="">Pilih Produk Pengadaan</option>
                             <?php foreach ($data_produk->result() as $row) {
     if ($sm['nama_produk'] == $row->nama_produk) {
-        echo '<option selected="selected"  value="' . $row->id_produk . '">' . $row->nama_produk .' | Stok Saat Ini : '. $row->stok_produk. '</>';
+        echo '<option selected="selected"  value="' . $row->id_produk . '">' . $row->nama_produk . ' | Stok Saat Ini : ' . $row->stok_produk . '</>';
     } else {
-        echo '<option value="' . $row->id_produk . '">' . $row->nama_produk .' | Stok Saat Ini : '. $row->stok_produk. '</option>';
+        echo '<option value="' . $row->id_produk . '">' . $row->nama_produk . ' | Stok Saat Ini : ' . $row->stok_produk . '</option>';
     }}?>
                         </select>
                     </div>
@@ -147,9 +148,10 @@
                     <div class="form-group">
                         <select class="form-control" id="satuan" name="satuan">
                             <option value="">Pilih Satuan Pengadaan</option>
-                            <option <?php if($sm['satuan_pengadaan'] == 'Pack'){echo("selected");}?>>Pack</option>
-                            <option <?php if($sm['satuan_pengadaan'] == 'Botol'){echo("selected");}?>>Botol</option>
-                            <option <?php if($sm['satuan_pengadaan'] == 'Sachet'){echo("selected");}?>>Sachet</option>
+                            <option <?php if ($sm['satuan_pengadaan'] == 'Pack') {echo ("selected");}?>>Pack</option>
+                            <option <?php if ($sm['satuan_pengadaan'] == 'Botol') {echo ("selected");}?>>Botol</option>
+                            <option <?php if ($sm['satuan_pengadaan'] == 'Sachet') {echo ("selected");}?>>Sachet
+                            </option>
                         </select>
                     </div>
 

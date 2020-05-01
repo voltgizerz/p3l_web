@@ -10,13 +10,13 @@
 
 <div class="row">
     <div class="col-lg ml-3 mr-3">
+        <a href="" class="btn btn-primary mb-3" data-toggle="modal" data-target="#newSubMenuModal">TAMBAH TRANSAKSI
+            PENJUALAN PRODUK</a>
         <?php if (validation_errors()): ?>
         <div class="alert alert-danger" role="alert">
             <?=validation_errors();?>
         </div>
         <?php endif;?>
-        <a href="" class="btn btn-primary mb-3" data-toggle="modal" data-target="#newSubMenuModal">TAMBAH TRANSAKSI
-            PENJUALAN PRODUK</a>
 
         <div class="form-group">
             <?php echo form_open("cs/cariPengadaan"); ?>
@@ -63,11 +63,11 @@
                     <td style="text-align:center;"><?=$sm['updated_date']?></td>
 
                     <td style="text-align:center;">
-                        <?php if ($sm['status_penjualan'] == 'Sudah Selesai'){
-                            $hide="hidden";
-                        }else{
-                            $hide="visible";
-                        } ?>
+                        <?php if ($sm['status_penjualan'] == 'Sudah Selesai') {
+    $hide = "hidden";
+} else {
+    $hide = "visible";
+}?>
                         <a href="<?=base_url();?>cs/updatePenjualanProduk/<?=$sm['id_transaksi_penjualan_produk'];?>"
                             class="badge badge-primary mb-3" data-toggle="modal"
                             data-target="#editSubMenuModal<?=$sm['id_transaksi_penjualan_produk'];?>"
@@ -103,7 +103,7 @@
                             placeholder="Kode Pengadaan" readonly>
                     </div>
                     <div class="form-group">
-                        <?php $ci = get_instance(); ?>
+                        <?php $ci = get_instance();?>
                         <input type="text" class="form-control" id="nama" name="nama"
                             value="<?=$ci->session->userdata('nama_pegawai')?>" placeholder="Nama Pegawai" readonly>
                     </div>
@@ -140,10 +140,10 @@
                     <div class="form-group">
                         <select class="form-control" id="status_penjualan" name="status_penjualan">
                             <option value="">Pilih Status Transaksi</option>
-                            <option <?php if($sm['status_penjualan'] == 'Belum Selesai'){echo("selected");}?>>Belum
+                            <option <?php if ($sm['status_penjualan'] == 'Belum Selesai') {echo ("selected");}?>>Belum
                                 Selesai
                             </option>
-                            <option <?php if($sm['status_penjualan'] == 'Sudah Selesai'){echo("selected");}?>>Sudah
+                            <option <?php if ($sm['status_penjualan'] == 'Sudah Selesai') {echo ("selected");}?>>Sudah
                                 Selesai
                             </option>
                         </select>
