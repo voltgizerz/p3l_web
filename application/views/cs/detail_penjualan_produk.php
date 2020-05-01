@@ -111,7 +111,8 @@
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <form action="<?=base_url();?>cs/updateDetailPengadaan/<?=$id_penjualan;?>" method="post">
+            <form action="<?=base_url();?>cs/updateDetailPenjualanProduk/<?=$sm['id_detail_penjualan_produk'];?>"
+                method="post">
 
                 <div class="modal-body">
                     <div class="form-group">

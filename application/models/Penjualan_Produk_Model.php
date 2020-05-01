@@ -63,12 +63,12 @@ class Penjualan_Produk_model extends CI_Model
         return $query->result_array();
     }
 
-    public function getDetailPengadaanId($id)
+    public function getDetailPenjualanProdukId($id)
     {
-        $this->db->select('data_detail_pengadaan.id_detail_pengadaan,data_detail_pengadaan.id_produk_fk,data_produk.nama_produk,data_produk.gambar_produk,data_detail_pengadaan.kode_pengadaan_fk,data_detail_pengadaan.satuan_pengadaan,data_detail_pengadaan.jumlah_pengadaan,data_detail_pengadaan.tanggal_pengadaan');
-        $this->db->join('data_produk', 'data_produk.id_produk = data_detail_pengadaan.id_produk_fk');
-        $this->db->from('data_detail_pengadaan');
-        $this->db->where('id_detail_pengadaan', $id);
+        $this->db->select('data_detail_penjualan_produk.id_detail_penjualan_produk,data_detail_penjualan_produk.kode_transaksi_penjualan_produk_fk,data_detail_penjualan_produk.id_produk_penjualan_fk,data_detail_penjualan_produk.jumlah_produk,data_detail_penjualan_produk.subtotal,data_produk.nama_produk,data_produk.gambar_produk');
+        $this->db->join('data_produk', 'data_produk.id_produk = data_detail_penjualan_produk.id_produk_penjualan_fk');
+        $this->db->from('data_detail_penjualan_produk');
+        $this->db->where('id_detail_penjualan_produk', $id);
         $query = $this->db->get();
         return $query->result_array();
     }
