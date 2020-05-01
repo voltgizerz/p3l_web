@@ -40,7 +40,7 @@ class Customer_model extends CI_Model
     {
         $this->db->select('*');
         $this->db->from('data_customer');
-
+        $this->db->where('deleted_date','0000-00-00 00:00:00');
         switch ($berdasarkan) {
             case "":
                 $this->db->like('nama_customer', $yangdicari);

@@ -29,7 +29,7 @@ class JenisHewan_model extends CI_Model
     public function cariJenisHewan($berdasarkan,$yangdicari){
         $this->db->select('*');
         $this->db->from('data_jenis_hewan');
-
+        $this->db->where('deleted_date','0000-00-00 00:00:00');
 
         switch($berdasarkan){
             case "":

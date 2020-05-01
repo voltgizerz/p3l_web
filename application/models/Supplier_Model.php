@@ -30,7 +30,7 @@ class Supplier_model extends CI_Model
     public function cariSupplier($berdasarkan,$yangdicari){
         $this->db->select('*');
         $this->db->from('data_supplier');
-
+        $this->db->where('deleted_date','0000-00-00 00:00:00');
 
         switch($berdasarkan){
             case "":
