@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Apr 30, 2020 at 09:21 AM
+-- Generation Time: May 02, 2020 at 10:39 AM
 -- Server version: 10.4.11-MariaDB
 -- PHP Version: 7.4.1
 
@@ -126,7 +126,8 @@ INSERT INTO `data_detail_pengadaan` (`id_detail_pengadaan`, `id_produk_fk`, `kod
 (98, 1, 'PO-2020-04-23-10', 'Pack', 7, '2020-04-30 10:32:55'),
 (99, 1, 'PO-2020-04-23-10', 'Pack', 7, '2020-04-30 10:36:06'),
 (100, 8, 'PO-2020-04-23-10', 'Pack', 7, '2020-04-30 10:36:13'),
-(101, 1, 'PO-2020-04-19-07', 'Pack', 7, '2020-04-30 11:31:17');
+(101, 1, 'PO-2020-04-19-07', 'Pack', 7, '2020-04-30 11:31:17'),
+(103, 1, 'PO-2020-05-02-23', 'Pack', 7, '2020-05-02 15:03:55');
 
 -- --------------------------------------------------------
 
@@ -135,6 +136,7 @@ INSERT INTO `data_detail_pengadaan` (`id_detail_pengadaan`, `id_produk_fk`, `kod
 --
 
 CREATE TABLE `data_detail_penjualan_jasa_layanan` (
+  `id_detail_penjualan_jasa_layanan` int(11) NOT NULL,
   `id_jasa_layanan_fk` int(200) NOT NULL,
   `kode_transaksi_penjualan_jasa_layanan_fk` varchar(200) CHARACTER SET latin1 COLLATE latin1_general_ci NOT NULL,
   `jumlah_jasa_layanan` int(200) NOT NULL,
@@ -145,10 +147,10 @@ CREATE TABLE `data_detail_penjualan_jasa_layanan` (
 -- Dumping data for table `data_detail_penjualan_jasa_layanan`
 --
 
-INSERT INTO `data_detail_penjualan_jasa_layanan` (`id_jasa_layanan_fk`, `kode_transaksi_penjualan_jasa_layanan_fk`, `jumlah_jasa_layanan`, `subtotal`) VALUES
-(3, 'LY-240220-01', 1, 20000),
-(2, 'LY-240220-02', 1, 30000),
-(1, 'LY-240220-03', 1, 40000);
+INSERT INTO `data_detail_penjualan_jasa_layanan` (`id_detail_penjualan_jasa_layanan`, `id_jasa_layanan_fk`, `kode_transaksi_penjualan_jasa_layanan_fk`, `jumlah_jasa_layanan`, `subtotal`) VALUES
+(1, 3, 'LY-240220-01', 1, 20000),
+(2, 2, 'LY-240220-02', 1, 30000),
+(3, 1, 'LY-240220-03', 1, 40000);
 
 -- --------------------------------------------------------
 
@@ -163,6 +165,17 @@ CREATE TABLE `data_detail_penjualan_produk` (
   `jumlah_produk` int(200) NOT NULL,
   `subtotal` int(200) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `data_detail_penjualan_produk`
+--
+
+INSERT INTO `data_detail_penjualan_produk` (`id_detail_penjualan_produk`, `kode_transaksi_penjualan_produk_fk`, `id_produk_penjualan_fk`, `jumlah_produk`, `subtotal`) VALUES
+(23, 'PR-250420-09', 3, 7, 350000),
+(24, 'PR-240420-05', 8, 9, 2090907),
+(34, 'PR-240420-05', 1, 7, 1400000),
+(48, 'PR-240420-05', 1, 7, 1400000),
+(49, 'PR-010520-17', 2, 7, 140000);
 
 -- --------------------------------------------------------
 
@@ -314,7 +327,9 @@ CREATE TABLE `data_pengadaan` (
 INSERT INTO `data_pengadaan` (`id_pengadaan`, `kode_pengadaan`, `id_supplier`, `status`, `tanggal_pengadaan`, `total`, `created_date`, `updated_date`) VALUES
 (7, 'PO-2020-04-19-07', 1, 'Belum Diterima', '2020-04-30 11:37:11', 1400000, '2020-04-14 12:18:38', '2020-04-30 11:37:11'),
 (10, 'PO-2020-04-23-10', 2, 'Sudah Diterima', '2020-04-29 19:59:50', 5826261, '2020-04-23 13:05:57', '2020-04-30 05:32:47'),
-(14, 'PO-2020-04-30-14', 1, 'Belum Diterima', '0000-00-00 00:00:00', 0, '2020-04-30 11:27:47', '0000-00-00 00:00:00');
+(14, 'PO-2020-04-30-14', 1, 'Belum Diterima', '0000-00-00 00:00:00', 0, '2020-04-30 11:27:47', '0000-00-00 00:00:00'),
+(19, 'PO-2020-05-02-19', 1, 'Belum Diterima', '2020-05-02 14:50:57', 0, '2020-05-02 14:23:49', '2020-05-02 14:50:57'),
+(23, 'PO-2020-05-02-23', 2, 'Sudah Diterima', '2020-05-02 15:04:00', 1400000, '2020-05-02 14:57:16', '2020-05-02 15:04:00');
 
 -- --------------------------------------------------------
 
@@ -340,7 +355,7 @@ CREATE TABLE `data_produk` (
 --
 
 INSERT INTO `data_produk` (`id_produk`, `nama_produk`, `harga_produk`, `stok_produk`, `gambar_produk`, `gambar_produk_desktop`, `stok_minimal_produk`, `created_date`, `updated_date`, `deleted_date`) VALUES
-(1, 'Royal Canin Mini Adult', 200000, 49, 'upload/gambar_produk/royalcanin.jpg', '', 10, '2020-03-05 01:50:41', '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
+(1, 'Royal Canin Mini Adult', 200000, 63, 'upload/gambar_produk/royalcanin.jpg', '', 10, '2020-03-05 01:50:41', '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
 (2, 'Snack Jerry High Carrot', 20000, 9, 'upload/gambar_produk/snack.jpg', '', 10, '2020-03-05 01:50:41', '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
 (3, 'Vita Fortan ', 50000, 134, 'upload/gambar_produk/vitafortan.jpg', '', 10, '2020-03-05 01:50:41', '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
 (6, 'Asinan Kucing', 232323, 232, 'upload/gambar_produk/img6147.jpg', '', 10, '2020-03-11 18:02:55', '2020-04-07 08:35:04', '0000-00-00 00:00:00'),
@@ -426,11 +441,13 @@ INSERT INTO `data_transaksi_penjualan` (`kode_transaksi`, `id_hewan`, `tanggal_p
 --
 
 CREATE TABLE `data_transaksi_penjualan_jasa_layanan` (
+  `id_transaksi_penjualan_jasa_layanan` int(11) NOT NULL,
   `kode_transaksi_penjualan_jasa_layanan` varchar(200) CHARACTER SET latin1 COLLATE latin1_general_ci NOT NULL,
   `id_hewan` int(200) NOT NULL,
   `tanggal_penjualan_jasa_layanan` datetime NOT NULL,
   `tanggal_pembayaran_jasa_layanan` datetime NOT NULL,
   `status_layanan` varchar(200) NOT NULL,
+  `status_penjualan` varchar(255) NOT NULL,
   `status_pembayaran` varchar(200) NOT NULL,
   `diskon` int(200) NOT NULL,
   `total_penjualan_jasa_layanan` varchar(200) CHARACTER SET latin1 COLLATE latin1_general_ci NOT NULL,
@@ -445,10 +462,10 @@ CREATE TABLE `data_transaksi_penjualan_jasa_layanan` (
 -- Dumping data for table `data_transaksi_penjualan_jasa_layanan`
 --
 
-INSERT INTO `data_transaksi_penjualan_jasa_layanan` (`kode_transaksi_penjualan_jasa_layanan`, `id_hewan`, `tanggal_penjualan_jasa_layanan`, `tanggal_pembayaran_jasa_layanan`, `status_layanan`, `status_pembayaran`, `diskon`, `total_penjualan_jasa_layanan`, `id_cs`, `id_kasir`, `created_date`, `updated_date`, `total_harga`) VALUES
-('LY-240220-01', 1, '2020-03-05 01:12:54', '2020-03-05 01:12:54', 'Selesai', 'Lunas', 20000, '20000', 2, 3, '2020-03-05 01:12:54', '0000-00-00 00:00:00', 0),
-('LY-240220-02', 2, '2020-03-05 01:12:54', '0000-00-00 00:00:00', 'Selesai', 'Belum Lunas', 20000, '30000', 2, 3, '2020-03-05 01:12:54', '0000-00-00 00:00:00', 10000),
-('LY-240220-03', 3, '2020-03-05 01:12:54', '2020-03-05 01:12:54', 'Selesai', 'Lunas', 20000, '40000', 2, 3, '2020-03-05 01:12:54', '0000-00-00 00:00:00', 20000);
+INSERT INTO `data_transaksi_penjualan_jasa_layanan` (`id_transaksi_penjualan_jasa_layanan`, `kode_transaksi_penjualan_jasa_layanan`, `id_hewan`, `tanggal_penjualan_jasa_layanan`, `tanggal_pembayaran_jasa_layanan`, `status_layanan`, `status_penjualan`, `status_pembayaran`, `diskon`, `total_penjualan_jasa_layanan`, `id_cs`, `id_kasir`, `created_date`, `updated_date`, `total_harga`) VALUES
+(1, 'LY-240220-01', 1, '2020-03-05 01:12:54', '2020-03-05 01:12:54', 'Selesai', '', 'Lunas', 20000, '20000', 2, 3, '2020-03-05 01:12:54', '0000-00-00 00:00:00', 0),
+(2, 'LY-240220-02', 2, '2020-03-05 01:12:54', '0000-00-00 00:00:00', 'Selesai', '', 'Belum Lunas', 20000, '30000', 2, 3, '2020-03-05 01:12:54', '0000-00-00 00:00:00', 10000),
+(3, 'LY-240220-03', 3, '2020-03-05 01:12:54', '2020-03-05 01:12:54', 'Selesai', '', 'Lunas', 20000, '40000', 2, 3, '2020-03-05 01:12:54', '0000-00-00 00:00:00', 20000);
 
 -- --------------------------------------------------------
 
@@ -477,9 +494,10 @@ CREATE TABLE `data_transaksi_penjualan_produk` (
 --
 
 INSERT INTO `data_transaksi_penjualan_produk` (`id_transaksi_penjualan_produk`, `kode_transaksi_penjualan_produk`, `tanggal_penjualan_produk`, `tanggal_pembayaran_produk`, `diskon`, `total_penjualan_produk`, `status_penjualan`, `status_pembayaran`, `id_cs`, `id_kasir`, `created_date`, `updated_date`, `total_harga`) VALUES
-(5, 'PR-20202304-5', '2020-04-23 11:42:58', '2020-04-23 11:42:58', 20000, 40000, 'Belum Selesai', 'Belum Lunas', 1, 11, '2020-04-23 04:43:44', '2020-04-23 04:43:44', 20000),
-(6, 'PR-240420-06', '2020-04-24 18:20:59', '2020-04-24 18:20:59', 0, 0, 'Belum Selesai', 'Belum Lunas', 1, 1, '2020-04-24 18:20:59', '0000-00-00 00:00:00', 0),
-(9, 'PR-250420-09', '2020-04-26 20:00:17', '0000-00-00 00:00:00', 0, 0, 'Sudah Selesai', 'Belum Lunas', 1, 1, '2020-04-25 15:53:32', '2020-04-26 20:00:17', 0);
+(5, 'PR-240420-05', '2020-04-23 11:42:58', '2020-04-23 11:42:58', 20000, 4890907, 'Belum Selesai', 'Belum Lunas', 1, 11, '2020-04-23 04:43:44', '2020-05-01 18:36:36', 20000),
+(9, 'PR-250420-09', '2020-04-26 20:00:17', '0000-00-00 00:00:00', 0, 350000, 'Sudah Selesai', 'Belum Lunas', 1, 1, '2020-04-25 15:53:32', '2020-04-26 20:00:17', 0),
+(17, 'PR-010520-17', '2020-05-01 20:36:44', '0000-00-00 00:00:00', 0, 140000, 'Sudah Selesai', 'Belum Lunas', 19, 19, '2020-05-01 20:36:34', '2020-05-01 20:36:44', 0),
+(21, 'PR-020520-21', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 0, 0, 'Belum Selesai', 'Belum Lunas', 1, 1, '2020-05-02 15:06:12', '0000-00-00 00:00:00', 0);
 
 -- --------------------------------------------------------
 
@@ -504,8 +522,8 @@ INSERT INTO `data_ukuran_hewan` (`id_ukuran_hewan`, `ukuran_hewan`, `created_dat
 (2, 'Medium', '2020-03-05 00:37:35', '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
 (3, 'Large', '2020-03-05 00:37:35', '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
 (15, 'nigga', '2020-04-18 20:35:22', '2020-04-18 20:35:27', '0000-00-00 00:00:00'),
-(17, 'WAW', '2020-04-30 09:09:55', '2020-04-30 13:07:28', '0000-00-00 00:00:00'),
-(20, 'jodi', '2020-04-30 14:21:21', '0000-00-00 00:00:00', '0000-00-00 00:00:00');
+(17, 'WAW', '0000-00-00 00:00:00', '2020-04-30 13:07:28', '2020-04-30 14:42:09'),
+(22, 'TOKOPEDIA', '2020-04-30 14:42:17', '0000-00-00 00:00:00', '0000-00-00 00:00:00');
 
 -- --------------------------------------------------------
 
@@ -718,6 +736,7 @@ ALTER TABLE `data_detail_pengadaan`
 -- Indexes for table `data_detail_penjualan_jasa_layanan`
 --
 ALTER TABLE `data_detail_penjualan_jasa_layanan`
+  ADD PRIMARY KEY (`id_detail_penjualan_jasa_layanan`),
   ADD KEY `id_jasa_layanan_fk` (`id_jasa_layanan_fk`),
   ADD KEY `kode_transaksi_penjualan_jasa_layanan_fk` (`kode_transaksi_penjualan_jasa_layanan_fk`);
 
@@ -792,7 +811,8 @@ ALTER TABLE `data_transaksi_penjualan`
 -- Indexes for table `data_transaksi_penjualan_jasa_layanan`
 --
 ALTER TABLE `data_transaksi_penjualan_jasa_layanan`
-  ADD PRIMARY KEY (`kode_transaksi_penjualan_jasa_layanan`),
+  ADD PRIMARY KEY (`id_transaksi_penjualan_jasa_layanan`),
+  ADD UNIQUE KEY `kode_transaksi_penjualan_jasa_layanan` (`kode_transaksi_penjualan_jasa_layanan`),
   ADD KEY `id_hewan` (`id_hewan`),
   ADD KEY `id_cs` (`id_cs`),
   ADD KEY `id_kasir` (`id_kasir`);
@@ -874,13 +894,19 @@ ALTER TABLE `data_customer`
 -- AUTO_INCREMENT for table `data_detail_pengadaan`
 --
 ALTER TABLE `data_detail_pengadaan`
-  MODIFY `id_detail_pengadaan` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=102;
+  MODIFY `id_detail_pengadaan` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=104;
+
+--
+-- AUTO_INCREMENT for table `data_detail_penjualan_jasa_layanan`
+--
+ALTER TABLE `data_detail_penjualan_jasa_layanan`
+  MODIFY `id_detail_penjualan_jasa_layanan` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `data_detail_penjualan_produk`
 --
 ALTER TABLE `data_detail_penjualan_produk`
-  MODIFY `id_detail_penjualan_produk` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
+  MODIFY `id_detail_penjualan_produk` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=50;
 
 --
 -- AUTO_INCREMENT for table `data_hewan`
@@ -910,7 +936,7 @@ ALTER TABLE `data_pegawai`
 -- AUTO_INCREMENT for table `data_pengadaan`
 --
 ALTER TABLE `data_pengadaan`
-  MODIFY `id_pengadaan` int(255) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
+  MODIFY `id_pengadaan` int(255) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
 
 --
 -- AUTO_INCREMENT for table `data_produk`
@@ -925,16 +951,22 @@ ALTER TABLE `data_supplier`
   MODIFY `id_supplier` int(200) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
+-- AUTO_INCREMENT for table `data_transaksi_penjualan_jasa_layanan`
+--
+ALTER TABLE `data_transaksi_penjualan_jasa_layanan`
+  MODIFY `id_transaksi_penjualan_jasa_layanan` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+
+--
 -- AUTO_INCREMENT for table `data_transaksi_penjualan_produk`
 --
 ALTER TABLE `data_transaksi_penjualan_produk`
-  MODIFY `id_transaksi_penjualan_produk` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `id_transaksi_penjualan_produk` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
 
 --
 -- AUTO_INCREMENT for table `data_ukuran_hewan`
 --
 ALTER TABLE `data_ukuran_hewan`
-  MODIFY `id_ukuran_hewan` int(200) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
+  MODIFY `id_ukuran_hewan` int(200) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
 
 --
 -- AUTO_INCREMENT for table `sell_cars`
