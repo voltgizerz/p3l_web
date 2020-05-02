@@ -68,6 +68,8 @@ class Cs extends CI_Controller
 
     public function updatePenjualanProduk($id)
     {
+        $kode = $this->db->get_where('data_transaksi_penjualan_produk', ['id_transaksi_penjualan_produk' => $id])->row()->kode_transaksi_penjualan_produk;
+        $cekProduk = $this->db->get_where('data_transaksi_penjualan_produk', ['id_transaksi_penjualan_produk' => $id])->row()->kode_transaksi_penjualan_produk;
         $data['title'] = 'Transaksi Penjualan Produk';
         $data['user'] = $this->db->get_where('data_pegawai', ['username' => $this->session->userdata('username')])->row_array();
         $this->load->model('Penjualan_Produk_Model', 'menu');

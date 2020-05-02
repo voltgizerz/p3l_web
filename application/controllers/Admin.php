@@ -1101,9 +1101,14 @@ class Admin extends CI_Controller
         $data['data_supplier'] = $this->menu->select_supplier();
 
         if ($this->input->post('status') == 'Sudah Diterima') {
-            $this->form_validation->set_rules('status', 'status', 'required|equal[' . $cekDetail . ']', [
-                'equal' => 'Gagal Ubah Status Pengadaan, Produk Pengadaan masih Kosong!']);
-            $this->form_validation->set_rules('pilih_supplier', 'pilih_supplier', 'required|trim');
+            if ($cekDetail == 0) {
+                $this->form_validation->set_rules('status', 'status', 'required|in_list[Sudah Diterima]', [
+                    'in_list' => 'Gagal Ubah Status Pengadaan, Produk Pengadaan masih Kosong!']);
+                $this->form_validation->set_rules('pilih_supplier', 'pilih_supplier', 'required|trim');
+            } else {
+                $this->form_validation->set_rules('status', 'status', 'required');
+                $this->form_validation->set_rules('pilih_supplier', 'pilih_supplier', 'required|trim');
+            }
         } else {
             $this->form_validation->set_rules('status', 'status', 'required');
             $this->form_validation->set_rules('pilih_supplier', 'pilih_supplier', 'required|trim');

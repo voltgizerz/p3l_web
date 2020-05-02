@@ -35,8 +35,8 @@ class Pengadaan_model extends CI_Model
 
     public function deletePengadaan($id)
     {
-        $data = $this->db->get_where('data_pengadaan', ['id_pengadaan' => $id])->result_array();
-        $this->db->delete('data_detail_pengadaan', ['kode_pengadaan_fk' => $data['kode_pengadaan']]);
+        $data = $this->db->get_where('data_pengadaan', ['id_pengadaan' => $id])->row()->kode_pengadaan;
+        $this->db->delete('data_detail_pengadaan', ['kode_pengadaan_fk' => $data]);
         $this->db->delete('data_pengadaan', ['id_pengadaan' => $id]);
     }
 
