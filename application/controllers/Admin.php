@@ -1338,4 +1338,39 @@ class Admin extends CI_Controller
         }
     }
 
+    public function kelola_produk(){
+        $data['title'] = 'Kelola Data Produk';
+        $data['user'] = $this->db->get_where('data_pegawai', ['username' => $this->session->userdata('username')])->row_array();
+        $this->load->model('Produk_Model', 'menu');
+        $data['dataProduk'] = $this->menu->getDataProdukAdmin();
+        $data['menu'] = $this->db->get('user_menu')->result_array();
+
+        $this->form_validation->set_rules('nama', 'Name', 'required|trim');
+
+        if ($this->form_validation->run() == false) {
+            $data['menu'] = $this->db->get('user_menu')->result_array();
+            $this->load->view('templates/header', $data);
+            $this->load->view('templates/sidebar', $data);
+            $this->load->view('templates/topbar', $data);
+            $this->load->view('admin/kelola_produk', $data);
+            $this->load->view('templates/footer');
+        } else {
+            $usernamePembeli = $data['user']['username'];
+            date_default_timezone_set("Asia/Bangkok");
+            $data = [
+                'nama_jenis_hewan' => $this->input->post('nama'),
+                'created_date' => date("Y-m-d H:i:s"),
+                'updated_date' => date("0000:00:0:00:00"),
+                'deleted_date' => date("0000:00:0:00:00"),
+            ];
+
+            $this->db->insert('data_jenis_hewan', $data);
+            $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">
+            Jenis Hewan Berhasil Ditambahkan!
+           </div>');
+            redirect('admin/kelola_jenis_hewan');
+        }
+    
+    }
+
 }
