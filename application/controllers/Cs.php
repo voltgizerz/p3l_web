@@ -69,14 +69,24 @@ class Cs extends CI_Controller
     public function updatePenjualanProduk($id)
     {
         $kode = $this->db->get_where('data_transaksi_penjualan_produk', ['id_transaksi_penjualan_produk' => $id])->row()->kode_transaksi_penjualan_produk;
-        $cekProduk = $this->db->get_where('data_transaksi_penjualan_produk', ['id_transaksi_penjualan_produk' => $id])->row()->kode_transaksi_penjualan_produk;
+        $cekProduk = $this->db->get_where('data_detail_penjualan_produk', ['kode_transaksi_penjualan_produk_fk' => $kode])->num_rows();
         $data['title'] = 'Transaksi Penjualan Produk';
         $data['user'] = $this->db->get_where('data_pegawai', ['username' => $this->session->userdata('username')])->row_array();
         $this->load->model('Penjualan_Produk_Model', 'menu');
         $data['dataPenjualanProduk'] = $this->menu->getPenjualanProdukId($id);
         $data['menu'] = $this->db->get('user_menu')->result_array();
 
-        $this->form_validation->set_rules('status_penjualan', 'status_penjualan', 'required');
+        if ($this->input->post('status_penjualan') == 'Sudah Selesai') {
+            if ($cekProduk == 0) {
+                $this->form_validation->set_rules('status_penjualan', 'status_penjualan', 'required|equal[Belum Selesai]', [
+                    'equal' => 'Gagal Ubah Status Penjualan, Produk Penjualan masih Kosong!']);
+            } else {
+                $this->form_validation->set_rules('status_penjualan', 'status_penjualan', 'required');
+            }
+        } else {
+            $this->form_validation->set_rules('status_penjualan', 'status_penjualan', 'required');
+        }
+
         if ($this->form_validation->run() == false) {
             $data['menu'] = $this->db->get('user_menu')->result_array();
             $this->load->view('templates/header', $data);
@@ -125,9 +135,9 @@ class Cs extends CI_Controller
         if ($this->input->post('pilih_produk') != null) {
             $cekStok = $this->db->get_where('data_produk', ['id_produk' => $this->input->post('pilih_produk')])->row()->stok_produk;
             if ($cekStok < $this->input->post('jumlah_produk')) {
-                
-                $this->form_validation->set_rules('jumlah_produk', 'jumlah_produk', 'required|less_than['.$cekStok.']', [
-                    'less_than' => 'Stok Produk Tersedia Hanya : '.$cekStok]);
+
+                $this->form_validation->set_rules('jumlah_produk', 'jumlah_produk', 'required|less_than[' . $cekStok . ']', [
+                    'less_than' => 'Stok Produk Tersedia Hanya : ' . $cekStok]);
             } else {
                 $this->form_validation->set_rules('jumlah_produk', 'jumlah_produk', 'required');
                 $this->form_validation->set_rules('pilih_produk', 'pilih_produk', 'required');
@@ -217,8 +227,8 @@ class Cs extends CI_Controller
 
         $cekStok = $this->db->get_where('data_produk', ['id_produk' => $this->input->post('pilih_produk')])->row()->stok_produk;
         if ($cekStok < $this->input->post('jumlah_produk')) {
-            $this->form_validation->set_rules('jumlah_produk', 'jumlah_produk', 'required|less_than['.$cekStok.']', [
-                'less_than' => 'Stok Produk Tersedia Hanya : '.$cekStok]);
+            $this->form_validation->set_rules('jumlah_produk', 'jumlah_produk', 'required|less_than[' . $cekStok . ']', [
+                'less_than' => 'Stok Produk Tersedia Hanya : ' . $cekStok]);
         } else {
             $this->form_validation->set_rules('pilih_produk', 'pilih_produk', 'required');
             $this->form_validation->set_rules('jumlah_produk', 'jumlah_produk', 'required');
@@ -282,10 +292,10 @@ class Cs extends CI_Controller
 
         }
 
-        
     }
 
-    public function cariPenjualanProduk() {
+    public function cariPenjualanProduk()
+    {
         $data['title'] = 'Transaksi Penjualan Produk';
         $data['user'] = $this->db->get_where('data_pegawai', ['username' => $this->session->userdata('username')])->row_array();
         $this->load->model('Penjualan_Produk_Model', 'menu');
@@ -298,7 +308,7 @@ class Cs extends CI_Controller
         $data["jumlah"] = count($data["dataPenjualanProduk"]);
 
         if (!isset($_POST['cari'])) {
-        $this->form_validation->set_rules('cs', 'cs', 'required|trim');
+            $this->form_validation->set_rules('cs', 'cs', 'required|trim');
         }
         if ($this->form_validation->run() == false) {
             $data['menu'] = $this->db->get('user_menu')->result_array();
