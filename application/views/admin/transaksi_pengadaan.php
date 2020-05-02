@@ -102,7 +102,7 @@
                 <div class="modal-body">
                     <div class="form-group">
                         <select class="form-control" id="pilih_supplier" name="pilih_supplier">
-                            <option>Pilih Supplier</option>
+                            <option value="">Pilih Supplier</option>
                             <?php foreach ($data_supplier->result() as $row) {
     if ($sm['nama_supplier'] == $row->nama_supplier) {
         echo '<option  value="' . $row->id_supplier . '">' . $row->nama_supplier . '</>';
@@ -146,7 +146,7 @@
                     </div>
                     <div class="form-group">
                         <select class="form-control" id="pilih_supplier" name="pilih_supplier">
-                            <option>Pilih Supplier</option>
+                            <option value="">Pilih Supplier</option>
                             <?php foreach ($data_supplier->result() as $row) {
     if ($sm['nama_supplier'] == $row->nama_supplier) {
         echo '<option selected="selected"  value="' . $row->id_supplier . '">' . $row->nama_supplier . '</>';

@@ -215,9 +215,8 @@ class Cs extends CI_Controller
 
         $cekStok = $this->db->get_where('data_produk', ['id_produk' => $this->input->post('pilih_produk')])->row()->stok_produk;
         if ($cekStok < $this->input->post('jumlah_produk')) {
-            $this->session->set_flashdata('message', '<div class="alert alert-danger" role="alert">
-                  Stok Produk yang Tersedia hanya : ' . $cekStok . '
-                   </div>');
+            $this->form_validation->set_rules('jumlah_produk', 'jumlah_produk', 'required|less_than['.$cekStok.']', [
+                'less_than' => 'Stok Produk Tersedia Hanya : '.$cekStok]);
         } else {
             $this->form_validation->set_rules('pilih_produk', 'pilih_produk', 'required');
             $this->form_validation->set_rules('jumlah_produk', 'jumlah_produk', 'required');

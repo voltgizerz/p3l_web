@@ -172,7 +172,7 @@ class Admin extends CI_Controller
     {
         $data['title'] = 'Kelola Data Pegawai';
         $cekUsername = $this->db->get_where('data_pegawai', ['id_pegawai' => $id])->row()->username;
-    
+
         $data['user'] = $this->db->get_where('data_pegawai', ['username' => $this->session->userdata('username')])->row_array();
         $this->load->model('Pegawai_model', 'menu');
         $data['dataPegawai'] = $this->menu->getPegawaiId($id);
@@ -182,9 +182,9 @@ class Admin extends CI_Controller
         $this->form_validation->set_rules('nama', 'Nama', 'required');
         $this->form_validation->set_rules('role', 'Role', 'required');
 
-        if($this->input->post('username') == $cekUsername){
+        if ($this->input->post('username') == $cekUsername) {
             $this->form_validation->set_rules('username', 'Username', 'required');
-        }else{
+        } else {
             $this->form_validation->set_rules('username', 'Username', 'required|trim|is_unique[data_pegawai.username]', [
                 'is_unique' => 'Username sudah Terdaftar!']);
         }
@@ -422,7 +422,7 @@ class Admin extends CI_Controller
         $this->form_validation->set_rules('nama', 'Name', 'required|trim|is_unique[data_ukuran_hewan.ukuran_hewan]', [
             'is_unique' => 'Ukuran Hewan Sudah Ada!',
         ]);
-    
+
         if ($this->form_validation->run() == false) {
             $data['menu'] = $this->db->get('user_menu')->result_array();
             $this->load->view('templates/header', $data);
@@ -506,11 +506,9 @@ class Admin extends CI_Controller
         $data['dataUkuranHewan'] = $this->menu->getUkuranHewanId($id);
         $data['menu'] = $this->db->get('user_menu')->result_array();
 
-
-
-        if($cekUkuran == $this->input->post('nama')){
+        if ($cekUkuran == $this->input->post('nama')) {
             $this->form_validation->set_rules('nama', 'Name', 'required|trim');
-        }else{
+        } else {
             $this->form_validation->set_rules('nama', 'Name', 'required|trim|is_unique[data_ukuran_hewan.ukuran_hewan]', [
                 'is_unique' => 'Ukuran Hewan Sudah Ada!',
             ]);
@@ -555,7 +553,8 @@ class Admin extends CI_Controller
         }
     }
 
-    public function deletePermUkuranHewan($id){
+    public function deletePermUkuranHewan($id)
+    {
         $this->load->model('UkuranHewan_Model');
         $this->UkuranHewan_Model->deletePermUkuranHewan($id);
         $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">
@@ -1094,14 +1093,21 @@ class Admin extends CI_Controller
     {
         $data['title'] = 'Transaksi Pengadaan';
         $kode = $this->db->get_where('data_pengadaan', ['id_pengadaan' => $id])->row()->kode_pengadaan;
+        $cekDetail = $this->db->get_where('data_detail_pengadaan', ['kode_pengadaan_fk' => $kode])->num_rows();
         $data['user'] = $this->db->get_where('data_pegawai', ['username' => $this->session->userdata('username')])->row_array();
         $this->load->model('Pengadaan_Model', 'menu');
         $data['dataPengadaan'] = $this->menu->getPengadaanId($id);
         $data['menu'] = $this->db->get('user_menu')->result_array();
         $data['data_supplier'] = $this->menu->select_supplier();
 
-        $this->form_validation->set_rules('pilih_supplier', 'pilih_supplier', 'required|trim');
-        $this->form_validation->set_rules('status', 'status', 'required');
+        if ($this->input->post('status') == 'Sudah Diterima') {
+            $this->form_validation->set_rules('status', 'status', 'required|equal[' . $cekDetail . ']', [
+                'equal' => 'Gagal Ubah Status Pengadaan, Produk Pengadaan masih Kosong!']);
+            $this->form_validation->set_rules('pilih_supplier', 'pilih_supplier', 'required|trim');
+        } else {
+            $this->form_validation->set_rules('status', 'status', 'required');
+            $this->form_validation->set_rules('pilih_supplier', 'pilih_supplier', 'required|trim');
+        }
         if ($this->form_validation->run() == false) {
             $data['menu'] = $this->db->get('user_menu')->result_array();
             $this->load->view('templates/header', $data);
