@@ -89,6 +89,7 @@ class Penjualan_Produk_model extends CI_Model
             case "":
                 $this->db->like('kode_transaksi_penjualan_produk', $yangdicari);
                 $this->db->or_like('data_pegawai.nama_pegawai', $yangdicari);
+                $this->db->or_like('status_penjualan', $yangdicari);
                 break;
 
             case "kode_penjualan":
