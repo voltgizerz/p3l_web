@@ -317,6 +317,9 @@ class Cs extends CI_Controller
             $this->load->view('templates/topbar', $data);
             $this->load->view('cs/cariPenjualanProduk', $data);
             $this->load->view('templates/footer');
+            header("Cache-Control: no-store, no-cache, must-revalidate, max-age=0");
+            header("Cache-Control: post-check=0, pre-check=0", false);
+            header("Cache-Control: no cache");
         } else {
             $ci = get_instance();
             date_default_timezone_set("Asia/Bangkok");
