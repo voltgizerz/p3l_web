@@ -56,7 +56,7 @@
                     <td style="text-align:center;"><?=$sm['nama_supplier']?></td>
                     <td style="text-align:center;"><?=$sm['status_pengadaan']?></td>
                     <td style="text-align:center;"><?=$sm['tanggal_pengadaan']?></td>
-                    <td style="text-align:center;"><?=$sm['total_pengadaan']?></td>
+                    <td style="text-align:center;">Rp. <?=$sm['total_pengadaan']?></td>
                     <td style="text-align:center;">
                         <a href="<?=base_url();?>admin/detail_pengadaan/<?=$sm['id_pengadaan'];?>"
                             class="badge badge-info mb-3">INFO</a>

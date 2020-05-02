@@ -43,7 +43,7 @@
                     <td style="text-align:center;"><img height="100" width="100"
                             src="<?=base_url();?><?=$sm['gambar_produk']?>" </td>
                     <td style="text-align:center;"><?=$sm['jumlah_produk']?></td>
-                    <td style="text-align:center;"><?=$sm['subtotal']?></td>
+                    <td style="text-align:center;">Rp. <?=$sm['subtotal']?></td>
                     <td style="text-align:center;">
                         <a href="<?=base_url();?>cs/updateDetailPenjualanProduk/<?=$sm['id_detail_penjualan_produk'];?>"
                             class="badge badge-primary mb-3" data-toggle="modal"

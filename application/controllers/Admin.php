@@ -1355,10 +1355,15 @@ class Admin extends CI_Controller
             $this->load->view('admin/kelola_produk', $data);
             $this->load->view('templates/footer');
         } else {
-            $usernamePembeli = $data['user']['username'];
+            $_FILES["gambar_produk"]["name"] = $this->input->post('gambar_produk');
             date_default_timezone_set("Asia/Bangkok");
             $data = [
-                'nama_jenis_hewan' => $this->input->post('nama'),
+                'nama_produk' => $this->input->post('nama'),
+                'harga_produk' => $this->input->post('harga'),
+                'stok_produk' => $this->input->post('stok'),
+                'gambar_produk' => $this->response_upload(),
+                'gambar_produk_desktop' => $_FILES["gambar_produk"]["name"],
+                'stok_minimal_produk' => $this->input->post('stok_minimal'),
                 'created_date' => date("Y-m-d H:i:s"),
                 'updated_date' => date("0000:00:0:00:00"),
                 'deleted_date' => date("0000:00:0:00:00"),
@@ -1368,9 +1373,31 @@ class Admin extends CI_Controller
             $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">
             Jenis Hewan Berhasil Ditambahkan!
            </div>');
-            redirect('admin/kelola_jenis_hewan');
+            redirect('admin/kelola_produk');
         }
-    
+    }
+    public function response_upload()
+    {
+        $part = "upload/gambar_produk/";
+        $filename = "img" . rand(9, 9999) . ".jpg";
+
+        if (!file_exists('upload/gambar/')) {
+            mkdir('upload/gambar/', 777, true);
+        }
+
+        if ($_FILES["gambar_produk"]["name"] != "") {
+            $destinationfile = $part . $filename;
+            if (move_uploaded_file($_FILES['gambar_produk']['tmp_name'], $destinationfile)) {
+                return $destinationfile;
+            } else {
+                // gagal upload
+                return 'upload/gambar_produk/default.jpg';
+            }
+
+        } else {
+            //file upload tidak ada
+            return 'upload/gambar_produk/default.jpg';
+        }
     }
 
 }

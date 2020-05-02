@@ -52,7 +52,7 @@
                     <th scope="row" class="text-center"><?=$i?></th>
                     <td style="text-align:center;"><?=$sm['kode_transaksi_penjualan_produk']?></td>
                     <td style="text-align:center;"><?=$sm['nama_cs']?></td>
-                    <td style="text-align:center;"><?=$sm['total_penjualan_produk']?></td>
+                    <td style="text-align:center;">Rp. <?=$sm['total_penjualan_produk']?></td>
                     <td style="text-align:center;"><?=$sm['status_penjualan']?></td>
 
                     <td style="text-align:center;">

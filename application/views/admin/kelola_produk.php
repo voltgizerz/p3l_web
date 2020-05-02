@@ -39,6 +39,7 @@
                     <th scope="col" class="text-center">No</th>
                     <th scope="col" class="text-center">Gambar Produk</th>
                     <th scope="col" class="text-center">Nama Produk</th>
+                    <th scope="col" class="text-center">Harga Produk</th>
                     <th scope="col" class="text-center">Stok Produk</th>
                     <th scope="col" class="text-center">Stok Minimal Produk</th>
                     <th scope="col" class="text-center">Created Date</th>
@@ -54,6 +55,7 @@
                     <td style="text-align:center;"><img height="100" width="100"
                             src="<?=base_url();?><?=$sm['gambar_produk']?>" </td>
                     <td style="text-align:center;"><?= $sm['nama_produk'] ?></td>
+                    <td style="text-align:center;">Rp. <?= $sm['harga_produk'] ?></td>
                     <td style="text-align:center;"><?= $sm['stok_produk'] ?></td>
                     <td style="text-align:center;"><?= $sm['stok_minimal_produk'] ?></td>
                     <td style="text-align:center;"><?= $sm['created_date'] ?></td>
@@ -87,12 +89,33 @@
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <form action="<?= base_url('admin/kelola_jenis_hewan'); ?>" method="post">
+            <form action="<?= base_url('admin/kelola_produk'); ?>" method="post">
                 <div class="modal-body">
                     <div class="form-group">
-                        <input type="text" class="form-control" id="nama" name="nama" placeholder="Nama Jenis Hewan">
+                        <input type="text" class="form-control" id="nama" name="nama" placeholder="Nama Produk">
                     </div>
 
+                    <div class="form-group">
+
+                        <div class="custom-file">
+                            <input type="file" class="custom-file-input" id="gambar_produk" name="gambar_produk">
+                            <label class="custom-file-label" for="gambar_produk">Pilih Gambar Produk</label>
+                        </div>
+
+                    </div>
+
+                    <div class="form-group">
+                        <input type="number" class="form-control" id="harga" name="harga" placeholder="Harga Produk">
+                    </div>
+
+                    <div class="form-group">
+                        <input type="number" class="form-control" id="stok" name="stok" placeholder="Stok Produk">
+                    </div>
+
+                    <div class="form-group">
+                        <input type="number" class="form-control" id="stok_minimal" name="stok_minimal"
+                            placeholder="Stok Minimal Produk">
+                    </div>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
