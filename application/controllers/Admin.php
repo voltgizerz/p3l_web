@@ -1355,7 +1355,7 @@ class Admin extends CI_Controller
             $this->load->view('admin/kelola_produk', $data);
             $this->load->view('templates/footer');
         } else {
-            $_FILES["gambar_produk"]["name"] = $this->input->post('gambar_produk');
+    
             date_default_timezone_set("Asia/Bangkok");
             $data = [
                 'nama_produk' => $this->input->post('nama'),
@@ -1369,9 +1369,9 @@ class Admin extends CI_Controller
                 'deleted_date' => date("0000:00:0:00:00"),
             ];
 
-            $this->db->insert('data_jenis_hewan', $data);
+            $this->db->insert('data_produk', $data);
             $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">
-            Jenis Hewan Berhasil Ditambahkan!
+            Produk Berhasil Ditambahkan!
            </div>');
             redirect('admin/kelola_produk');
         }
