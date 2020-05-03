@@ -20,20 +20,10 @@
         <?php echo form_open("admin/logJenisHewan"); ?>
         <a href="" class="btn btn-primary mb-3" data-toggle="modal" data-target="#newSubMenuModal">TAMBAH JENIS
             HEWAN</a>
-            <input type="submit" name="log" class="btn btn-danger mb-3" value="LOG DELETE JENIS HEWAN">
+        <input type="submit" name="log" class="btn btn-danger mb-3" value="LOG DELETE JENIS HEWAN">
         <?php echo form_close(); ?>
 
-        <div class="form-group">
-            <?php echo form_open("admin/cariJenisHewan"); ?>
-            <select name="cariberdasarkan">
-                <option value="">Cari Berdasarkan</option>
-                <option value="id_jenis_hewan">Id Jenis Hewan</option>
-                <option value="nama_jenis_hewan">Nama Jenis Hewan</option>
-            </select>
-            <input name="yangdicari" id="" type="text">
-            <input type="submit" name="cari" value="Cari">
-            <?php echo form_close(); ?>
-        </div>
+        
         <?= $this->session->flashdata('message'); ?>
 
         <table class="table table-striped table-dark table-hover  table-responsive-sm">
@@ -41,8 +31,7 @@
                 <tr>
                     <th scope="col" class="text-center">No</th>
                     <th scope="col" class="text-center">Nama Jenis Hewan</th>
-                    <th scope="col" class="text-center">Created Date</th>
-                    <th scope="col" class="text-center">Updated Date</th>
+                    <th scope="col" class="text-center">Deleted Date</th>
                     <th scope="col" class="text-center">Action</th>
                 </tr>
             </thead>
@@ -52,15 +41,14 @@
                 <tr>
                     <th scope="row" class="text-center"><?= $i ?></th>
                     <td style="text-align:center;"><?= $sm['nama_jenis_hewan'] ?></td>
-                    <td style="text-align:center;"><?= $sm['created_date'] ?></td>
-                    <td style="text-align:center;"><?= $sm['updated_date'] ?></td>
+                    <td style="text-align:center;"><?= $sm['deleted_date'] ?></td>
 
                     <td style="text-align:center;">
-                        <a href="<?= base_url(); ?>admin/updateJenisHewan/<?= $sm['id_jenis_hewan']; ?>"
+                        <a href="<?= base_url(); ?>admin/restoreJenisHewan/<?= $sm['id_jenis_hewan']; ?>"
                             class="badge badge-primary mb-3" data-toggle="modal"
-                            data-target="#editSubMenuModal<?= $sm['id_jenis_hewan']; ?>">EDIT</a>
-                        <a href="<?= base_url(); ?>admin/hapusJenisHewan/<?= $sm['id_jenis_hewan']; ?>"
-                            class="badge badge-danger mb-3">DELETE</a>
+                            data-target="#editSubMenuModal<?= $sm['id_jenis_hewan']; ?>">RESTORE</a>
+                        <a href="<?= base_url(); ?>admin/deletePermJenisHewan/<?= $sm['id_jenis_hewan']; ?>"
+                            class="badge badge-danger mb-3">DELETE PREMANENT</a>
                     </td>
                 </tr>
                 <?php $i++; ?>

@@ -323,6 +323,55 @@ class Admin extends CI_Controller
         }
     }
 
+    public function logJenisHewan()
+    {
+        $data['title'] = 'Kelola Data Jenis Hewan';
+        $data['user'] = $this->db->get_where('data_pegawai', ['username' => $this->session->userdata('username')])->row_array();
+        $this->load->model('JenisHewan_Model', 'menu');
+        $data['dataJenisHewan'] = $this->menu->getDataLogJenisHewan();
+        $data['menu'] = $this->db->get('user_menu')->result_array();
+
+        if (!isset($_POST['log'])) {
+            $this->form_validation->set_rules('nama', 'Name', 'required|trim');
+        }
+
+        if ($this->form_validation->run() == false) {
+            $data['menu'] = $this->db->get('user_menu')->result_array();
+            $this->load->view('templates/header', $data);
+            $this->load->view('templates/sidebar', $data);
+            $this->load->view('templates/topbar', $data);
+            $this->load->view('admin/logJenisHewan', $data);
+            $this->load->view('templates/footer');
+            header("Cache-Control: no cache");
+        } else {
+
+            date_default_timezone_set("Asia/Bangkok");
+            $data = [
+                'jenis_hewan' => $this->input->post('nama'),
+                'created_date' => date("Y-m-d H:i:s"),
+                'updated_date' => date("0000:00:0:00:00"),
+                'deleted_date' => date("0000:00:0:00:00"),
+            ];
+
+            $this->db->insert('data_jenis_hewan', $data);
+            $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">
+            Jenis Hewan Berhasil Ditambahkan!
+           </div>');
+            redirect('admin/kelola_jenis_hewan');
+        }
+    }
+
+    public function restoreJenisHewan($id)
+    {
+        $data['title'] = 'Kelola Data Jenis Hewan';
+        $this->load->model('JenisHewan_Model');
+        $this->JenisHewan_Model->restoreJenisHewan($id);
+        $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">
+            Jenis Hewan Berhasil Di Restore!
+               </div>');
+        redirect('admin/kelola_jenis_hewan');
+    }
+
     public function updateJenisHewan($id)
     {
         $data['title'] = 'Kelola Data Jenis Hewan';
@@ -360,11 +409,27 @@ class Admin extends CI_Controller
     public function hapusJenisHewan($id)
     {
         $this->load->model('JenisHewan_Model');
-        $this->JenisHewan_Model->deleteJenisHewan($id);
-        $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">
+        if ($this->JenisHewan_Model->deleteJenisHewan($id) == -1) {
+            $this->session->set_flashdata('message', '<div class="alert alert-danger" role="alert">
+            Jenis Hewan Gagal Di Hapus, Data Masih digunakan!
+             </div>');
+            redirect('admin/kelola_jenis_hewan');
+        } else {
+            $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">
               Jenis Hewan Berhasil Di Hapus!
                </div>');
-        redirect('admin/kelola_jenis_hewan');
+            redirect('admin/kelola_jenis_hewan');
+        }
+    }
+
+    public function deletePermJenisHewan($id)
+    {
+        $this->load->model('JenisHewan_Model');
+        $this->JenisHewan_Model->deletePermJenisHewan($id);
+        $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">
+              Jenis Hewan Berhasil Di Hapus Permanent!
+               </div>');
+        redirect('admin/logJenisHewan');
     }
 
     public function cariJenisHewan()
