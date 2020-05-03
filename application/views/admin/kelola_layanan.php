@@ -81,7 +81,7 @@
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <form action="<?=base_url('admin/kelola_jasa_layanan');?>" method="post">
+            <form action="<?=base_url('admin/kelola_layanan');?>" method="post">
                 <div class="modal-body">
                 <div class="form-group">
                         <input type="text" class="form-control" id="nama" name="nama" placeholder="Nama Jasa Layanan">
