@@ -19,7 +19,7 @@
 
         <?php echo form_open("admin/logProduk"); ?>
         <a href="" class="btn btn-primary mb-3" data-toggle="modal" data-target="#newSubMenuModal">TAMBAH PRODUK</a>
-        <input type="submit" name="log" class="btn btn-danger mb-3" value="LOG DELETE UKURAN HEWAN">
+        <input type="submit" name="log" class="btn btn-danger mb-3" value="LOG DELETE PRODUK">
         <?php echo form_close(); ?>
 
         <?= $this->session->flashdata('message'); ?>

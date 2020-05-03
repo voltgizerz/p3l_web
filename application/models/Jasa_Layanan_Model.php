@@ -11,6 +11,12 @@ class Jasa_Layanan_model extends CI_Model
         return $this->db->get_where('buy_cars', ['email_Pembeli' => $tampilDataPembeli])->result_array();
     }
 
+    public function getDataLogLayanan()
+    {
+        
+        return $this->db->get_where('data_jasa_layanan', ['created_date' => '0000-00-00 00:00:00'])->result_array();
+    }
+
     public function getDataJasaLayananAdmin()
     {
         $this->db->select('id_jasa_layanan, 

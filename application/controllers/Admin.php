@@ -1744,6 +1744,52 @@ class Admin extends CI_Controller
         redirect('admin/kelola_layanan');
     }
 
+    public function logLayanan()
+    {
+        $data['title'] = 'Kelola Data Layanan';
+        $data['user'] = $this->db->get_where('data_pegawai', ['username' => $this->session->userdata('username')])->row_array();
+        $this->load->model('Jasa_Layanan_Model', 'menu');
+        $data['dataJasaLayanan'] = $this->menu->getDataLogLayanan();
+        $data['menu'] = $this->db->get('user_menu')->result_array();
+
+        if (!isset($_POST['log'])) {
+        $this->form_validation->set_rules('nama', 'Name', 'required|trim|is_unique[data_jasa_layanan.nama_jasa_layanan]', [
+            'is_unique' => 'Gagal Menambahkan Layanan Baru, Layanan Sudah Ada!',
+        ]);
+        $this->form_validation->set_rules('harga', 'harga', 'required|trim');
+        $this->form_validation->set_rules('pilih_jenis', 'pilih_jenis', 'required|trim');
+        $this->form_validation->set_rules('pilih_ukuran', 'pilih_ukuran', 'required|trim');
+        }
+
+        if ($this->form_validation->run() == false) {
+            $data['menu'] = $this->db->get('user_menu')->result_array();
+            $this->load->view('templates/header', $data);
+            $this->load->view('templates/sidebar', $data);
+            $this->load->view('templates/topbar', $data);
+            $this->load->view('admin/logLayanan', $data);
+            $this->load->view('templates/footer');
+        } else {
+            
+            date_default_timezone_set("Asia/Bangkok");
+            $data = [
+                'nama_jasa_layanan' => $this->input->post('nama'),
+                'harga_jasa_layanan' => $this->input->post('harga'),
+                'id_jenis_hewan' => $this->input->post('pilih_jenis'),
+                'id_ukuran_hewan' => $this->input->post('pilih_ukuran'),
+                'created_date' => date("Y-m-d H:i:s"),
+                'updated_date' => date("0000:00:0:00:00"),
+                'deleted_date' => date("0000:00:0:00:00"),
+            ];
+
+            $this->db->insert('data_jasa_layanan', $data);
+            $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">
+            Jasa Layanan Berhasil Ditambahkan!
+            </div>');
+            redirect('admin/kelola_layanan');
+        }
+
+    }
+
     public function cariJasaLayanan()
     {
         $data['title'] = 'Kelola Jasa Layanan';
