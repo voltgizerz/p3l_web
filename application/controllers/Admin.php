@@ -167,6 +167,63 @@ class Admin extends CI_Controller
             redirect('admin/kelola_pegawai');
         }
     }
+    
+    public function logPegawai()
+    {
+        $data['title'] = 'Kelola Data Pegawai';
+        $data['user'] = $this->db->get_where('data_pegawai', ['username' => $this->session->userdata('username')])->row_array();
+        $this->load->model('Pegawai_Model', 'menu');
+        $data['dataPegawai'] = $this->menu->getDataLogPegawai();
+        $data['menu'] = $this->db->get('user_menu')->result_array();
+
+        if (!isset($_POST['log'])) {
+            $this->form_validation->set_rules('nama', 'Name', 'required|trim');
+        }
+
+        if ($this->form_validation->run() == false) {
+            $data['menu'] = $this->db->get('user_menu')->result_array();
+            $this->load->view('templates/header', $data);
+            $this->load->view('templates/sidebar', $data);
+            $this->load->view('templates/topbar', $data);
+            $this->load->view('admin/logPegawai', $data);
+            $this->load->view('templates/footer');
+            header("Cache-Control: no cache");
+        } else {
+
+            date_default_timezone_set("Asia/Bangkok");
+            $data = [
+                'nama_pegawai' => $this->input->post('nama'),
+                'alamat_pegawai' => $this->input->post('alamat'),
+                'tanggal_lahir_pegawai' => $this->input->post('tanggal'),
+                'role_pegawai' => $this->input->post('role'),
+                'nomor_hp_pegawai' => $this->input->post('nohp'),
+                'username' => $this->input->post('username'),
+                'role_id' => $role_id,
+                'password' => password_hash($this->input->post('password'), PASSWORD_DEFAULT),
+                'created_date' => date("Y-m-d H:i:s"),
+                'updated_date' => date("0000:00:0:00:00"),
+                'deleted_date' => date("0000:00:0:00:00"),
+            ];
+
+            $this->db->insert('data_pegawai', $data);
+            $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">
+            Pegawai Berhasil Ditambahkan!
+           </div>');
+            redirect('admin/kelola_pegawai');
+        }
+        
+    }
+
+    public function restorePegawai($id)
+    {
+        $data['title'] = 'Kelola Data Pegawai';
+        $this->load->model('Pegawai_Model');
+        $this->Pegawai_Model->restorePegawai($id);
+        $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">
+              Pegawai Berhasil Di Restore!
+               </div>');
+        redirect('admin/kelola_pegawai');
+    }
 
     public function updatePegawai($id)
     {
@@ -230,11 +287,27 @@ class Admin extends CI_Controller
     public function hapusPegawai($id)
     {
         $this->load->model('Pegawai_Model');
-        $this->Pegawai_Model->deletePegawai($id);
+        if ($this->Pegawai_Model->deletePegawai($id) == -1) {
+            $this->session->set_flashdata('message', '<div class="alert alert-danger" role="alert">
+            Pegawai Gagal Di Hapus, Data Masih digunakan!
+             </div>');
+            redirect('admin/kelola_pegawai');
+        } else {
+            $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">
+             Pegawai Berhasil Di Hapus!
+               </div>');
+            redirect('admin/kelola_pegawai');
+        }
+    }
+
+    public function deletePermPegawai($id)
+    {
+        $this->load->model('Pegawai_Model');
+        $this->Pegawai_Model->deletePermPegawai($id);
         $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">
               Pegawai Berhasil Di Hapus!
                </div>');
-        redirect('admin/kelola_pegawai');
+        redirect('admin/logPegawai');
     }
 
     public function cariPegawai()
@@ -949,6 +1022,58 @@ class Admin extends CI_Controller
         }
     }
 
+    public function logCustomer()
+    {
+        $data['title'] = 'Kelola Data Customer';
+        $data['user'] = $this->db->get_where('data_customer', ['username' => $this->session->userdata('username')])->row_array();
+        $this->load->model('Customer_Model', 'menu');
+        $data['dataCustomer'] = $this->menu->getDataLogCustomer();
+        $data['menu'] = $this->db->get('user_menu')->result_array();
+
+        if (!isset($_POST['log'])) {
+            $this->form_validation->set_rules('nama', 'Name', 'required|trim');
+        }
+
+        if ($this->form_validation->run() == false) {
+            $data['menu'] = $this->db->get('user_menu')->result_array();
+            $this->load->view('templates/header', $data);
+            $this->load->view('templates/sidebar', $data);
+            $this->load->view('templates/topbar', $data);
+            $this->load->view('admin/logCustomer', $data);
+            $this->load->view('templates/footer');
+            header("Cache-Control: no cache");
+        } else {
+
+            date_default_timezone_set("Asia/Bangkok");
+            $data = [
+                'nama_customer' => $this->input->post('nama_customer'),
+                'alamat_customer' => $this->input->post('alamat_customer'),
+                'tanggal_lahir_customer' => $this->input->post('tanggal_lahir_customer'),
+                'nomor_hp_customer' => $this->input->post('nomor_hp_customer'),
+                'created_date' => date("Y-m-d H:i:s"),
+                'updated_date' => date("0000:00:0:00:00"),
+                'deleted_date' => date("0000:00:0:00:00"),
+            ];
+
+            $this->db->insert('data_customer', $data);
+            $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">
+            Customer Berhasil Ditambahkan!
+           </div>');
+            redirect('admin/kelola_customer');
+        }
+    }
+
+    public function restoreCustomer($id)
+    {
+        $data['title'] = 'Kelola Data Customer';
+        $this->load->model('Customer_Model');
+        $this->Customer_Model->restoreCustomer($id);
+        $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">
+              Customer Berhasil Di Restore!
+               </div>');
+        redirect('admin/kelola_customer');
+    }
+
     public function updateCustomer($id)
     {
         $data['title'] = 'Kelola Data Customer';
@@ -990,7 +1115,6 @@ class Admin extends CI_Controller
     public function hapusCustomer($id)
     {
         $this->load->model('Customer_Model');
-        $this->Customer_Model->deleteCustomer($id);
         if ($this->Customer_Model->deleteCustomer($id) == -1) {
             $this->session->set_flashdata('message', '<div class="alert alert-danger" role="alert">
             Customer Gagal Di Hapus, Data Masih digunakan!
@@ -1002,6 +1126,16 @@ class Admin extends CI_Controller
                </div>');
             redirect('admin/kelola_customer');
         }
+    }
+
+    public function deletePermCustomer($id)
+    {
+        $this->load->model('Customer_Model');
+        $this->Customer_Model->deletePermCustomer($id);
+        $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">
+              Customer Berhasil Di Hapus Permanent!
+               </div>');
+        redirect('admin/logCustomer');
     }
 
     public function cariCustomer()

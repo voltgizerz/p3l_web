@@ -22,19 +22,6 @@
         <input type="submit" name="log" class="btn btn-danger mb-3" value="LOG DELETE PEGAWAI">
         <?php echo form_close(); ?>
         
-        <div class="form-group">
-            <?php echo form_open("admin/cariPegawai"); ?>
-            <select name="cariberdasarkan">
-                <option value="">Cari Berdasarkan</option>
-                <option value="id_pegawai">Id Pegawai</option>
-                <option value="nama_pegawai">Nama Pegawai</option>
-                <option value="username">Username</option>
-                <option value="role_pegawai">Role Pegawai</option>
-            </select>
-            <input name="yangdicari" id="" type="text">
-            <input type="submit" name="cari" value="Cari">
-            <?php echo form_close(); ?>
-        </div>
         <?= $this->session->flashdata('message'); ?>
 
         <table class="table table-striped table-dark table-hover  table-responsive-sm">
@@ -47,7 +34,6 @@
                     <th scope="col" class="text-center">Nomor Hp</th>
                     <th scope="col" class="text-center">Role</th>
                     <th scope="col" class="text-center">Username</th>
-                    <th scope="col" class="text-center">Created Date</th>
                     <th scope="col" class="text-center">Updated Date</th>
                     <th scope="col" class="text-center">Action</th>
                 </tr>
@@ -63,15 +49,14 @@
                     <td class="text-center"><?= $sm['nomor_hp_pegawai'] ?></td>
                     <td class="text-center"><?= $sm['role_pegawai'] ?></td>
                     <td class="text-center"><?= $sm['username'] ?></td>
-                    <td class="text-center"><?= $sm['created_date'] ?></td>
-                    <td class="text-center"><?= $sm['updated_date'] ?></td>
+                    <td class="text-center"><?= $sm['deleted_date'] ?></td>
 
                     <td>
-                        <a href="<?= base_url(); ?>admin/updatePegawai/<?= $sm['id_pegawai']; ?>"
+                        <a href="<?= base_url(); ?>admin/restorePegawai/<?= $sm['id_pegawai']; ?>"
                             class="badge badge-primary mb-3" data-toggle="modal"
-                            data-target="#editSubMenuModal<?= $sm['id_pegawai']; ?>">EDIT</a>
-                        <a href="<?= base_url(); ?>admin/hapusPegawai/<?= $sm['id_pegawai']; ?>"
-                            class="badge badge-danger mb-3">DELETE</a>
+                            data-target="#editSubMenuModal<?= $sm['id_pegawai']; ?>">RESTORE</a>
+                        <a href="<?= base_url(); ?>admin/deletePermPegawai/<?= $sm['id_pegawai']; ?>"
+                            class="badge badge-danger mb-3">DELETE PERMANENT</a>
                     </td>
                 </tr>
                 <?php $i++; ?>
