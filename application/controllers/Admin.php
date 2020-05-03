@@ -1631,4 +1631,143 @@ class Admin extends CI_Controller
         }
     }
 
+    #Jasa layanan
+    public function kelola_layanan()
+    {
+        $data['title'] = 'Kelola Jasa Layanan';
+        $data['user'] = $this->db->get_where('user', ['email' => $this->session->userdata('email')])->row_array();
+        $this->load->model('Jasa_Layanan_Model', 'menu');
+        // INI UNTUK DROPDOWN
+        $data['data_ukuran'] = $this->menu->select_ukuran();
+        $data['data_jenis'] = $this->menu->select_jenis();
+
+        $data['dataJasaLayanan'] = $this->menu->getDataJasaLayananAdmin();
+        $data['menu'] = $this->db->get('user_menu')->result_array();
+
+        $this->form_validation->set_rules('nama', 'Name', 'required|trim');
+
+        if ($this->form_validation->run() == false) {
+            $data['menu'] = $this->db->get('user_menu')->result_array();
+            $this->load->view('templates/header', $data);
+            $this->load->view('templates/sidebar', $data);
+            $this->load->view('templates/topbar', $data);
+            $this->load->view('admin/kelola_jasa_layanan', $data);
+            $this->load->view('templates/footer');
+        } else {
+            $emailPembeli = $data['user']['email'];
+            date_default_timezone_set("Asia/Bangkok");
+            $data = [
+                'nama_jasa_layanan' => $this->input->post('nama'),
+                'harga_jasa_layanan' => $this->input->post('harga'),
+                'id_jenis_hewan' => $this->input->post('pilih_jenis'),
+                'id_ukuran_hewan' => $this->input->post('pilih_ukuran'),
+                'created_date' => date("Y-m-d H:i:s"),
+                'updated_date' => date("0000:00:0:00:00"),
+                'deleted_date' => date("0000:00:0:00:00"),
+            ];
+
+            $this->db->insert('data_jasa_layanan', $data);
+            $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">
+            Jasa Layanan Berhasil Ditambahkan!
+            </div>');
+            redirect('admin/kelola_jasa_layanan');
+        }
+    }
+
+    public function updateJasaLayanan($id)
+    {
+        $data['title'] = 'Kelola Jasa Layanan';
+        $data['user'] = $this->db->get_where('user', ['email' => $this->session->userdata('email')])->row_array();
+        $this->load->model('Jasa_Layanan_Model', 'menu');
+        $data['dataJasaLayanan'] = $this->menu->getJasaLayananId($id);
+        $data['menu'] = $this->db->get('user_menu')->result_array();
+
+        $this->form_validation->set_rules('nama', 'Nama', 'required');
+
+        if ($this->form_validation->run() == false) {
+            $data['menu'] = $this->db->get('user_menu')->result_array();
+            $this->load->view('templates/header', $data);
+            $this->load->view('templates/sidebar', $data);
+            $this->load->view('templates/topbar', $data);
+            $this->load->view('admin/kelola_jasa_layanan', $data);
+            $this->load->view('templates/footer');
+        } else {
+            $emailPembeli = $data['user']['email'];
+            date_default_timezone_set("Asia/Bangkok");
+            $data = [
+                'nama_jasa_layanan' => $this->input->post('nama'),
+                'harga_jasa_layanan' => $this->input->post('harga'),
+                'id_jenis_hewan' => $this->input->post('pilih_jenis'),
+                'id_ukuran_hewan' => $this->input->post('pilih_ukuran'),
+                'updated_date' => date("Y-m-d H:i:s"),
+                'deleted_date' => date("0000:00:0:00:00"),
+            ];
+
+            $this->db->where('id_jasa_layanan', $this->input->post('id'));
+            $this->db->update('data_jasa_layanan', $data);
+            $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">
+            Data Jasa Layanan Sukses di Edit!
+           </div>');
+            redirect('admin/kelola_jasa_layanan');
+        }
+    }
+
+    public function hapusJasaLayanan($id)
+    {
+        $this->load->model('Jasa_Layanan_Model');
+        $this->Jasa_Layanan_Model->deleteJasaLayanan($id);
+        $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">
+            Jasa Layanan Berhasil Di Hapus!
+               </div>');
+        redirect('admin/kelola_jasa_layanan');
+    }
+
+    public function cariJasaLayanan()
+    {
+        $data['title'] = 'Kelola Jasa Layanan';
+        $data['user'] = $this->db->get_where('user', ['email' => $this->session->userdata('email')])->row_array();
+        $this->load->model('Jasa_Layanan_Model', 'menu');
+        // INI UNTUK DROPDOWN
+        $data['data_ukuran'] = $this->menu->select_ukuran();
+        $data['data_jenis'] = $this->menu->select_jenis();
+        
+        $data['cariberdasarkan'] = $this->input->post("cariberdasarkan");
+        $data['yangdicari'] = $this->input->post("yangdicari");
+        $data["dataJasaLayanan"] = $this->menu->cariJasaLayanan($data['cariberdasarkan'], $data['yangdicari'])->result_array();
+        $data["jumlah"] = count($data["dataJasaLayanan"]);
+    
+        $data['menu'] = $this->db->get('user_menu')->result_array();
+        
+        if(!isset($_POST['cari'])){
+        $this->form_validation->set_rules('nama', 'Name', 'required|trim');
+        }
+
+        if ($this->form_validation->run() == false) {
+            $data['menu'] = $this->db->get('user_menu')->result_array();
+            $this->load->view('templates/header', $data);
+            $this->load->view('templates/sidebar', $data);
+            $this->load->view('templates/topbar', $data);
+            $this->load->view('admin/cariJasaLayanan', $data);
+            $this->load->view('templates/footer');
+        } else {
+            $emailPembeli = $data['user']['email'];
+            date_default_timezone_set("Asia/Bangkok");
+            $data = [
+                'nama_jasa_layanan' => $this->input->post('nama'),
+                'harga_jasa_layanan' => $this->input->post('harga'),
+                'id_jenis_hewan' => $this->input->post('pilih_jenis'),
+                'id_ukuran_hewan' => $this->input->post('pilih_ukuran'),
+                'created_date' => date("Y-m-d H:i:s"),
+                'updated_date' => date("0000:00:0:00:00"),
+                'deleted_date' => date("0000:00:0:00:00"),
+            ];
+
+            $this->db->insert('data_jasa_layanan', $data);
+            $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">
+            Jasa Layanan Berhasil Ditambahkan!
+           </div>');
+            redirect('admin/kelola_jasa_layanan');
+        }
+    }
+
 }
