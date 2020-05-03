@@ -3,18 +3,13 @@ defined('BASEPATH') or exit('No direct script access allowed');
 
 class Pengadaan_model extends CI_Model
 {
-    public function getDataBeliMobil()
-    {
-        $data['user'] = $this->db->get_where('user', ['email' => $this->session->userdata('email')])->row_array();
-        $tampilDataPembeli = $data['user']['email'];
-        return $this->db->get_where('buy_cars', ['email_Pembeli' => $tampilDataPembeli])->result_array();
-    }
 
     public function getDataPengadaanAdmin()
     {
         $this->db->select('data_pengadaan.id_pengadaan,data_pengadaan.kode_pengadaan,data_pengadaan.id_supplier,data_supplier.nama_supplier,data_pengadaan.status as status_pengadaan,data_pengadaan.tanggal_pengadaan,data_pengadaan.tanggal_pengadaan,data_pengadaan.tanggal_pengadaan,data_pengadaan.total AS total_pengadaan,data_pengadaan.created_date,data_pengadaan.updated_date');
         $this->db->join('data_supplier', 'data_supplier.id_supplier = data_pengadaan.id_supplier');
         $this->db->from('data_pengadaan');
+        $this->db->order_by("data_pengadaan.id_pengadaan desc");
         $query = $this->db->get();
 
         return $query->result_array();
@@ -27,6 +22,7 @@ class Pengadaan_model extends CI_Model
         $this->db->select('data_detail_pengadaan.id_detail_pengadaan,data_detail_pengadaan.id_produk_fk,data_produk.nama_produk,data_produk.gambar_produk,data_detail_pengadaan.kode_pengadaan_fk,data_detail_pengadaan.satuan_pengadaan,data_detail_pengadaan.jumlah_pengadaan,data_detail_pengadaan.tanggal_pengadaan');
         $this->db->join('data_produk', 'data_produk.id_produk = data_detail_pengadaan.id_produk_fk');
         $this->db->from('data_detail_pengadaan');
+        $this->db->order_by("data_detail_pengadaan.id_detail_pengadaan desc");
         $this->db->where('kode_pengadaan_fk', $data);
         $query = $this->db->get();
 
