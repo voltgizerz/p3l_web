@@ -3,7 +3,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
 
 class Produk_model extends CI_Model
 {
-   
+
     public function getDataProdukAdmin()
     {
         return $this->db->get_where('data_produk', ['deleted_date' => '0000-00-00 00:00:00'])->result_array();
@@ -84,20 +84,25 @@ class Produk_model extends CI_Model
         return $this->db->get_where('data_ukuran_hewan', ['id_ukuran_hewan' => $id])->result_array();
     }
 
-    public function cariUkuranHewan($berdasarkan, $yangdicari)
+    public function cariProduk($berdasarkan, $yangdicari)
     {
         $this->db->select('*');
-        $this->db->from('data_ukuran_hewan');
-        $this->db->where('deleted_date','0000-00-00 00:00:00');
+        $this->db->from('data_produk');
+        $this->db->where('deleted_date', '0000-00-00 00:00:00');
 
         switch ($berdasarkan) {
             case "":
-                $this->db->like('ukuran_hewan', $yangdicari);
-                $this->db->or_like('id_ukuran_hewan', $yangdicari);
+                $this->db->like('nama_produk', $yangdicari);
+                $this->db->or_like('id_produk', $yangdicari);
                 break;
 
-            case "id_ukuran_hewan":
-                $this->db->where('id_ukuran_hewan', $yangdicari);
+            case "id_produk":
+                $this->db->where('id_produk', $yangdicari);
+                break;
+
+            case "nama_produk":
+                $this->db->where('nama_produk', $yangdicari);
+                break;
 
             default:
                 $this->db->like($berdasarkan, $yangdicari);
@@ -113,7 +118,8 @@ class Produk_model extends CI_Model
 
     }
 
-    public function getProdukId($id){
+    public function getProdukId($id)
+    {
         return $this->db->get_where('data_produk', ['id_produk' => $id])->result_array();
     }
 

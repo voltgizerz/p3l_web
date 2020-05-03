@@ -1496,7 +1496,8 @@ class Admin extends CI_Controller
         }
     }
 
-    public function hapusProduk($id){
+    public function hapusProduk($id)
+    {
         $this->load->model('Produk_Model');
         if ($this->Produk_Model->deleteProduk($id) == -1) {
             $this->session->set_flashdata('message', '<div class="alert alert-danger" role="alert">
@@ -1511,20 +1512,21 @@ class Admin extends CI_Controller
         }
     }
 
-    public function logProduk(){
+    public function logProduk()
+    {
         $data['title'] = 'Kelola Data Produk';
         $data['user'] = $this->db->get_where('data_pegawai', ['username' => $this->session->userdata('username')])->row_array();
         $this->load->model('Produk_Model', 'menu');
         $data['dataProduk'] = $this->menu->getDataLogProduk();
         $data['menu'] = $this->db->get('user_menu')->result_array();
-        
+
         if (!isset($_POST['log'])) {
-        $this->form_validation->set_rules('nama', 'Name', 'required|trim|is_unique[data_produk.nama_produk]', [
-            'is_unique' => 'Gagal Menambahkan Produk Baru, Produk Sudah Ada!',
-        ]);
-        $this->form_validation->set_rules('harga', 'harga', 'required|trim');
-        $this->form_validation->set_rules('stok', 'stok', 'required|trim');
-        $this->form_validation->set_rules('stok_minimal', 'stok_minimal', 'required|trim');
+            $this->form_validation->set_rules('nama', 'Name', 'required|trim|is_unique[data_produk.nama_produk]', [
+                'is_unique' => 'Gagal Menambahkan Produk Baru, Produk Sudah Ada!',
+            ]);
+            $this->form_validation->set_rules('harga', 'harga', 'required|trim');
+            $this->form_validation->set_rules('stok', 'stok', 'required|trim');
+            $this->form_validation->set_rules('stok_minimal', 'stok_minimal', 'required|trim');
         }
         if ($this->form_validation->run() == false) {
             $data['menu'] = $this->db->get('user_menu')->result_array();
@@ -1554,7 +1556,7 @@ class Admin extends CI_Controller
            </div>');
             redirect('admin/kelola_produk');
         }
-    
+
     }
 
     public function deletePermProduk($id)
@@ -1579,7 +1581,54 @@ class Admin extends CI_Controller
         redirect('admin/kelola_produk');
     }
 
+    public function cariProduk()
+    {
+        $data['title'] = 'Kelola Data Produk';
+        $data['user'] = $this->db->get_where('data_pegawai', ['username' => $this->session->userdata('username')])->row_array();
+        $this->load->model('Produk_Model', 'menu');
+        
+        $data['cariberdasarkan'] = $this->input->post("cariberdasarkan");
+        $data['yangdicari'] = $this->input->post("yangdicari");
+        $data["dataProduk"] = $this->menu->cariProduk($data['cariberdasarkan'], $data['yangdicari'])->result_array();
+        $data["jumlah"] = count($data["dataProduk"]);
+        
+        $data['menu'] = $this->db->get('user_menu')->result_array();
+        if (!isset($_POST['cari'])) {
+            $this->form_validation->set_rules('nama', 'Name', 'required|trim|is_unique[data_produk.nama_produk]', [
+                'is_unique' => 'Gagal Menambahkan Produk Baru, Produk Sudah Ada!',
+            ]);
+            $this->form_validation->set_rules('harga', 'harga', 'required|trim');
+            $this->form_validation->set_rules('stok', 'stok', 'required|trim');
+            $this->form_validation->set_rules('stok_minimal', 'stok_minimal', 'required|trim');
+        }
+        if ($this->form_validation->run() == false) {
+            $data['menu'] = $this->db->get('user_menu')->result_array();
+            $this->load->view('templates/header', $data);
+            $this->load->view('templates/sidebar', $data);
+            $this->load->view('templates/topbar', $data);
+            $this->load->view('admin/cariProduk', $data);
+            $this->load->view('templates/footer');
+        } else {
 
-    
+            date_default_timezone_set("Asia/Bangkok");
+            $data = [
+                'nama_produk' => $this->input->post('nama'),
+                'harga_produk' => $this->input->post('harga'),
+                'stok_produk' => $this->input->post('stok'),
+                'gambar_produk' => $this->response_upload(),
+                'gambar_produk_desktop' => $_FILES["gambar_produk"]["name"],
+                'stok_minimal_produk' => $this->input->post('stok_minimal'),
+                'created_date' => date("Y-m-d H:i:s"),
+                'updated_date' => date("0000:00:0:00:00"),
+                'deleted_date' => date("0000:00:0:00:00"),
+            ];
+
+            $this->db->insert('data_produk', $data);
+            $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">
+            Produk Berhasil Ditambahkan!
+           </div>');
+            redirect('admin/kelola_produk');
+        }
+    }
 
 }
