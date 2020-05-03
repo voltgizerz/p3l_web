@@ -16,9 +16,11 @@
             <?= validation_errors(); ?>
         </div>
         <?php endif; ?>
+
+        <?php echo form_open("admin/logProduk"); ?>
         <a href="" class="btn btn-primary mb-3" data-toggle="modal" data-target="#newSubMenuModal">TAMBAH PRODUK</a>
-        <a href="" class="btn btn-danger mb-3" data-toggle="modal" data-target="#newSubMenuModal">LOG DELETE
-            PRODUK</a>
+        <input type="submit" name="log" class="btn btn-danger mb-3" value="LOG DELETE UKURAN HEWAN">
+        <?php echo form_close(); ?>
 
         <div class="form-group">
             <?php echo form_open("admin/cariProduk"); ?>
