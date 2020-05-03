@@ -1338,7 +1338,8 @@ class Admin extends CI_Controller
         }
     }
 
-    public function kelola_produk(){
+    public function kelola_produk()
+    {
         $data['title'] = 'Kelola Data Produk';
         $data['user'] = $this->db->get_where('data_pegawai', ['username' => $this->session->userdata('username')])->row_array();
         $this->load->model('Produk_Model', 'menu');
@@ -1360,7 +1361,7 @@ class Admin extends CI_Controller
             $this->load->view('admin/kelola_produk', $data);
             $this->load->view('templates/footer');
         } else {
-    
+
             date_default_timezone_set("Asia/Bangkok");
             $data = [
                 'nama_produk' => $this->input->post('nama'),
@@ -1381,6 +1382,96 @@ class Admin extends CI_Controller
             redirect('admin/kelola_produk');
         }
     }
+
+    public function updateProduk($id)
+    {
+        $data['title'] = 'Kelola Data Produk';
+        $cekProduk = $this->db->get_where('data_produk', ['id_produk' => $id])->row()->nama_produk;
+        $data['user'] = $this->db->get_where('data_pegawai', ['username' => $this->session->userdata('username')])->row_array();
+        $this->load->model('Produk_Model', 'menu');
+        $data['dataProduk'] = $this->menu->getProdukId($id);
+        $data['menu'] = $this->db->get('user_menu')->result_array();
+
+        if ($cekProduk == $this->input->post('nama')) {
+
+            $this->form_validation->set_rules('nama', 'Name', 'required|trim');
+            $this->form_validation->set_rules('harga', 'harga', 'required|trim');
+            $this->form_validation->set_rules('stok', 'stok', 'required|trim');
+            $this->form_validation->set_rules('stok_minimal', 'stok_minimal', 'required|trim');
+
+        } else {
+            $this->form_validation->set_rules('nama', 'Name', 'required|trim|is_unique[data_produk.nama_produk]', [
+                'is_unique' => 'Gagal Edit Produk, Nama Produk Sudah Ada!',
+            ]);
+            $this->form_validation->set_rules('harga', 'harga', 'required|trim');
+            $this->form_validation->set_rules('stok', 'stok', 'required|trim');
+            $this->form_validation->set_rules('stok_minimal', 'stok_minimal', 'required|trim');
+        }
+
+        if ($this->form_validation->run() == false) {
+            $data['menu'] = $this->db->get('user_menu')->result_array();
+            $this->load->view('templates/header', $data);
+            $this->load->view('templates/sidebar', $data);
+            $this->load->view('templates/topbar', $data);
+            $this->load->view('admin/kelola_produk', $data);
+            $this->load->view('templates/footer');
+        } else {
+            date_default_timezone_set("Asia/Bangkok");
+            $data = [
+                'nama_produk' => $this->input->post('nama'),
+                'harga_produk' => $this->input->post('harga'),
+                'stok_produk' => $this->input->post('stok'),
+                'gambar_produk' => $this->response_upload_edit($id),
+                'gambar_produk_desktop' => $_FILES["gambar_produk"]["name"],
+                'stok_minimal_produk' => $this->input->post('stok_minimal'),
+                'updated_date' => date("Y-m-d H:i:s"),
+                'deleted_date' => date("0000:00:0:00:00"),
+            ];
+
+            $this->db->where('id_produk', $this->input->post('id'));
+            $this->db->update('data_produk', $data);
+            $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">
+            Produk Berhasil Diedit!
+           </div>');
+            redirect('admin/kelola_produk');
+        }
+    }
+
+    public function response_upload_edit($id)
+    {
+        $this->load->model('Produk_Model', 'menu');
+        $part = "upload/gambar_produk/";
+        $filename = "img" . rand(9, 9999) . ".jpg";
+
+        if (!file_exists('upload/gambar/')) {
+            mkdir('upload/gambar/', 777, true);
+        }
+
+        if ($_FILES["gambar_produk"]["name"] != "") {
+            if ($this->menu->cekGambar($id) != 1) {
+                unlink(FCPATH . $this->menu->cekGambar($id));
+            }
+
+            $destinationfile = $part . $filename;
+            if (move_uploaded_file($_FILES['gambar_produk']['tmp_name'], $destinationfile)) {
+                return $destinationfile;
+            } else {
+                // gagal upload
+                return 'upload/gambar_produk/default.jpg';
+            }
+
+        } else {
+            //FILE TIDAK ADA DI UPLOAD
+            if ($this->menu->cekGambar($id) == 1) {
+                return 'upload/gambar_produk/default.jpg';
+            } else {
+
+                return $this->menu->cekGambar($id);
+            }
+            ;
+        }
+    }
+
     public function response_upload()
     {
         $part = "upload/gambar_produk/";

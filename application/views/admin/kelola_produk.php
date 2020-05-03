@@ -150,6 +150,33 @@
                         <input type="text" class="form-control" id="nama" name="nama" value="<?= $sm['nama_produk']; ?>"
                             placeholder="Nama Produk">
                     </div>
+
+                    <div class="form-group">
+
+                        <div class="custom-file">
+                            <input type="file" class="custom-file-input" id="gambar_produk" name="gambar_produk">
+                            <label class="custom-file-label" for="gambar_produk">Pilih Gambar Produk</label>
+                        </div>
+
+                    </div>
+
+                    <div class="form-group">
+                        <input type="number" class="form-control" id="harga" name="harga"
+                            value="<?= $sm['harga_produk']; ?>" placeholder="Harga Produk">
+                    </div>
+
+                    <div class="form-group">
+                        <input type="number" class="form-control" id="stok" name="stok"
+                            value="<?= $sm['stok_produk']; ?>" placeholder="Stok Produk">
+                    </div>
+
+                    <div class="form-group">
+                        <input type="number" class="form-control" id="stok_minimal"
+                            value="<?= $sm['stok_minimal_produk']; ?>" name="stok_minimal"
+                            placeholder="Stok Minimal Produk">
+                    </div>
+
+
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
