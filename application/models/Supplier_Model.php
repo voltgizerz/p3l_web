@@ -1,7 +1,6 @@
 <?php
 defined('BASEPATH') or exit('No direct script access allowed');
 
-
 class Supplier_model extends CI_Model
 {
     public function getDataBeliMobil()
@@ -27,22 +26,23 @@ class Supplier_model extends CI_Model
         return $this->db->get_where('data_supplier', ['id_supplier' => $id])->result_array();
     }
 
-    public function cariSupplier($berdasarkan,$yangdicari){
+    public function cariSupplier($berdasarkan, $yangdicari)
+    {
         $this->db->select('*');
         $this->db->from('data_supplier');
-        $this->db->where('deleted_date','0000-00-00 00:00:00');
+        $this->db->where('deleted_date', '0000-00-00 00:00:00');
 
-        switch($berdasarkan){
+        switch ($berdasarkan) {
             case "":
-                $this->db->like('nama_supplier',$yangdicari);
-                $this->db->or_like('data_supplier',$yangdicari);
-            break;
+                $this->db->like('nama_supplier', $yangdicari);
+                $this->db->or_like('data_supplier', $yangdicari);
+                break;
 
-            case "data_supplier":
-                $this->db->where('data_supplier',$yangdicari);
-            
+            case "nama_supplier":
+                $this->db->where('nama_supplier', $yangdicari);
+                break;
             default:
-            $this->db->like($berdasarkan,$yangdicari);
+                $this->db->like($berdasarkan, $yangdicari);
         }
         return $this->db->get();
     }
