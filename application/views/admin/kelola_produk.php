@@ -54,7 +54,7 @@
                 <?php foreach ($dataProduk as $sm) : ?>
                 <tr>
                     <th scope="row" class="text-center"><?= $i ?></th>
-                    <td style="text-align:center;"><img height="100" width="100"
+                    <td style="text-align:center;"><img style="border:5px solid white" height=" 100" width="100"
                             src="<?=base_url();?><?=$sm['gambar_produk']?>" </td>
                     <td style="text-align:center;"><?= $sm['nama_produk'] ?></td>
                     <td style="text-align:center;">Rp. <?= $sm['harga_produk'] ?></td>
@@ -86,7 +86,7 @@
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="newMenuModal">Tambah Jenis Hewan</h5>
+                <h5 class="modal-title" id="newMenuModal">Tambah Produk</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>

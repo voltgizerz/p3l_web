@@ -27,8 +27,8 @@
             <thead>
                 <tr>
                     <th scope="col" class="text-center">No</th>
-                    <th scope="col" class="text-center">Nama Produk</th>
                     <th scope="col" class="text-center">Gambar Produk</th>
+                    <th scope="col" class="text-center">Nama Produk</th>
                     <th scope="col" class="text-center">Jumlah Produk</th>
                     <th scope="col" class="text-center">Subtotal</th>
                     <th scope="col" class="text-center">Action</th>
@@ -39,9 +39,9 @@
                 <?php foreach ($dataDetailPenjualanProduk as $sm): ?>
                 <tr>
                     <th scope="row" class="text-center"><?=$i?></th>
-                    <td style="text-align:center;"><?=$sm['nama_produk']?></td>
-                    <td style="text-align:center;"><img height="100" width="100"
+                    <td style="text-align:center;"><img style="border:5px solid white" height="100" width="100"
                             src="<?=base_url();?><?=$sm['gambar_produk']?>" </td>
+                    <td style="text-align:center;"><?=$sm['nama_produk']?></td>
                     <td style="text-align:center;"><?=$sm['jumlah_produk']?></td>
                     <td style="text-align:center;">Rp. <?=$sm['subtotal']?></td>
                     <td style="text-align:center;">

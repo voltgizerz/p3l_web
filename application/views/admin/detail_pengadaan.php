@@ -27,8 +27,8 @@
             <thead>
                 <tr>
                     <th scope="col" class="text-center">No</th>
-                    <th scope="col" class="text-center">Nama Produk</th>
                     <th scope="col" class="text-center">Gambar Produk</th>
+                    <th scope="col" class="text-center">Nama Produk</th>
                     <th scope="col" class="text-center">Satuan Pengadaan</th>
                     <th scope="col" class="text-center">Jumlah Pengadaan</th>
                     <th scope="col" class="text-center">Tanggal Pengadaan</th>
@@ -40,9 +40,9 @@
                 <?php foreach ($dataDetailPengadaan as $sm): ?>
                 <tr>
                     <th scope="row" class="text-center"><?=$i?></th>
-                    <td style="text-align:center;"><?=$sm['nama_produk']?></td>
-                    <td style="text-align:center;"><img height="100" width="100"
+                    <td style="text-align:center;"><img style="border:5px solid white" height="100" width="100"
                             src="<?=base_url();?><?=$sm['gambar_produk']?>" </td>
+                    <td style="text-align:center;"><?=$sm['nama_produk']?></td>
                     <td style=" text-align:center;"><?=$sm['satuan_pengadaan']?></td>
                     <td style="text-align:center;"><?=$sm['jumlah_pengadaan']?></td>
                     <td style="text-align:center;"><?=$sm['tanggal_pengadaan']?></td>
