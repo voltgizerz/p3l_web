@@ -138,7 +138,8 @@
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <form action="<?= base_url(); ?>admin/updateProduk/<?= $sm['id_produk']; ?>" method="post">
+            <form action="<?= base_url(); ?>admin/updateProduk/<?= $sm['id_produk']; ?>" method="post"
+                enctype="multipart/form-data">
 
                 <div class="modal-body">
                     <div class="form-group">
@@ -147,7 +148,7 @@
                     </div>
                     <div class="form-group">
                         <input type="text" class="form-control" id="nama" name="nama" value="<?= $sm['nama_produk']; ?>"
-                            placeholder="Nama Jenis Hewan">
+                            placeholder="Nama Produk">
                     </div>
                 </div>
                 <div class="modal-footer">

@@ -1345,7 +1345,12 @@ class Admin extends CI_Controller
         $data['dataProduk'] = $this->menu->getDataProdukAdmin();
         $data['menu'] = $this->db->get('user_menu')->result_array();
 
-        $this->form_validation->set_rules('nama', 'Name', 'required|trim');
+        $this->form_validation->set_rules('nama', 'Name', 'required|trim|is_unique[data_produk.nama_produk]', [
+            'is_unique' => 'Gagal Menambahkan Produk Baru, Produk Sudah Ada!',
+        ]);
+        $this->form_validation->set_rules('harga', 'harga', 'required|trim');
+        $this->form_validation->set_rules('stok', 'stok', 'required|trim');
+        $this->form_validation->set_rules('stok_minimal', 'stok_minimal', 'required|trim');
 
         if ($this->form_validation->run() == false) {
             $data['menu'] = $this->db->get('user_menu')->result_array();
