@@ -16,9 +16,13 @@
             <?= validation_errors(); ?>
         </div>
         <?php endif; ?>
-        <a href="" class="btn btn-primary mb-3" data-toggle="modal" data-target="#newSubMenuModal">TAMBAH CUSTOMERS</a>
-        <a href="" class="btn btn-danger mb-3" data-toggle="modal" data-target="#newSubMenuModal">LOG DELETE
-            SUPPLIER</a>
+        
+        
+        <?php echo form_open("admin/logSupplier"); ?>
+        <a href="" class="btn btn-primary mb-3" data-toggle="modal" data-target="#newSubMenuModal">TAMBAH SUPPLIER</a>
+        <input type="submit" name="log" class="btn btn-danger mb-3" value="LOG DELETE SUPPLIER">
+        <?php echo form_close(); ?>
+        
         <div class="form-group">
             <?php echo form_open("admin/cariSupplier"); ?>
             <select name="cariberdasarkan">

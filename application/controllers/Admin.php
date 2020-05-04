@@ -798,9 +798,65 @@ class Admin extends CI_Controller
         }
     }
 
+    public function logHewan()
+    {
+        $data['title'] = 'Kelola Data Hewan';
+        $data['user'] = $this->db->get_where('data_pegawai', ['username' => $this->session->userdata('username')])->row_array();
+        $this->load->model('Hewan_Model', 'menu');
+        $data['dataHewan'] = $this->menu->getDataLogHewan();
+        $data['menu'] = $this->db->get('user_menu')->result_array();
+        $data['data_customer'] = $this->menu->select_customer();
+        $data['data_ukuran'] = $this->menu->select_ukuran();
+        $data['data_jenis'] = $this->menu->select_jenis();
+
+        if (!isset($_POST['log'])) {
+            $this->form_validation->set_rules('nama', 'Name', 'required|trim');
+        }
+
+        if ($this->form_validation->run() == false) {
+            $data['menu'] = $this->db->get('user_menu')->result_array();
+            $this->load->view('templates/header', $data);
+            $this->load->view('templates/sidebar', $data);
+            $this->load->view('templates/topbar', $data);
+            $this->load->view('admin/logHewan', $data);
+            $this->load->view('templates/footer');
+            header("Cache-Control: no cache");
+        } else {
+
+            date_default_timezone_set("Asia/Bangkok");
+            $data = [
+                'nama_hewan' => $this->input->post('nama'),
+                'id_jenis_hewan' => $this->input->post('pilih_jenis'),
+                'id_ukuran_hewan' => $this->input->post('pilih_ukuran'),
+                'id_customer' => $this->input->post('pilih_customer'),
+                'tanggal_lahir_hewan' => $this->input->post('tanggal'),
+                'created_date' => date("Y-m-d H:i:s"),
+                'updated_date' => date("0000:00:0:00:00"),
+                'deleted_date' => date("0000:00:0:00:00"),
+            ];
+
+            $this->db->insert('data_hewan', $data);
+            $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">
+            Hewan Berhasil Ditambahkan!
+           </div>');
+            redirect('admin/kelola_hewan');
+        }
+    }
+
+    public function restoreHewan($id)
+    {
+        $data['title'] = 'Kelola Data Hewan';
+        $this->load->model('Hewan_Model');
+        $this->Hewan_Model->restoreHewan($id);
+        $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">
+              Hewan Berhasil Di Restore!
+               </div>');
+        redirect('admin/kelola_hewan');
+    }
+
     public function updateHewan($id)
     {
-        $data['title'] = 'Kelola Data Ukuran Hewan';
+        $data['title'] = 'Kelola Data  Hewan';
         $data['user'] = $this->db->get_where('data_pegawai', ['username' => $this->session->userdata('username')])->row_array();
         $this->load->model('Hewan_Model', 'menu');
         $data['dataHewan'] = $this->menu->getHewanId($id);
@@ -842,7 +898,6 @@ class Admin extends CI_Controller
     public function hapusHewan($id)
     {
         $this->load->model('Hewan_Model');
-        $this->Hewan_Model->deleteHewan($id);
         if ($this->Hewan_Model->deleteHewan($id) == -1) {
             $this->session->set_flashdata('message', '<div class="alert alert-danger" role="alert">
             Hewan Gagal Di Hapus, Data Masih digunakan!
@@ -855,6 +910,17 @@ class Admin extends CI_Controller
             redirect('admin/kelola_hewan');
         }
     }
+
+    public function deletePermHewan($id)
+    {
+        $this->load->model('Hewan_Model');
+        $this->Hewan_Model->deletePermHewan($id);
+        $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">
+              Hewan Berhasil Di Hapus Permanent!
+               </div>');
+        redirect('admin/logHewan');
+    }
+
     public function kelola_supplier()
     {
         $data['title'] = 'Kelola Data Supplier';
@@ -896,6 +962,57 @@ class Admin extends CI_Controller
         }
     }
 
+    public function logSupplier()
+    {
+        $data['title'] = 'Kelola Data Supplier';
+        $data['user'] = $this->db->get_where('data_pegawai', ['username' => $this->session->userdata('username')])->row_array();
+        $this->load->model('Supplier_Model', 'menu');
+        $data['dataSupplier'] = $this->menu->getDataLogSupplier();
+        $data['menu'] = $this->db->get('user_menu')->result_array();
+
+        if (!isset($_POST['log'])) {
+            $this->form_validation->set_rules('nama', 'Name', 'required|trim');
+        }
+
+        if ($this->form_validation->run() == false) {
+            $data['menu'] = $this->db->get('user_menu')->result_array();
+            $this->load->view('templates/header', $data);
+            $this->load->view('templates/sidebar', $data);
+            $this->load->view('templates/topbar', $data);
+            $this->load->view('admin/logSupplier', $data);
+            $this->load->view('templates/footer');
+            header("Cache-Control: no cache");
+        } else {
+
+            date_default_timezone_set("Asia/Bangkok");
+            $data = [
+                'nama_supplier' => $this->input->post('nama_supplier'),
+                'alamat_supplier' => $this->input->post('alamat_supplier'),
+                'nomor_telepon_supplier' => $this->input->post('nomor_telepon_supplier'),
+                'created_date' => date("Y-m-d H:i:s"),
+                'updated_date' => date("0000:00:0:00:00"),
+                'deleted_date' => date("0000:00:0:00:00"),
+            ];
+
+            $this->db->insert('data_supplier', $data);
+            $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">
+            Supplier Berhasil Ditambahkan!
+           </div>');
+            redirect('admin/kelola_supplier');
+        }
+    }
+
+    public function restoreSupplier($id)
+    {
+        $data['title'] = 'Kelola Data Supplier';
+        $this->load->model('Supplier_Model');
+        $this->Supplier_Model->restoreSupplier($id);
+        $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">
+              Supplier Berhasil Di Restore!
+               </div>');
+        redirect('admin/kelola_supplier');
+    }
+
     public function updateSupplier($id)
     {
         $data['title'] = 'Kelola Data Supplier';
@@ -935,11 +1052,27 @@ class Admin extends CI_Controller
     public function hapusSupplier($id)
     {
         $this->load->model('Supplier_Model');
-        $this->Supplier_Model->deleteSupplier($id);
-        $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">
+        if ($this->Supplier_Model->deleteSupplier($id) == -1) {
+            $this->session->set_flashdata('message', '<div class="alert alert-danger" role="alert">
+            Supplier Gagal Di Hapus, Data Masih digunakan!
+             </div>');
+            redirect('admin/kelola_supplier');
+        } else {
+            $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">
               Supplier Berhasil Di Hapus!
                </div>');
-        redirect('admin/kelola_supplier');
+            redirect('admin/kelola_supplier');
+        }
+    }
+
+    public function deletePermSupplier($id)
+    {
+        $this->load->model('Supplier_Model');
+        $this->Supplier_Model->deletePermSupplier($id);
+        $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">
+              Supplier Berhasil Di Hapus Permanent!
+               </div>');
+        redirect('admin/logSupplier');
     }
 
     public function cariSupplier()
@@ -1944,7 +2077,23 @@ class Admin extends CI_Controller
     public function hapusJasaLayanan($id)
     {
         $this->load->model('Jasa_Layanan_Model');
-        $this->Jasa_Layanan_Model->deleteJasaLayanan($id);
+        if ($this->Jasa_Layanan_Model->deleteJasaLayanan($id) == -1) {
+            $this->session->set_flashdata('message', '<div class="alert alert-danger" role="alert">
+            Jasa Layanan Gagal Di Hapus, Data Masih digunakan!
+             </div>');
+            redirect('admin/kelola_layanan');
+        } else {
+            $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">
+              Jasa Layanan Berhasil Di Hapus!
+               </div>');
+            redirect('admin/kelola_layanan');
+        }
+    }
+
+    public function deletePermJasaLayanan($id)
+    {
+        $this->load->model('Jasa_Layanan_Model');
+        $this->Jasa_Layanan_Model->deletePermJasaLayanan($id);
         $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">
             Jasa Layanan Berhasil Di Hapus!
                </div>');
@@ -2045,6 +2194,17 @@ class Admin extends CI_Controller
            </div>');
             redirect('admin/kelola_layanan');
         }
+    }
+
+    public function restoreJasaLayanan($id)
+    {
+        $data['title'] = 'Kelola Data Jasa Layanan';
+        $this->load->model('Jasa_Layanan_Model');
+        $this->Jasa_Layanan_Model->restoreJasaLayanan($id);
+        $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">
+              Jasa Layanan Berhasil Di Restore!
+               </div>');
+        redirect('admin/kelola_layanan');
     }
 
 }
