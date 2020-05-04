@@ -190,6 +190,14 @@ class Admin extends CI_Controller
             header("Cache-Control: no cache");
         } else {
 
+            if ($this->input->post('role') == 'Owner') {
+                $role_id = 1;
+            } else if ($this->input->post('role') == 'Customer Service') {
+                $role_id = 2;
+            } else {
+                $role_id = 3;
+            }
+
             date_default_timezone_set("Asia/Bangkok");
             $data = [
                 'nama_pegawai' => $this->input->post('nama'),
@@ -1025,7 +1033,7 @@ class Admin extends CI_Controller
     public function logCustomer()
     {
         $data['title'] = 'Kelola Data Customer';
-        $data['user'] = $this->db->get_where('data_customer', ['username' => $this->session->userdata('username')])->row_array();
+        $data['user'] = $this->db->get_where('data_pegawai', ['username' => $this->session->userdata('username')])->row_array();
         $this->load->model('Customer_Model', 'menu');
         $data['dataCustomer'] = $this->menu->getDataLogCustomer();
         $data['menu'] = $this->db->get('user_menu')->result_array();
@@ -1833,8 +1841,8 @@ class Admin extends CI_Controller
     #Jasa layanan
     public function kelola_layanan()
     {
-        $data['title'] = 'Kelola Jasa Layanan';
-        $data['user'] = $this->db->get_where('user', ['email' => $this->session->userdata('email')])->row_array();
+        $data['title'] = 'Kelola Data Layanan';
+        $data['user'] = $this->db->get_where('data_pegawai', ['username' => $this->session->userdata('username')])->row_array();
         $this->load->model('Jasa_Layanan_Model', 'menu');
         // INI UNTUK DROPDOWN
         $data['data_ukuran'] = $this->menu->select_ukuran();
@@ -1950,6 +1958,8 @@ class Admin extends CI_Controller
         $this->load->model('Jasa_Layanan_Model', 'menu');
         $data['dataJasaLayanan'] = $this->menu->getDataLogLayanan();
         $data['menu'] = $this->db->get('user_menu')->result_array();
+        $data['data_ukuran'] = $this->menu->select_ukuran();
+        $data['data_jenis'] = $this->menu->select_jenis();
 
         if (!isset($_POST['log'])) {
         $this->form_validation->set_rules('nama', 'Name', 'required|trim|is_unique[data_jasa_layanan.nama_jasa_layanan]', [

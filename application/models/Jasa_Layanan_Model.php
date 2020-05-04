@@ -1,4 +1,3 @@
-
 <?php
 defined('BASEPATH') or exit('No direct script access allowed');
 
@@ -14,20 +13,18 @@ class Jasa_Layanan_model extends CI_Model
     public function getDataLogLayanan()
     {
         
-        return $this->db->get_where('data_jasa_layanan', ['created_date' => '0000-00-00 00:00:00'])->result_array();
+        $this->db->select('data_jasa_layanan.id_jasa_layanan,data_jasa_layanan.nama_jasa_layanan,data_jasa_layanan.harga_jasa_layanan,data_jasa_layanan.id_jenis_hewan,data_jasa_layanan.id_ukuran_hewan,data_jasa_layanan.created_date,data_jasa_layanan.updated_date,data_jasa_layanan.deleted_date,data_ukuran_hewan.ukuran_hewan,data_jenis_hewan.nama_jenis_hewan');
+        $this->db->join('data_ukuran_hewan', 'data_ukuran_hewan.id_ukuran_hewan = data_jasa_layanan.id_ukuran_hewan');
+        $this->db->join('data_jenis_hewan', 'data_jenis_hewan.id_jenis_hewan = data_jasa_layanan.id_jenis_hewan');
+        $this->db->where('data_jasa_layanan.created_date', '0000:00:0:00:00');
+        $this->db->from('data_jasa_layanan');
+        $query = $this->db->get();
+        return $query->result_array();
     }
 
     public function getDataJasaLayananAdmin()
     {
-        $this->db->select('id_jasa_layanan, 
-        nama_jasa_layanan, 
-        harga_jasa_layanan,
-        data_jasa_layanan.id_jenis_hewan, 
-        data_jasa_layanan.id_ukuran_hewan, 
-        data_jasa_layanan.created_date, 
-        data_jasa_layanan.updated_date, 
-        data_jasa_layanan.deleted_date,
-        ukuran_hewan,nama_jenis_hewan');
+        $this->db->select('data_jasa_layanan.id_jasa_layanan,data_jasa_layanan.nama_jasa_layanan,data_jasa_layanan.harga_jasa_layanan,data_jasa_layanan.id_jenis_hewan,data_jasa_layanan.id_ukuran_hewan,data_jasa_layanan.created_date,data_jasa_layanan.updated_date,data_jasa_layanan.deleted_date,data_ukuran_hewan.ukuran_hewan,data_jenis_hewan.nama_jenis_hewan');
         $this->db->join('data_ukuran_hewan', 'data_ukuran_hewan.id_ukuran_hewan = data_jasa_layanan.id_ukuran_hewan');
         $this->db->join('data_jenis_hewan', 'data_jenis_hewan.id_jenis_hewan = data_jasa_layanan.id_jenis_hewan');
         $this->db->from('data_jasa_layanan');
