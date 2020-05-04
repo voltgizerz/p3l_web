@@ -52,9 +52,13 @@
                 <?php foreach ($dataPengadaan as $sm): ?>
                 <tr>
                     <th scope="row" class="text-center"><?=$i?></th>
-                    <td style="text-align:center;"><?=$sm['kode_pengadaan']?></td>
+                    <td style="text-align:center; color:orange;"><?=$sm['kode_pengadaan']?></td>
                     <td style="text-align:center;"><?=$sm['nama_supplier']?></td>
-                    <td style="text-align:center;"><?=$sm['status_pengadaan']?></td>
+                    <?php if ($sm['status_pengadaan'] == 'Sudah Diterima'): ?>
+                    <td style="text-align:center; color:#00FF00;"><?=$sm['status_pengadaan']?></td>
+                    <?php else: ?>
+                    <td style="text-align:center; color:#FF6347;"><?=$sm['status_pengadaan']?></td>
+                    <?php endif;?>
                     <td style="text-align:center;"><?=$sm['tanggal_pengadaan']?></td>
                     <td style="text-align:center;">Rp. <?=$sm['total_pengadaan']?></td>
                     <td style="text-align:center;">

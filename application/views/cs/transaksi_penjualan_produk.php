@@ -50,10 +50,14 @@
                 <?php foreach ($dataPenjualanProduk as $sm): ?>
                 <tr>
                     <th scope="row" class="text-center"><?=$i?></th>
-                    <td style="text-align:center;"><?=$sm['kode_transaksi_penjualan_produk']?></td>
+                    <td style="text-align:center; color:orange;"><?=$sm['kode_transaksi_penjualan_produk']?></td>
                     <td style="text-align:center;"><?=$sm['nama_cs']?></td>
                     <td style="text-align:center;">Rp. <?=$sm['total_penjualan_produk']?></td>
-                    <td style="text-align:center;"><?=$sm['status_penjualan']?></td>
+                    <?php if ($sm['status_penjualan'] == 'Sudah Selesai'): ?>
+                    <td style="text-align:center; color:#00FF00;"><?=$sm['status_penjualan']?></td>
+                    <?php else: ?>
+                    <td style="text-align:center; color:#FF6347;"><?=$sm['status_penjualan']?></td>
+                    <?php endif;?>
 
                     <td style="text-align:center;">
                         <a href="<?=base_url();?>cs/detail_penjualan_produk/<?=$sm['id_transaksi_penjualan_produk'];?>"
