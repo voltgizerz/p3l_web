@@ -36,6 +36,7 @@
                 </tr>
             </thead>
             <tbody>
+                <?php if (empty($dataDetailPengadaan) == false): ?>
                 <?php $i = 1;?>
                 <?php foreach ($dataDetailPengadaan as $sm): ?>
                 <tr>
@@ -56,6 +57,16 @@
                 </tr>
                 <?php $i++;?>
                 <?php endforeach;?>
+                <?php else: ?>
+                <tr>
+                    <td style="color:orange" class="text-center" colspan="10">Transaksi Pengadaan
+                        '<?=$kode_pengadaan?>'
+                        Belum Memiliki
+                        Produk
+                        yang
+                        ditambahkan! </td>
+                </tr>
+                <?php endif;?>
             </tbody>
         </table>
     </div>

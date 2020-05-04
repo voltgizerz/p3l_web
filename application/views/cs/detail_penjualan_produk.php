@@ -35,6 +35,7 @@
                 </tr>
             </thead>
             <tbody>
+                <?php if (empty($dataDetailPenjualanProduk) == false): ?>
                 <?php $i = 1;?>
                 <?php foreach ($dataDetailPenjualanProduk as $sm): ?>
                 <tr>
@@ -54,6 +55,15 @@
                 </tr>
                 <?php $i++;?>
                 <?php endforeach;?>
+                <?php else: ?>
+                <tr>
+                    <td class="text-center" style="color:orange" colspan="10">Transaksi Penjualan '<?=$kode_penjualan?>'
+                        Belum Memiliki
+                        Produk
+                        yang
+                        ditambahkan! </td>
+                </tr>
+                <?php endif;?>
             </tbody>
         </table>
     </div>
@@ -79,9 +89,9 @@
                             <option value="">Pilih Produk Penjualan</option>
                             <?php foreach ($data_produk->result() as $row) {
     if ($sm['nama_produk'] == $row->nama_produk) {
-        echo '<option  value="' . $row->id_produk . '">' . $row->nama_produk.' | Stok Tersedia : '. $row->stok_produk.'</.>';
+        echo '<option  value="' . $row->id_produk . '">' . $row->nama_produk . ' | Stok Tersedia : ' . $row->stok_produk . '</.>';
     } else {
-        echo '<option value="' . $row->id_produk . '">' . $row->nama_produk .' | Stok Tersedia : '. $row->stok_produk. '</option>';
+        echo '<option value="' . $row->id_produk . '">' . $row->nama_produk . ' | Stok Tersedia : ' . $row->stok_produk . '</option>';
     }}?>
                         </select>
                     </div>
@@ -126,9 +136,9 @@
                             <option value="">Pilih Produk Penjualan</option>
                             <?php foreach ($data_produk->result() as $row) {
     if ($sm['nama_produk'] == $row->nama_produk) {
-        echo '<option selected="selected"  value="' . $row->id_produk . '">' . $row->nama_produk .' | Stok Tersedia : '. $row->stok_produk. '</>';
+        echo '<option selected="selected"  value="' . $row->id_produk . '">' . $row->nama_produk . ' | Stok Tersedia : ' . $row->stok_produk . '</>';
     } else {
-        echo '<option value="' . $row->id_produk . '">' . $row->nama_produk .' | Stok Tersedia : '. $row->stok_produk. '</option>';
+        echo '<option value="' . $row->id_produk . '">' . $row->nama_produk . ' | Stok Tersedia : ' . $row->stok_produk . '</option>';
     }}?>
                         </select>
                     </div>
