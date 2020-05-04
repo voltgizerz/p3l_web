@@ -6,12 +6,22 @@ class Produk_model extends CI_Model
 
     public function getDataProdukAdmin()
     {
-        return $this->db->get_where('data_produk', ['deleted_date' => '0000-00-00 00:00:00'])->result_array();
+        $this->db->select('*');
+        $this->db->where('deleted_date', '0000:00:0:00:00');     
+        $this->db->from('data_produk');
+        $this->db->order_by("id_produk desc");
+        $query = $this->db->get();
+        return $query->result_array();  
     }
 
     public function getDataLogProduk()
     {
-        return $this->db->get_where('data_produk', ['created_date' => '0000-00-00 00:00:00'])->result_array();
+        $this->db->select('*');       
+        $this->db->where('created_date', '0000:00:0:00:00');
+        $this->db->from('data_produk');
+        $this->db->order_by("id_produk desc");
+        $query = $this->db->get();
+        return $query->result_array();      
     }
 
     public function deleteProduk($id)

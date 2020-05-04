@@ -12,12 +12,13 @@ class Jasa_Layanan_model extends CI_Model
 
     public function getDataLogLayanan()
     {
-        
+
         $this->db->select('data_jasa_layanan.id_jasa_layanan,data_jasa_layanan.nama_jasa_layanan,data_jasa_layanan.harga_jasa_layanan,data_jasa_layanan.id_jenis_hewan,data_jasa_layanan.id_ukuran_hewan,data_jasa_layanan.created_date,data_jasa_layanan.updated_date,data_jasa_layanan.deleted_date,data_ukuran_hewan.ukuran_hewan,data_jenis_hewan.nama_jenis_hewan');
         $this->db->join('data_ukuran_hewan', 'data_ukuran_hewan.id_ukuran_hewan = data_jasa_layanan.id_ukuran_hewan');
         $this->db->join('data_jenis_hewan', 'data_jenis_hewan.id_jenis_hewan = data_jasa_layanan.id_jenis_hewan');
         $this->db->where('data_jasa_layanan.created_date', '0000:00:0:00:00');
         $this->db->from('data_jasa_layanan');
+        $this->db->order_by("data_jasa_layanan.id_jasa_layanan desc");
         $query = $this->db->get();
         return $query->result_array();
     }
@@ -29,6 +30,7 @@ class Jasa_Layanan_model extends CI_Model
         $this->db->join('data_jenis_hewan', 'data_jenis_hewan.id_jenis_hewan = data_jasa_layanan.id_jenis_hewan');
         $this->db->where('data_jasa_layanan.deleted_date', '0000-00-00 00:00:00');
         $this->db->from('data_jasa_layanan');
+        $this->db->order_by("data_jasa_layanan.id_jasa_layanan desc");
         $query = $this->db->get();
 
         return $query->result_array();
@@ -97,7 +99,7 @@ class Jasa_Layanan_model extends CI_Model
 
     public function getJasaLayananId($id)
     {
-        
+
         $this->db->select('data_jasa_layanan.id_jasa_layanan,data_jasa_layanan.nama_jasa_layanan,data_jasa_layanan.harga_jasa_layanan,data_jasa_layanan.id_jenis_hewan,data_jasa_layanan.id_ukuran_hewan,data_jasa_layanan.created_date,data_jasa_layanan.updated_date,data_jasa_layanan.deleted_date,data_ukuran_hewan.ukuran_hewan,data_jenis_hewan.nama_jenis_hewan');
         $this->db->join('data_ukuran_hewan', 'data_ukuran_hewan.id_ukuran_hewan = data_jasa_layanan.id_ukuran_hewan');
         $this->db->join('data_jenis_hewan', 'data_jenis_hewan.id_jenis_hewan = data_jasa_layanan.id_jenis_hewan');
@@ -126,33 +128,34 @@ class Jasa_Layanan_model extends CI_Model
         return $query;
     }
 
-    public function cariJasaLayanan($berdasarkan,$yangdicari){
-        $this->db->select('id_jasa_layanan, 
-        nama_jasa_layanan, 
+    public function cariJasaLayanan($berdasarkan, $yangdicari)
+    {
+        $this->db->select('id_jasa_layanan,
+        nama_jasa_layanan,
         harga_jasa_layanan,
-        data_jasa_layanan.id_jenis_hewan, 
-        data_jasa_layanan.id_ukuran_hewan, 
-        data_jasa_layanan.created_date, 
-        data_jasa_layanan.updated_date, 
+        data_jasa_layanan.id_jenis_hewan,
+        data_jasa_layanan.id_ukuran_hewan,
+        data_jasa_layanan.created_date,
+        data_jasa_layanan.updated_date,
         data_jasa_layanan.deleted_date,
         ukuran_hewan,nama_jenis_hewan');
         $this->db->join('data_ukuran_hewan', 'data_ukuran_hewan.id_ukuran_hewan = data_jasa_layanan.id_ukuran_hewan');
         $this->db->join('data_jenis_hewan', 'data_jenis_hewan.id_jenis_hewan = data_jasa_layanan.id_jenis_hewan');
         $this->db->from('data_jasa_layanan');
 
-        switch($berdasarkan){
+        switch ($berdasarkan) {
             case "":
-                $this->db->like('nama_jasa_layanan',$yangdicari);
-                $this->db->or_like('id_jasa_layanan',$yangdicari);
-                $this->db->or_like('ukuran_hewan',$yangdicari);
-                $this->db->or_like('nama_jenis_hewan',$yangdicari);
-            break;
+                $this->db->like('nama_jasa_layanan', $yangdicari);
+                $this->db->or_like('id_jasa_layanan', $yangdicari);
+                $this->db->or_like('ukuran_hewan', $yangdicari);
+                $this->db->or_like('nama_jenis_hewan', $yangdicari);
+                break;
 
             case "id_jasa_layanan":
-                $this->db->where('id_jasa_layanan',$yangdicari);
-            
+                $this->db->where('id_jasa_layanan', $yangdicari);
+
             default:
-            $this->db->like($berdasarkan,$yangdicari);
+                $this->db->like($berdasarkan, $yangdicari);
         }
         return $this->db->get();
     }
