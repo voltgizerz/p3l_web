@@ -97,18 +97,32 @@ class Jasa_Layanan_model extends CI_Model
 
     public function getJasaLayananId($id)
     {
-        return $this->db->get_where('data_jasa_layanan', ['id_jasa_layanan' => $id])->result_array();
+        
+        $this->db->select('data_jasa_layanan.id_jasa_layanan,data_jasa_layanan.nama_jasa_layanan,data_jasa_layanan.harga_jasa_layanan,data_jasa_layanan.id_jenis_hewan,data_jasa_layanan.id_ukuran_hewan,data_jasa_layanan.created_date,data_jasa_layanan.updated_date,data_jasa_layanan.deleted_date,data_ukuran_hewan.ukuran_hewan,data_jenis_hewan.nama_jenis_hewan');
+        $this->db->join('data_ukuran_hewan', 'data_ukuran_hewan.id_ukuran_hewan = data_jasa_layanan.id_ukuran_hewan');
+        $this->db->join('data_jenis_hewan', 'data_jenis_hewan.id_jenis_hewan = data_jasa_layanan.id_jenis_hewan');
+        $this->db->where('id_jasa_layanan', $id);
+        $this->db->from('data_jasa_layanan');
+        $query = $this->db->get();
+
+        return $query->result_array();
     }
 
     public function select_jenis()
     {
-        $query = $this->db->get('data_jenis_hewan');
+        $this->db->select('*');
+        $this->db->where('deleted_date', '0000-00-00 00:00:00');
+        $this->db->from('data_jenis_hewan');
+        $query = $this->db->get();
         return $query;
     }
 
     public function select_ukuran()
     {
-        $query = $this->db->get('data_ukuran_hewan');
+        $this->db->select('*');
+        $this->db->where('deleted_date', '0000-00-00 00:00:00');
+        $this->db->from('data_ukuran_hewan');
+        $query = $this->db->get();
         return $query;
     }
 

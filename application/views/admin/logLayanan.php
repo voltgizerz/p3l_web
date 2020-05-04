@@ -19,17 +19,6 @@
         <input type="submit" name="log" class="btn btn-danger mb-3" value="LOG DELETE LAYANAN">
         <?php echo form_close(); ?>
 
-        <div class="form-group">
-            <?php echo form_open("admin/logLayanan"); ?>
-            <select name="cariberdasarkan">
-                <option value="">Cari Berdasarkan</option>
-                <option value="id_jasa_layanan">ID Jasa Layanan</option>
-                <option value="nama_jasa_layanan">Nama Jasa Layanan</option>
-            </select>
-            <input name="yangdicari" id="" type="text">
-            <input type="submit" name="cari" value="Cari">
-            <?php echo form_close(); ?>
-        </div>
         <?=$this->session->flashdata('message');?>
 
         <table class="table table-striped table-dark table-hover  table-responsive-sm">
@@ -37,9 +26,9 @@
                 <tr>
                     <th scope="col" class="text-center">No</th>
                     <th scope="col" class="text-center">Nama Jasa Layanan</th>
-                    <th scope="col" class="text-center">Harga Jasa Layanan</th>
                     <th scope="col" class="text-center">Jenis hewan</th>
                     <th scope="col" class="text-center">Ukuran Hewan</th>
+                    <th scope="col" class="text-center">Harga Jasa Layanan</th>
                     <th scope="col" class="text-center">Deleted Date</th>
                     <th scope="col" class="text-center">Action</th>
                 </tr>
@@ -49,13 +38,13 @@
                 <?php foreach ($dataJasaLayanan as $sm): ?>
                 <tr>
                     <th scope="row" class="text-center"><?=$i?></th>
-                    <td><?=$sm['nama_jasa_layanan']?></td>
-                    <td><?=$sm['harga_jasa_layanan']?></td>
-                    <td><?=$sm['nama_jenis_hewan']?></td>
-                    <td><?=$sm['ukuran_hewan']?></td>
-                    <td><?=$sm['deleted_date']?></td>
+                    <td class="text-center"><?=$sm['nama_jasa_layanan']?></td>
+                    <td class="text-center"><?=$sm['nama_jenis_hewan']?></td>
+                    <td class="text-center"><?=$sm['ukuran_hewan']?></td>
+                    <td class="text-center">Rp. <?=$sm['harga_jasa_layanan']?></td>
+                    <td class="text-center"><?=$sm['deleted_date']?></td>
 
-                    <td>
+                    <td class="text-center">
                         <a href="<?=base_url();?>admin/restoreJasaLayanan/<?=$sm['id_jasa_layanan'];?>"
                             class="badge badge-primary mb-3">RESTORE </a>
                         <a href="<?=base_url();?>admin/deletePermJasaLayanan/<?=$sm['id_jasa_layanan'];?>"

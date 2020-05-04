@@ -1,4 +1,3 @@
-
 <!-- Begin Page Content -->
 <div class="container-fluid">
 
@@ -15,10 +14,11 @@
         </div>
         <?php endif;?>
         <?php echo form_open("admin/logLayanan"); ?>
-        <a href="" class="btn btn-primary mb-3" data-toggle="modal" data-target="#newSubMenuModal">TAMBAH JASA LAYANAN</a>
+        <a href="" class="btn btn-primary mb-3" data-toggle="modal" data-target="#newSubMenuModal">TAMBAH JASA
+            LAYANAN</a>
         <input type="submit" name="log" class="btn btn-danger mb-3" value="LOG DELETE LAYANAN">
         <?php echo form_close(); ?>
-        
+
         <div class="form-group">
             <?php echo form_open("admin/cariJasaLayanan"); ?>
             <select name="cariberdasarkan">
@@ -37,9 +37,9 @@
                 <tr>
                     <th scope="col" class="text-center">No</th>
                     <th scope="col" class="text-center">Nama Jasa Layanan</th>
-                    <th scope="col" class="text-center">Harga Jasa Layanan</th>
                     <th scope="col" class="text-center">Jenis hewan</th>
                     <th scope="col" class="text-center">Ukuran Hewan</th>
+                    <th scope="col" class="text-center">Harga Jasa Layanan</th>
                     <th scope="col" class="text-center">Created Date</th>
                     <th scope="col" class="text-center">Updated Date</th>
                     <th scope="col" class="text-center">Action</th>
@@ -50,14 +50,14 @@
                 <?php foreach ($dataJasaLayanan as $sm): ?>
                 <tr>
                     <th scope="row" class="text-center"><?=$i?></th>
-                    <td><?=$sm['nama_jasa_layanan']?></td>
-                    <td><?=$sm['harga_jasa_layanan']?></td>
-                    <td><?=$sm['nama_jenis_hewan']?></td>
-                    <td><?=$sm['ukuran_hewan']?></td>
-                    <td><?=$sm['created_date']?></td>
-                    <td><?=$sm['updated_date']?></td>
+                    <td class="text-center"><?=$sm['nama_jasa_layanan']?></td>
+                    <td class="text-center"><?=$sm['nama_jenis_hewan']?></td>
+                    <td class="text-center"><?=$sm['ukuran_hewan']?></td>
+                    <td class="text-center">Rp. <?=$sm['harga_jasa_layanan']?></td>
+                    <td class="text-center"><?=$sm['created_date']?></td>
+                    <td class="text-center"><?=$sm['updated_date']?></td>
 
-                    <td>
+                    <td class="text-center">
                         <a href="<?=base_url();?>admin/updateJasaLayanan/<?=$sm['id_jasa_layanan'];?>"
                             class="badge badge-primary mb-3" data-toggle="modal"
                             data-target="#editSubMenuModal<?=$sm['id_jasa_layanan'];?>">EDIT</a>
@@ -87,7 +87,7 @@
             </div>
             <form action="<?=base_url('admin/kelola_layanan');?>" method="post">
                 <div class="modal-body">
-                <div class="form-group">
+                    <div class="form-group">
                         <input type="text" class="form-control" id="nama" name="nama" placeholder="Nama Jasa Layanan">
                     </div>
                     <div class="form-group">
@@ -126,7 +126,7 @@
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="editSubMenuModal">Edit Profile Using Admin</h5>
+                <h5 class="modal-title" id="editSubMenuModal">Edit Jasa Layanan</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
@@ -135,11 +135,12 @@
 
                 <div class="modal-body">
                     <div class="form-group">
-                        <input hidden type="text" class="form-control" value="<?=$sm['id_jasa_layanan'];?>" id="id" name="id">
+                        <input hidden type="text" class="form-control" value="<?=$sm['id_jasa_layanan'];?>" id="id"
+                            name="id">
                     </div>
                     <div class="form-group">
-                        <input type="text" class="form-control" id="nama" name="nama" value="<?=$sm['nama_jasa_layanan'];?>"
-                            placeholder="Nama Jasa Layanan">
+                        <input type="text" class="form-control" id="nama" name="nama"
+                            value="<?=$sm['nama_jasa_layanan'];?>" placeholder="Nama Jasa Layanan">
                     </div>
 
                     <div class="form-group">

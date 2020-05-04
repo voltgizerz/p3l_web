@@ -167,7 +167,7 @@ class Admin extends CI_Controller
             redirect('admin/kelola_pegawai');
         }
     }
-    
+
     public function logPegawai()
     {
         $data['title'] = 'Kelola Data Pegawai';
@@ -219,7 +219,7 @@ class Admin extends CI_Controller
            </div>');
             redirect('admin/kelola_pegawai');
         }
-        
+
     }
 
     public function restorePegawai($id)
@@ -1926,12 +1926,12 @@ class Admin extends CI_Controller
         $data['title'] = 'Kelola Data Produk';
         $data['user'] = $this->db->get_where('data_pegawai', ['username' => $this->session->userdata('username')])->row_array();
         $this->load->model('Produk_Model', 'menu');
-        
+
         $data['cariberdasarkan'] = $this->input->post("cariberdasarkan");
         $data['yangdicari'] = $this->input->post("yangdicari");
         $data["dataProduk"] = $this->menu->cariProduk($data['cariberdasarkan'], $data['yangdicari'])->result_array();
         $data["jumlah"] = count($data["dataProduk"]);
-        
+
         $data['menu'] = $this->db->get('user_menu')->result_array();
         if (!isset($_POST['cari'])) {
             $this->form_validation->set_rules('nama', 'Name', 'required|trim|is_unique[data_produk.nama_produk]', [
@@ -1975,6 +1975,12 @@ class Admin extends CI_Controller
     public function kelola_layanan()
     {
         $data['title'] = 'Kelola Data Layanan';
+        $layanan = $this->input->post('nama');
+        $ukuran = $this->input->post('pilih_ukuran');
+        $jenis = $this->input->post('pilih_jenis');
+        $query = "SELECT nama_jasa_layanan FROM data_jasa_layanan WHERE nama_jasa_layanan = '$layanan' AND id_jenis_hewan = '$jenis' AND id_ukuran_hewan = '$ukuran' ";
+        $result = $this->db->query($query, $layanan);
+
         $data['user'] = $this->db->get_where('data_pegawai', ['username' => $this->session->userdata('username')])->row_array();
         $this->load->model('Jasa_Layanan_Model', 'menu');
         // INI UNTUK DROPDOWN
@@ -1984,13 +1990,20 @@ class Admin extends CI_Controller
         $data['dataJasaLayanan'] = $this->menu->getDataJasaLayananAdmin();
         $data['menu'] = $this->db->get('user_menu')->result_array();
 
-        $this->form_validation->set_rules('nama', 'Name', 'required|trim|is_unique[data_jasa_layanan.nama_jasa_layanan]', [
-            'is_unique' => 'Gagal Menambahkan Layanan Baru, Layanan Sudah Ada!',
-        ]);
-        $this->form_validation->set_rules('harga', 'harga', 'required|trim');
-        $this->form_validation->set_rules('pilih_jenis', 'pilih_jenis', 'required|trim');
-        $this->form_validation->set_rules('pilih_ukuran', 'pilih_ukuran', 'required|trim');
-
+        if ($result->num_rows() >= 1) {
+            $this->form_validation->set_rules('nama', 'Name', 'required|trim|is_unique[data_jasa_layanan.nama_jasa_layanan]', [
+                'is_unique' => 'Gagal Menambahkan Layanan Baru, Layanan Sudah Ada!',
+            ]);
+            $this->form_validation->set_rules('harga', 'harga', 'required|trim');
+            $this->form_validation->set_rules('pilih_jenis', 'pilih_jenis', 'required|trim');
+            $this->form_validation->set_rules('pilih_ukuran', 'pilih_ukuran', 'required|trim');
+        } else {
+            $this->form_validation->set_rules('nama', 'Name', 'required|trim');
+            $this->form_validation->set_rules('harga', 'harga', 'required|trim');
+            $this->form_validation->set_rules('pilih_jenis', 'pilih_jenis', 'required|trim');
+            $this->form_validation->set_rules('pilih_ukuran', 'pilih_ukuran', 'required|trim');
+        }
+        
         if ($this->form_validation->run() == false) {
             $data['menu'] = $this->db->get('user_menu')->result_array();
             $this->load->view('templates/header', $data);
@@ -2022,21 +2035,21 @@ class Admin extends CI_Controller
     public function updateJasaLayanan($id)
     {
         $data['title'] = 'Kelola Jasa Layanan';
-        $cekJasaLayanan = $this->db->get_where('data_jasa_layanan', ['id_jasa_layanan' => $id])->row()->nama_jasa_layanan;
-        $data['user'] = $this->db->get_where('user', ['email' => $this->session->userdata('email')])->row_array();
+        
+         $layanan = $this->input->post('nama');
+        $ukuran = $this->input->post('pilih_ukuran');
+        $jenis = $this->input->post('pilih_jenis');
+        $query = "SELECT nama_jasa_layanan FROM data_jasa_layanan WHERE nama_jasa_layanan = '$layanan' AND id_jenis_hewan = '$jenis' AND id_ukuran_hewan = '$ukuran' AND id_jasa_layanan !='$id' ";
+        $result = $this->db->query($query, $layanan);
+        
+        $data['user'] = $this->db->get_where('data_pegawai', ['username' => $this->session->userdata('username')])->row_array();
         $this->load->model('Jasa_Layanan_Model', 'menu');
         $data['dataJasaLayanan'] = $this->menu->getJasaLayananId($id);
         $data['menu'] = $this->db->get('user_menu')->result_array();
+        $data['data_ukuran'] = $this->menu->select_ukuran();
+        $data['data_jenis'] = $this->menu->select_jenis();
 
-        if ($cekJasaLayanan == $this->input->post('nama')) {
-
-            $this->form_validation->set_rules('nama', 'Name', 'required|trim');
-            $this->form_validation->set_rules('harga', 'harga', 'required|trim');
-            $this->form_validation->set_rules('pilih_jenis', 'pilih_jenis', 'required|trim');
-            $this->form_validation->set_rules('pilih_ukuran', 'pilih_ukuran', 'required|trim');
-
-
-        } else {
+        if ($result->num_rows() >= 1) {
             $this->form_validation->set_rules('nama', 'Name', 'required|trim|is_unique[data_jasa_layanan.nama_jasa_layanan]', [
                 'is_unique' => 'Gagal Menambahkan Layanan Baru, Layanan Sudah Ada!',
             ]);
@@ -2044,6 +2057,11 @@ class Admin extends CI_Controller
             $this->form_validation->set_rules('pilih_jenis', 'pilih_jenis', 'required|trim');
             $this->form_validation->set_rules('pilih_ukuran', 'pilih_ukuran', 'required|trim');
 
+        } else {
+            $this->form_validation->set_rules('nama', 'Name', 'required|trim');
+            $this->form_validation->set_rules('harga', 'harga', 'required|trim');
+            $this->form_validation->set_rules('pilih_jenis', 'pilih_jenis', 'required|trim');
+            $this->form_validation->set_rules('pilih_ukuran', 'pilih_ukuran', 'required|trim');
         }
 
         if ($this->form_validation->run() == false) {
@@ -2111,12 +2129,12 @@ class Admin extends CI_Controller
         $data['data_jenis'] = $this->menu->select_jenis();
 
         if (!isset($_POST['log'])) {
-        $this->form_validation->set_rules('nama', 'Name', 'required|trim|is_unique[data_jasa_layanan.nama_jasa_layanan]', [
-            'is_unique' => 'Gagal Menambahkan Layanan Baru, Layanan Sudah Ada!',
-        ]);
-        $this->form_validation->set_rules('harga', 'harga', 'required|trim');
-        $this->form_validation->set_rules('pilih_jenis', 'pilih_jenis', 'required|trim');
-        $this->form_validation->set_rules('pilih_ukuran', 'pilih_ukuran', 'required|trim');
+            $this->form_validation->set_rules('nama', 'Name', 'required|trim|is_unique[data_jasa_layanan.nama_jasa_layanan]', [
+                'is_unique' => 'Gagal Menambahkan Layanan Baru, Layanan Sudah Ada!',
+            ]);
+            $this->form_validation->set_rules('harga', 'harga', 'required|trim');
+            $this->form_validation->set_rules('pilih_jenis', 'pilih_jenis', 'required|trim');
+            $this->form_validation->set_rules('pilih_ukuran', 'pilih_ukuran', 'required|trim');
         }
 
         if ($this->form_validation->run() == false) {
@@ -2127,7 +2145,7 @@ class Admin extends CI_Controller
             $this->load->view('admin/logLayanan', $data);
             $this->load->view('templates/footer');
         } else {
-            
+
             date_default_timezone_set("Asia/Bangkok");
             $data = [
                 'nama_jasa_layanan' => $this->input->post('nama'),
@@ -2151,21 +2169,21 @@ class Admin extends CI_Controller
     public function cariJasaLayanan()
     {
         $data['title'] = 'Kelola Jasa Layanan';
-        $data['user'] = $this->db->get_where('user', ['email' => $this->session->userdata('email')])->row_array();
+        $data['user'] = $this->db->get_where('data_pegawai', ['username' => $this->session->userdata('username')])->row_array();
         $this->load->model('Jasa_Layanan_Model', 'menu');
         // INI UNTUK DROPDOWN
         $data['data_ukuran'] = $this->menu->select_ukuran();
         $data['data_jenis'] = $this->menu->select_jenis();
-        
+
         $data['cariberdasarkan'] = $this->input->post("cariberdasarkan");
         $data['yangdicari'] = $this->input->post("yangdicari");
         $data["dataJasaLayanan"] = $this->menu->cariJasaLayanan($data['cariberdasarkan'], $data['yangdicari'])->result_array();
         $data["jumlah"] = count($data["dataJasaLayanan"]);
-    
+
         $data['menu'] = $this->db->get('user_menu')->result_array();
-        
-        if(!isset($_POST['cari'])){
-        $this->form_validation->set_rules('nama', 'Name', 'required|trim');
+
+        if (!isset($_POST['cari'])) {
+            $this->form_validation->set_rules('nama', 'Name', 'required|trim');
         }
 
         if ($this->form_validation->run() == false) {
