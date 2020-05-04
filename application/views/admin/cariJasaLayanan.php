@@ -12,8 +12,11 @@
             <?=validation_errors();?>
         </div>
         <?php endif;?>
+        <?php echo form_open("admin/logLayanan"); ?>
         <a href="" class="btn btn-primary mb-3" data-toggle="modal" data-target="#newSubMenuModal">TAMBAH JASA
             LAYANAN</a>
+        <input type="submit" name="log" class="btn btn-danger mb-3" value="LOG DELETE LAYANAN">
+        <?php echo form_close(); ?>
         <div class="form-group">
             <?php echo form_open("admin/cariJasaLayanan"); ?>
             <select name="cariberdasarkan">

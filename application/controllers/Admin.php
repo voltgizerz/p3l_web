@@ -2168,7 +2168,7 @@ class Admin extends CI_Controller
 
     public function cariJasaLayanan()
     {
-        $data['title'] = 'Kelola Jasa Layanan';
+        $data['title'] = 'Kelola Data Layanan';
         $data['user'] = $this->db->get_where('data_pegawai', ['username' => $this->session->userdata('username')])->row_array();
         $this->load->model('Jasa_Layanan_Model', 'menu');
         // INI UNTUK DROPDOWN

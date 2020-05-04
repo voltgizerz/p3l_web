@@ -98,14 +98,14 @@
                         <select class="form-control" id="pilih_jenis" name="pilih_jenis">
                             <option>Pilih Jenis Hewan</option>
                             <?php foreach ($data_jenis->result() as $row) {
-                            echo '<option value="' . $row->id_jenis_hewan . '">' . $row->nama_jenis_hewan . '</option>';}?>
+    echo '<option value="' . $row->id_jenis_hewan . '">' . $row->nama_jenis_hewan . '</option>';}?>
                         </select>
                     </div>
                     <div class="form-group">
                         <select class="form-control" id="pilih_ukuran" name="pilih_ukuran">
                             <option>Pilih Ukuran Hewan</option>
                             <?php foreach ($data_ukuran->result() as $row) {
-                            echo '<option value="' . $row->id_ukuran_hewan . '">' . $row->ukuran_hewan . '</option>';}?>
+    echo '<option value="' . $row->id_ukuran_hewan . '">' . $row->ukuran_hewan . '</option>';}?>
                         </select>
                     </div>
 
@@ -151,11 +151,11 @@
                         <select class="form-control" id="pilih_jenis" name="pilih_jenis">
                             <option>Pilih Jenis Hewan</option>
                             <?php foreach ($data_jenis->result() as $row) {
-                            if ($sm['jenis_hewan'] == $row->jenis_hewan) {
-                                echo '<option selected="selected"  value="' . $row->id_jenis_hewan . '">' . $row->nama_jenis_hewan . '</option>';} else {
-                                echo '<option value="' . $row->id_jenis_hewan . '">' . $row->nama_jenis_hewan . '</option>';
+    if ($sm['jenis_hewan'] == $row->jenis_hewan) {
+        echo '<option selected="selected"  value="' . $row->id_jenis_hewan . '">' . $row->nama_jenis_hewan . '</option>';} else {
+        echo '<option value="' . $row->id_jenis_hewan . '">' . $row->nama_jenis_hewan . '</option>';
 
-                            }}?>
+    }}?>
                         </select>
                     </div>
 
@@ -163,11 +163,11 @@
                         <select class="form-control" id="pilih_ukuran" name="pilih_ukuran">
                             <option>Pilih Ukuran Hewan</option>
                             <?php foreach ($data_ukuran->result() as $row) {
-                                if ($sm['ukuran_hewan'] == $row->ukuran_hewan) {
-                                    echo '<option selected="selected"  value="' . $row->id_ukuran_hewan . '">' . $row->ukuran_hewan . '</option>';} else {
-                                    echo '<option value="' . $row->id_ukuran_hewan . '">' . $row->ukuran_hewan . '</option>';
+    if ($sm['ukuran_hewan'] == $row->ukuran_hewan) {
+        echo '<option selected="selected"  value="' . $row->id_ukuran_hewan . '">' . $row->ukuran_hewan . '</option>';} else {
+        echo '<option value="' . $row->id_ukuran_hewan . '">' . $row->ukuran_hewan . '</option>';
 
-                                }}?>
+    }}?>
                         </select>
                     </div>
                 </div>
