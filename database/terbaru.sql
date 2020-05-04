@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: May 04, 2020 at 08:36 AM
+-- Generation Time: May 04, 2020 at 11:44 AM
 -- Server version: 10.4.11-MariaDB
 -- PHP Version: 7.4.1
 
@@ -620,8 +620,7 @@ INSERT INTO `user_menu` (`id`, `menu`) VALUES
 (1, 'Admin'),
 (2, 'CS'),
 (3, 'Kasir'),
-(4, 'menu'),
-(7, 'User');
+(4, 'menu');
 
 -- --------------------------------------------------------
 
@@ -663,12 +662,7 @@ CREATE TABLE `user_sub_menu` (
 --
 
 INSERT INTO `user_sub_menu` (`id`, `menu_id`, `title`, `url`, `icon`, `is_active`) VALUES
-(2, 7, 'My Profile', 'user', 'fas fa-fw fa-user', 1),
-(3, 7, 'Edit Profile', 'user/edit', 'fas fa-fw fa-user-edit', 1),
-(4, 4, 'Menu Management', 'menu/', 'fas fa-fw fa-folder', 1),
-(7, 7, 'Buy Car', 'user/buycars', 'fas fa-fw fa-car', 1),
-(8, 7, 'Sell Sparepart', 'user/buysparepart', 'fas fa-fw fa-car', 1),
-(9, 7, 'Sell Car', 'user/sellcars', 'fas fa-fw fa-car', 1),
+(11, 4, 'Menu Management', 'menu/', 'fas fa-fw fa-folder', 1),
 (12, 1, 'Dashboard', 'Admin', 'fas fa-fw fa-folder', 1),
 (13, 4, 'Submenu Management', 'menu/submenu', 'fas fa-fw fa-folder', 1),
 (33, 1, 'Kelola Data Pegawai', 'admin/kelola_pegawai', 'fas fa-users-cog', 1),
