@@ -79,7 +79,7 @@
                             data-target="#editSubMenuModal<?=$sm['id_pengadaan'];?>"
                             style="visibility: <?=$hide?>">EDIT</a>
                         <a href="<?=base_url();?>admin/hapusPengadaan/<?=$sm['id_pengadaan'];?>"
-                            class="badge badge-danger mb-3">DELETE</a>
+                            class="badge badge-danger mb-3 style=" style="visibility: <?=$hide?>">DELETE</a>
                     </td>
                 </tr>
                 <?php $i++;?>
@@ -92,7 +92,7 @@
 
 
 <!-- Modal -->
-<div class="modal fade" id="newSubMenuModal" tabindex="-1" role="dialog" aria-labelledby="#newSubMenuModal"
+<div class=" modal fade" id="newSubMenuModal" tabindex="-1" role="dialog" aria-labelledby="#newSubMenuModal"
     aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
