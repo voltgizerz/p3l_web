@@ -53,7 +53,11 @@
                     <td><?=$sm['tanggal_lahir_hewan']?></td>
                     <td><?=$sm['nama_customer']?></td>
                     <td><?=$sm['created_date']?></td>
-                    <td><?=$sm['updated_date']?></td>
+                    <?php if ($sm['updated_date'] == '0000-00-00 00:00:00'): ?>
+                    <td style="text-align:center;"> - </td>
+                    <?php else: ?>
+                    <td style="text-align:center;"><?=$sm['updated_date']?></td>
+                    <?php endif;?>
 
                     <td>
                         <a href="<?=base_url();?>admin/updateHewan/<?=$sm['id_hewan'];?>"

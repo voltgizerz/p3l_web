@@ -19,7 +19,7 @@
         <a href="" class="btn btn-primary mb-3" data-toggle="modal" data-target="#newSubMenuModal">TAMBAH JENIS
             HEWAN</a>
 
-            <div class="form-group">
+        <div class="form-group">
             <?php echo form_open("admin/cariJenisHewan"); ?>
             <select name="cariberdasarkan">
                 <option value="">Cari Berdasarkan</option>
@@ -49,7 +49,11 @@
                     <th scope="row" class="text-center"><?= $i ?></th>
                     <td><?= $sm['nama_jenis_hewan'] ?></td>
                     <td><?= $sm['created_date'] ?></td>
-                    <td><?= $sm['updated_date'] ?></td>
+                    <?php if ($sm['updated_date'] == '0000-00-00 00:00:00'): ?>
+                    <td style="text-align:center;"> - </td>
+                    <?php else: ?>
+                    <td style="text-align:center;"><?=$sm['updated_date']?></td>
+                    <?php endif;?>
 
                     <td>
                         <a href="<?= base_url(); ?>admin/updateJenisHewan/<?= $sm['id_jenis_hewan']; ?>"

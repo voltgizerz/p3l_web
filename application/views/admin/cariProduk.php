@@ -45,7 +45,11 @@
                     <th scope="col" class="text-center">Stok Produk</th>
                     <th scope="col" class="text-center">Stok Minimal Produk</th>
                     <th scope="col" class="text-center">Created Date</th>
-                    <th scope="col" class="text-center">Updated Date</th>
+                    <?php if ($sm['updated_date'] == '0000-00-00 00:00:00'): ?>
+                    <td style="text-align:center;"> - </td>
+                    <?php else: ?>
+                    <td style="text-align:center;"><?=$sm['updated_date']?></td>
+                    <?php endif;?>
                     <th scope="col" class="text-center">Action</th>
                 </tr>
             </thead>

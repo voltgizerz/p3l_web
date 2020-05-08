@@ -53,7 +53,11 @@
                     <td class="text-center"><?= $sm['tanggal_lahir_customer'] ?></td>
                     <td class="text-center"><?= $sm['nomor_hp_customer'] ?></td>
                     <td class="text-center"><?= $sm['created_date'] ?></td>
-                    <td class="text-center"><?= $sm['updated_date'] ?></td>
+                    <?php if ($sm['updated_date'] == '0000-00-00 00:00:00'): ?>
+                    <td style="text-align:center;"> - </td>
+                    <?php else: ?>
+                    <td style="text-align:center;"><?=$sm['updated_date']?></td>
+                    <?php endif;?>
 
                     <td>
                         <a href="<?= base_url(); ?>admin/updateCustomer/<?= $sm['id_customer']; ?>"

@@ -16,13 +16,13 @@
             <?= validation_errors(); ?>
         </div>
         <?php endif; ?>
-        
-        
+
+
         <?php echo form_open("admin/logSupplier"); ?>
         <a href="" class="btn btn-primary mb-3" data-toggle="modal" data-target="#newSubMenuModal">TAMBAH SUPPLIER</a>
         <input type="submit" name="log" class="btn btn-danger mb-3" value="LOG DELETE SUPPLIER">
         <?php echo form_close(); ?>
-        
+
         <div class="form-group">
             <?php echo form_open("admin/cariSupplier"); ?>
             <select name="cariberdasarkan">
@@ -57,7 +57,11 @@
                     <td class="text-center"><?= $sm['alamat_supplier'] ?></td>
                     <td class="text-center"><?= $sm['nomor_telepon_supplier'] ?></td>
                     <td class="text-center"><?= $sm['created_date'] ?></td>
-                    <td class="text-center"><?= $sm['updated_date'] ?></td>
+                    <?php if ($sm['updated_date'] == '0000-00-00 00:00:00'): ?>
+                    <td style="text-align:center;"> - </td>
+                    <?php else: ?>
+                    <td style="text-align:center;"><?=$sm['updated_date']?></td>
+                    <?php endif;?>
 
                     <td>
                         <a href="<?= base_url(); ?>admin/updateSupplier/<?= $sm['id_supplier']; ?>"

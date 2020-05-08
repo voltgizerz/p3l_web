@@ -21,7 +21,7 @@
         <a href="" class="btn btn-primary mb-3" data-toggle="modal" data-target="#newSubMenuModal">TAMBAH PEGAWAI</a>
         <input type="submit" name="log" class="btn btn-danger mb-3" value="LOG DELETE PEGAWAI">
         <?php echo form_close(); ?>
-        
+
         <div class="form-group">
             <?php echo form_open("admin/cariPegawai"); ?>
             <select name="cariberdasarkan">
@@ -64,7 +64,11 @@
                     <td class="text-center"><?= $sm['role_pegawai'] ?></td>
                     <td class="text-center"><?= $sm['username'] ?></td>
                     <td class="text-center"><?= $sm['created_date'] ?></td>
-                    <td class="text-center"><?= $sm['updated_date'] ?></td>
+                    <?php if ($sm['updated_date'] == '0000-00-00 00:00:00'): ?>
+                    <td style="text-align:center;"> - </td>
+                    <?php else: ?>
+                    <td style="text-align:center;"><?=$sm['updated_date']?></td>
+                    <?php endif;?>
 
                     <td>
                         <a href="<?= base_url(); ?>admin/updatePegawai/<?= $sm['id_pegawai']; ?>"

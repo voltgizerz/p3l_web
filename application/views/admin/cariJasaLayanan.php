@@ -53,7 +53,11 @@
                     <td class="text-center"><?=$sm['ukuran_hewan']?></td>
                     <td class="text-center">Rp. <?=$sm['harga_jasa_layanan']?></td>
                     <td class="text-center"><?=$sm['created_date']?></td>
-                    <td class="text-center"><?=$sm['updated_date']?></td>
+                    <?php if ($sm['updated_date'] == '0000-00-00 00:00:00'): ?>
+                    <td style="text-align:center;"> - </td>
+                    <?php else: ?>
+                    <td style="text-align:center;"><?=$sm['updated_date']?></td>
+                    <?php endif;?>
                     <td class="text-center">
                         <a href="<?=base_url();?>admin/updateJasaLayanan/<?=$sm['id_jasa_layanan'];?>"
                             class="badge badge-primary mb-3" data-toggle="modal"

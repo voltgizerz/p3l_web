@@ -66,8 +66,11 @@
                             class="badge badge-info mb-3">INFO</a>
                     </td>
                     <td style="text-align:center;"><?=$sm['created_date']?></td>
+                    <?php if ($sm['updated_date'] == '0000-00-00 00:00:00'): ?>
+                    <td style="text-align:center;"> - </td>
+                    <?php else: ?>
                     <td style="text-align:center;"><?=$sm['updated_date']?></td>
-
+                    <?php endif;?>
                     <td style="text-align:center;">
                         <?php if ($sm['status_pengadaan'] == 'Sudah Diterima'){
                             $hide="hidden";

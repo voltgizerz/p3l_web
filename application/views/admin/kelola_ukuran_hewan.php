@@ -54,7 +54,11 @@
                     <th scope="row" class="text-center"><?= $i ?></th>
                     <td style="text-align:center;"><?= $sm['ukuran_hewan'] ?></td>
                     <td style="text-align:center;"><?= $sm['created_date'] ?></td>
-                    <td style="text-align:center;"><?= $sm['updated_date'] ?></td>
+                    <?php if ($sm['updated_date'] == '0000-00-00 00:00:00'): ?>
+                    <td style="text-align:center;"> - </td>
+                    <?php else: ?>
+                    <td style="text-align:center;"><?=$sm['updated_date']?></td>
+                    <?php endif;?>
 
                     <td>
                         <a href="<?= base_url(); ?>admin/updateUkuranHewan/<?= $sm['id_ukuran_hewan']; ?>"

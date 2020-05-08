@@ -16,7 +16,7 @@
             <?= validation_errors(); ?>
         </div>
         <?php endif; ?>
-        
+
         <?php echo form_open("admin/logCustomer"); ?>
         <a href="" class="btn btn-primary mb-3" data-toggle="modal" data-target="#newSubMenuModal">TAMBAH CUSTOMER</a>
         <input type="submit" name="log" class="btn btn-danger mb-3" value="LOG DELETE CUSTOMER">
@@ -31,7 +31,7 @@
                     <th scope="col" class="text-center">Alamat Customer</th>
                     <th scope="col" class="text-center">Tanggal Lahir</th>
                     <th scope="col" class="text-center">Nomor Hp</th>
-                    <th scope="col" class="text-center">Updated Date</th>
+                    <th scope="col" class="text-center">Deleted Date</th>
                     <th scope="col" class="text-center">Action</th>
                 </tr>
             </thead>
@@ -44,7 +44,7 @@
                     <td class="text-center"><?= $sm['alamat_customer'] ?></td>
                     <td class="text-center"><?= $sm['tanggal_lahir_customer'] ?></td>
                     <td class="text-center"><?= $sm['nomor_hp_customer'] ?></td>
-                    <td class="text-center"><?= $sm['updated_date'] ?></td>
+                    <td class="text-center"><?= $sm['deleted_date'] ?></td>
 
                     <td style="text-align:center;">
                         <a href="<?= base_url(); ?>admin/restoreCustomer/<?= $sm['id_customer']; ?>"

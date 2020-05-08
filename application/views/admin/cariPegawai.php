@@ -43,7 +43,11 @@
                     <th scope="col" class="text-center">Role</th>
                     <th scope="col" class="text-center">Username</th>
                     <th scope="col" class="text-center">Created Date</th>
-                    <th scope="col" class="text-center">Updated Date</th>
+                    <?php if ($sm['updated_date'] == '0000-00-00 00:00:00'): ?>
+                    <td style="text-align:center;"> - </td>
+                    <?php else: ?>
+                    <td style="text-align:center;"><?=$sm['updated_date']?></td>
+                    <?php endif;?>
                     <th scope="col" class="text-center">Action</th>
                 </tr>
             </thead>
@@ -98,7 +102,8 @@
                         <input type="text" class="form-control" id="alamat" name="alamat" placeholder="Alamat Pegawai">
                     </div>
                     <div class="form-group">
-                        <input type="text" class="form-control" id="tanggal" name="tanggal" placeholder="Tanggal Lahir (YYYY-MM-DD) ">
+                        <input type="text" class="form-control" id="tanggal" name="tanggal"
+                            placeholder="Tanggal Lahir (YYYY-MM-DD) ">
                     </div>
                     <div class="form-group">
                         <input type="text" class="form-control" id="nohp" name="nohp" placeholder="Nomor Handphone">

@@ -64,7 +64,11 @@
                             class="badge badge-info mb-3">INFO</a>
                     </td>
                     <td style="text-align:center;"><?=$sm['created_date']?></td>
+                    <?php if ($sm['updated_date'] == '0000-00-00 00:00:00'): ?>
+                    <td style="text-align:center;"> - </td>
+                    <?php else: ?>
                     <td style="text-align:center;"><?=$sm['updated_date']?></td>
+                    <?php endif;?>
 
                     <td style="text-align:center;">
                         <?php if ($sm['status_penjualan'] == 'Sudah Selesai') {
@@ -77,7 +81,7 @@
                             data-target="#editSubMenuModal<?=$sm['id_transaksi_penjualan_produk'];?>"
                             style="visibility: <?=$hide?>">EDIT</a>
                         <a href="<?=base_url();?>cs/hapusPenjualanProduk/<?=$sm['id_transaksi_penjualan_produk'];?>"
-                            class="badge badge-danger mb-3">DELETE</a>
+                            class="badge badge-danger mb-3" style="visibility: <?=$hide?>">DELETE</a>
                     </td>
                 </tr>
                 <?php $i++;?>
@@ -90,7 +94,7 @@
 
 
 <!-- Modal -->
-<div class="modal fade" id="newSubMenuModal" tabindex="-1" role="dialog" aria-labelledby="#newSubMenuModal"
+<div class=" modal fade" id="newSubMenuModal" tabindex="-1" role="dialog" aria-labelledby="#newSubMenuModal"
     aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
@@ -144,10 +148,12 @@
                     <div class="form-group">
                         <select class="form-control" id="status_penjualan" name="status_penjualan">
                             <option value="">Pilih Status Transaksi</option>
-                            <option <?php if ($sm['status_penjualan'] == 'Belum Selesai') {echo ("selected");}?>>Belum
+                            <option <?php if ($sm['status_penjualan'] == 'Belum Selesai') {echo ("selected");}?>>
+                                Belum
                                 Selesai
                             </option>
-                            <option <?php if ($sm['status_penjualan'] == 'Sudah Selesai') {echo ("selected");}?>>Sudah
+                            <option <?php if ($sm['status_penjualan'] == 'Sudah Selesai') {echo ("selected");}?>>
+                                Sudah
                                 Selesai
                             </option>
                         </select>

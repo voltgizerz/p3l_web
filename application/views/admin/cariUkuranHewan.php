@@ -18,7 +18,7 @@
         <?php endif; ?>
         <a href="" class="btn btn-primary mb-3" data-toggle="modal" data-target="#newSubMenuModal">TAMBAH UKURAN
             HEWAN</a>
-            <div class="form-group">
+        <div class="form-group">
             <?php echo form_open("admin/cariUkuranHewan"); ?>
             <select name="cariberdasarkan">
                 <option value="">Cari Berdasarkan</option>
@@ -30,7 +30,7 @@
             <?php echo form_close(); ?>
         </div>
         <?= $this->session->flashdata('message'); ?>
-            
+
         <table class="table table-striped table-dark table-hover  table-responsive-sm">
             <thead>
                 <tr>
@@ -48,7 +48,11 @@
                     <th scope="row" class="text-center"><?= $i ?></th>
                     <td><?= $sm['ukuran_hewan'] ?></td>
                     <td><?= $sm['created_date'] ?></td>
-                    <td><?= $sm['updated_date'] ?></td>
+                    <?php if ($sm['updated_date'] == '0000-00-00 00:00:00'): ?>
+                    <td style="text-align:center;"> - </td>
+                    <?php else: ?>
+                    <td style="text-align:center;"><?=$sm['updated_date']?></td>
+                    <?php endif;?>
 
                     <td>
                         <a href="<?= base_url(); ?>admin/updateUkuranHewan/<?= $sm['id_ukuran_hewan']; ?>"

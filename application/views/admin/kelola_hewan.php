@@ -19,7 +19,7 @@
             HEWAN</a>
         <input type="submit" name="log" class="btn btn-danger mb-3" value="LOG DELETE HEWAN">
         <?php echo form_close(); ?>
-        
+
         <div class="form-group">
             <?php echo form_open("admin/cariHewan"); ?>
             <select name="cariberdasarkan">
@@ -59,7 +59,11 @@
                     <td style="text-align:center;"><?=$sm['tanggal_lahir_hewan']?></td>
                     <td style="text-align:center;"><?=$sm['nama_customer']?></td>
                     <td style="text-align:center;"><?=$sm['created_date']?></td>
+                    <?php if ($sm['updated_date'] == '0000-00-00 00:00:00'): ?>
+                    <td style="text-align:center;"> - </td>
+                    <?php else: ?>
                     <td style="text-align:center;"><?=$sm['updated_date']?></td>
+                    <?php endif;?>
 
                     <td>
                         <a href="<?=base_url();?>admin/updateHewan/<?=$sm['id_hewan'];?>"

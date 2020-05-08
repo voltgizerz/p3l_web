@@ -21,7 +21,7 @@
         <a href="" class="btn btn-primary mb-3" data-toggle="modal" data-target="#newSubMenuModal">TAMBAH PEGAWAI</a>
         <input type="submit" name="log" class="btn btn-danger mb-3" value="LOG DELETE PEGAWAI">
         <?php echo form_close(); ?>
-        
+
         <?= $this->session->flashdata('message'); ?>
 
         <table class="table table-striped table-dark table-hover  table-responsive-sm">
@@ -34,7 +34,7 @@
                     <th scope="col" class="text-center">Nomor Hp</th>
                     <th scope="col" class="text-center">Role</th>
                     <th scope="col" class="text-center">Username</th>
-                    <th scope="col" class="text-center">Updated Date</th>
+                    <th scope="col" class="text-center">Deleted Date</th>
                     <th scope="col" class="text-center">Action</th>
                 </tr>
             </thead>

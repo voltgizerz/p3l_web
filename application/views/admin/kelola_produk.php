@@ -61,7 +61,11 @@
                     <td style="text-align:center;"><?= $sm['stok_produk'] ?></td>
                     <td style="text-align:center;"><?= $sm['stok_minimal_produk'] ?></td>
                     <td style="text-align:center;"><?= $sm['created_date'] ?></td>
-                    <td style="text-align:center;"><?= $sm['updated_date'] ?></td>
+                    <?php if ($sm['updated_date'] == '0000-00-00 00:00:00'): ?>
+                    <td style="text-align:center;"> - </td>
+                    <?php else: ?>
+                    <td style="text-align:center;"><?=$sm['updated_date']?></td>
+                    <?php endif;?>
 
                     <td style="text-align:center;">
                         <a href="<?= base_url(); ?>admin/updateProduk/<?= $sm['id_produk']; ?>"
