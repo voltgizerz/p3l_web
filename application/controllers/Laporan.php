@@ -63,7 +63,7 @@ class Laporan extends CI_Controller
         $pdf->Cell(10, 5, '', 0, 1);
         $pdf->SetFont('Arial', 'B', 10);
         $pdf->Cell(10, 5, 'No', 1, 0, 'C');
-        $pdf->Cell(50, 5, 'Nama Produk', 1, 0, 'C');
+        $pdf->Cell(65, 5, 'Nama Produk', 1, 0, 'C');
         $pdf->Cell(35, 5, 'Satuan', 1, 0, 'C');
         $pdf->Cell(40, 5, 'Jumlah', 1, 1, 'C');
         $pdf->SetFillColor(193,229,252);
@@ -78,7 +78,7 @@ class Laporan extends CI_Controller
         foreach ($produk as $row) {
             $pdf->SetFont('Arial', '', 10);
             $pdf->Cell(10, 5, $cnt, 1, 0, 'C', 0);
-            $pdf->Cell(50, 5, $row->nama_produk, 1, 0);
+            $pdf->Cell(65, 5, $row->nama_produk, 1, 0);
             $pdf->Cell(35, 5, $row->satuan_pengadaan, 1, 0, 'C');
             $pdf->Cell(40, 5, $row->jumlah_pengadaan, 1, 1, 'C');
             $cnt++;
