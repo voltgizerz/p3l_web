@@ -345,4 +345,52 @@ class Cs extends CI_Controller
             redirect('cs/transaksi_penjualan_produk');
         }
     }
+
+
+    public function transaksi_penjualan_layanan()
+    {
+        $data['title'] = 'Transaksi Penjualan Layanan';
+        $data['user'] = $this->db->get_where('data_pegawai', ['username' => $this->session->userdata('username')])->row_array();
+        $this->load->model('Penjualan_Layanan_Model', 'menu');
+        $data['dataPenjualanLayanan'] = $this->menu->getDataPenjualanLayananAdmin();
+        $data['menu'] = $this->db->get('user_menu')->result_array();
+
+        $this->form_validation->set_rules('cs', 'cs', 'required|trim');
+
+        if ($this->form_validation->run() == false) {
+            $data['menu'] = $this->db->get('user_menu')->result_array();
+            $this->load->view('templates/header', $data);
+            $this->load->view('templates/sidebar', $data);
+            $this->load->view('templates/topbar', $data);
+            $this->load->view('cs/transaksi_penjualan_layanan', $data);
+            $this->load->view('templates/footer');
+        } else {
+            $ci = get_instance();
+            date_default_timezone_set("Asia/Bangkok");
+            $data = [
+                'kode_transaksi_penjualan_jasa_layanan' => $this->menu->ambilKode(),
+                'tanggal_penjualan_produk' => date("0000:00:0:00:00"),
+                'tanggal_pembayaran_produk' => date("0000:00:0:00:00"),
+                'tanggal_penjualan_jasa_layanan' => date("0000:00:0:00:00"),
+                'tanggal_pembayaran_jasa_layanan' => date("0000:00:0:00:00"),
+                'id_hewan'=>$this->input->post('id_hewan'),
+                'diskon' => '0',
+                'total_penjualan_jasa_layanan' => '0',
+                'status_layanan' => 'Belum Selesai',
+                'status_penjualan' => 'Belum Selesai',
+                'status_pembayaran' => 'Belum Lunas',
+                'id_cs' => $this->input->post('id_cs'),
+                'id_kasir' => $this->input->post('id_cs'),
+                'created_date' => date("Y-m-d H:i:s"),
+                'updated_date' => date("0000:00:0:00:00"),
+                'total_harga' => '0',
+            ];
+
+            $this->db->insert('data_transaksi_penjualan_jasa_layanan', $data);
+            $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">
+            Transaksi Penjualan Berhasil Ditambahkan!
+           </div>');
+            redirect('cs/transaksi_penjualan_layanan');
+        }
+    }
 }
