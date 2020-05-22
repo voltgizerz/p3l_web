@@ -75,7 +75,7 @@
                         <?php if ($sm['total_pengadaan'] == 0): ?>
                         Belum Ada Produk
                         <?php else: ?>
-                        <a href="<?=base_url();?>laporan/index/<?=$sm['id_pengadaan'];?>"
+                        <a href="<?=base_url();?>laporan/index/<?=$sm['id_pengadaan'];?>" target="_blank"
                             class="badge badge-warning mb-3" style="visibility: <?=$hide?>">CETAK</a>
                         <?php endif;?>
 
