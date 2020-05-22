@@ -42,6 +42,7 @@
                     <th scope="col" class="text-center">Tanggal Pengadaan</th>
                     <th scope="col" class="text-center">Total</th>
                     <th scope="col" class="text-center">Detail Transaksi</th>
+                    <th scope="col" class="text-center">Struk Pemesanan</th>
                     <th scope="col" class="text-center">Created Date</th>
                     <th scope="col" class="text-center">Updated Date</th>
                     <th scope="col" class="text-center">Action</th>
@@ -64,6 +65,10 @@
                     <td style="text-align:center;">
                         <a href="<?=base_url();?>admin/detail_pengadaan/<?=$sm['id_pengadaan'];?>"
                             class="badge badge-info mb-3">INFO</a>
+                    </td>
+                    <td style="text-align:center;">
+                        <a href="<?=base_url();?>laporan/index/<?=$sm['id_pengadaan'];?>"
+                            class="badge badge-warning mb-3">CETAK</a>
                     </td>
                     <td style="text-align:center;"><?=$sm['created_date']?></td>
                     <?php if ($sm['updated_date'] == '0000-00-00 00:00:00'): ?>

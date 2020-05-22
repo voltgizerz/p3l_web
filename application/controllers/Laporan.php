@@ -8,41 +8,42 @@ class Laporan extends CI_Controller
         $this->load->library('pdf');
     }
 
-    function index()
+    function index($id)
     {
         $cnt = 1;
-        $pdf = new FPDF('l', 'mm', 'A4');
+        $pdf = new FPDF('P','mm','A4');
         // membuat halaman baru
         $pdf->AddPage();
         // setting jenis font yang akan digunakan
         $pdf->SetFont('Arial', 'B', 16);
+        $pdf->Rect(5, 5, 200, 287, 'D');
+        $pdf->Image('D:\XAMPP\htdocs\p3l_web\assets\img\headerlaporan.png',7,10,195,0,'PNG');
         // mencetak string
-        $pdf->Cell(270, 7, 'LAPORAN PEMBELIAN MOBIL RICHZ AUTO', 0, 1, 'C');
-        $pdf->SetFont('Arial', 'B', 12);
-        $pdf->Cell(270, 7, 'LIST BUY CARS 2019/2020', 0, 1, 'C');
         // Memberikan space kebawah agar tidak terlalu rapat
-        $pdf->Cell(10, 7, '', 0, 1);
+        $pdf->Cell(99, 99, '', 99, 99);
         $pdf->SetFont('Arial', 'B', 10);
-        $pdf->Cell(10, 6, 'NO', 1, 0, 'C');
-        $pdf->Cell(50, 6, 'FULL NAME', 1, 0, 'C');
-        $pdf->Cell(30, 6, 'MERK', 1, 0, 'C');
-        $pdf->Cell(40, 6, 'TYPE', 1, 0, 'C');
-        $pdf->Cell(40, 6, 'PRICE DEAL', 1, 0, 'C');
-        $pdf->Cell(60, 6, 'CONTACT MESSAGE', 1, 0, 'C');
-        $pdf->Cell(40, 6, 'EMAIL BUYER', 1, 1, 'C');
+        $pdf->Cell(10, 5, 'No', 1, 0, 'C');
+        $pdf->Cell(50, 5, 'Nama Produk', 1, 0, 'C');
+        $pdf->Cell(35, 5, 'Satuan', 1, 0, 'C');
+        $pdf->Cell(40, 5, 'Jumlah', 1, 1, 'C');
+        $pdf->SetFillColor(193,229,252);
+        $kode = $this->db->get_where('data_pengadaan', ['id_pengadaan' => $id])->row()->kode_pengadaan;
+        $this->db->select('data_detail_pengadaan.id_detail_pengadaan,data_detail_pengadaan.id_produk_fk,data_produk.nama_produk,data_produk.gambar_produk,data_detail_pengadaan.kode_pengadaan_fk,data_detail_pengadaan.satuan_pengadaan,data_detail_pengadaan.jumlah_pengadaan,data_detail_pengadaan.tanggal_pengadaan');
+        $this->db->join('data_produk', 'data_produk.id_produk = data_detail_pengadaan.id_produk_fk');
+        $this->db->from('data_detail_pengadaan');
+        $this->db->order_by("data_detail_pengadaan.id_detail_pengadaan desc");
+        $this->db->where('kode_pengadaan_fk', $kode);
+        $query = $this->db->get();
         $pdf->SetFont('Arial', '', 10);
-        $buku = $this->db->get('buy_cars')->result();
-        foreach ($buku as $row) {
-            $pdf->Cell(10, 6, $cnt, 1, 0, 'C', 0);
-            $pdf->Cell(50, 6, $row->name, 1, 0);
-            $pdf->Cell(30, 6, $row->merk, 1, 0, 'C');
-            $pdf->Cell(40, 6, $row->type, 1, 0, 'C');
-            $pdf->Cell(40, 6, $row->harga, 1, 0, 'C');
-            $pdf->Cell(60, 6, $row->nomorhp, 1, 0, 'C');
-            $pdf->Cell(40, 6, $row->email_pembeli, 1, 1, 'C');
+        $produk = $query->result();
+        foreach ($produk as $row) {
+            $pdf->Cell(10, 5, $cnt, 1, 0, 'C', 0);
+            $pdf->Cell(50, 5, $row->nama_produk, 1, 0);
+            $pdf->Cell(35, 5, $row->satuan_pengadaan, 1, 0, 'C');
+            $pdf->Cell(40, 5, $row->jumlah_pengadaan, 1, 1, 'C');
             $cnt++;
         }
-        $pdf->Output('D', 'LaporanPembelianMobil.pdf');
+        $pdf->Output('D', 'Struk - '.$kode.'.pdf');
     }
 
 
