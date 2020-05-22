@@ -10,39 +10,82 @@ class Laporan extends CI_Controller
 
     function index($id)
     {
+        $kode = $this->db->get_where('data_pengadaan', ['id_pengadaan' => $id])->row()->kode_pengadaan;
+        $tanggal = $this->db->get_where('data_pengadaan', ['id_pengadaan' => $id])->row()->created_date;
+        $id_supplier = $this->db->get_where('data_pengadaan', ['id_pengadaan' => $id])->row()->id_supplier;
+        $namaSupplier = $this->db->get_where('data_supplier', ['id_supplier' => $id_supplier])->row()->nama_supplier;
+        $alamatSupplier = $this->db->get_where('data_supplier', ['id_supplier' => $id_supplier])->row()->alamat_supplier;
+        $telp = $this->db->get_where('data_supplier', ['id_supplier' => $id_supplier])->row()->nomor_telepon_supplier;
+       
+        $new_date = date('d F Y',strtotime($tanggal));
         $cnt = 1;
-        $pdf = new FPDF('P','mm','A4');
+        $pdf = new FPDF('P','mm',array(210,210));
         // membuat halaman baru
         $pdf->AddPage();
         // setting jenis font yang akan digunakan
+        //HEADER LAPORAN
         $pdf->SetFont('Arial', 'B', 16);
-        $pdf->Rect(5, 5, 200, 287, 'D');
+        $pdf->Rect(5, 5, 200, 200, 'D');
         $pdf->Image('D:\XAMPP\htdocs\p3l_web\assets\img\headerlaporan.png',7,10,195,0,'PNG');
+
+        //TEXT
+        $pdf->Cell(10, 60, '', 0, 1);
+        $pdf->Cell(190, 7, 'SURAT PEMESANAN', 99, 1, 'C');
+        $pdf->Cell(10, 7, '', 0, 1);
+        // KODE PENGADDAN
+        $pdf->SetFont('Arial', 'B', 10);
+        $pdf->Cell(300, 0, 'No : '.$kode, 99, 1, 'C');
+        $pdf->Cell(10, 7, '', 0, 1);
+        //TANGGAL PENGADAAN
+        $pdf->SetFont('Arial', 'B', 10);
+        $pdf->Cell(300, 0, 'Tanggal : '.$new_date, 99, 1, 'C');
+        $pdf->Cell(1,1, '', 0, 1);
+        //TANGGAL PENGADAAN
+        $pdf->SetLeftMargin(28);
+        $pdf->SetFont('Arial', '', 10);
+        $pdf->Cell(100, 0, 'Kepada Yth : ', 99, 1, 'L');
+        $pdf->Cell(10, 7, '', 0, 1);
+        $pdf->SetFont('Arial', '', 10);
+        $pdf->Cell(80, 0, $namaSupplier, 99, 1, 'L');
+        $pdf->Cell(10, 7, '', 0, 1);
+        $pdf->SetFont('Arial', '', 10);
+        $pdf->Cell(80, 0, $alamatSupplier, 99, 1, 'L');
+        $pdf->Cell(10, 7, '', 0, 1);
+        $pdf->SetFont('Arial', '', 10);
+        $pdf->Cell(80, 0, $telp, 99, 1, 'L');
+        $pdf->Cell(10, 7, '', 0, 1);
+        $pdf->SetFont('Arial', '', 10);
         // mencetak string
         // Memberikan space kebawah agar tidak terlalu rapat
-        $pdf->Cell(99, 99, '', 99, 99);
+        $pdf->Cell(10, 7, '', 0, 1);
+        $pdf->SetFont('Arial', 'B', 10);
+        $pdf->Cell(190, 0, 'Mohon untuk disediakan produk-produk berikut ini : ', 99, 5, 'L');
+        $pdf->Cell(10, 5, '', 0, 1);
         $pdf->SetFont('Arial', 'B', 10);
         $pdf->Cell(10, 5, 'No', 1, 0, 'C');
         $pdf->Cell(50, 5, 'Nama Produk', 1, 0, 'C');
         $pdf->Cell(35, 5, 'Satuan', 1, 0, 'C');
         $pdf->Cell(40, 5, 'Jumlah', 1, 1, 'C');
         $pdf->SetFillColor(193,229,252);
-        $kode = $this->db->get_where('data_pengadaan', ['id_pengadaan' => $id])->row()->kode_pengadaan;
+        
         $this->db->select('data_detail_pengadaan.id_detail_pengadaan,data_detail_pengadaan.id_produk_fk,data_produk.nama_produk,data_produk.gambar_produk,data_detail_pengadaan.kode_pengadaan_fk,data_detail_pengadaan.satuan_pengadaan,data_detail_pengadaan.jumlah_pengadaan,data_detail_pengadaan.tanggal_pengadaan');
         $this->db->join('data_produk', 'data_produk.id_produk = data_detail_pengadaan.id_produk_fk');
         $this->db->from('data_detail_pengadaan');
         $this->db->order_by("data_detail_pengadaan.id_detail_pengadaan desc");
         $this->db->where('kode_pengadaan_fk', $kode);
         $query = $this->db->get();
-        $pdf->SetFont('Arial', '', 10);
         $produk = $query->result();
         foreach ($produk as $row) {
+            $pdf->SetFont('Arial', '', 10);
             $pdf->Cell(10, 5, $cnt, 1, 0, 'C', 0);
             $pdf->Cell(50, 5, $row->nama_produk, 1, 0);
             $pdf->Cell(35, 5, $row->satuan_pengadaan, 1, 0, 'C');
             $pdf->Cell(40, 5, $row->jumlah_pengadaan, 1, 1, 'C');
             $cnt++;
         }
+        $pdf->Cell(10, 20, '', 0, 1);
+        $pdf->SetFont('Arial', '', 10);
+        $pdf->Cell(279, 0, 'Dicetak Tanggal '.date('d F Y'), 99, 1, 'C');
         $pdf->Output('D', 'Struk - '.$kode.'.pdf');
     }
 
