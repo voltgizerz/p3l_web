@@ -117,6 +117,13 @@
                         <input type="text" class="form-control" id="nama" name="nama"
                             value="<?=$ci->session->userdata('nama_pegawai')?>" placeholder="Nama Pegawai" readonly>
                     </div>
+                    <div class="form-group">
+                        <select class="form-control" id="pilih_hewan" name="pilih_hewan">
+                            <option>Pilih Hewan</option>
+                            <?php foreach ($data_hewan->result() as $row) {
+    echo '<option value="' . $row->id_hewan . '">' . $row->nama_hewan . '</option>';}?>
+                        </select>
+                    </div>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>

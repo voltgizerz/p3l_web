@@ -354,6 +354,7 @@ class Cs extends CI_Controller
         $this->load->model('Penjualan_Layanan_Model', 'menu');
         $data['dataPenjualanLayanan'] = $this->menu->getDataPenjualanLayananAdmin();
         $data['menu'] = $this->db->get('user_menu')->result_array();
+        $data['data_hewan'] = $this->menu->select_hewan();
 
         $this->form_validation->set_rules('cs', 'cs', 'required|trim');
 
@@ -369,8 +370,8 @@ class Cs extends CI_Controller
             date_default_timezone_set("Asia/Bangkok");
             $data = [
                 'kode_transaksi_penjualan_jasa_layanan' => $this->menu->ambilKode(),
-                'tanggal_penjualan_produk' => date("0000:00:0:00:00"),
-                'tanggal_pembayaran_produk' => date("0000:00:0:00:00"),
+                'tanggal_penjualan_jasa_layanan' => date("0000:00:0:00:00"),
+                'tanggal_pembayaran_jasa_layanan' => date("0000:00:0:00:00"),
                 'tanggal_penjualan_jasa_layanan' => date("0000:00:0:00:00"),
                 'tanggal_pembayaran_jasa_layanan' => date("0000:00:0:00:00"),
                 'id_hewan'=>$this->input->post('id_hewan'),

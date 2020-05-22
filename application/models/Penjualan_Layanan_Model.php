@@ -147,11 +147,14 @@ class Penjualan_Layanan_model extends CI_Model
         return $temp;
     }
 
-    public function select_produk()
+    public function select_hewan()
     {
-        $this->db->select('*');
-        $this->db->where('deleted_date', '0000-00-00 00:00:00');
-        $this->db->from('data_produk');
+        $this->db->select('data_hewan.id_hewan,data_hewan.nama_hewan, data_hewan.id_jenis_hewan, data_hewan.id_ukuran_hewan, data_hewan.id_customer, data_hewan.tanggal_lahir_hewan, data_hewan.created_date, data_hewan.updated_date, data_hewan.deleted_date,data_jenis_hewan.nama_jenis_hewan, data_ukuran_hewan.ukuran_hewan,data_customer.nama_customer');
+        $this->db->join('data_ukuran_hewan', 'data_ukuran_hewan.id_ukuran_hewan = data_hewan.id_ukuran_hewan');
+        $this->db->join('data_jenis_hewan', 'data_jenis_hewan.id_jenis_hewan = data_hewan.id_jenis_hewan');
+        $this->db->join('data_customer', 'data_customer.id_customer = data_hewan.id_customer');
+        $this->db->where('data_hewan.deleted_date', '0000-00-00 00:00:00');
+        $this->db->from('data_hewan');
         $query = $this->db->get();
         return $query;
     }
