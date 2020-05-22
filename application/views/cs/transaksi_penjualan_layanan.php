@@ -12,11 +12,6 @@
     <div class="col-lg ml-3 mr-3">
         <a href="" class="btn btn-primary mb-3" data-toggle="modal" data-target="#newSubMenuModal">TAMBAH TRANSAKSI
             PENJUALAN LAYANAN</a>
-        <?php if (validation_errors()): ?>
-        <div class="alert alert-danger" role="alert">
-            <?=validation_errors();?>
-        </div>
-        <?php endif;?>
 
         <div class="form-group">
             <?php echo form_open("cs/cariPenjualanLayanan"); ?>
@@ -25,10 +20,16 @@
                 <option value="kode_penjualan">Kode Penjualan</option>
                 <option value="nama_cs">Nama Customer Service</option>
             </select>
+
             <input name="yangdicari" id="" type="text">
             <input type="submit" name="cari" value="Cari">
             <?php echo form_close(); ?>
         </div>
+        <?php if (validation_errors()): ?>
+        <div class="alert alert-danger" role="alert">
+            <?=validation_errors();?>
+        </div>
+        <?php endif;?>
         <?=$this->session->flashdata('message');?>
 
         <table class="table table-striped table-dark table-hover  table-responsive-sm">
@@ -119,7 +120,7 @@
                     </div>
                     <div class="form-group">
                         <select class="form-control" id="pilih_hewan" name="pilih_hewan">
-                            <option>Pilih Hewan</option>
+                            <option value="">Pilih Hewan</option>
                             <?php foreach ($data_hewan->result() as $row) {
     echo '<option value="' . $row->id_hewan . '">' . $row->nama_hewan . '</option>';}?>
                         </select>

@@ -32,6 +32,7 @@ class Penjualan_Layanan_model extends CI_Model
             $this->db->join('data_pegawai', 'data_pegawai.id_pegawai = data_transaksi_penjualan_jasa_layanan.id_cs');
             $this->db->join('data_pegawai a', 'a.id_pegawai = data_transaksi_penjualan_jasa_layanan.id_kasir');
             $this->db->from('data_transaksi_penjualan_jasa_layanan');
+            $this->db->order_by("data_transaksi_penjualan_jasa_layanan.id_transaksi_penjualan_jasa_layanan desc");
             $query = $this->db->get();
 
         return $query->result_array();

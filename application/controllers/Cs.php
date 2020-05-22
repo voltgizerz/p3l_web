@@ -356,7 +356,7 @@ class Cs extends CI_Controller
         $data['menu'] = $this->db->get('user_menu')->result_array();
         $data['data_hewan'] = $this->menu->select_hewan();
 
-        $this->form_validation->set_rules('cs', 'cs', 'required|trim');
+        $this->form_validation->set_rules('pilih_hewan', 'pilih_hewan', 'required|trim');
 
         if ($this->form_validation->run() == false) {
             $data['menu'] = $this->db->get('user_menu')->result_array();
@@ -374,14 +374,14 @@ class Cs extends CI_Controller
                 'tanggal_pembayaran_jasa_layanan' => date("0000:00:0:00:00"),
                 'tanggal_penjualan_jasa_layanan' => date("0000:00:0:00:00"),
                 'tanggal_pembayaran_jasa_layanan' => date("0000:00:0:00:00"),
-                'id_hewan'=>$this->input->post('id_hewan'),
+                'id_hewan'=>$this->input->post('pilih_hewan'),
                 'diskon' => '0',
                 'total_penjualan_jasa_layanan' => '0',
                 'status_layanan' => 'Belum Selesai',
                 'status_penjualan' => 'Belum Selesai',
                 'status_pembayaran' => 'Belum Lunas',
-                'id_cs' => $this->input->post('id_cs'),
-                'id_kasir' => $this->input->post('id_cs'),
+                'id_cs' => $ci->session->userdata('id_pegawai'),
+                'id_kasir' => $ci->session->userdata('id_pegawai'),
                 'created_date' => date("Y-m-d H:i:s"),
                 'updated_date' => date("0000:00:0:00:00"),
                 'total_harga' => '0',
