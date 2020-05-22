@@ -67,10 +67,20 @@
                             class="badge badge-info mb-3">INFO</a>
                     </td>
                     <td style="text-align:center;">
+                        <?php if ($sm['total_pengadaan'] == 0){
+                            $hide="hidden";
+                        }else{
+                            $hide="visible";
+                        } ?>
+                        <?php if ($sm['total_pengadaan'] == 0): ?>
+                        Belum Ada Produk
+                        <?php else: ?>
                         <a href="<?=base_url();?>laporan/index/<?=$sm['id_pengadaan'];?>"
-                            class="badge badge-warning mb-3">CETAK</a>
+                            class="badge badge-warning mb-3" style="visibility: <?=$hide?>">CETAK</a>
+                        <?php endif;?>
+
                     </td>
-                    <td style="text-align:center;"><?=$sm['created_date']?></td>
+                    <td style=" text-align:center;"><?=$sm['created_date']?></td>
                     <?php if ($sm['updated_date'] == '0000-00-00 00:00:00'): ?>
                     <td style="text-align:center;"> - </td>
                     <?php else: ?>
