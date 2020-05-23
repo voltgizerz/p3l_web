@@ -2,7 +2,7 @@
 <div class="container-fluid">
 
     <!-- Page Heading -->
-    <h1 class="h3 mb-4 text-gray-800"><?=$title?> - hewan Service AREA</h1>
+    <h1 class="h3 mb-4 text-gray-800"><?=$title?> - Customer Service AREA</h1>
 
 
 </div>
@@ -18,7 +18,7 @@
             <select name="cariberdasarkan">
                 <option value="">Cari Berdasarkan</option>
                 <option value="kode_penjualan">Kode Penjualan</option>
-                <option value="nama_cs">Nama hewan Service</option>
+                <option value="nama_cs">Nama Hewan Service</option>
             </select>
 
             <input name="yangdicari" id="" type="text">
@@ -37,7 +37,7 @@
                 <tr>
                     <th scope="col" class="text-center">No</th>
                     <th scope="col" class="text-center">Kode Penjualan</th>
-                    <th scope="col" class="text-center">Nama hewan Service</th>
+                    <th scope="col" class="text-center">Nama Customer Service</th>
                     <th scope="col" class="text-center">Nama Hewan</th>
                     <th scope="col" class="text-center">Subtotal Harga</th>
                     <th scope="col" class="text-center">Status Penjualan</th>

@@ -99,12 +99,26 @@ class Penjualan_Layanan_model extends CI_Model
         return $query->result_array();
     }
 
-    public function getDetailPenjualanProdukId($id)
+    public function getDetailPenjualanLayananId($id)
     {
-        $this->db->select('data_detail_penjualan_produk.id_detail_penjualan_produk,data_detail_penjualan_produk.kode_transaksi_penjualan_produk_fk,data_detail_penjualan_produk.id_produk_penjualan_fk,data_detail_penjualan_produk.jumlah_produk,data_detail_penjualan_produk.subtotal,data_produk.nama_produk,data_produk.gambar_produk');
-        $this->db->join('data_produk', 'data_produk.id_produk = data_detail_penjualan_produk.id_produk_penjualan_fk');
-        $this->db->from('data_detail_penjualan_produk');
-        $this->db->where('id_detail_penjualan_produk', $id);
+        $data = $this->db->get_where('data_transaksi_penjualan_jasa_layanan', ['id_transaksi_penjualan_jasa_layanan' => $id])->row()->kode_transaksi_penjualan_jasa_layanan;
+        $this->db->select('data_detail_penjualan_jasa_layanan.id_detail_penjualan_jasa_layanan,
+        data_detail_penjualan_jasa_layanan.id_jasa_layanan_fk,
+        data_detail_penjualan_jasa_layanan.kode_transaksi_penjualan_jasa_layanan_fk,
+        data_detail_penjualan_jasa_layanan.jumlah_jasa_layanan,
+        data_detail_penjualan_jasa_layanan.subtotal,
+        data_jasa_layanan.nama_jasa_layanan,
+        a.id_jenis_hewan AS id_jenis_hewan,
+        b.id_ukuran_hewan AS id_ukuran_hewan,
+        data_jenis_hewan.nama_jenis_hewan,
+        data_ukuran_hewan.ukuran_hewan');
+        $this->db->join('data_jasa_layanan', 'data_jasa_layanan.id_jasa_layanan = data_detail_penjualan_jasa_layanan.id_jasa_layanan_fk');
+        $this->db->join('data_jasa_layanan a', 'a.id_jasa_layanan = data_detail_penjualan_jasa_layanan.id_jasa_layanan_fk');
+        $this->db->join('data_jasa_layanan b', 'b.id_jasa_layanan = data_detail_penjualan_jasa_layanan.id_jasa_layanan_fk');
+        $this->db->join('data_ukuran_hewan', 'data_ukuran_hewan.id_ukuran_hewan = b.id_ukuran_hewan');
+        $this->db->join('data_jenis_hewan', 'data_jenis_hewan.id_jenis_hewan = a.id_jenis_hewan');
+        $this->db->where('id_detail_penjualan_jasa_layanan', $id);
+        $this->db->from('data_detail_penjualan_jasa_layanan');
         $query = $this->db->get();
         return $query->result_array();
     }
