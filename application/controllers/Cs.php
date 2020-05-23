@@ -190,7 +190,7 @@ class Cs extends CI_Controller
                 $temp = $temp + $arrTemp[$i]['jumlah_produk'] * $arrTemp[$i]['harga_produk'];
             }
             //UPDATE NILAI TOTAL PENGADAAN
-            $this->db->where('kode_transaksi_penjualan_produk', $data['kode_transaksi_penjualan_produk_fk'])->update('data_transaksi_penjualan_produk', ['total_penjualan_produk' => $temp]);
+            $this->db->where('kode_transaksi_penjualan_produk', $data['kode_transaksi_penjualan_produk_fk'])->update('data_transaksi_penjualan_produk', ['total_penjualan_produk' => $temp, 'updated_date' => date("Y-m-d H:i:s")]);
 
             $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">
             Produk Penjualan Berhasil Ditambahkan!
