@@ -394,4 +394,14 @@ class Cs extends CI_Controller
             redirect('cs/transaksi_penjualan_layanan');
         }
     }
+
+    public function hapusPenjualanLayanan($id)
+    {
+        $this->load->model('Penjualan_Layanan_Model');
+        $this->Penjualan_Layanan_Model->deletePenjualanLayanan($id);
+        $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">
+                  Sukses Hapus Transaksi Penjualan Jasa Layanan!
+                   </div>');
+        redirect('cs/transaksi_penjualan_layanan');
+    }
 }
