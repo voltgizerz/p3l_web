@@ -6,6 +6,7 @@ class Laporan extends CI_Controller
     {
         parent::__construct();
         $this->load->library('pdf');
+        date_default_timezone_set("Asia/Bangkok");
     }
 
     function index($id)
@@ -89,201 +90,95 @@ class Laporan extends CI_Controller
         $pdf->Output("I","Struk - ".$kode.".pdf");
     }
 
-
-    function userAdmin()
+    function strukLunasProduk($id)
     {
+        $kode = $this->db->get_where('data_transaksi_penjualan_produk', ['id_transaksi_penjualan_produk' => $id])->row()->kode_transaksi_penjualan_produk;
+        $subtotal = $this->db->get_where('data_transaksi_penjualan_produk', ['id_transaksi_penjualan_produk' => $id])->row()->total_penjualan_produk;
+        $diskon = $this->db->get_where('data_transaksi_penjualan_produk', ['id_transaksi_penjualan_produk' => $id])->row()->diskon;
+        $total = $this->db->get_where('data_transaksi_penjualan_produk', ['id_transaksi_penjualan_produk' => $id])->row()->total_harga;
         $cnt = 1;
-        $pdf = new FPDF('l', 'mm', 'A4');
+        $pdf = new FPDF('P','mm',array(210,210));
         // membuat halaman baru
         $pdf->AddPage();
         // setting jenis font yang akan digunakan
+        //HEADER LAPORAN
         $pdf->SetFont('Arial', 'B', 16);
-        // mencetak string
-        $pdf->Cell(270, 7, 'LAPORAN MOBIL RICHZ AUTO', 0, 1, 'C');
-        $pdf->SetFont('Arial', 'B', 12);
-        $pdf->Cell(270, 7, 'LIST MEMBERS RICHZ AUTO 2019/2020', 0, 1, 'C');
-        // Memberikan space kebawah agar tidak terlalu rapat
+        $pdf->Rect(5, 5, 200, 200, 'D');
+        $pdf->Image('D:\XAMPP\htdocs\p3l_web\assets\img\headerlaporan.png',7,10,195,0,'PNG');
+
+        //TEXT
+        $pdf->Cell(10, 60, '', 0, 1);
+        $pdf->Cell(190, 7, 'NOTA LUNAS', 99, 1, 'C');
         $pdf->Cell(10, 7, '', 0, 1);
+        // KODE PENGADDAN
         $pdf->SetFont('Arial', 'B', 10);
-
-        $pdf->Cell(10, 6, 'NO', 1, 0, 'C');
-        $pdf->Cell(70, 6, 'FULL NAME', 1, 0, 'C');
-        $pdf->Cell(45, 6, 'EMAIL', 1, 0, 'C');
-        $pdf->Cell(40, 6, 'STATUS', 1, 0, 'C');
-        $pdf->Cell(60, 6, 'ROLE', 1, 1, 'C');
-
+        $pdf->Cell(300, 0, date('d F Y H:i'), 99, 1, 'C');
+        $pdf->Cell(10, 7, '', 0, 1);
+        //TANGGAL PENGADAAN
+        $pdf->SetLeftMargin(28);
         $pdf->SetFont('Arial', '', 10);
-        $buku = $this->db->get('user')->result();
-        foreach ($buku as $row) {
-            $pdf->Cell(10, 6, $cnt, 1, 0, 'C', 0);
-            $pdf->Cell(70, 6, $row->name, 1, 0, 'C');
-            $pdf->Cell(45, 6, $row->email, 1, 0, 'C');
-            if ($row->is_active == 1) {
-                $pdf->Cell(40, 6, 'ACTIVE', 1, 0, 'C');
-            } else {
-                $pdf->Cell(40, 6, 'NOT VERIFIED', 1, 0, 'C');
-            }
-
-            if ($row->role_id == 1) {
-                $pdf->Cell(60, 6, 'ADMIN', 1, 1, 'C');
-            } else {
-                $pdf->Cell(60, 6, 'MEMBER', 1, 1, 'C');
-            }
-
+        $pdf->Cell(100, 0, $kode, 99, 1, 'L');
+        $pdf->Cell(10, 10, '', 0, 1);
+        $pdf->SetFont('Arial', '', 10);
+        $pdf->Cell(80, 0,'Member : ', 99, 1, 'L');
+        $pdf->Cell(150, 0,'CS    : Felix Fernando Wijaya ', 99, 1, 'R');
+        $pdf->Cell(10, 7, '', 0, 1);
+        $pdf->SetFont('Arial', '', 10);
+        $pdf->Cell(80, 0,'Telepon : ', 99, 1, 'L');
+        $pdf->Cell(135, 0,'Kasir : Bang wawan ', 99, 1, 'R');
+        $pdf->Cell(10, 7, '', 0, 1);
+        $pdf->SetFont('Arial', '', 10);
+        $pdf->Cell(10, 7, '', 0, 1);
+        $pdf->SetFont('Arial', '', 10);
+        $pdf->Image('D:\XAMPP\htdocs\p3l_web\assets\img\garis.png',23,110,160,0,'PNG');
+        $pdf->SetFont('Arial', 'B', 16);
+        $pdf->Cell(154, 1, 'Produk', 4, 1, 'C');
+        $pdf->Cell(10, 7, '', 0, 1);
+        $pdf->SetFont('Arial', '', 10);
+        $pdf->Image('D:\XAMPP\htdocs\p3l_web\assets\img\garis.png',23,125,160,0,'PNG');
+        // mencetak string
+        // Memberikan space kebawah agar tidak terlalu rapat
+        $pdf->SetLeftMargin(18);
+        $pdf->Cell(10, 5, '', 0, 1);
+        $pdf->SetFont('Arial', 'B', 10);
+        $pdf->Cell(10, 5, 'No', 1, 0, 'C');
+        $pdf->Cell(65, 5, 'Nama Produk', 1, 0, 'C');
+        $pdf->Cell(35, 5, 'Harga', 1, 0, 'C');
+        $pdf->Cell(20, 5, 'Jumlah', 1, 0, 'C');
+        $pdf->Cell(40, 5, 'Subtotal Per Item', 1, 1, 'C');
+        
+        $this->db->select('data_detail_penjualan_produk.id_detail_penjualan_produk,data_detail_penjualan_produk.kode_transaksi_penjualan_produk_fk,data_detail_penjualan_produk.id_produk_penjualan_fk,data_detail_penjualan_produk.jumlah_produk,data_detail_penjualan_produk.subtotal,data_produk.nama_produk,data_produk.gambar_produk,data_produk.harga_produk');
+        $this->db->join('data_produk', 'data_produk.id_produk = data_detail_penjualan_produk.id_produk_penjualan_fk');
+        $this->db->from('data_detail_penjualan_produk');
+        $this->db->order_by("data_detail_penjualan_produk.id_detail_penjualan_produk desc");
+        $this->db->where('data_detail_penjualan_produk.kode_transaksi_penjualan_produk_fk', $kode);
+        $query = $this->db->get();
+        $produk = $query->result();
+        foreach ($produk as $row) {
+            $pdf->SetFont('Arial', '', 10);
+            $pdf->Cell(10, 5, $cnt, 1, 0, 'C', 0);
+            $pdf->Cell(65, 5,$row->nama_produk, 1, 0);
+            $pdf->Cell(35, 5,'Rp.   '.$row->harga_produk.',-', 1, 0);
+            $pdf->Cell(20, 5, $row->jumlah_produk, 1, 0, 'C');
+            $pdf->Cell(40, 5,'Rp.   '.$row->harga_produk*$row->jumlah_produk.',-', 1, 1);
             $cnt++;
         }
-        $pdf->Output('D', 'LaporanSemuaMember.pdf');
-    }
-
-    function laporanSparepartAdmin()
-    {
-        $cnt = 1;
-        $pdf = new FPDF('l', 'mm', 'A4');
-        // membuat halaman baru
-        $pdf->AddPage();
-        // setting jenis font yang akan digunakan
-        $pdf->SetFont('Arial', 'B', 16);
-        // mencetak string
-        $pdf->Cell(270, 7, 'LAPORAN PENJUALANA SPAREPART RICHZ AUTO', 0, 1, 'C');
-        $pdf->SetFont('Arial', 'B', 12);
-        $pdf->Cell(270, 7, 'LIST SELL SPAREPART 2019/2020', 0, 1, 'C');
-        // Memberikan space kebawah agar tidak terlalu rapat
+        $pdf->SetLeftMargin(134);
+        $pdf->Cell(10, 5, '', 0, 1);
+        $pdf->SetFont('Arial', '', 10);
+        $pdf->Cell(154, 0, 'Subtotal Rp.   '.$subtotal.',-', 99, 1, 'L');
+        $pdf->Cell(10, 7, '', 0, 1);
+        $pdf->SetFont('Arial', '', 10);
+        $pdf->Cell(154, 0, 'Diskon   Rp.   '.$diskon.',-', 99, 1, 'L');
         $pdf->Cell(10, 7, '', 0, 1);
         $pdf->SetFont('Arial', 'B', 10);
-        $pdf->Cell(10, 6, 'NO', 1, 0, 'C');
-        $pdf->Cell(70, 6, 'FULL NAME', 1, 0, 'C');
-        $pdf->Cell(60, 6, 'SPAREPART', 1, 0, 'C');
-        $pdf->Cell(40, 6, 'PRICE', 1, 0, 'C');
-        $pdf->Cell(40, 6, 'CONDITION', 1, 0, 'C');
-        $pdf->Cell(60, 6, 'EMAIL BUYER', 1, 1, 'C');
-        $pdf->SetFont('Arial', '', 10);
-        $buku = $this->db->get('buy_sparepart')->result();
-        foreach ($buku as $row) {
-            $pdf->Cell(10, 6, $cnt, 1, 0, 'C', 0);
-            $pdf->Cell(70, 6, $row->name, 1, 0);
-            $pdf->Cell(60, 6, $row->name_sparepart, 1, 0, 'C');
-            $pdf->Cell(40, 6, $row->harga, 1, 0, 'C');
-            $pdf->Cell(40, 6, $row->kondisi, 1, 0, 'C');
-            $pdf->Cell(60, 6, $row->email_pembeli, 1, 1, 'C');
-            $cnt++;
-        }
-        $pdf->Output('D', 'LaporanPenjualanSparepart.pdf');
-    }
-
-    function laporanJualMobilAdmin()
-    {
-        $cnt = 1;
-        $pdf = new FPDF('l', 'mm', 'A4');
-        // membuat halaman baru
-        $pdf->AddPage();
-        // setting jenis font yang akan digunakan
-        $pdf->SetFont('Arial', 'B', 16);
-        // mencetak string
-        $pdf->Cell(270, 7, 'LAPORAN PENJUALANA MOBIL RICHZ AUTO', 0, 1, 'C');
-        $pdf->SetFont('Arial', 'B', 12);
-        $pdf->Cell(270, 7, 'LIST SELL MOBIL 2019/2020', 0, 1, 'C');
-        // Memberikan space kebawah agar tidak terlalu rapat
-        $pdf->Cell(10, 7, '', 0, 1);
-        $pdf->SetFont('Arial', 'B', 10);
-        $pdf->Cell(10, 6, 'NO', 1, 0, 'C');
-        $pdf->Cell(70, 6, 'FULL NAME', 1, 0, 'C');
-        $pdf->Cell(60, 6, 'TYPE', 1, 0, 'C');
-        $pdf->Cell(40, 6, 'COLOR', 1, 0, 'C');
-        $pdf->Cell(40, 6, 'PRICE', 1, 0, 'C');
-        $pdf->Cell(40, 6, 'FUEL', 1, 1, 'C');
-        $pdf->SetFont('Arial', '', 10);
-        $buku = $this->db->get('sell_cars')->result();
-        foreach ($buku as $row) {
-            $pdf->Cell(10, 6, $cnt, 1, 0, 'C', 0);
-            $pdf->Cell(70, 6, $row->name, 1, 0);
-            $pdf->Cell(60, 6, $row->merk, 1, 0, 'C');
-            $pdf->Cell(40, 6, $row->warna, 1, 0, 'C');
-            $pdf->Cell(40, 6, $row->harga, 1, 0, 'C');
-            $pdf->Cell(40, 6, $row->bahan_bakar, 1, 1, 'C');
-            $cnt++;
-        }
-        $pdf->Output('D', 'LaporanPenjualanMobil.pdf');
+        $pdf->Cell(154, 0, 'TOTAL  Rp.   '.$total.',-', 99, 1, 'L');
+        $pdf->Output("I","[LUNAS] Struk - ".$kode.".pdf");
     }
 
 
-    //LAPORANNNNNNNNNNNNNNNNNNNNNNNNNNNN USER
 
-    function laporanBeliMobil()
-    {
-        $cnt = 1;
-        $pdf = new FPDF('l', 'mm', 'A4');
-        // membuat halaman baru
-        $pdf->AddPage();
-        // setting jenis font yang akan digunakan
-        $pdf->SetFont('Arial', 'B', 16);
-        // mencetak string
-        $pdf->Cell(270, 7, 'LAPORAN PEMBELIAN MOBIL ANDA DI RICHZ AUTO', 0, 1, 'C');
-        $pdf->SetFont('Arial', 'B', 12);
-        $pdf->Cell(270, 7, 'LIST BUY CARS 2019/2020', 0, 1, 'C');
-        // Memberikan space kebawah agar tidak terlalu rapat
-        $pdf->Cell(10, 7, '', 0, 1);
-        $pdf->SetFont('Arial', 'B', 10);
-        $pdf->Cell(10, 6, 'NO', 1, 0, 'C');
-        $pdf->Cell(50, 6, 'FULL NAME', 1, 0, 'C');
-        $pdf->Cell(30, 6, 'MERK', 1, 0, 'C');
-        $pdf->Cell(40, 6, 'TYPE', 1, 0, 'C');
-        $pdf->Cell(40, 6, 'PRICE DEAL', 1, 0, 'C');
-        $pdf->Cell(60, 6, 'CONTACT MESSAGE', 1, 0, 'C');
-        $pdf->Cell(40, 6, 'EMAIL BUYER', 1, 1, 'C');
-        $pdf->SetFont('Arial', '', 10);
-        $data['user'] = $this->db->get_where('user', ['email' => $this->session->userdata('email')])->row_array();
-        $tampilDataPembeli = $data['user']['email'];
-        $buku = $this->db->get_where('buy_cars', ['email_Pembeli' => $tampilDataPembeli])->result();
-        foreach ($buku as $row) {
-            $pdf->Cell(10, 6, $cnt, 1, 0, 'C', 0);
-            $pdf->Cell(50, 6, $row->name, 1, 0);
-            $pdf->Cell(30, 6, $row->merk, 1, 0, 'C');
-            $pdf->Cell(40, 6, $row->type, 1, 0, 'C');
-            $pdf->Cell(40, 6, $row->harga, 1, 0, 'C');
-            $pdf->Cell(60, 6, $row->nomorhp, 1, 0, 'C');
-            $pdf->Cell(40, 6, $row->email_pembeli, 1, 1, 'C');
-            $cnt++;
-        }
-        $pdf->Output('D', 'LaporanPembelianMobil.pdf');
-    }
-
-
-    function laporanSparepart()
-    {
-        $cnt = 1;
-        $pdf = new FPDF('l', 'mm', 'A4');
-        // membuat halaman baru
-        $pdf->AddPage();
-        // setting jenis font yang akan digunakan
-        $pdf->SetFont('Arial', 'B', 16);
-        // mencetak string
-        $pdf->Cell(270, 7, 'LAPORAN PENJUALAN SPAREPART ANDA DI RICHZ AUTO', 0, 1, 'C');
-        $pdf->SetFont('Arial', 'B', 12);
-        $pdf->Cell(270, 7, 'LIST SELL SPAREPART 2019/2020', 0, 1, 'C');
-        // Memberikan space kebawah agar tidak terlalu rapat
-        $pdf->Cell(10, 7, '', 0, 1);
-        $pdf->SetFont('Arial', 'B', 10);
-        $pdf->Cell(10, 6, 'NO', 1, 0, 'C');
-        $pdf->Cell(70, 6, 'FULL NAME', 1, 0, 'C');
-        $pdf->Cell(60, 6, 'SPAREPART', 1, 0, 'C');
-        $pdf->Cell(40, 6, 'PRICE', 1, 0, 'C');
-        $pdf->Cell(40, 6, 'CONDITION', 1, 0, 'C');
-        $pdf->Cell(60, 6, 'EMAIL BUYER', 1, 1, 'C');
-        $pdf->SetFont('Arial', '', 10);
-        $data['user'] = $this->db->get_where('user', ['email' => $this->session->userdata('email')])->row_array();
-        $tampilDataPembeli = $data['user']['email'];
-        $buku = $this->db->get_where('buy_sparepart', ['email_Pembeli' => $tampilDataPembeli])->result();
-        foreach ($buku as $row) {
-            $pdf->Cell(10, 6, $cnt, 1, 0, 'C', 0);
-            $pdf->Cell(70, 6, $row->name, 1, 0);
-            $pdf->Cell(60, 6, $row->name_sparepart, 1, 0, 'C');
-            $pdf->Cell(40, 6, $row->harga, 1, 0, 'C');
-            $pdf->Cell(40, 6, $row->kondisi, 1, 0, 'C');
-            $pdf->Cell(60, 6, $row->email_pembeli, 1, 1, 'C');
-            $cnt++;
-        }
-        $pdf->Output('D', 'LaporanPenjualanSparepart.pdf');
-    }
+    
 
     function laporanJualMobil()
     {
