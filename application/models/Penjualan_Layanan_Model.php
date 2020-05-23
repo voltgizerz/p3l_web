@@ -38,15 +38,27 @@ class Penjualan_Layanan_model extends CI_Model
         return $query->result_array();
     }
 
-    public function getDataDetailPenjualanProdukAdmin($id)
+    public function getDataDetailPenjualanLayananAdmin($id)
     {
-        $data = $this->db->get_where('data_transaksi_penjualan_produk', ['id_transaksi_penjualan_produk' => $id])->row()->kode_transaksi_penjualan_produk;
-
-        $this->db->select('data_detail_penjualan_produk.id_detail_penjualan_produk,data_detail_penjualan_produk.kode_transaksi_penjualan_produk_fk,data_detail_penjualan_produk.id_produk_penjualan_fk,data_detail_penjualan_produk.jumlah_produk,data_detail_penjualan_produk.subtotal,data_produk.nama_produk,data_produk.gambar_produk');
-        $this->db->join('data_produk', 'data_produk.id_produk = data_detail_penjualan_produk.id_produk_penjualan_fk');
-        $this->db->where('kode_transaksi_penjualan_produk_fk', $data);
-        $this->db->from('data_detail_penjualan_produk');
-        $this->db->order_by("data_detail_penjualan_produk.id_detail_penjualan_produk desc");
+        $data = $this->db->get_where('data_transaksi_penjualan_jasa_layanan', ['id_transaksi_penjualan_jasa_layanan' => $id])->row()->kode_transaksi_penjualan_jasa_layanan;
+        $this->db->select('data_detail_penjualan_jasa_layanan.id_detail_penjualan_jasa_layanan,
+        data_detail_penjualan_jasa_layanan.id_jasa_layanan_fk,
+        data_detail_penjualan_jasa_layanan.kode_transaksi_penjualan_jasa_layanan_fk,
+        data_detail_penjualan_jasa_layanan.jumlah_jasa_layanan,
+        data_detail_penjualan_jasa_layanan.subtotal,
+        data_jasa_layanan.nama_jasa_layanan,
+        a.id_jenis_hewan AS id_jenis_hewan,
+        b.id_ukuran_hewan AS id_ukuran_hewan,
+        data_jenis_hewan.nama_jenis_hewan,
+        data_ukuran_hewan.ukuran_hewan');
+        $this->db->join('data_jasa_layanan', 'data_jasa_layanan.id_jasa_layanan = data_detail_penjualan_jasa_layanan.id_jasa_layanan_fk');
+        $this->db->join('data_jasa_layanan a', 'a.id_jasa_layanan = data_detail_penjualan_jasa_layanan.id_jasa_layanan_fk');
+        $this->db->join('data_jasa_layanan b', 'b.id_jasa_layanan = data_detail_penjualan_jasa_layanan.id_jasa_layanan_fk');
+        $this->db->join('data_ukuran_hewan', 'data_ukuran_hewan.id_ukuran_hewan = b.id_ukuran_hewan');
+        $this->db->join('data_jenis_hewan', 'data_jenis_hewan.id_jenis_hewan = a.id_jenis_hewan');
+        $this->db->where('kode_transaksi_penjualan_jasa_layanan_fk', $data);
+        $this->db->from('data_detail_penjualan_jasa_layanan');
+        $this->db->order_by("data_detail_penjualan_jasa_layanan.id_detail_penjualan_jasa_layanan desc");
         $query = $this->db->get();
 
         return $query->result_array();
@@ -59,18 +71,29 @@ class Penjualan_Layanan_model extends CI_Model
         $this->db->delete('data_transaksi_penjualan_jasa_layanan', ['id_transaksi_penjualan_jasa_layanan' => $id]);
     }
 
-    public function getPenjualanProdukId($id)
+    public function getPenjualanLayananId($id)
     {
-        $this->db->select('data_transaksi_penjualan_produk.id_transaksi_penjualan_produk,data_transaksi_penjualan_produk.kode_transaksi_penjualan_produk
-        ,data_transaksi_penjualan_produk.tanggal_penjualan_produk,
-        data_transaksi_penjualan_produk.tanggal_pembayaran_produk,data_transaksi_penjualan_produk.diskon,
-        data_transaksi_penjualan_produk.total_penjualan_produk,data_transaksi_penjualan_produk.total_harga,data_transaksi_penjualan_produk.status_penjualan,data_transaksi_penjualan_produk.status_pembayaran,data_transaksi_penjualan_produk.id_cs,
-        data_transaksi_penjualan_produk.id_kasir,data_transaksi_penjualan_produk.created_date,data_transaksi_penjualan_produk.updated_date,
-        data_pegawai.nama_pegawai AS nama_cs, a.nama_pegawai AS nama_kasir');
-        $this->db->join('data_pegawai', 'data_pegawai.id_pegawai = data_transaksi_penjualan_produk.id_cs');
-        $this->db->join('data_pegawai a', 'a.id_pegawai = data_transaksi_penjualan_produk.id_kasir');
-        $this->db->where('id_transaksi_penjualan_produk', $id);
-        $this->db->from('data_transaksi_penjualan_produk');
+        $this->db->select('data_transaksi_penjualan_jasa_layanan.id_transaksi_penjualan_jasa_layanan,
+        data_transaksi_penjualan_jasa_layanan.kode_transaksi_penjualan_jasa_layanan,
+        data_transaksi_penjualan_jasa_layanan.id_hewan,
+        data_transaksi_penjualan_jasa_layanan.tanggal_penjualan_jasa_layanan, 
+        data_transaksi_penjualan_jasa_layanan.tanggal_pembayaran_jasa_layanan,status_layanan,
+        data_transaksi_penjualan_jasa_layanan.status_penjualan,
+        data_transaksi_penjualan_jasa_layanan.status_pembayaran,
+        data_transaksi_penjualan_jasa_layanan.diskon,total_penjualan_jasa_layanan,
+        data_transaksi_penjualan_jasa_layanan.id_cs,
+        data_transaksi_penjualan_jasa_layanan.id_kasir,
+        data_transaksi_penjualan_jasa_layanan.total_harga,
+        data_transaksi_penjualan_jasa_layanan.created_date,
+        data_transaksi_penjualan_jasa_layanan.updated_date,
+        data_hewan.nama_hewan,
+        data_pegawai.nama_pegawai AS nama_cs, 
+        a.nama_pegawai AS nama_kasir ');
+        $this->db->join('data_hewan', 'data_hewan.id_hewan = data_transaksi_penjualan_jasa_layanan.id_hewan');
+        $this->db->join('data_pegawai', 'data_pegawai.id_pegawai = data_transaksi_penjualan_jasa_layanan.id_cs');
+        $this->db->join('data_pegawai a', 'a.id_pegawai = data_transaksi_penjualan_jasa_layanan.id_kasir');
+        $this->db->where('id_transaksi_penjualan_jasa_layanan', $id);
+        $this->db->from('data_transaksi_penjualan_jasa_layanan');
         $query = $this->db->get();
 
         return $query->result_array();
@@ -156,6 +179,19 @@ class Penjualan_Layanan_model extends CI_Model
         $this->db->join('data_customer', 'data_customer.id_customer = data_hewan.id_customer');
         $this->db->where('data_hewan.deleted_date', '0000-00-00 00:00:00');
         $this->db->from('data_hewan');
+        $this->db->order_by("data_hewan.nama_hewan asc");
+        $query = $this->db->get();
+        return $query;
+    }
+
+    public function select_layanan()
+    {
+        $this->db->select('data_jasa_layanan.id_jasa_layanan,data_jasa_layanan.nama_jasa_layanan,data_jasa_layanan.harga_jasa_layanan,data_jasa_layanan.id_jenis_hewan,data_jasa_layanan.id_ukuran_hewan,data_jasa_layanan.created_date,data_jasa_layanan.updated_date,data_jasa_layanan.deleted_date,data_ukuran_hewan.ukuran_hewan,data_jenis_hewan.nama_jenis_hewan');
+        $this->db->join('data_ukuran_hewan', 'data_ukuran_hewan.id_ukuran_hewan = data_jasa_layanan.id_ukuran_hewan');
+        $this->db->join('data_jenis_hewan', 'data_jenis_hewan.id_jenis_hewan = data_jasa_layanan.id_jenis_hewan');
+        $this->db->where('data_jasa_layanan.deleted_date', '0000-00-00 00:00:00');
+        $this->db->from('data_jasa_layanan');
+        $this->db->order_by("data_jasa_layanan.nama_jasa_layanan asc");
         $query = $this->db->get();
         return $query;
     }
