@@ -17,11 +17,12 @@
         <?php endif;?>
 
         <div class="form-group">
-            <?php echo form_open("kasir/cariPenjualanProduk"); ?>
+            <?php echo form_open("kasir/cariPembayaranProduk"); ?>
             <select name="cariberdasarkan">
                 <option value="">Cari Berdasarkan</option>
                 <option value="kode_penjualan">Kode Penjualan</option>
-                <option value="nama_cs">Nama Customer Service</option>
+                <option value="nama_kasir">Nama Kasir</option>
+                <option value="status_pembayaran">Status Pembayaran</option>
             </select>
             <input name="yangdicari" id="" type="text">
             <input type="submit" name="cari" value="Cari">
@@ -61,9 +62,17 @@
                     <td style="text-align:center;"><?=$sm['nama_kasir']?></td>
                     <?php endif;?>
                     <td style="text-align:center;">Rp. <?=$sm['total_penjualan_produk']?></td>
-                    <td style="text-align:center;">-Rp. <?=$sm['diskon']?></td>
+                    <?php if ($sm['diskon'] == 0): ?>
+                    <td style="text-align:center; color:#FF6347;"> - </td>
+                    <?php else: ?>
+                    <td style="text-align:center;">Rp. <?=$sm['diskon']?></td>
+                    <?php endif;?>
                     <td style="text-align:center; color:#FFD700">Rp. <?=$sm['total_harga']?></td>
-                    <td style="text-align:center;"><?=$sm['status_pembayaran']?></td>
+                    <?php if ($sm['status_pembayaran'] == 'Belum Lunas'): ?>
+                    <td style="text-align:center; color:#FF6347;"> Belum Lunas </td>
+                    <?php else: ?>
+                    <td style="text-align:center;">Lunas</td>
+                    <?php endif;?>
                     <?php if ($sm['tanggal_pembayaran_produk'] == '0000-00-00 00:00:00'): ?>
                     <td style="text-align:center;"> - </td>
                     <?php else: ?>

@@ -93,4 +93,33 @@ class Kasir extends CI_Controller
         }
     }
 
+    public function cariPembayaranProduk()
+    {
+        $data['title'] = 'Transaksi Pembayaran Produk';
+        $data['user'] = $this->db->get_where('data_pegawai', ['username' => $this->session->userdata('username')])->row_array();
+        $this->load->model('Pembayaran_Produk_Model', 'menu');
+        $data['menu'] = $this->db->get('user_menu')->result_array();
+
+        //UNTUK SERACHING DATA
+        $data['cariberdasarkan'] = $this->input->post("cariberdasarkan");
+        $data['yangdicari'] = $this->input->post("yangdicari");
+        $data['dataPembayaranProduk'] = $this->menu->cariPembayaranProduk($data['cariberdasarkan'], $data['yangdicari'])->result_array();
+        $data["jumlah"] = count($data["dataPembayaranProduk"]);
+
+        if (!isset($_POST['cari'])) {
+            $this->form_validation->set_rules('cs', 'cs', 'required|trim');
+        }
+        if ($this->form_validation->run() == false) {
+            $data['menu'] = $this->db->get('user_menu')->result_array();
+            $this->load->view('templates/header', $data);
+            $this->load->view('templates/sidebar', $data);
+            $this->load->view('templates/topbar', $data);
+            $this->load->view('kasir/cariPembayaranProduk', $data);
+            $this->load->view('templates/footer');
+            header("Cache-Control: no-store, no-cache, must-revalidate, max-age=0");
+            header("Cache-Control: post-check=0, pre-check=0", false);
+            header("Cache-Control: no cache");
+        } 
+    }
+
 }
