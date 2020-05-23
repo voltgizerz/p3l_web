@@ -123,31 +123,48 @@ class Penjualan_Layanan_model extends CI_Model
         return $query->result_array();
     }
 
-    public function cariPenjualanProduk($berdasarkan, $yangdicari)
+    public function cariPenjualanLayanan($berdasarkan, $yangdicari)
     {
-        $this->db->select('data_transaksi_penjualan_produk.id_transaksi_penjualan_produk,data_transaksi_penjualan_produk.kode_transaksi_penjualan_produk
-        ,data_transaksi_penjualan_produk.tanggal_penjualan_produk,
-        data_transaksi_penjualan_produk.tanggal_pembayaran_produk,data_transaksi_penjualan_produk.diskon,
-        data_transaksi_penjualan_produk.total_penjualan_produk,data_transaksi_penjualan_produk.total_harga,data_transaksi_penjualan_produk.status_penjualan,data_transaksi_penjualan_produk.status_pembayaran,data_transaksi_penjualan_produk.id_cs,
-        data_transaksi_penjualan_produk.id_kasir,data_transaksi_penjualan_produk.created_date,data_transaksi_penjualan_produk.updated_date,
-        data_pegawai.nama_pegawai AS nama_cs, a.nama_pegawai AS nama_kasir');
-        $this->db->join('data_pegawai', 'data_pegawai.id_pegawai = data_transaksi_penjualan_produk.id_cs');
-        $this->db->join('data_pegawai a', 'a.id_pegawai = data_transaksi_penjualan_produk.id_kasir');
-        $this->db->from('data_transaksi_penjualan_produk');
+        $this->db->select('data_transaksi_penjualan_jasa_layanan.id_transaksi_penjualan_jasa_layanan,
+        data_transaksi_penjualan_jasa_layanan.kode_transaksi_penjualan_jasa_layanan,
+        data_transaksi_penjualan_jasa_layanan.id_hewan,
+        data_transaksi_penjualan_jasa_layanan.tanggal_penjualan_jasa_layanan, 
+        data_transaksi_penjualan_jasa_layanan.tanggal_pembayaran_jasa_layanan,status_layanan,
+        data_transaksi_penjualan_jasa_layanan.status_penjualan,
+        data_transaksi_penjualan_jasa_layanan.status_pembayaran,
+        data_transaksi_penjualan_jasa_layanan.diskon,total_penjualan_jasa_layanan,
+        data_transaksi_penjualan_jasa_layanan.id_cs,
+        data_transaksi_penjualan_jasa_layanan.id_kasir,
+        data_transaksi_penjualan_jasa_layanan.total_harga,
+        data_transaksi_penjualan_jasa_layanan.created_date,
+        data_transaksi_penjualan_jasa_layanan.updated_date,
+        data_hewan.nama_hewan,
+        data_pegawai.nama_pegawai AS nama_cs, 
+        a.nama_pegawai AS nama_kasir ');
+        $this->db->join('data_hewan', 'data_hewan.id_hewan = data_transaksi_penjualan_jasa_layanan.id_hewan');
+        $this->db->join('data_pegawai', 'data_pegawai.id_pegawai = data_transaksi_penjualan_jasa_layanan.id_cs');
+        $this->db->join('data_pegawai a', 'a.id_pegawai = data_transaksi_penjualan_jasa_layanan.id_kasir');
+        $this->db->from('data_transaksi_penjualan_jasa_layanan');
 
         switch ($berdasarkan) {
             case "":
-                $this->db->like('kode_transaksi_penjualan_produk', $yangdicari);
+                $this->db->like('kode_transaksi_penjualan_jasa_layanan', $yangdicari);
                 $this->db->or_like('data_pegawai.nama_pegawai', $yangdicari);
-                $this->db->or_like('status_penjualan', $yangdicari);
+                $this->db->or_like('data_transaksi_penjualan_jasa_layanan.status_penjualan', $yangdicari);
+                $this->db->or_like('data_transaksi_penjualan_jasa_layanan.status_penjualan', $yangdicari);
+                $this->db->or_like('data_hewan.nama_hewan', $yangdicari);
                 break;
 
             case "kode_penjualan":
-                $this->db->like('kode_transaksi_penjualan_produk', $yangdicari);
+                $this->db->like('data_transaksi_penjualan_jasa_layanan.kode_transaksi_penjualan_jasa_layanan', $yangdicari);
                 break;
 
             case "nama_cs":
                 $this->db->like('data_pegawai.nama_pegawai', $yangdicari);
+                break;
+
+            case "nama_hewan":
+                $this->db->like('data_hewan.nama_hewan', $yangdicari);
                 break;
             default:
                 $this->db->like($berdasarkan, $yangdicari);

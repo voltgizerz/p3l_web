@@ -536,6 +536,62 @@ class Cs extends CI_Controller
 
     }
 
+    public function cariPenjualanLayanan()
+    {
+        $data['title'] = 'Transaksi Penjualan Layanan';
+        $data['user'] = $this->db->get_where('data_pegawai', ['username' => $this->session->userdata('username')])->row_array();
+        $this->load->model('Penjualan_Layanan_Model', 'menu');
+        $data['menu'] = $this->db->get('user_menu')->result_array();
+        $data['data_hewan'] = $this->menu->select_hewan();
+        //UNTUK SERACHING DATA
+        $data['cariberdasarkan'] = $this->input->post("cariberdasarkan");
+        $data['yangdicari'] = $this->input->post("yangdicari");
+        $data['dataPenjualanLayanan'] = $this->menu->cariPenjualanLayanan($data['cariberdasarkan'], $data['yangdicari'])->result_array();
+        $data["jumlah"] = count($data["dataPenjualanLayanan"]);
+    
+        if (!isset($_POST['cari'])) {
+            $this->form_validation->set_rules('cs', 'cs', 'required|trim');
+        }
+        if ($this->form_validation->run() == false) {
+            $data['menu'] = $this->db->get('user_menu')->result_array();
+            $this->load->view('templates/header', $data);
+            $this->load->view('templates/sidebar', $data);
+            $this->load->view('templates/topbar', $data);
+            $this->load->view('cs/cariPenjualanLayanan', $data);
+            $this->load->view('templates/footer');
+            header("Cache-Control: no-store, no-cache, must-revalidate, max-age=0");
+            header("Cache-Control: post-check=0, pre-check=0", false);
+            header("Cache-Control: no cache");
+        } else {
+            $ci = get_instance();
+            date_default_timezone_set("Asia/Bangkok");
+            $data = [
+                'kode_transaksi_penjualan_jasa_layanan' => $this->menu->ambilKode(),
+                'tanggal_penjualan_jasa_layanan' => date("0000:00:0:00:00"),
+                'tanggal_pembayaran_jasa_layanan' => date("0000:00:0:00:00"),
+                'tanggal_penjualan_jasa_layanan' => date("0000:00:0:00:00"),
+                'tanggal_pembayaran_jasa_layanan' => date("0000:00:0:00:00"),
+                'id_hewan'=>$this->input->post('pilih_hewan'),
+                'diskon' => '0',
+                'total_penjualan_jasa_layanan' => '0',
+                'status_layanan' => 'Belum Selesai',
+                'status_penjualan' => 'Belum Selesai',
+                'status_pembayaran' => 'Belum Lunas',
+                'id_cs' => $ci->session->userdata('id_pegawai'),
+                'id_kasir' => $ci->session->userdata('id_pegawai'),
+                'created_date' => date("Y-m-d H:i:s"),
+                'updated_date' => date("0000:00:0:00:00"),
+                'total_harga' => '0',
+            ];
+
+            $this->db->insert('data_transaksi_penjualan_layanan', $data);
+            $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">
+            Transaksi Penjualan Berhasil Ditambahkan!
+           </div>');
+            redirect('cs/transaksi_penjualan_layanan');
+        }
+    }
+
     public function updateDetailPenjualanLayanan($id)
     {
         $kode = $this->db->get_where('data_detail_penjualan_jasa_layanan', ['id_detail_penjualan_jasa_layanan' => $id])->row()->kode_transaksi_penjualan_jasa_layanan_fk;
@@ -611,4 +667,5 @@ class Cs extends CI_Controller
         }
 
     }
+
 }
