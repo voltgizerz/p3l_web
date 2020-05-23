@@ -12,6 +12,19 @@
     <div class="col-lg ml-3 mr-3">
         <a href="" class="btn btn-primary mb-3" data-toggle="modal" data-target="#newSubMenuModal">TAMBAH TRANSAKSI
             PENJUALAN LAYANAN</a>
+        <div class="form-group">
+            <?php echo form_open("cs/cariPenjualanLayanan"); ?>
+            <select name="cariberdasarkan">
+                <option value="">Cari Berdasarkan</option>
+                <option value="kode_penjualan">Kode Penjualan</option>
+                <option value="nama_hewan">Nama Hewan</option>
+                <option value="nama_cs">Nama Customer Service</option>
+            </select>
+
+            <input name="yangdicari" id="" type="text">
+            <input type="submit" name="cari" value="Cari">
+            <?php echo form_close(); ?>
+        </div>
         <?php if (validation_errors()): ?>
         <div class="alert alert-danger" role="alert">
             <?=validation_errors();?>
