@@ -519,4 +519,17 @@ class Cs extends CI_Controller
             redirect('cs/detail_penjualan_layanan/' . $id);
         }
     }
+
+    public function hapusDetailPenjualanLayanan($id)
+    {
+        $kode = $this->db->get_where('data_detail_penjualan_jasa_layanan', ['id_detail_penjualan_jasa_layanan' => $id])->row()->kode_transaksi_penjualan_jasa_layanan_fk;
+        $idtrx = $this->db->get_where('data_transaksi_penjualan_jasa_layanan', ['kode_transaksi_penjualan_jasa_layanan' => $kode])->row()->id_transaksi_penjualan_jasa_layanan;
+        $this->load->model('Penjualan_Layanan_Model');
+        $this->Penjualan_Layanan_Model->deleteDetailPenjualanLayanan($id);
+        $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">
+                  Sukses Hapus Jasa  Layanan Transaksi Penjualan!
+                   </div>');
+        redirect('cs/detail_penjualan_layanan/' . $idtrx);
+
+    }
 }
