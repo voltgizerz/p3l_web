@@ -420,11 +420,14 @@ class Cs extends CI_Controller
             if ($cekLayanan == 0) {
                 $this->form_validation->set_rules('status_penjualan', 'status_penjualan', 'required|equal[Belum Selesai]', [
                     'equal' => 'Gagal Ubah Status Penjualan, Jasa Layanan Penjualan masih Kosong!']);
+                $this->form_validation->set_rules('pilih_hewan', 'pilih_hewan', 'required');
             } else {
                 $this->form_validation->set_rules('status_penjualan', 'status_penjualan', 'required');
+                $this->form_validation->set_rules('pilih_hewan', 'pilih_hewan', 'required');
             }
         } else {
             $this->form_validation->set_rules('status_penjualan', 'status_penjualan', 'required');
+            $this->form_validation->set_rules('pilih_hewan', 'pilih_hewan', 'required');
         }
 
         if ($this->form_validation->run() == false) {
