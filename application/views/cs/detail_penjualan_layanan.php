@@ -127,10 +127,10 @@
                         <select class="form-control" id="pilih_layanan" name="pilih_layanan">
                             <option value="">Pilih Layanan Penjualan</option>
                             <?php foreach ($data_layanan->result() as $row) {
-    if ($sm['nama_jasa_layanan'] == $row->nama_jasa_layanan) {
+    if (($sm['nama_jasa_layanan'] == $row->nama_jasa_layanan) && ($sm['nama_jenis_hewan'] == $row->nama_jenis_hewan) && ($sm['ukuran_hewan'] == $row->ukuran_hewan)) {
         echo '<option selected="selected"  value="' . $row->id_jasa_layanan . '">' . $row->nama_jasa_layanan.' '. $row->nama_jenis_hewan . ' ' . $row->ukuran_hewan . '</>';
     } else {
-        echo '<option value="' . $row->nama_jasa_layanan.' '. $row->nama_jenis_hewan . ' ' . $row->ukuran_hewan . '</option>';
+        echo '<option value="' . $row->id_jasa_layanan . '">' . $row->nama_jasa_layanan.' '. $row->nama_jenis_hewan . ' ' . $row->ukuran_hewan . '</option>';
     }}?>
                         </select>
                     </div>
