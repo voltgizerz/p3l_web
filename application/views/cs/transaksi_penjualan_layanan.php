@@ -15,15 +15,22 @@
 
         <div class="form-group">
             <?php echo form_open("cs/cariPenjualanLayanan"); ?>
-            <select name="cariberdasarkan">
-                <option value="">Cari Berdasarkan</option>
-                <option value="kode_penjualan">Kode Penjualan</option>
-                <option value="nama_hewan">Nama Hewan</option>
-                <option value="nama_cs">Nama Customer Service</option>
-            </select>
+            <div class="input-group " style="width: 600px;">
+                <select class="custom-select" id="inputGroupSelect07" name="cariberdasarkan">
+                    <option value="">Cari Berdasarkan</option>
+                    <option value="kode_penjualan">Kode Penjualan</option>
+                    <option value="nama_hewan">Nama Hewan</option>
+                    <option value="nama_cs">Nama Customer Service</option>
+                </select>
+                <div class="input-group-append">
+                    <input type="text" class="form-control" style="border-radius: 0;" placeholder="Kata Pencarian..."
+                        name="yangdicari" id="" type="text" aria-label="Text input with dropdown button"
+                        aria-describedby="basic-addon2">
 
-            <input name="yangdicari" id="" type="text">
-            <input type="submit" name="cari" value="Cari">
+                    <button class="btn btn-success" type="submit" name="cari" value="Cari"><i
+                            class="fas fa-search"></i></button>
+                </div>
+            </div>
             <?php echo form_close(); ?>
         </div>
         <?php if (validation_errors()): ?>
