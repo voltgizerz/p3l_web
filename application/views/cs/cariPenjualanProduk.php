@@ -109,6 +109,13 @@
                         <input type="text" class="form-control" id="nama" name="nama"
                             value="<?=$ci->session->userdata('nama_pegawai')?>" placeholder="Nama Pegawai" readonly>
                     </div>
+                    <div class="form-group">
+                        <select class="form-control" id="pilih_hewan" name="pilih_hewan">
+                            <option value="">Pilih Hewan</option>
+                            <?php foreach ($data_hewan->result() as $row) {
+    echo '<option value="' . $row->id_hewan . '">' . $row->nama_hewan . '</option>';}?>
+                        </select>
+                    </div>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
@@ -150,11 +157,23 @@
                             </option>
                         </select>
                     </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    <button type="submit" class="btn btn-primary">Edit</button>
-                </div>
+                    <div class="form-group">
+                        <div class="form-group">
+                            <select class="form-control" id="pilih_hewan" name="pilih_hewan">
+                                <option value="">Pilih hewan</option>
+                                <?php foreach ($data_hewan->result() as $row) {
+    if ($sm['nama_hewan'] == $row->nama_hewan) {
+        echo '<option selected="selected"  value="' . $row->id_hewan . '">' . $row->nama_hewan . '</>';
+    } else {
+        echo '<option value="' . $row->id_hewan . '">' . $row->nama_hewan . '</option>';
+    }}?>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-primary">Edit</button>
+                    </div>
             </form>
         </div>
     </div>

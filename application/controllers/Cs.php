@@ -304,7 +304,7 @@ class Cs extends CI_Controller
         $data['user'] = $this->db->get_where('data_pegawai', ['username' => $this->session->userdata('username')])->row_array();
         $this->load->model('Penjualan_Produk_Model', 'menu');
         $data['menu'] = $this->db->get('user_menu')->result_array();
-
+        $data['data_hewan'] = $this->menu->select_hewan();
         //UNTUK SERACHING DATA
         $data['cariberdasarkan'] = $this->input->post("cariberdasarkan");
         $data['yangdicari'] = $this->input->post("yangdicari");
