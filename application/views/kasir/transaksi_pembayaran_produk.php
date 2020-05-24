@@ -147,6 +147,10 @@
                                                     name="id">
                                             </div>
                                             <div class="form-group">
+                                                <input hidden type="text" class="form-control" value="0" id="cek"
+                                                    name="cek">
+                                            </div>
+                                            <div class="form-group">
                                                 <input type="text" class="form-control" id="diskon" name="diskon"
                                                     placeholder="Masukan Diskon">
                                             </div>
