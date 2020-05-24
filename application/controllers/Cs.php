@@ -31,7 +31,7 @@ class Cs extends CI_Controller
         $data['dataPenjualanProduk'] = $this->menu->getDataPenjualanProdukAdmin();
         $data['menu'] = $this->db->get('user_menu')->result_array();
         $data['data_hewan'] = $this->menu->select_hewan();
-        
+
         $this->form_validation->set_rules('cs', 'cs', 'required|trim');
 
         if ($this->form_validation->run() == false) {
@@ -44,21 +44,39 @@ class Cs extends CI_Controller
         } else {
             $ci = get_instance();
             date_default_timezone_set("Asia/Bangkok");
-            $data = [
-                'kode_transaksi_penjualan_produk' => $this->menu->ambilKode(),
-                'id_hewan'=>$this->input->post('pilih_hewan'),
-                'tanggal_penjualan_produk' => date("0000:00:0:00:00"),
-                'tanggal_pembayaran_produk' => date("0000:00:0:00:00"),
-                'diskon' => '0',
-                'total_penjualan_produk' => '0',
-                'status_penjualan' => 'Belum Selesai',
-                'status_pembayaran' => 'Belum Lunas',
-                'id_cs' => $ci->session->userdata('id_pegawai'),
-                'id_kasir' => $ci->session->userdata('id_pegawai'),
-                'created_date' => date("Y-m-d H:i:s"),
-                'updated_date' => date("0000:00:0:00:00"),
-                'total_harga' => '0',
-            ];
+            if ($this->input->post('pilih_hewan') != '') {
+                $data = [
+                    'kode_transaksi_penjualan_produk' => $this->menu->ambilKode(),
+                    'id_hewan' => $this->input->post('pilih_hewan'),
+                    'tanggal_penjualan_produk' => date("0000:00:0:00:00"),
+                    'tanggal_pembayaran_produk' => date("0000:00:0:00:00"),
+                    'diskon' => '0',
+                    'total_penjualan_produk' => '0',
+                    'status_penjualan' => 'Belum Selesai',
+                    'status_pembayaran' => 'Belum Lunas',
+                    'id_cs' => $ci->session->userdata('id_pegawai'),
+                    'id_kasir' => $ci->session->userdata('id_pegawai'),
+                    'created_date' => date("Y-m-d H:i:s"),
+                    'updated_date' => date("0000:00:0:00:00"),
+                    'total_harga' => '0',
+                ];
+            }else{
+                $data = [
+                    'kode_transaksi_penjualan_produk' => $this->menu->ambilKode(),
+                    'id_hewan' => '0',
+                    'tanggal_penjualan_produk' => date("0000:00:0:00:00"),
+                    'tanggal_pembayaran_produk' => date("0000:00:0:00:00"),
+                    'diskon' => '0',
+                    'total_penjualan_produk' => '0',
+                    'status_penjualan' => 'Belum Selesai',
+                    'status_pembayaran' => 'Belum Lunas',
+                    'id_cs' => $ci->session->userdata('id_pegawai'),
+                    'id_kasir' => $ci->session->userdata('id_pegawai'),
+                    'created_date' => date("Y-m-d H:i:s"),
+                    'updated_date' => date("0000:00:0:00:00"),
+                    'total_harga' => '0',
+                ];
+            }
 
             $this->db->insert('data_transaksi_penjualan_produk', $data);
             $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">
@@ -78,7 +96,7 @@ class Cs extends CI_Controller
         $data['dataPenjualanProduk'] = $this->menu->getPenjualanProdukId($id);
         $data['menu'] = $this->db->get('user_menu')->result_array();
         $data['data_hewan'] = $this->menu->select_hewan();
-        
+
         if ($this->input->post('status_penjualan') == 'Sudah Selesai') {
             if ($cekProduk == 0) {
                 $this->form_validation->set_rules('status_penjualan', 'status_penjualan', 'required|equal[Belum Selesai]', [
@@ -102,7 +120,7 @@ class Cs extends CI_Controller
             $data = [
                 'status_penjualan' => $this->input->post('status_penjualan'),
                 'tanggal_penjualan_produk' => date("Y-m-d H:i:s"),
-                'id_hewan'=>$this->input->post('pilih_hewan'),
+                'id_hewan' => $this->input->post('pilih_hewan'),
                 'updated_date' => date("Y-m-d H:i:s"),
             ];
 
@@ -350,7 +368,6 @@ class Cs extends CI_Controller
         }
     }
 
-
     public function transaksi_penjualan_layanan()
     {
         $data['title'] = 'Transaksi Penjualan Layanan';
@@ -378,7 +395,7 @@ class Cs extends CI_Controller
                 'tanggal_pembayaran_jasa_layanan' => date("0000:00:0:00:00"),
                 'tanggal_penjualan_jasa_layanan' => date("0000:00:0:00:00"),
                 'tanggal_pembayaran_jasa_layanan' => date("0000:00:0:00:00"),
-                'id_hewan'=>$this->input->post('pilih_hewan'),
+                'id_hewan' => $this->input->post('pilih_hewan'),
                 'diskon' => '0',
                 'total_penjualan_jasa_layanan' => '0',
                 'status_layanan' => 'Belum Selesai',
@@ -419,7 +436,7 @@ class Cs extends CI_Controller
         $data['dataPenjualanLayanan'] = $this->menu->getPenjualanLayananId($id);
         $data['menu'] = $this->db->get('user_menu')->result_array();
         $data['data_hewan'] = $this->menu->select_hewan();
-        
+
         if ($this->input->post('status_penjualan') == 'Sudah Selesai') {
             if ($cekLayanan == 0) {
                 $this->form_validation->set_rules('status_penjualan', 'status_penjualan', 'required|equal[Belum Selesai]', [
@@ -445,7 +462,7 @@ class Cs extends CI_Controller
             date_default_timezone_set("Asia/Bangkok");
             $data = [
                 'status_penjualan' => $this->input->post('status_penjualan'),
-                'id_hewan'=> $this->input->post('pilih_hewan'),
+                'id_hewan' => $this->input->post('pilih_hewan'),
                 'tanggal_penjualan_jasa_layanan' => date("Y-m-d H:i:s"),
                 'updated_date' => date("Y-m-d H:i:s"),
             ];
@@ -484,7 +501,7 @@ class Cs extends CI_Controller
             // $usernamePembeli = $data['user']['username'];
             date_default_timezone_set("Asia/Bangkok");
             $data = [
-                'kode_transaksi_penjualan_jasa_layanan_fk' =>  $kode,
+                'kode_transaksi_penjualan_jasa_layanan_fk' => $kode,
                 'id_jasa_layanan_fk' => $this->input->post('pilih_layanan'),
                 'jumlah_jasa_layanan' => '1',
                 'subtotal' => '0',
@@ -552,7 +569,7 @@ class Cs extends CI_Controller
         $data['yangdicari'] = $this->input->post("yangdicari");
         $data['dataPenjualanLayanan'] = $this->menu->cariPenjualanLayanan($data['cariberdasarkan'], $data['yangdicari'])->result_array();
         $data["jumlah"] = count($data["dataPenjualanLayanan"]);
-    
+
         if (!isset($_POST['cari'])) {
             $this->form_validation->set_rules('cs', 'cs', 'required|trim');
         }
@@ -575,7 +592,7 @@ class Cs extends CI_Controller
                 'tanggal_pembayaran_jasa_layanan' => date("0000:00:0:00:00"),
                 'tanggal_penjualan_jasa_layanan' => date("0000:00:0:00:00"),
                 'tanggal_pembayaran_jasa_layanan' => date("0000:00:0:00:00"),
-                'id_hewan'=>$this->input->post('pilih_hewan'),
+                'id_hewan' => $this->input->post('pilih_hewan'),
                 'diskon' => '0',
                 'total_penjualan_jasa_layanan' => '0',
                 'status_layanan' => 'Belum Selesai',
@@ -610,7 +627,7 @@ class Cs extends CI_Controller
         $data['id_penjualan'] = $id;
 
         $this->form_validation->set_rules('pilih_layanan', 'pilih_layanan', 'required');
-        
+
         if ($this->form_validation->run() == false) {
             $data['menu'] = $this->db->get('user_menu')->result_array();
             $this->load->view('templates/header', $data);
@@ -634,24 +651,24 @@ class Cs extends CI_Controller
                 $this->db->from('data_detail_penjualan_jasa_layanan');
                 $query = $this->db->get();
                 $arrTemp = json_decode(json_encode($query->result()), true);
-    
+
                 // NILAI TAMPUNG TOTAL HARGA PENJUALAN YANG BARU
                 $temp = 0;
                 for ($i = 0; $i < count($arrTemp); $i++) {
                     $temp = $temp + $arrTemp[$i]['jumlah_jasa_layanan'] * $arrTemp[$i]['harga_jasa_layanan'];
                 }
                 //UPDATE NILAI TOTAL PENGADAAN
-                $this->db->where('kode_transaksi_penjualan_jasa_layanan',$kode)->update('data_transaksi_penjualan_jasa_layanan', ['total_penjualan_jasa_layanan' => $temp, 'updated_date' => date("Y-m-d H:i:s")]);
-    
+                $this->db->where('kode_transaksi_penjualan_jasa_layanan', $kode)->update('data_transaksi_penjualan_jasa_layanan', ['total_penjualan_jasa_layanan' => $temp, 'updated_date' => date("Y-m-d H:i:s")]);
+
                 //CARI NILAI SUBTOTAL PRODUK DETAIL HARGA UPDATE
                 $this->db->select('data_detail_penjualan_jasa_layanan.id_jasa_layanan_fk,data_detail_penjualan_jasa_layanan.jumlah_jasa_layanan,data_jasa_layanan.harga_jasa_layanan');
                 $this->db->join('data_jasa_layanan', 'data_jasa_layanan.id_jasa_layanan = data_detail_penjualan_jasa_layanan.id_jasa_layanan_fk');
                 $this->db->where('data_detail_penjualan_jasa_layanan.id_detail_penjualan_jasa_layanan', $id);
                 $this->db->from('data_detail_penjualan_jasa_layanan');
-    
+
                 $query = $this->db->get();
                 $arrTemp = json_decode(json_encode($query->result()), true);
-    
+
                 // NILAI TAMPUNG SUB TOTAL  DETAIL PENJUALAN HARGA YANG BARU
                 $temp = $arrTemp[0]['jumlah_jasa_layanan'] * $arrTemp[0]['harga_jasa_layanan'];
                 //UPDATE NILAI TOTAL PENGADAAN

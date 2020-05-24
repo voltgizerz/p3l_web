@@ -53,7 +53,11 @@
                     <th scope="row" class="text-center"><?=$i?></th>
                     <td style="text-align:center; color:orange;"><?=$sm['kode_transaksi_penjualan_produk']?></td>
                     <td style="text-align:center;"><?=$sm['nama_cs']?></td>
-                    <td style="text-align:center;"><?=$sm['nama_hewan']?></td>
+                    <?php if ($sm['nama_hewan'] == ''): ?>
+                    <td style="text-align:center; color:#FF6347;">Tidak Memiliki Hewan</td>
+                    <?php else: ?>
+                    <td style="text-align:center; color:#00FF00;"><?=$sm['nama_hewan']?></td>
+                    <?php endif;?>
                     <td style="text-align:center;">Rp. <?=$sm['total_penjualan_produk']?></td>
                     <?php if ($sm['status_penjualan'] == 'Sudah Selesai'): ?>
                     <td style="text-align:center; color:#00FF00;"><?=$sm['status_penjualan']?></td>
