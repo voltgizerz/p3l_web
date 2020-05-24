@@ -30,7 +30,8 @@ class Cs extends CI_Controller
         $this->load->model('Penjualan_Produk_Model', 'menu');
         $data['dataPenjualanProduk'] = $this->menu->getDataPenjualanProdukAdmin();
         $data['menu'] = $this->db->get('user_menu')->result_array();
-
+        $data['data_hewan'] = $this->menu->select_hewan();
+        
         $this->form_validation->set_rules('cs', 'cs', 'required|trim');
 
         if ($this->form_validation->run() == false) {
@@ -45,6 +46,7 @@ class Cs extends CI_Controller
             date_default_timezone_set("Asia/Bangkok");
             $data = [
                 'kode_transaksi_penjualan_produk' => $this->menu->ambilKode(),
+                'id_hewan'=>$this->input->post('pilih_hewan'),
                 'tanggal_penjualan_produk' => date("0000:00:0:00:00"),
                 'tanggal_pembayaran_produk' => date("0000:00:0:00:00"),
                 'diskon' => '0',
@@ -75,7 +77,8 @@ class Cs extends CI_Controller
         $this->load->model('Penjualan_Produk_Model', 'menu');
         $data['dataPenjualanProduk'] = $this->menu->getPenjualanProdukId($id);
         $data['menu'] = $this->db->get('user_menu')->result_array();
-
+        $data['data_hewan'] = $this->menu->select_hewan();
+        
         if ($this->input->post('status_penjualan') == 'Sudah Selesai') {
             if ($cekProduk == 0) {
                 $this->form_validation->set_rules('status_penjualan', 'status_penjualan', 'required|equal[Belum Selesai]', [
@@ -99,6 +102,7 @@ class Cs extends CI_Controller
             $data = [
                 'status_penjualan' => $this->input->post('status_penjualan'),
                 'tanggal_penjualan_produk' => date("Y-m-d H:i:s"),
+                'id_hewan'=>$this->input->post('pilih_hewan'),
                 'updated_date' => date("Y-m-d H:i:s"),
             ];
 

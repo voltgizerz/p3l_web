@@ -17,9 +17,10 @@ class Penjualan_Produk_model extends CI_Model
         data_transaksi_penjualan_produk.tanggal_pembayaran_produk,data_transaksi_penjualan_produk.diskon,
         data_transaksi_penjualan_produk.total_penjualan_produk,data_transaksi_penjualan_produk.total_harga,data_transaksi_penjualan_produk.status_penjualan,data_transaksi_penjualan_produk.status_pembayaran,data_transaksi_penjualan_produk.id_cs,
         data_transaksi_penjualan_produk.id_kasir,data_transaksi_penjualan_produk.created_date,data_transaksi_penjualan_produk.updated_date,
-        data_pegawai.nama_pegawai AS nama_cs, a.nama_pegawai AS nama_kasir');
+        data_pegawai.nama_pegawai AS nama_cs, a.nama_pegawai AS nama_kasir,data_hewan.nama_hewan');
         $this->db->join('data_pegawai', 'data_pegawai.id_pegawai = data_transaksi_penjualan_produk.id_cs');
         $this->db->join('data_pegawai a', 'a.id_pegawai = data_transaksi_penjualan_produk.id_kasir');
+        $this->db->join('data_hewan', 'data_hewan.id_hewan = data_transaksi_penjualan_produk.id_hewan');
         $this->db->from('data_transaksi_penjualan_produk');
         $this->db->order_by("data_transaksi_penjualan_produk.id_transaksi_penjualan_produk desc");
         $query = $this->db->get();
@@ -55,9 +56,10 @@ class Penjualan_Produk_model extends CI_Model
         data_transaksi_penjualan_produk.tanggal_pembayaran_produk,data_transaksi_penjualan_produk.diskon,
         data_transaksi_penjualan_produk.total_penjualan_produk,data_transaksi_penjualan_produk.total_harga,data_transaksi_penjualan_produk.status_penjualan,data_transaksi_penjualan_produk.status_pembayaran,data_transaksi_penjualan_produk.id_cs,
         data_transaksi_penjualan_produk.id_kasir,data_transaksi_penjualan_produk.created_date,data_transaksi_penjualan_produk.updated_date,
-        data_pegawai.nama_pegawai AS nama_cs, a.nama_pegawai AS nama_kasir');
+        data_pegawai.nama_pegawai AS nama_cs, a.nama_pegawai AS nama_kasir,data_hewan.nama_hewan');
         $this->db->join('data_pegawai', 'data_pegawai.id_pegawai = data_transaksi_penjualan_produk.id_cs');
         $this->db->join('data_pegawai a', 'a.id_pegawai = data_transaksi_penjualan_produk.id_kasir');
+        $this->db->join('data_hewan', 'data_hewan.id_hewan = data_transaksi_penjualan_produk.id_hewan');
         $this->db->where('id_transaksi_penjualan_produk', $id);
         $this->db->from('data_transaksi_penjualan_produk');
         $query = $this->db->get();
@@ -82,9 +84,11 @@ class Penjualan_Produk_model extends CI_Model
         data_transaksi_penjualan_produk.tanggal_pembayaran_produk,data_transaksi_penjualan_produk.diskon,
         data_transaksi_penjualan_produk.total_penjualan_produk,data_transaksi_penjualan_produk.total_harga,data_transaksi_penjualan_produk.status_penjualan,data_transaksi_penjualan_produk.status_pembayaran,data_transaksi_penjualan_produk.id_cs,
         data_transaksi_penjualan_produk.id_kasir,data_transaksi_penjualan_produk.created_date,data_transaksi_penjualan_produk.updated_date,
-        data_pegawai.nama_pegawai AS nama_cs, a.nama_pegawai AS nama_kasir');
+        data_pegawai.nama_pegawai AS nama_cs, a.nama_pegawai AS nama_kasir,data_hewan.nama_hewan');
         $this->db->join('data_pegawai', 'data_pegawai.id_pegawai = data_transaksi_penjualan_produk.id_cs');
         $this->db->join('data_pegawai a', 'a.id_pegawai = data_transaksi_penjualan_produk.id_kasir');
+        $this->db->join('data_hewan', 'data_hewan.id_hewan = data_transaksi_penjualan_produk.id_hewan');
+      
         $this->db->from('data_transaksi_penjualan_produk');
 
         switch ($berdasarkan) {
@@ -194,5 +198,18 @@ class Penjualan_Produk_model extends CI_Model
         //UPDATE NILAI TOTAL PENGADAAN
         $this->db->where('kode_transaksi_penjualan_produk', $kode)->update('data_transaksi_penjualan_produk', ['total_penjualan_produk' => $temp]);
 
+    }
+
+    public function select_hewan()
+    {
+        $this->db->select('data_hewan.id_hewan,data_hewan.nama_hewan, data_hewan.id_jenis_hewan, data_hewan.id_ukuran_hewan, data_hewan.id_customer, data_hewan.tanggal_lahir_hewan, data_hewan.created_date, data_hewan.updated_date, data_hewan.deleted_date,data_jenis_hewan.nama_jenis_hewan, data_ukuran_hewan.ukuran_hewan,data_customer.nama_customer');
+        $this->db->join('data_ukuran_hewan', 'data_ukuran_hewan.id_ukuran_hewan = data_hewan.id_ukuran_hewan');
+        $this->db->join('data_jenis_hewan', 'data_jenis_hewan.id_jenis_hewan = data_hewan.id_jenis_hewan');
+        $this->db->join('data_customer', 'data_customer.id_customer = data_hewan.id_customer');
+        $this->db->where('data_hewan.deleted_date', '0000-00-00 00:00:00');
+        $this->db->from('data_hewan');
+        $this->db->order_by("data_hewan.nama_hewan asc");
+        $query = $this->db->get();
+        return $query;
     }
 }

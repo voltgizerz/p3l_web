@@ -15,7 +15,7 @@ class Penjualan_Layanan_model extends CI_Model
         $this->db->select('data_transaksi_penjualan_jasa_layanan.id_transaksi_penjualan_jasa_layanan,
             data_transaksi_penjualan_jasa_layanan.kode_transaksi_penjualan_jasa_layanan,
             data_transaksi_penjualan_jasa_layanan.id_hewan,
-            data_transaksi_penjualan_jasa_layanan.tanggal_penjualan_jasa_layanan, 
+            data_transaksi_penjualan_jasa_layanan.tanggal_penjualan_jasa_layanan,
             data_transaksi_penjualan_jasa_layanan.tanggal_pembayaran_jasa_layanan,status_layanan,
             data_transaksi_penjualan_jasa_layanan.status_penjualan,
             data_transaksi_penjualan_jasa_layanan.status_pembayaran,
@@ -26,14 +26,14 @@ class Penjualan_Layanan_model extends CI_Model
             data_transaksi_penjualan_jasa_layanan.created_date,
             data_transaksi_penjualan_jasa_layanan.updated_date,
             data_hewan.nama_hewan,
-            data_pegawai.nama_pegawai AS nama_cs, 
+            data_pegawai.nama_pegawai AS nama_cs,
             a.nama_pegawai AS nama_kasir ');
-            $this->db->join('data_hewan', 'data_hewan.id_hewan = data_transaksi_penjualan_jasa_layanan.id_hewan');
-            $this->db->join('data_pegawai', 'data_pegawai.id_pegawai = data_transaksi_penjualan_jasa_layanan.id_cs');
-            $this->db->join('data_pegawai a', 'a.id_pegawai = data_transaksi_penjualan_jasa_layanan.id_kasir');
-            $this->db->from('data_transaksi_penjualan_jasa_layanan');
-            $this->db->order_by("data_transaksi_penjualan_jasa_layanan.id_transaksi_penjualan_jasa_layanan desc");
-            $query = $this->db->get();
+        $this->db->join('data_hewan', 'data_hewan.id_hewan = data_transaksi_penjualan_jasa_layanan.id_hewan');
+        $this->db->join('data_pegawai', 'data_pegawai.id_pegawai = data_transaksi_penjualan_jasa_layanan.id_cs');
+        $this->db->join('data_pegawai a', 'a.id_pegawai = data_transaksi_penjualan_jasa_layanan.id_kasir');
+        $this->db->from('data_transaksi_penjualan_jasa_layanan');
+        $this->db->order_by("data_transaksi_penjualan_jasa_layanan.id_transaksi_penjualan_jasa_layanan desc");
+        $query = $this->db->get();
 
         return $query->result_array();
     }
@@ -76,7 +76,7 @@ class Penjualan_Layanan_model extends CI_Model
         $this->db->select('data_transaksi_penjualan_jasa_layanan.id_transaksi_penjualan_jasa_layanan,
         data_transaksi_penjualan_jasa_layanan.kode_transaksi_penjualan_jasa_layanan,
         data_transaksi_penjualan_jasa_layanan.id_hewan,
-        data_transaksi_penjualan_jasa_layanan.tanggal_penjualan_jasa_layanan, 
+        data_transaksi_penjualan_jasa_layanan.tanggal_penjualan_jasa_layanan,
         data_transaksi_penjualan_jasa_layanan.tanggal_pembayaran_jasa_layanan,status_layanan,
         data_transaksi_penjualan_jasa_layanan.status_penjualan,
         data_transaksi_penjualan_jasa_layanan.status_pembayaran,
@@ -87,7 +87,7 @@ class Penjualan_Layanan_model extends CI_Model
         data_transaksi_penjualan_jasa_layanan.created_date,
         data_transaksi_penjualan_jasa_layanan.updated_date,
         data_hewan.nama_hewan,
-        data_pegawai.nama_pegawai AS nama_cs, 
+        data_pegawai.nama_pegawai AS nama_cs,
         a.nama_pegawai AS nama_kasir ');
         $this->db->join('data_hewan', 'data_hewan.id_hewan = data_transaksi_penjualan_jasa_layanan.id_hewan');
         $this->db->join('data_pegawai', 'data_pegawai.id_pegawai = data_transaksi_penjualan_jasa_layanan.id_cs');
@@ -128,7 +128,7 @@ class Penjualan_Layanan_model extends CI_Model
         $this->db->select('data_transaksi_penjualan_jasa_layanan.id_transaksi_penjualan_jasa_layanan,
         data_transaksi_penjualan_jasa_layanan.kode_transaksi_penjualan_jasa_layanan,
         data_transaksi_penjualan_jasa_layanan.id_hewan,
-        data_transaksi_penjualan_jasa_layanan.tanggal_penjualan_jasa_layanan, 
+        data_transaksi_penjualan_jasa_layanan.tanggal_penjualan_jasa_layanan,
         data_transaksi_penjualan_jasa_layanan.tanggal_pembayaran_jasa_layanan,status_layanan,
         data_transaksi_penjualan_jasa_layanan.status_penjualan,
         data_transaksi_penjualan_jasa_layanan.status_pembayaran,
@@ -139,7 +139,7 @@ class Penjualan_Layanan_model extends CI_Model
         data_transaksi_penjualan_jasa_layanan.created_date,
         data_transaksi_penjualan_jasa_layanan.updated_date,
         data_hewan.nama_hewan,
-        data_pegawai.nama_pegawai AS nama_cs, 
+        data_pegawai.nama_pegawai AS nama_cs,
         a.nama_pegawai AS nama_kasir ');
         $this->db->join('data_hewan', 'data_hewan.id_hewan = data_transaksi_penjualan_jasa_layanan.id_hewan');
         $this->db->join('data_pegawai', 'data_pegawai.id_pegawai = data_transaksi_penjualan_jasa_layanan.id_cs');

@@ -87,7 +87,7 @@ class Laporan extends CI_Controller
         $pdf->Cell(10, 20, '', 0, 1);
         $pdf->SetFont('Arial', '', 10);
         $pdf->Cell(279, 0, 'Dicetak Tanggal '.date('d F Y'), 99, 1, 'C');
-        $pdf->Output("I","Struk - ".$kode.".pdf");
+        $pdf->Output("I","[PENGADAAN] Struk - ".$kode.".pdf");
     }
 
     function strukLunasProduk($id)

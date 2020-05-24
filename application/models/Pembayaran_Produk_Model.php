@@ -191,4 +191,5 @@ class Pembayaran_Produk_model extends CI_Model
         $this->db->where('kode_transaksi_penjualan_produk', $kode)->update('data_transaksi_penjualan_produk', ['total_penjualan_produk' => $temp]);
 
     }
+
 }

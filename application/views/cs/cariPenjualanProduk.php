@@ -37,6 +37,7 @@
                     <th scope="col" class="text-center">No</th>
                     <th scope="col" class="text-center">Kode Penjualan</th>
                     <th scope="col" class="text-center">Nama Customer Service</th>
+                    <th scope="col" class="text-center">Nama Hewan</th>
                     <th scope="col" class="text-center">Subtotal Harga</th>
                     <th scope="col" class="text-center">Status Penjualan</th>
                     <th scope="col" class="text-center">Detail Penjualan</th>
@@ -52,6 +53,7 @@
                     <th scope="row" class="text-center"><?=$i?></th>
                     <td style="text-align:center;"><?=$sm['kode_transaksi_penjualan_produk']?></td>
                     <td style="text-align:center;"><?=$sm['nama_cs']?></td>
+                    <td style="text-align:center;"><?=$sm['nama_hewan']?></td>
                     <td style="text-align:center;"><?=$sm['total_penjualan_produk']?></td>
                     <td style="text-align:center;"><?=$sm['status_penjualan']?></td>
 

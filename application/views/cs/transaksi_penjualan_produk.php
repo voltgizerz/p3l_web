@@ -37,6 +37,7 @@
                     <th scope="col" class="text-center">No</th>
                     <th scope="col" class="text-center">Kode Penjualan</th>
                     <th scope="col" class="text-center">Nama Customer Service</th>
+                    <th scope="col" class="text-center">Nama Hewan</th>
                     <th scope="col" class="text-center">Subtotal Harga</th>
                     <th scope="col" class="text-center">Status Penjualan</th>
                     <th scope="col" class="text-center">Detail Penjualan</th>
@@ -52,6 +53,7 @@
                     <th scope="row" class="text-center"><?=$i?></th>
                     <td style="text-align:center; color:orange;"><?=$sm['kode_transaksi_penjualan_produk']?></td>
                     <td style="text-align:center;"><?=$sm['nama_cs']?></td>
+                    <td style="text-align:center;"><?=$sm['nama_hewan']?></td>
                     <td style="text-align:center;">Rp. <?=$sm['total_penjualan_produk']?></td>
                     <?php if ($sm['status_penjualan'] == 'Sudah Selesai'): ?>
                     <td style="text-align:center; color:#00FF00;"><?=$sm['status_penjualan']?></td>
@@ -115,7 +117,15 @@
                         <input type="text" class="form-control" id="nama" name="nama"
                             value="<?=$ci->session->userdata('nama_pegawai')?>" placeholder="Nama Pegawai" readonly>
                     </div>
+                    <div class="form-group">
+                        <select class="form-control" id="pilih_hewan" name="pilih_hewan">
+                            <option value="">Pilih Hewan</option>
+                            <?php foreach ($data_hewan->result() as $row) {
+    echo '<option value="' . $row->id_hewan . '">' . $row->nama_hewan . '</option>';}?>
+                        </select>
+                    </div>
                 </div>
+
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                     <button type="submit" class="btn btn-primary">Add</button>
@@ -146,6 +156,17 @@
                             value="<?=$sm['id_transaksi_penjualan_produk'];?>" id="id" name="id">
                     </div>
                     <div class="form-group">
+                        <div class="form-group">
+                            <select class="form-control" id="pilih_hewan" name="pilih_hewan">
+                                <option value="">Pilih hewan</option>
+                                <?php foreach ($data_hewan->result() as $row) {
+    if ($sm['nama_hewan'] == $row->nama_hewan) {
+        echo '<option selected="selected"  value="' . $row->id_hewan . '">' . $row->nama_hewan . '</>';
+    } else {
+        echo '<option value="' . $row->id_hewan . '">' . $row->nama_hewan . '</option>';
+    }}?>
+                            </select>
+                        </div>
                         <select class="form-control" id="status_penjualan" name="status_penjualan">
                             <option value="">Pilih Status Transaksi</option>
                             <option <?php if ($sm['status_penjualan'] == 'Belum Selesai') {echo ("selected");}?>>
