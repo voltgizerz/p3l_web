@@ -7,21 +7,21 @@ class Produk_model extends CI_Model
     public function getDataProdukAdmin()
     {
         $this->db->select('*');
-        $this->db->where('deleted_date', '0000:00:0:00:00');     
+        $this->db->where('deleted_date', '0000:00:0:00:00');
         $this->db->from('data_produk');
         $this->db->order_by("id_produk desc");
         $query = $this->db->get();
-        return $query->result_array();  
+        return $query->result_array();
     }
 
     public function getDataLogProduk()
     {
-        $this->db->select('*');       
+        $this->db->select('*');
         $this->db->where('created_date', '0000:00:0:00:00');
         $this->db->from('data_produk');
         $this->db->order_by("id_produk desc");
         $query = $this->db->get();
-        return $query->result_array();      
+        return $query->result_array();
     }
 
     public function deleteProduk($id)
@@ -113,6 +113,22 @@ class Produk_model extends CI_Model
             case "nama_produk":
                 $this->db->where('nama_produk', $yangdicari);
                 break;
+
+            case "harga_produk":
+                $this->db->order_by("harga_produk asc");
+                break;
+
+                case "harga_produk_mahal":
+                    $this->db->order_by("harga_produk desc");
+                    break;
+            
+            case "stok_produk":
+                $this->db->order_by("stok_produk desc");
+                break;
+        
+                case "stok_produk_sedikit":
+                    $this->db->order_by("stok_produk asc");
+                    break;
 
             default:
                 $this->db->like($berdasarkan, $yangdicari);

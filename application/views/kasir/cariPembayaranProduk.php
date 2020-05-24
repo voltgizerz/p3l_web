@@ -92,7 +92,8 @@
                         Belum Lunas
                         <?php else: ?>
                         <a href="<?=base_url();?>laporan/strukLunasProduk/<?=$sm['id_transaksi_penjualan_produk'];?>"
-                            target="_blank" class="badge badge-warning mb-3" style="visibility: <?=$hide?>">CETAK</a>
+                            target="_blank" class="badge badge-warning mb-3" style="visibility: <?=$hide?>"><i
+                                class="fa fa-print"></i> CETAK</a>
                         <?php endif;?>
 
                     </td>

@@ -28,6 +28,10 @@
                 <option value="">Cari Berdasarkan</option>
                 <option value="id_produk">Id Produk</option>
                 <option value="nama_produk">Nama Produk</option>
+                <option value="harga_produk">Harga Produk</option>
+                <option value="harga_produk_mahal">Harga Produk Termahal</option>
+                <option value="stok_produk">Stok Produk Terbanyak</option>
+                <option value="stok_produk_sedikit">Stok Produk Sedikit</option>
             </select>
             <input name="yangdicari" id="" type="text">
             <input type="submit" name="cari" value="Cari">

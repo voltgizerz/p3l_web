@@ -80,7 +80,7 @@
                     <?php endif;?>
                     <td style="text-align:center;">
                         <a href="<?=base_url();?>kasir/detail_pembayaran_produk/<?=$sm['id_transaksi_penjualan_produk'];?>"
-                            class="badge badge-info mb-3">INFO</a>
+                            class="badge badge-info mb-3"></i> INFO</a>
                     </td>
                     <td style="text-align:center;">
                         <?php if ($sm['status_pembayaran'] == 'Belum Lunas'){
@@ -92,7 +92,8 @@
                         Belum Lunas
                         <?php else: ?>
                         <a href="<?=base_url();?>laporan/strukLunasProduk/<?=$sm['id_transaksi_penjualan_produk'];?>"
-                            target="_blank" class="badge badge-warning mb-3" style="visibility: <?=$hide?>">CETAK</a>
+                            target="_blank" class="badge badge-warning mb-3" style="visibility: <?=$hide?> "><span
+                                class="glyphicon glyphicon-print"></span> <i class="fa fa-print"></i> CETAK</a>
                         <?php endif;?>
 
                     </td>
