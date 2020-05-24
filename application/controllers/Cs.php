@@ -8,6 +8,7 @@ class Cs extends CI_Controller
     {
         parent::__construct();
         is_logged_in();
+        $this->load->library("pagination");
 
     }
 

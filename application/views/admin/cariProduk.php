@@ -93,6 +93,7 @@
                 <?php endforeach; ?>
             </tbody>
         </table>
+        <p><?php echo $links; ?></p>
     </div>
 </div>
 <!-- End of Main Content -->

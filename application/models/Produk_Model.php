@@ -4,6 +4,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
 class Produk_model extends CI_Model
 {
 
+    protected $table = 'data_produk';
     public function getDataProdukAdmin()
     {
         $this->db->select('*');
@@ -167,6 +168,20 @@ class Produk_model extends CI_Model
             return $gambar;
         }
 
+    }
+
+    
+    public function get_produk($limit, $start)
+    {
+        $this->db->limit($limit, $start);
+        $query = $this->db->get('data_produk');
+
+        return $query->result_array();
+    }
+
+    public function get_count()
+    {
+        return $this->db->count_all('data_produk');
     }
 
 }
