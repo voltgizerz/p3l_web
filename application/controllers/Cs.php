@@ -60,7 +60,7 @@ class Cs extends CI_Controller
                     'updated_date' => date("0000:00:0:00:00"),
                     'total_harga' => '0',
                 ];
-            }else{
+            } else {
                 $data = [
                     'kode_transaksi_penjualan_produk' => $this->menu->ambilKode(),
                     'id_hewan' => '0',

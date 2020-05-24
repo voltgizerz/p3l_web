@@ -122,4 +122,119 @@ class Kasir extends CI_Controller
         } 
     }
 
+    public function detail_pembayaran_produk($id)
+    {
+        $data['title'] = 'Transaksi Pembayaran Produk';
+        $data['user'] = $this->db->get_where('data_pegawai', ['username' => $this->session->userdata('username')])->row_array();
+        $this->load->model('Penjualan_Produk_Model', 'menu');
+        $data['dataDetailPenjualanProduk'] = $this->menu->getDataDetailPenjualanProdukAdmin($id);
+        $data['menu'] = $this->db->get('user_menu')->result_array();
+        $data['data_produk'] = $this->menu->select_produk();
+        $kode = $this->db->get_where('data_transaksi_penjualan_produk', ['id_transaksi_penjualan_produk' => $id])->row()->kode_transaksi_penjualan_produk;
+        $data['kode_penjualan'] = $kode;
+        $data['id_penjualan'] = $id;
+        if ($this->input->post('pilih_produk') != null) {
+            $cekStok = $this->db->get_where('data_produk', ['id_produk' => $this->input->post('pilih_produk')])->row()->stok_produk;
+            if ($cekStok < $this->input->post('jumlah_produk')) {
+
+                $this->form_validation->set_rules('jumlah_produk', 'jumlah_produk', 'required|less_than[' . $cekStok . ']', [
+                    'less_than' => 'Stok Produk Tersedia Hanya : ' . $cekStok]);
+            } else {
+                $this->form_validation->set_rules('jumlah_produk', 'jumlah_produk', 'required');
+                $this->form_validation->set_rules('pilih_produk', 'pilih_produk', 'required');
+            }
+        }
+
+        if ($this->form_validation->run() == false) {
+            $data['menu'] = $this->db->get('user_menu')->result_array();
+            $this->load->view('templates/header', $data);
+            $this->load->view('templates/sidebar', $data);
+            $this->load->view('templates/topbar', $data);
+            $this->load->view('kasir/detail_pembayaran_produk', $data);
+            $this->load->view('templates/footer');
+        } 
+    }
+
+    public function updateDetailPembayaranProduk($id)
+    {
+        $kode = $this->db->get_where('data_detail_penjualan_produk', ['id_detail_penjualan_produk' => $id])->row()->kode_transaksi_penjualan_produk_fk;
+        $idtrx = $this->db->get_where('data_transaksi_penjualan_produk', ['kode_transaksi_penjualan_produk' => $kode])->row()->id_transaksi_penjualan_produk;
+        $data['title'] = 'Transaksi Pembayaran Produk';
+        $data['user'] = $this->db->get_where('data_pegawai', ['username' => $this->session->userdata('username')])->row_array();
+        $this->load->model('Penjualan_Produk_Model', 'menu');
+        $data['dataDetailPenjualanProduk'] = $this->menu->getDetailPenjualanProdukId($id);
+        $data['menu'] = $this->db->get('user_menu')->result_array();
+        $data['data_produk'] = $this->menu->select_produk();
+        $data['kode_penjualan'] = $kode;
+        $data['id_penjualan'] = $id;
+
+        $cekStok = $this->db->get_where('data_produk', ['id_produk' => $this->input->post('pilih_produk')])->row()->stok_produk;
+        if ($cekStok < $this->input->post('jumlah_produk')) {
+            $this->form_validation->set_rules('jumlah_produk', 'jumlah_produk', 'required|less_than[' . $cekStok . ']', [
+                'less_than' => 'Stok Produk Tersedia Hanya : ' . $cekStok]);
+        } else {
+            $this->form_validation->set_rules('pilih_produk', 'pilih_produk', 'required');
+            $this->form_validation->set_rules('jumlah_produk', 'jumlah_produk', 'required');
+        }
+
+        if ($this->form_validation->run() == false) {
+            $data['menu'] = $this->db->get('user_menu')->result_array();
+            $this->load->view('templates/header', $data);
+            $this->load->view('templates/sidebar', $data);
+            $this->load->view('templates/topbar', $data);
+            $this->load->view('cs/detail_penjualan_produk', $data);
+            $this->load->view('templates/footer');
+        } else {
+            date_default_timezone_set("Asia/Bangkok");
+            $data = [
+                'kode_transaksi_penjualan_produk_fk' => $kode,
+                'id_produk_penjualan_fk' => $this->input->post('pilih_produk'),
+                'jumlah_produk' => $this->input->post('jumlah_produk'),
+            ];
+
+            if ($this->db->where('id_detail_penjualan_produk', $id)->update('data_detail_penjualan_produk', $data)) {
+                //CARI NILAI TOTAL HARGA UPDATE
+                $this->db->select('data_detail_penjualan_produk.id_produk_penjualan_fk,data_detail_penjualan_produk.jumlah_produk,data_produk.harga_produk');
+                $this->db->join('data_produk', 'data_produk.id_produk = data_detail_penjualan_produk.id_produk_penjualan_fk');
+                $this->db->where('data_detail_penjualan_produk.kode_transaksi_penjualan_produk_fk', $kode);
+                $this->db->from('data_detail_penjualan_produk');
+                $query = $this->db->get();
+                $arrTemp = json_decode(json_encode($query->result()), true);
+
+                // NILAI TAMPUNG TOTAL HARGA PENJUALAN YANG BARU
+                $temp = 0;
+                for ($i = 0; $i < count($arrTemp); $i++) {
+                    $temp = $temp + $arrTemp[$i]['jumlah_produk'] * $arrTemp[$i]['harga_produk'];
+                }
+                //UPDATE NILAI TOTAL PENGADAAN
+                $this->db->where('kode_transaksi_penjualan_produk', $kode)->update('data_transaksi_penjualan_produk', ['total_penjualan_produk' => $temp, 'updated_date' => date("Y-m-d H:i:s")]);
+
+                //CARI NILAI SUBTOTAL PRODUK DETAIL HARGA UPDATE
+                $this->db->select('data_detail_penjualan_produk.id_produk_penjualan_fk,data_detail_penjualan_produk.jumlah_produk,data_produk.harga_produk');
+                $this->db->join('data_produk', 'data_produk.id_produk = data_detail_penjualan_produk.id_produk_penjualan_fk');
+                $this->db->where('data_detail_penjualan_produk.id_detail_penjualan_produk', $id);
+                $this->db->from('data_detail_penjualan_produk');
+                $query = $this->db->get();
+                $arrTemp = json_decode(json_encode($query->result()), true);
+
+                // NILAI TAMPUNG SUB TOTAL  DETAIL PENJUALAN HARGA YANG BARU
+                $temp = $arrTemp[0]['jumlah_produk'] * $arrTemp[0]['harga_produk'];
+                //UPDATE NILAI TOTAL PENGADAAN
+                $this->db->where('id_detail_penjualan_produk', $id)->update('data_detail_penjualan_produk', ['subtotal' => $temp]);
+
+                $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">
+            Produk Pembayaran Berhasil Diedit!
+           </div>');
+                redirect('kasir/detail_pembayaran_produk/' . $idtrx);
+            }
+
+            $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">
+            Produk Pembayaran Berhasil Diedit!
+           </div>');
+            redirect('kasir/detail_pembayaran_produk/' . $idtrx);
+
+        }
+
+    }
+
 }

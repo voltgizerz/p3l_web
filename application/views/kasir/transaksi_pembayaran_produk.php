@@ -79,7 +79,7 @@
                     <td style="text-align:center;"><?=$sm['tanggal_pembayaran_produk']?></td>
                     <?php endif;?>
                     <td style="text-align:center;">
-                        <a href="<?=base_url();?>kasir/detail_penjualan_produk/<?=$sm['id_transaksi_penjualan_produk'];?>"
+                        <a href="<?=base_url();?>kasir/detail_pembayaran_produk/<?=$sm['id_transaksi_penjualan_produk'];?>"
                             class="badge badge-info mb-3">INFO</a>
                     </td>
                     <td style="text-align:center;">
