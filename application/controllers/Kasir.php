@@ -268,6 +268,18 @@ class Kasir extends CI_Controller
             redirect('kasir/detail_pembayaran_produk/' . $idtrx);
 
         }
+    }
+
+    public function hapusDetailPembayaranProduk($id)
+    {
+        $kode = $this->db->get_where('data_detail_penjualan_produk', ['id_detail_penjualan_produk' => $id])->row()->kode_transaksi_penjualan_produk_fk;
+        $idtrx = $this->db->get_where('data_transaksi_penjualan_produk', ['kode_transaksi_penjualan_produk' => $kode])->row()->id_transaksi_penjualan_produk;
+        $this->load->model('Penjualan_Produk_Model');
+        $this->Penjualan_Produk_Model->deleteDetailPenjualanProduk($id);
+        $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">
+                  Sukses Hapus Produk Transaksi Pembayaran!
+                   </div>');
+        redirect('kasir/detail_pembayaran_produk/' . $idtrx);
 
     }
 

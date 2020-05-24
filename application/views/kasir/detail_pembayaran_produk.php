@@ -47,7 +47,7 @@
                         <a href="<?=base_url();?>kasir/updateDetailPembayaranProduk/<?=$sm['id_detail_penjualan_produk'];?>"
                             class="badge badge-primary mb-3" data-toggle="modal"
                             data-target="#editSubMenuModal<?=$sm['id_detail_penjualan_produk'];?>">EDIT</a>
-                        <a href="<?=base_url();?>kasir/hapusDetailPenjualanProduk/<?=$sm['id_detail_penjualan_produk'];?>"
+                        <a href="<?=base_url();?>kasir/hapusDetailPembayaranProduk/<?=$sm['id_detail_penjualan_produk'];?>"
                             class="badge badge-danger mb-3">DELETE</a>
                     </td>
                 </tr>
