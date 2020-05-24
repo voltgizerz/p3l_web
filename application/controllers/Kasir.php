@@ -76,15 +76,16 @@ class Kasir extends CI_Controller
                 for ($i = 0; $i < count($arrTemp); $i++) {
                     $stokUpdate = $arrTemp[$i]['stok_produk'] - $arrTemp[$i]['jumlah_produk'];
                     $this->db->where('id_produk', $arrTemp[$i]['id_produk'])->update('data_produk', ['stok_produk' => $stokUpdate]);
-                    if ($stokUpdate < $arrTemp[$i]['stok_minimal_produk']) {
-                        $basic  = new \Nexmo\Client\Credentials\Basic('66df917e', 'Jm3QidLR8uuwF5uh');
-                        $client = new \Nexmo\Client($basic);
-                        $message = $client->message()->send([
-                            'to' => '6285155099184',
-                            'from' => 'KOUVEE PETSHOP',
-                            'text' => 'Hello from Kouvee PetShop, Produk ['.$arrTemp[$i]['nama_produk'].'] Mulai Menipis Tersisa : '.$stokUpdate.' Stok '
-                        ]);                            
-                    }
+                    //HEMAT KUOTA SMS BOS LIMIT SMS HANYA 20 KALI
+                    //if ($stokUpdate < $arrTemp[$i]['stok_minimal_produk']) {
+                        //$basic  = new \Nexmo\Client\Credentials\Basic('66df917e', 'Jm3QidLR8uuwF5uh');
+                        //$client = new \Nexmo\Client($basic);
+                        //$message = $client->message()->send([
+                            //'to' => '6285155099184',
+                            //'from' => 'KOUVEE PETSHOP',
+                            //'text' => 'Halo dari Kouvee PetShop, Produk ['.$arrTemp[$i]['nama_produk'].'] Mulai Menipis Tersisa : '.$stokUpdate.' Stok '
+                        //]);                            
+                    //}
                 }
             } else {
                 // PRODUK SUDAH DIEMBAT ORANG LAIN

@@ -58,7 +58,13 @@
                             src="<?=base_url();?><?=$sm['gambar_produk']?>" </td>
                     <td style="text-align:center;"><?= $sm['nama_produk'] ?></td>
                     <td style="text-align:center;">Rp. <?= $sm['harga_produk'] ?></td>
-                    <td style="text-align:center;"><?= $sm['stok_produk'] ?></td>
+                    <?php if ($sm['stok_produk'] == 0): ?>
+                    <td style="text-align:center; color:#FF0000"> STOK KOSONG </td>
+                    <?php elseif ($sm['stok_produk'] < $sm['stok_minimal_produk'] ): ?>
+                    <td style="text-align:center; color:#FFFF00"><?=$sm['stok_produk']?><br>(Stok Menipis)</br></td>
+                    <?php else: ?>
+                    <td style="text-align:center;"><?=$sm['stok_produk']?></td>
+                    <?php endif;?>
                     <td style="text-align:center;"><?= $sm['stok_minimal_produk'] ?></td>
                     <td style="text-align:center;"><?= $sm['created_date'] ?></td>
                     <?php if ($sm['updated_date'] == '0000-00-00 00:00:00'): ?>
