@@ -71,7 +71,7 @@
                     <?php if ($sm['status_pembayaran'] == 'Belum Lunas'): ?>
                     <td style="text-align:center; color:#FF6347;"> Belum Lunas </td>
                     <?php else: ?>
-                    <td style="text-align:center; color:#008000">Lunas</td>
+                    <td style="text-align:center; color:#00FF00">Lunas</td>
                     <?php endif;?>
                     <?php if ($sm['tanggal_pembayaran_produk'] == '0000-00-00 00:00:00'): ?>
                     <td style="text-align:center;"> - </td>

@@ -8,6 +8,7 @@ class Kasir extends CI_Controller
     {
         parent::__construct();
         is_logged_in();
+        require_once "vendor/autoload.php";
     }
 
     public function index()
@@ -29,7 +30,7 @@ class Kasir extends CI_Controller
         $this->load->model('Pembayaran_Produk_Model', 'menu');
         $data['dataPembayaranProduk'] = $this->menu->getDataPembayaranProdukAdmin();
         $data['menu'] = $this->db->get('user_menu')->result_array();
-        
+
         $data['menu'] = $this->db->get('user_menu')->result_array();
         $this->load->view('templates/header', $data);
         $this->load->view('templates/sidebar', $data);
@@ -49,43 +50,52 @@ class Kasir extends CI_Controller
         $data['dataPembayaranProduk'] = $this->menu->getPembayaranProdukId($id);
         $data['menu'] = $this->db->get('user_menu')->result_array();
 
-        //CEK APAKAH PRODUK TERSEDIA 
+        //CEK APAKAH PRODUK TERSEDIA
 
-        $this->db->select('data_detail_penjualan_produk.id_produk_penjualan_fk,data_detail_penjualan_produk.jumlah_produk,data_produk.harga_produk,data_produk.stok_produk,data_produk.nama_produk,data_produk.id_produk');
+        $this->db->select('data_detail_penjualan_produk.id_produk_penjualan_fk,data_detail_penjualan_produk.jumlah_produk,data_produk.harga_produk,data_produk.stok_produk,data_produk.nama_produk,data_produk.id_produk,data_produk.stok_minimal_produk');
         $this->db->join('data_produk', 'data_produk.id_produk = data_detail_penjualan_produk.id_produk_penjualan_fk');
         $this->db->where('data_detail_penjualan_produk.kode_transaksi_penjualan_produk_fk', $kode);
         $this->db->from('data_detail_penjualan_produk');
         $query = $this->db->get();
         $arrTemp = json_decode(json_encode($query->result()), true);
-        
-        if($this->input->post('status_pembayaran') == 'Lunas'){
+
+        if ($this->input->post('status_pembayaran') == 'Lunas') {
             $count = 0;
-            $minus=0;
+            $minus = 0;
             for ($i = 0; $i < count($arrTemp); $i++) {
-                if($arrTemp[$i]['stok_produk']-$arrTemp[$i]['jumlah_produk']<0){
+                if ($arrTemp[$i]['stok_produk'] - $arrTemp[$i]['jumlah_produk'] < 0) {
                     $count = $i;
-                    $minus= -1;     
+                    $minus = -1;
                     break;
                 }
-            break;
+                break;
             }
-            if($minus == 0 ){
+            if ($minus == 0) {
                 $this->form_validation->set_rules('status_pembayaran', 'status_pembayaran', 'required');
                 //PENGURANGAN PRODUK DAN UPPDATE STOK PRODUK
                 for ($i = 0; $i < count($arrTemp); $i++) {
-                    $stokUpdate = $arrTemp[$i]['stok_produk']-$arrTemp[$i]['jumlah_produk'];
+                    $stokUpdate = $arrTemp[$i]['stok_produk'] - $arrTemp[$i]['jumlah_produk'];
                     $this->db->where('id_produk', $arrTemp[$i]['id_produk'])->update('data_produk', ['stok_produk' => $stokUpdate]);
+                    if ($stokUpdate < $arrTemp[$i]['stok_minimal_produk']) {
+                        $basic  = new \Nexmo\Client\Credentials\Basic('66df917e', 'Jm3QidLR8uuwF5uh');
+                        $client = new \Nexmo\Client($basic);
+                        $message = $client->message()->send([
+                            'to' => '6285155099184',
+                            'from' => 'KOUVEE PETSHOP',
+                            'text' => 'Hello from Kouvee PetShop, Produk ['.$arrTemp[$i]['nama_produk'].'] Mulai Menipis Tersisa : '.$stokUpdate.' Stok '
+                        ]);                            
+                    }
                 }
-            }else{
-                // PRODUK SUDAH DIEMBAT ORANG LAIN 
-                $this->form_validation->set_rules('cek', 'cek', 'required|less_than['.$minus.' ]', [
-                    'less_than' => 'OOPS... Stok Produk '.$arrTemp[$count]['nama_produk'].' Tersedia sekarang Hanya : ' . $arrTemp[$count]['stok_produk']]);
+            } else {
+                // PRODUK SUDAH DIEMBAT ORANG LAIN
+                $this->form_validation->set_rules('cek', 'cek', 'required|less_than[' . $minus . ' ]', [
+                    'less_than' => 'OOPS... Stok Produk ' . $arrTemp[$count]['nama_produk'] . ' Tersedia sekarang Hanya : ' . $arrTemp[$count]['stok_produk']]);
                 $this->form_validation->set_rules('status_pembayaran', 'status_pembayaran', 'required');
-               
+
             }
         }
         $this->form_validation->set_rules('status_pembayaran', 'status_pembayaran', 'required');
-               
+
         if ($this->form_validation->run() == false) {
             $data['menu'] = $this->db->get('user_menu')->result_array();
             $this->load->view('templates/header', $data);
@@ -153,7 +163,7 @@ class Kasir extends CI_Controller
             header("Cache-Control: no-store, no-cache, must-revalidate, max-age=0");
             header("Cache-Control: post-check=0, pre-check=0", false);
             header("Cache-Control: no cache");
-        } 
+        }
     }
 
     public function detail_pembayaran_produk($id)
@@ -186,7 +196,7 @@ class Kasir extends CI_Controller
             $this->load->view('templates/topbar', $data);
             $this->load->view('kasir/detail_pembayaran_produk', $data);
             $this->load->view('templates/footer');
-        } 
+        }
     }
 
     public function updateDetailPembayaranProduk($id)
@@ -228,7 +238,7 @@ class Kasir extends CI_Controller
 
             if ($this->db->where('id_detail_penjualan_produk', $id)->update('data_detail_penjualan_produk', $data)) {
                 //CARI NILAI TOTAL HARGA UPDATE
-                $this->db->select('data_detail_penjualan_produk.id_produk_penjualan_fk,data_detail_penjualan_produk.jumlah_produk,data_produk.harga_produk');
+                $this->db->select('data_detail_penjualan_produk.id_produk_penjualan_fk,data_detail_penjualan_produk.jumlah_produk,data_produk.harga_produk,data_produk.stok_minimal_produk');
                 $this->db->join('data_produk', 'data_produk.id_produk = data_detail_penjualan_produk.id_produk_penjualan_fk');
                 $this->db->where('data_detail_penjualan_produk.kode_transaksi_penjualan_produk_fk', $kode);
                 $this->db->from('data_detail_penjualan_produk');
