@@ -1674,9 +1674,8 @@ class Admin extends CI_Controller
         $data['title'] = 'Kelola Data Produk';
         $data['user'] = $this->db->get_where('data_pegawai', ['username' => $this->session->userdata('username')])->row_array();
         $this->load->model('Produk_Model', 'menu');
-        $data['dataProduk'] = $this->menu->getDataProdukAdmin();
         $data['menu'] = $this->db->get('user_menu')->result_array();
-
+        $data['dataProduk'] = $this->menu->getDataProdukAdmin();
         $this->form_validation->set_rules('nama', 'Name', 'required|trim|is_unique[data_produk.nama_produk]', [
             'is_unique' => 'Gagal Menambahkan Produk Baru, Produk Sudah Ada!',
         ]);
@@ -1689,13 +1688,13 @@ class Admin extends CI_Controller
             $this->load->view('templates/header', $data);
             $this->load->view('templates/sidebar', $data);
             $this->load->view('templates/topbar', $data);
-            
+            //PAGINATION SETTING
             $config = array();
             $config["base_url"] = base_url() . "admin/kelola_produk";
             $config["total_rows"] = $this->menu->get_count();
             $config["per_page"] = 10;
             $config["uri_segment"] = 3;
-
+    
             $config['first_link'] = 'First';
             $config['last_link'] = 'Last';
             $config['next_link'] = 'Next';
@@ -1714,7 +1713,7 @@ class Admin extends CI_Controller
             $config['first_tagl_close'] = '</span></li>';
             $config['last_tag_open'] = '<li class="page-item"><span class="page-link">';
             $config['last_tagl_close'] = '</span></li>';
-
+            
             $this->pagination->initialize($config);
             $page = ($this->uri->segment(3)) ? $this->uri->segment(3) : 0;
             $data["links"] = $this->pagination->create_links();
@@ -1774,36 +1773,6 @@ class Admin extends CI_Controller
             $this->load->view('templates/header', $data);
             $this->load->view('templates/sidebar', $data);
             $this->load->view('templates/topbar', $data);
-            
-            $config = array();
-            $config["base_url"] = base_url() . "admin/kelola_produk";
-            $config["total_rows"] = $this->menu->get_count();
-            $config["per_page"] = 10;
-            $config["uri_segment"] = 3;
-
-            $config['first_link'] = 'First';
-            $config['last_link'] = 'Last';
-            $config['next_link'] = 'Next';
-            $config['prev_link'] = 'Prev';
-            $config['full_tag_open'] = '<div class="pagging text-center"><nav><ul class="pagination justify-content-center">';
-            $config['full_tag_close'] = '</ul></nav></div>';
-            $config['num_tag_open'] = '<li class="page-item"><span class="page-link">';
-            $config['num_tag_close'] = '</span></li>';
-            $config['cur_tag_open'] = '<li class="page-item active"><span class="page-link">';
-            $config['cur_tag_close'] = '<span class="sr-only">(current)</span></span></li>';
-            $config['next_tag_open'] = '<li class="page-item"><span class="page-link">';
-            $config['next_tagl_close'] = '<span aria-hidden="true">&raquo;</span></span></li>';
-            $config['prev_tag_open'] = '<li class="page-item"><span class="page-link">';
-            $config['prev_tagl_close'] = '</span>Next</li>';
-            $config['first_tag_open'] = '<li class="page-item"><span class="page-link">';
-            $config['first_tagl_close'] = '</span></li>';
-            $config['last_tag_open'] = '<li class="page-item"><span class="page-link">';
-            $config['last_tagl_close'] = '</span></li>';
-
-            $this->pagination->initialize($config);
-            $page = ($this->uri->segment(3)) ? $this->uri->segment(3) : 0;
-            $data["links"] = $this->pagination->create_links();
-            $data['dataProduk'] = $this->menu->get_produk($config["per_page"], $page);
             $this->load->view('admin/kelola_produk', $data);
             $this->load->view('templates/footer');
         } else {
@@ -1980,9 +1949,7 @@ class Admin extends CI_Controller
 
         $data['cariberdasarkan'] = $this->input->post("cariberdasarkan");
         $data['yangdicari'] = $this->input->post("yangdicari");
-        $data["dataProduk"] = $this->menu->cariProduk($data['cariberdasarkan'], $data['yangdicari'])->result_array();
-        $data["jumlah"] = count($data["dataProduk"]);
-
+       
         $data['menu'] = $this->db->get('user_menu')->result_array();
         if (!isset($_POST['cari'])) {
             $this->form_validation->set_rules('nama', 'Name', 'required|trim|is_unique[data_produk.nama_produk]', [
@@ -1997,12 +1964,13 @@ class Admin extends CI_Controller
             $this->load->view('templates/header', $data);
             $this->load->view('templates/sidebar', $data);
             $this->load->view('templates/topbar', $data);
+            
             $config = array();
             $config["base_url"] = base_url() . "admin/cariProduk";
             $config["total_rows"] = $this->menu->get_count();
             $config["per_page"] = 10;
             $config["uri_segment"] = 3;
-
+    
             $config['first_link'] = 'First';
             $config['last_link'] = 'Last';
             $config['next_link'] = 'Next';
@@ -2021,11 +1989,13 @@ class Admin extends CI_Controller
             $config['first_tagl_close'] = '</span></li>';
             $config['last_tag_open'] = '<li class="page-item"><span class="page-link">';
             $config['last_tagl_close'] = '</span></li>';
-
+            
             $this->pagination->initialize($config);
             $page = ($this->uri->segment(3)) ? $this->uri->segment(3) : 0;
+            $data["dataProduk"] = $this->menu->cariProduk($data['cariberdasarkan'], $data['yangdicari'],$config["per_page"], $page)->result_array();
+            $data["jumlah"] = count($data["dataProduk"]);
             $data["links"] = $this->pagination->create_links();
-            $data['dataProduk'] = $this->menu->get_produk($config["per_page"], $page);
+
             $this->load->view('admin/cariProduk', $data);
             $this->load->view('templates/footer');
         } else {
