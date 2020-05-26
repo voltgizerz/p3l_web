@@ -294,4 +294,21 @@ class Kasir extends CI_Controller
 
     }
 
+    public function transaksi_pembayaran_layanan()
+    {
+        $data['title'] = 'Transaksi Pembayaran Layanan';
+        $data['user'] = $this->db->get_where('data_pegawai', ['username' => $this->session->userdata('username')])->row_array();
+        $this->load->model('Pembayaran_Layanan_Model', 'menu');
+        $data['dataPenjualanLayanan'] = $this->menu->getDataPembayaranLayananAdmin();
+        $data['menu'] = $this->db->get('user_menu')->result_array();
+        $data['data_hewan'] = $this->menu->select_hewan();
+        
+        $data['menu'] = $this->db->get('user_menu')->result_array();
+        $this->load->view('templates/header', $data);
+        $this->load->view('templates/sidebar', $data);
+        $this->load->view('templates/topbar', $data);
+        $this->load->view('kasir/transaksi_pembayaran_layanan', $data);
+        $this->load->view('templates/footer');
+    }
+
 }

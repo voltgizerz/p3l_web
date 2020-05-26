@@ -199,6 +199,131 @@ class Laporan extends CI_Controller
         $pdf->Output("I", "[LUNAS] Struk - " . $kode . ".pdf");
     }
 
+
+    public function strukLunasLayanan($id)
+    {
+        $kode = $this->db->get_where('data_transaksi_penjualan_jasa_layanan', ['id_transaksi_penjualan_jasa_layanan' => $id])->row()->kode_transaksi_penjualan_jasa_layanan;
+        $subtotal = $this->db->get_where('data_transaksi_penjualan_jasa_layanan', ['id_transaksi_penjualan_jasa_layanan' => $id])->row()->total_penjualan_jasa_layanan;
+        $diskon = $this->db->get_where('data_transaksi_penjualan_jasa_layanan', ['id_transaksi_penjualan_jasa_layanan' => $id])->row()->diskon;
+        $total = $this->db->get_where('data_transaksi_penjualan_jasa_layanan', ['id_transaksi_penjualan_jasa_layanan' => $id])->row()->total_harga;
+        $idHewan = $this->db->get_where('data_transaksi_penjualan_jasa_layanan', ['id_transaksi_penjualan_jasa_layanan' => $id])->row()->id_hewan;
+        $idCs = $this->db->get_where('data_transaksi_penjualan_jasa_layanan', ['id_transaksi_penjualan_jasa_layanan' => $id])->row()->id_cs;
+        $idKasir = $this->db->get_where('data_transaksi_penjualan_jasa_layanan', ['id_transaksi_penjualan_jasa_layanan' => $id])->row()->id_kasir;
+        $namaCs =$this->db->get_where('data_pegawai', ['id_pegawai' => $idCs])->row()->nama_pegawai;
+        $namaKasir =$this->db->get_where('data_pegawai', ['id_pegawai' => $idKasir])->row()->nama_pegawai;
+        
+        if ($idHewan != 0) {
+            $namaHewan = $this->db->get_where('data_hewan', ['id_hewan' => $idHewan])->row()->nama_hewan;
+            $idJenis = $this->db->get_where('data_hewan', ['id_hewan' => $idHewan])->row()->id_jenis_hewan;
+            $nama_jenis_hewan = $this->db->get_where('data_jenis_hewan', ['id_jenis_hewan' => $idJenis])->row()->nama_jenis_hewan;
+            $idCutomer = $this->db->get_where('data_hewan', ['id_hewan' => $idHewan])->row()->id_customer;
+            $nama_customer = $this->db->get_where('data_customer', ['id_customer' => $idCutomer])->row()->nama_customer;
+            $telepon = $this->db->get_where('data_customer', ['id_customer' => $idCutomer])->row()->nomor_hp_customer;
+        
+        }
+        $cnt = 1;
+        $pdf = new FPDF('P', 'mm', array(210, 210));
+        // membuat halaman baru
+        $pdf->AddPage();
+        // setting jenis font yang akan digunakan
+        //HEADER LAPORAN
+        $pdf->SetFont('Arial', 'B', 16);
+        $pdf->Rect(5, 5, 200, 200, 'D');
+        $pdf->Image(base_url('assets/img/headerlaporan.png'), 7, 10, 195, 0, 'PNG');
+
+        //TEXT
+        $pdf->Cell(10, 60, '', 0, 1);
+        $pdf->Cell(190, 7, 'NOTA LUNAS', 99, 1, 'C');
+        $pdf->Cell(10, 7, '', 0, 1);
+        // KODE PENGADDAN
+        $pdf->SetFont('Arial', 'B', 10);
+        $pdf->Cell(300, 0, date('d F Y H:i'), 99, 1, 'C');
+        $pdf->Cell(10, 7, '', 0, 1);
+        //TANGGAL PENGADAAN
+        $pdf->SetLeftMargin(28);
+        $pdf->SetFont('Arial', '', 10);
+        $pdf->Cell(100, 0, $kode, 99, 1, 'L');
+        $pdf->Cell(10, 10, '', 0, 1);
+        $pdf->SetFont('Arial', '', 10);
+        if ($idHewan != 0) {
+            $pdf->Cell(80, 0, 'Member : ' . $nama_customer . ' (' . $namaHewan . ' - ' . $nama_jenis_hewan . ')', 99, 1, 'L');
+        } else {
+            $pdf->Cell(80, 0, 'Non Member ', 99, 1, 'L');
+        }
+        $pdf->Cell(150, 0, 'CS    : '.$namaCs, 99, 1, 'R');
+        $pdf->Cell(10, 7, '', 0, 1);
+        $pdf->SetFont('Arial', '', 10);
+        if ($idHewan != 0) {
+            $pdf->Cell(80, 0, 'Telepon : '.$telepon, 99, 1, 'L');
+        } else {
+            $pdf->Cell(80, 0, 'Telepon : - ', 99, 1, 'L');
+        }
+        $pdf->Cell(150, 0, 'Kasir : '.$namaKasir, 99, 1, 'R');
+        $pdf->Cell(10, 7, '', 0, 1);
+        $pdf->SetFont('Arial', '', 10);
+        $pdf->Cell(10, 7, '', 0, 1);
+        $pdf->SetFont('Arial', '', 10);
+        $pdf->Image(base_url('assets/img/garis.png'), 23, 110, 160, 0, 'PNG');
+        $pdf->SetFont('Arial', 'B', 16);
+        $pdf->Cell(154, 1, 'Jasa Layanan', 4, 1, 'C');
+        $pdf->Cell(10, 7, '', 0, 1);
+        $pdf->SetFont('Arial', '', 10);
+        $pdf->Image(base_url('assets/img/garis.png'), 23, 125, 160, 0, 'PNG');
+        // mencetak string
+        // Memberikan space kebawah agar tidak terlalu rapat
+        $pdf->SetLeftMargin(18);
+        $pdf->Cell(10, 5, '', 0, 1);
+        $pdf->SetFont('Arial', 'B', 10);
+        $pdf->Cell(10, 5, 'No', 1, 0, 'C');
+        $pdf->Cell(65, 5, 'Nama Jasa Layanan', 1, 0, 'C');
+        $pdf->Cell(35, 5, 'Harga', 1, 0, 'C');
+        $pdf->Cell(20, 5, 'Jumlah', 1, 0, 'C');
+        $pdf->Cell(40, 5, 'Sub Total', 1, 1, 'C');
+
+        $this->db->select('data_detail_penjualan_jasa_layanan.id_detail_penjualan_jasa_layanan,
+        data_detail_penjualan_jasa_layanan.id_jasa_layanan_fk,
+        data_detail_penjualan_jasa_layanan.kode_transaksi_penjualan_jasa_layanan_fk,
+        data_detail_penjualan_jasa_layanan.jumlah_jasa_layanan,
+        data_detail_penjualan_jasa_layanan.subtotal,
+        data_jasa_layanan.nama_jasa_layanan,
+        data_jasa_layanan.harga_jasa_layanan,
+        a.id_jenis_hewan AS id_jenis_hewan,
+        b.id_ukuran_hewan AS id_ukuran_hewan,
+        data_jenis_hewan.nama_jenis_hewan,
+        data_ukuran_hewan.ukuran_hewan');
+        $this->db->join('data_jasa_layanan', 'data_jasa_layanan.id_jasa_layanan = data_detail_penjualan_jasa_layanan.id_jasa_layanan_fk');
+        $this->db->join('data_jasa_layanan a', 'a.id_jasa_layanan = data_detail_penjualan_jasa_layanan.id_jasa_layanan_fk');
+        $this->db->join('data_jasa_layanan b', 'b.id_jasa_layanan = data_detail_penjualan_jasa_layanan.id_jasa_layanan_fk');
+        $this->db->join('data_ukuran_hewan', 'data_ukuran_hewan.id_ukuran_hewan = b.id_ukuran_hewan');
+        $this->db->join('data_jenis_hewan', 'data_jenis_hewan.id_jenis_hewan = a.id_jenis_hewan');
+        $this->db->from('data_detail_penjualan_jasa_layanan');
+        $this->db->order_by("data_detail_penjualan_jasa_layanan.id_detail_penjualan_jasa_layanan desc");
+        $this->db->where('data_detail_penjualan_jasa_layanan.kode_transaksi_penjualan_jasa_layanan_fk', $kode);
+        $query = $this->db->get();
+        $layanan = $query->result();
+        foreach ($layanan as $row) {
+            $pdf->SetFont('Arial', '', 10);
+            $pdf->Cell(10, 5, $cnt, 1, 0, 'C', 0);
+            $pdf->Cell(65, 5, $row->nama_jasa_layanan.' '.$row->nama_jenis_hewan.' '.$row->ukuran_hewan, 1, 0);
+            $pdf->Cell(35, 5, 'Rp.   ' . $row->harga_jasa_layanan . ',-', 1, 0);
+            $pdf->Cell(20, 5, $row->jumlah_jasa_layanan, 1, 0, 'C');
+            $pdf->Cell(40, 5, 'Rp.   ' . $row->harga_jasa_layanan * $row->jumlah_jasa_layanan . ',-', 1, 1);
+            $cnt++;
+        }
+        $pdf->SetLeftMargin(134);
+        $pdf->Cell(10, 7, '', 0, 1);
+        $pdf->SetFont('Arial', '', 10);
+        $pdf->Cell(154, 0, 'Subtotal Rp.   ' . $subtotal . ',-', 99, 1, 'L');
+        $pdf->Cell(10, 7, '', 0, 1);
+        $pdf->SetFont('Arial', '', 10);
+        $pdf->Cell(154, 0, 'Diskon   Rp.   ' . $diskon . ',-', 99, 1, 'L');
+        $pdf->Cell(10, 7, '', 0, 1);
+        $pdf->SetFont('Arial', 'B', 10);
+        $pdf->Cell(154, 0, 'TOTAL  Rp.   ' . $total . ',-', 99, 1, 'L');
+        $pdf->Output("I", "[LUNAS] Struk - " . $kode . ".pdf");
+    }
+
+
     public function laporanJualMobil()
     {
         $cnt = 1;

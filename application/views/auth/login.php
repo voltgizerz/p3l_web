@@ -2,7 +2,9 @@
 
     <div class="container">
         <nav class="navbar navbar-expand-lg navbar-light bg-light ">
-            <a class="navbar-brand" href="<?= base_url('auth/home'); ?>">Kouvee Pet Shop</a>
+            <a href="<?= base_url('auth/home'); ?>"><img height="50" width="70" style="padding:1px"
+                    src=" <?= base_url('assets/img/logoKPS.png'); ?>">
+            </a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
                 aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
@@ -10,12 +12,15 @@
 
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="nav navbar-nav navbar-right">
-                    <li class="nav-item active">
+                    <li class="nav-item">
                         <a class="nav-link" href="<?= base_url('auth/home'); ?>">HOME <span
                                 class="sr-only">(current)</span></a>
                     </li>
-                    <li class="nav-item ">
+                    <li class="nav-item active">
                         <a class="nav-link" href="<?= base_url('auth'); ?>">LOGIN</a>
+                    </li>
+                    <li class="nav-item ">
+                        <a class="nav-link" href="<?= base_url('customer/status'); ?>">CEK STATUS LAYANAN</a>
                     </li>
                 </ul>
 
