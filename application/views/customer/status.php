@@ -1,28 +1,27 @@
 <body class="bg-gradient-dark">
 
-    <div class="container">
-        <nav class="navbar navbar-expand-lg navbar-light bg-light ">
-            <a href="<?= base_url('auth/home'); ?>"><img height="50" width="70" style="padding:1px"
-                    src=" <?= base_url('assets/img/logoKPS.png'); ?>">
+    <div class="container-fluid">
+        <nav class="navbar navbar-expand-lg navbar-light bg-light" style="font-size: 1.8em !important;">
+            <a href="<?= base_url('auth/home'); ?>"><img height="90px" width=100px" style="text-align: center;" src=" <?= base_url('assets/img/logoKPS.png'); ?>">
             </a>
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
-                aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
 
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="nav navbar-nav navbar-right">
                     <li class="nav-item">
-                        <a class="nav-link" href="<?= base_url('auth/home'); ?>">HOME <span
-                                class="sr-only">(current)</span></a>
-                    </li>
-                    <li class="nav-item ">
-                        <a class="nav-link" href="<?= base_url('auth'); ?>">LOGIN</a>
+                        <a class="nav-link" href="<?= base_url('auth/home'); ?>">HOME </a>
                     </li>
                     <li class="nav-item active ">
-                        <a class="nav-link" href="<?= base_url('customer/status'); ?>">CEK STATUS LAYANAN</a>
+                        <a class="nav-link" href="<?= base_url('customer/status'); ?>">CEK STATUS LAYANAN <span class="sr-only">(current)</span></a>
                     </li>
 
+                </ul>
+                <ul class="navbar-nav ml-auto">
+                    <li class="nav-item ">
+                        <a class="btn btn-primary" href="<?= base_url('auth'); ?>">LOGIN</a>
+                    </li>
                 </ul>
             </div>
         </nav>
@@ -34,8 +33,9 @@
             <div class="col-lg-13">
 
                 <div class="card o-hidden border-0 my-3">
-                    <div class="bg-primary  ">
+                    <div class="bg-dark  ">
                         <div class="text-center">
+                            <img height="120px" width=150px" style="text-align: center;" src=" <?= base_url('assets/img/logoKPS.png'); ?>">
                             <h1 class="text-warning"><strong>INFORMASI STATUS LAYANAN</h1>
                             <h3 class="text-warning">
                                 KOUVEE PETSHOP</h3>
@@ -43,10 +43,72 @@
                     </div>
                 </div>
                 <div class="card-body p-0">
-                    //isi disini
+                    <div class="row">
+                        <div class="col-lg ml-3 mr-3">
+                            <div class="form-group">
+                                <?php echo form_open("kasir/cariPenjualanLayanan"); ?>
+                                <div class="input-group " style="width: 600px;">
+                                    <select class="custom-select" id="inputGroupSelect07" name="cariberdasarkan">
+                                        <option value="">Cari Berdasarkan</option>
+                                        <option value="kode_penjualan">Kode Penjualan</option>
+                                        <option value="nama_hewan">Nama Hewan</option>
+                                        <option value="nama_cs">Nama Customer Service</option>
+                                    </select>
+                                    <div class="input-group-append">
+                                        <input type="text" class="form-control" style="border-radius: 0;" placeholder="Kata Pencarian..." name="yangdicari" id="" type="text" aria-label="Text input with dropdown button" aria-describedby="basic-addon2">
+
+                                        <button class="btn btn-success" type="submit" name="cari" value="Cari"><i class="fas fa-search"></i></button>
+                                    </div>
+                                </div>
+                                <?php echo form_close(); ?>
+                            </div>
+                            <?php if (validation_errors()) : ?>
+                                <div class="alert alert-danger" role="alert">
+                                    <?= validation_errors(); ?>
+                                </div>
+                            <?php endif; ?>
+                            <?= $this->session->flashdata('message'); ?>
+
+                            <table class="table table-striped table-dark table-hover  table-responsive-sm">
+                                <thead>
+                                    <tr>
+                                        <th scope="col" class="text-center">No</th>
+                                        <th scope="col" class="text-center">Kode Penjualan</th>
+                                        <th scope="col" class="text-center">Nama Customer Service</th>
+                                        <th scope="col" class="text-center">Nama Kasir</th>
+                                        <th scope="col" class="text-center">Nama Hewan</th>
+                                        <th scope="col" class="text-center">Status Layanan</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <?php $i = 1; ?>
+                                    <?php foreach ($dataPenjualanLayanan as $sm) : ?>
+                                        <tr>
+                                            <th scope="row" class="text-center"><?= $i ?></th>
+                                            <td style="text-align:center; color:orange;"><?= $sm['kode_transaksi_penjualan_jasa_layanan'] ?></td>
+                                            <td style="text-align:center;"><?= $sm['nama_cs'] ?></td>
+                                            <?php if ($sm['id_kasir'] == $sm['id_cs']) : ?>
+                                                <td style="text-align:center; color:#FF6347;"> Belum Diproses</td>
+                                            <?php else : ?>
+                                                <td style="text-align:center;"><?= $sm['nama_kasir'] ?></td>
+                                            <?php endif; ?>
+                                            <td style="text-align:center;"><?= $sm['nama_hewan'] ?></td>
+
+                                            <?php if ($sm['status_layanan'] == 'Belum Selesai') : ?>
+                                                <td style="text-align:center; color:#FF6347;"> Belum Diproses</td>
+                                            <?php else : ?>
+                                                <td style="text-align:center; color:#00FF00"><?= $sm['status_layanan'] ?></td>
+                                            <?php endif; ?>
+                                        </tr>
+                                        <?php $i++; ?>
+                                    <?php endforeach; ?>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
 
                     <div class="card o-hidden border-0 my-3">
-                        <div class="bg-primary  ">
+                        <div class="bg-dark  ">
                             <div class="text-center">
                                 <h1 class="text-warning"><strong>Tentang Kita</h1>
                                 <h3 class="text-warning">
@@ -59,6 +121,13 @@
                             </div>
                         </div>
                     </div>
+                    <footer class="sticky-footer bg-white">
+                        <div class="container my-auto">
+                            <div class="copyright text-center my-auto">
+                                <span>Copyright &copy; Kouvee PetShop 2020</span>
+                            </div>
+                        </div>
+                    </footer>
 
 
                 </div>
