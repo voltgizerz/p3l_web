@@ -73,9 +73,10 @@ class Jasa_Layanan_model extends CI_Model
             date_default_timezone_set("Asia/Bangkok");
             // INSERT DELETE AT DAN UPDATE DATA
             $updateData =
-                ['created_date' => date("0000:00:0:00:00"),
-                'deleted_date' => date("Y-m-d H:i:s"),
-            ];
+                [
+                    'created_date' => date("0000:00:0:00:00"),
+                    'deleted_date' => date("Y-m-d H:i:s"),
+                ];
 
             $this->db->where('id_jasa_layanan', $id);
             $this->db->update('data_jasa_layanan', $updateData);
@@ -146,7 +147,7 @@ class Jasa_Layanan_model extends CI_Model
 
             case "id_jasa_layanan":
                 $this->db->where('id_jasa_layanan', $yangdicari);
-            break;
+                break;
 
             default:
                 $this->db->like($berdasarkan, $yangdicari);
@@ -159,7 +160,5 @@ class Jasa_Layanan_model extends CI_Model
         date_default_timezone_set("Asia/Bangkok");
         $this->db->where('id_jasa_layanan', $id);
         $this->db->update('data_jasa_layanan', ['deleted_date' => '0000-00-00 00:00:00', 'created_date' => date("Y-m-d H:i:s")]);
-
     }
-
 }

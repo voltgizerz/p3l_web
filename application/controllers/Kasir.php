@@ -78,21 +78,21 @@ class Kasir extends CI_Controller
                     $this->db->where('id_produk', $arrTemp[$i]['id_produk'])->update('data_produk', ['stok_produk' => $stokUpdate]);
                     //HEMAT KUOTA SMS BOS LIMIT SMS HANYA 20 KALI
                     //if ($stokUpdate < $arrTemp[$i]['stok_minimal_produk']) {
-                        //$basic  = new \Nexmo\Client\Credentials\Basic('66df917e', 'Jm3QidLR8uuwF5uh');
-                        //$client = new \Nexmo\Client($basic);
-                        //$message = $client->message()->send([
-                            //'to' => '6285155099184',
-                            //'from' => 'KOUVEE PETSHOP',
-                            //'text' => 'Halo dari Kouvee PetShop, Produk ['.$arrTemp[$i]['nama_produk'].'] Mulai Menipis Tersisa : '.$stokUpdate.' Stok '
-                        //]);                            
+                    //$basic  = new \Nexmo\Client\Credentials\Basic('66df917e', 'Jm3QidLR8uuwF5uh');
+                    //$client = new \Nexmo\Client($basic);
+                    //$message = $client->message()->send([
+                    //'to' => '6285155099184',
+                    //'from' => 'KOUVEE PETSHOP',
+                    //'text' => 'Halo dari Kouvee PetShop, Produk ['.$arrTemp[$i]['nama_produk'].'] Mulai Menipis Tersisa : '.$stokUpdate.' Stok '
+                    //]);                            
                     //}
                 }
             } else {
                 // PRODUK SUDAH DIEMBAT ORANG LAIN
                 $this->form_validation->set_rules('cek', 'cek', 'required|less_than[' . $minus . ' ]', [
-                    'less_than' => 'OOPS... Stok Produk ' . $arrTemp[$count]['nama_produk'] . ' Tersedia sekarang Hanya : ' . $arrTemp[$count]['stok_produk']]);
+                    'less_than' => 'OOPS... Stok Produk ' . $arrTemp[$count]['nama_produk'] . ' Tersedia sekarang Hanya : ' . $arrTemp[$count]['stok_produk']
+                ]);
                 $this->form_validation->set_rules('status_pembayaran', 'status_pembayaran', 'required');
-
             }
         }
         $this->form_validation->set_rules('status_pembayaran', 'status_pembayaran', 'required');
@@ -183,7 +183,8 @@ class Kasir extends CI_Controller
             if ($cekStok < $this->input->post('jumlah_produk')) {
 
                 $this->form_validation->set_rules('jumlah_produk', 'jumlah_produk', 'required|less_than[' . $cekStok . ']', [
-                    'less_than' => 'Stok Produk Tersedia Hanya : ' . $cekStok]);
+                    'less_than' => 'Stok Produk Tersedia Hanya : ' . $cekStok
+                ]);
             } else {
                 $this->form_validation->set_rules('jumlah_produk', 'jumlah_produk', 'required');
                 $this->form_validation->set_rules('pilih_produk', 'pilih_produk', 'required');
@@ -216,7 +217,8 @@ class Kasir extends CI_Controller
         $cekStok = $this->db->get_where('data_produk', ['id_produk' => $this->input->post('pilih_produk')])->row()->stok_produk;
         if ($cekStok < $this->input->post('jumlah_produk')) {
             $this->form_validation->set_rules('jumlah_produk', 'jumlah_produk', 'required|less_than[' . $cekStok . ']', [
-                'less_than' => 'Stok Produk Tersedia Hanya : ' . $cekStok]);
+                'less_than' => 'Stok Produk Tersedia Hanya : ' . $cekStok
+            ]);
         } else {
             $this->form_validation->set_rules('pilih_produk', 'pilih_produk', 'required');
             $this->form_validation->set_rules('jumlah_produk', 'jumlah_produk', 'required');
@@ -277,7 +279,6 @@ class Kasir extends CI_Controller
             Produk Pembayaran Berhasil Diedit!
            </div>');
             redirect('kasir/detail_pembayaran_produk/' . $idtrx);
-
         }
     }
 
@@ -291,7 +292,6 @@ class Kasir extends CI_Controller
                   Sukses Hapus Produk Transaksi Pembayaran!
                    </div>');
         redirect('kasir/detail_pembayaran_produk/' . $idtrx);
-
     }
 
     public function transaksi_pembayaran_layanan()
@@ -302,7 +302,7 @@ class Kasir extends CI_Controller
         $data['dataPenjualanLayanan'] = $this->menu->getDataPembayaranLayananAdmin();
         $data['menu'] = $this->db->get('user_menu')->result_array();
         $data['data_hewan'] = $this->menu->select_hewan();
-        
+
         $data['menu'] = $this->db->get('user_menu')->result_array();
         $this->load->view('templates/header', $data);
         $this->load->view('templates/sidebar', $data);
@@ -310,5 +310,4 @@ class Kasir extends CI_Controller
         $this->load->view('kasir/transaksi_pembayaran_layanan', $data);
         $this->load->view('templates/footer');
     }
-
 }

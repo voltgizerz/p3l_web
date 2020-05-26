@@ -54,9 +54,10 @@ class JenisHewan_model extends CI_Model
             date_default_timezone_set("Asia/Bangkok");
             // INSERT DELETE AT DAN UPDATE DATA
             $updateData =
-                ['created_date' => date("0000:00:0:00:00"),
-                'deleted_date' => date("Y-m-d H:i:s"),
-            ];
+                [
+                    'created_date' => date("0000:00:0:00:00"),
+                    'deleted_date' => date("Y-m-d H:i:s"),
+                ];
 
             $this->db->where('id_jenis_hewan', $id);
             $this->db->update('data_jenis_hewan', $updateData);
@@ -83,22 +84,23 @@ class JenisHewan_model extends CI_Model
         return $this->db->get_where('data_jenis_hewan', ['id_jenis_hewan' => $id])->result_array();
     }
 
-    public function cariJenisHewan($berdasarkan,$yangdicari){
+    public function cariJenisHewan($berdasarkan, $yangdicari)
+    {
         $this->db->select('*');
         $this->db->from('data_jenis_hewan');
-        $this->db->where('deleted_date','0000-00-00 00:00:00');
+        $this->db->where('deleted_date', '0000-00-00 00:00:00');
 
-        switch($berdasarkan){
+        switch ($berdasarkan) {
             case "":
-                $this->db->like('nama_jenis_hewan',$yangdicari);
-                $this->db->or_like('id_jenis_hewan',$yangdicari);
-            break;
+                $this->db->like('nama_jenis_hewan', $yangdicari);
+                $this->db->or_like('id_jenis_hewan', $yangdicari);
+                break;
 
             case "id_jenis_hewan":
-                $this->db->where('id_jenis_hewan',$yangdicari);
-            
+                $this->db->where('id_jenis_hewan', $yangdicari);
+
             default:
-            $this->db->like($berdasarkan,$yangdicari);
+                $this->db->like($berdasarkan, $yangdicari);
         }
         return $this->db->get();
     }
@@ -108,6 +110,5 @@ class JenisHewan_model extends CI_Model
         date_default_timezone_set("Asia/Bangkok");
         $this->db->where('id_jenis_hewan', $id);
         $this->db->update('data_jenis_hewan', ['deleted_date' => '0000-00-00 00:00:00', 'created_date' => date("Y-m-d H:i:s")]);
-
     }
 }

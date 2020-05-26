@@ -18,9 +18,9 @@ class Penjualan_Produk_model extends CI_Model
         data_transaksi_penjualan_produk.total_penjualan_produk,data_transaksi_penjualan_produk.total_harga,data_transaksi_penjualan_produk.status_penjualan,data_transaksi_penjualan_produk.status_pembayaran,data_transaksi_penjualan_produk.id_cs,
         data_transaksi_penjualan_produk.id_kasir,data_transaksi_penjualan_produk.created_date,data_transaksi_penjualan_produk.updated_date,
         data_pegawai.nama_pegawai AS nama_cs, a.nama_pegawai AS nama_kasir,data_hewan.nama_hewan');
-        $this->db->join('data_pegawai', 'data_pegawai.id_pegawai = data_transaksi_penjualan_produk.id_cs','LEFT');
-        $this->db->join('data_pegawai a', 'a.id_pegawai = data_transaksi_penjualan_produk.id_kasir','LEFT');
-        $this->db->join('data_hewan', 'data_hewan.id_hewan = data_transaksi_penjualan_produk.id_hewan','LEFT');
+        $this->db->join('data_pegawai', 'data_pegawai.id_pegawai = data_transaksi_penjualan_produk.id_cs', 'LEFT');
+        $this->db->join('data_pegawai a', 'a.id_pegawai = data_transaksi_penjualan_produk.id_kasir', 'LEFT');
+        $this->db->join('data_hewan', 'data_hewan.id_hewan = data_transaksi_penjualan_produk.id_hewan', 'LEFT');
         $this->db->from('data_transaksi_penjualan_produk');
         $this->db->order_by("data_transaksi_penjualan_produk.id_transaksi_penjualan_produk desc");
         $query = $this->db->get();
@@ -57,9 +57,9 @@ class Penjualan_Produk_model extends CI_Model
         data_transaksi_penjualan_produk.total_penjualan_produk,data_transaksi_penjualan_produk.total_harga,data_transaksi_penjualan_produk.status_penjualan,data_transaksi_penjualan_produk.status_pembayaran,data_transaksi_penjualan_produk.id_cs,
         data_transaksi_penjualan_produk.id_kasir,data_transaksi_penjualan_produk.created_date,data_transaksi_penjualan_produk.updated_date,
         data_pegawai.nama_pegawai AS nama_cs, a.nama_pegawai AS nama_kasir,data_hewan.nama_hewan');
-        $this->db->join('data_pegawai', 'data_pegawai.id_pegawai = data_transaksi_penjualan_produk.id_cs','LEFT');
-        $this->db->join('data_pegawai a', 'a.id_pegawai = data_transaksi_penjualan_produk.id_kasir','LEFT');
-        $this->db->join('data_hewan', 'data_hewan.id_hewan = data_transaksi_penjualan_produk.id_hewan','LEFT');
+        $this->db->join('data_pegawai', 'data_pegawai.id_pegawai = data_transaksi_penjualan_produk.id_cs', 'LEFT');
+        $this->db->join('data_pegawai a', 'a.id_pegawai = data_transaksi_penjualan_produk.id_kasir', 'LEFT');
+        $this->db->join('data_hewan', 'data_hewan.id_hewan = data_transaksi_penjualan_produk.id_hewan', 'LEFT');
         $this->db->where('id_transaksi_penjualan_produk', $id);
         $this->db->from('data_transaksi_penjualan_produk');
         $query = $this->db->get();
@@ -85,9 +85,9 @@ class Penjualan_Produk_model extends CI_Model
         data_transaksi_penjualan_produk.total_penjualan_produk,data_transaksi_penjualan_produk.total_harga,data_transaksi_penjualan_produk.status_penjualan,data_transaksi_penjualan_produk.status_pembayaran,data_transaksi_penjualan_produk.id_cs,
         data_transaksi_penjualan_produk.id_kasir,data_transaksi_penjualan_produk.created_date,data_transaksi_penjualan_produk.updated_date,
         data_pegawai.nama_pegawai AS nama_cs, a.nama_pegawai AS nama_kasir,data_hewan.nama_hewan');
-        $this->db->join('data_pegawai', 'data_pegawai.id_pegawai = data_transaksi_penjualan_produk.id_cs','LEFT');
-        $this->db->join('data_pegawai a', 'a.id_pegawai = data_transaksi_penjualan_produk.id_kasir','LEFT');
-        $this->db->join('data_hewan', 'data_hewan.id_hewan = data_transaksi_penjualan_produk.id_hewan','LEFT');
+        $this->db->join('data_pegawai', 'data_pegawai.id_pegawai = data_transaksi_penjualan_produk.id_cs', 'LEFT');
+        $this->db->join('data_pegawai a', 'a.id_pegawai = data_transaksi_penjualan_produk.id_kasir', 'LEFT');
+        $this->db->join('data_hewan', 'data_hewan.id_hewan = data_transaksi_penjualan_produk.id_hewan', 'LEFT');
         $this->db->from('data_transaksi_penjualan_produk');
 
         switch ($berdasarkan) {
@@ -196,7 +196,6 @@ class Penjualan_Produk_model extends CI_Model
         }
         //UPDATE NILAI TOTAL PENGADAAN
         $this->db->where('kode_transaksi_penjualan_produk', $kode)->update('data_transaksi_penjualan_produk', ['total_penjualan_produk' => $temp]);
-
     }
 
     public function select_hewan()

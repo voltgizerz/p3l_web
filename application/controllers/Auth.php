@@ -12,11 +12,11 @@ class Auth extends CI_Controller
 
     public function index()
     {
-        if ($this->session->userdata('role_id') == '1' ) {
+        if ($this->session->userdata('role_id') == '1') {
             redirect('admin');
-        }else if($this->session->userdata('role_id') == '2' ){
+        } else if ($this->session->userdata('role_id') == '2') {
             redirect('cs');
-        }else if ($this->session->userdata('role_id') == '3' ){
+        } else if ($this->session->userdata('role_id') == '3') {
             redirect('kasir');
         }
         //validasi login
@@ -42,28 +42,27 @@ class Auth extends CI_Controller
         $user = $this->db->get_where('data_pegawai', ['username' => $username])->row_array();
 
         if ($user) {
-                if (password_verify($password, $user['password'])) {
-                    $data = [
-                        'username' => $user['username'],
-                        'role_id' => $user['role_id'],
-                        'id_pegawai'=> $user['id_pegawai'],
-                        'nama_pegawai'  => $user['nama_pegawai'],
-                        'role'  => $user['role']
-                    ];
-                    $this->session->set_userdata($data);
+            if (password_verify($password, $user['password'])) {
+                $data = [
+                    'username' => $user['username'],
+                    'role_id' => $user['role_id'],
+                    'id_pegawai' => $user['id_pegawai'],
+                    'nama_pegawai'  => $user['nama_pegawai'],
+                    'role'  => $user['role']
+                ];
+                $this->session->set_userdata($data);
 
-                    if ($user['role_id'] == 1) {
-                        redirect('admin');
-                    } else if($user['role_id'] == 2){
-                        redirect('cs');
-                    } else if($user['role_id'] == 3){
-                        redirect('kasir');
-                    }
-                } else {
-                    $this->session->set_flashdata('message', '<div class="alert alert-danger" role="alert">Password Anda Salah!</div>');
-                    redirect('auth');
+                if ($user['role_id'] == 1) {
+                    redirect('admin');
+                } else if ($user['role_id'] == 2) {
+                    redirect('cs');
+                } else if ($user['role_id'] == 3) {
+                    redirect('kasir');
                 }
-            
+            } else {
+                $this->session->set_flashdata('message', '<div class="alert alert-danger" role="alert">Password Anda Salah!</div>');
+                redirect('auth');
+            }
         } else {
             $this->session->set_flashdata('message', '<div class="alert alert-danger" role="alert">Username Tidak Terdaftar!</div>');
             redirect('auth');
@@ -180,7 +179,8 @@ class Auth extends CI_Controller
 
         if ($this->email->send()) {
             return true;
-        } else { }
+        } else {
+        }
     }
 
     public function verify()

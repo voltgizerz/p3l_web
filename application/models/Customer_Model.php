@@ -39,8 +39,7 @@ class Customer_Model extends CI_Model
             } else {
                 return $rowAffected;
             }
-        }
-        else {
+        } else {
             // DATA BERHASIL DI HAPUS BERARTI TIDAK SEDANG DIGUNAKAN
             $data = [
                 'id_customer' => $arrTampData[0]['id_customer'],
@@ -57,9 +56,10 @@ class Customer_Model extends CI_Model
             date_default_timezone_set("Asia/Bangkok");
             // INSERT DELETE AT DAN UPDATE DATA
             $updateData =
-                ['created_date' => date("0000:00:0:00:00"),
-                'deleted_date' => date("Y-m-d H:i:s"),
-            ];
+                [
+                    'created_date' => date("0000:00:0:00:00"),
+                    'deleted_date' => date("Y-m-d H:i:s"),
+                ];
 
             $this->db->where('id_customer', $id);
             $this->db->update('data_customer', $updateData);
@@ -90,7 +90,7 @@ class Customer_Model extends CI_Model
     {
         $this->db->select('*');
         $this->db->from('data_customer');
-        $this->db->where('deleted_date','0000-00-00 00:00:00');
+        $this->db->where('deleted_date', '0000-00-00 00:00:00');
         switch ($berdasarkan) {
             case "":
                 $this->db->like('nama_customer', $yangdicari);
@@ -111,7 +111,5 @@ class Customer_Model extends CI_Model
         date_default_timezone_set("Asia/Bangkok");
         $this->db->where('id_customer', $id);
         $this->db->update('data_customer', ['deleted_date' => '0000-00-00 00:00:00', 'created_date' => date("Y-m-d H:i:s")]);
-
     }
-
 }

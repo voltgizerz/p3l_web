@@ -125,7 +125,6 @@ class Pengadaan_model extends CI_Model
         }
         //UPDATE NILAI TOTAL PENGADAAN
         $this->db->where('kode_pengadaan', $kode)->update('data_pengadaan', ['total' => $temp, 'updated_date' => date("Y-m-d H:i:s")]);
-
     }
 
     public function cariPengadaan($berdasarkan, $yangdicari)
@@ -144,19 +143,18 @@ class Pengadaan_model extends CI_Model
             case "kode_pengadaan":
                 $this->db->like('kode_pengadaan', $yangdicari);
                 break;
-                
+
             case "nama_supplier":
                 $this->db->like('nama_supplier', $yangdicari);
                 break;
-                
+
             case "status":
                 $this->db->like('status', $yangdicari);
                 break;
-                
+
             default:
                 $this->db->like($berdasarkan, $yangdicari);
         }
         return $this->db->get();
     }
-
 }

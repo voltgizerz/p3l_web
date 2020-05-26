@@ -66,9 +66,10 @@ class Produk_model extends CI_Model
             date_default_timezone_set("Asia/Bangkok");
             // INSERT DELETE AT DAN UPDATE DATA
             $updateData =
-                ['created_date' => date("0000:00:0:00:00"),
-                'deleted_date' => date("Y-m-d H:i:s"),
-            ];
+                [
+                    'created_date' => date("0000:00:0:00:00"),
+                    'deleted_date' => date("Y-m-d H:i:s"),
+                ];
 
             $this->db->where('id_produk', $id);
             $this->db->update('data_produk', $updateData);
@@ -95,7 +96,7 @@ class Produk_model extends CI_Model
         return $this->db->get_where('data_ukuran_hewan', ['id_ukuran_hewan' => $id])->result_array();
     }
 
-    public function cariProduk($berdasarkan, $yangdicari,$limit, $start)
+    public function cariProduk($berdasarkan, $yangdicari, $limit, $start)
     {
         $this->db->limit($limit, $start);
         $this->db->select('*');
@@ -128,12 +129,12 @@ class Produk_model extends CI_Model
                 $this->db->order_by("harga_produk desc");
                 $this->db->where('deleted_date', '0000-00-00 00:00:00');
                 break;
-            
+
             case "stok_produk":
                 $this->db->order_by("stok_produk desc");
                 $this->db->where('deleted_date', '0000-00-00 00:00:00');
                 break;
-        
+
             case "stok_produk_sedikit":
                 $this->db->order_by("stok_produk asc");
                 $this->db->where('deleted_date', '0000-00-00 00:00:00');
@@ -151,7 +152,6 @@ class Produk_model extends CI_Model
         date_default_timezone_set("Asia/Bangkok");
         $this->db->where('id_produk', $id);
         $this->db->update('data_produk', ['deleted_date' => '0000-00-00 00:00:00', 'created_date' => date("Y-m-d H:i:s")]);
-
     }
 
     public function getProdukId($id)
@@ -176,10 +176,9 @@ class Produk_model extends CI_Model
         } else {
             return $gambar;
         }
-
     }
 
-    
+
     public function get_produk($limit, $start)
     {
         $this->db->limit($limit, $start);
@@ -195,5 +194,4 @@ class Produk_model extends CI_Model
     {
         return $this->db->count_all('data_produk');
     }
-
 }

@@ -106,10 +106,10 @@ class Pembayaran_Produk_model extends CI_Model
 
             case "status_pembayaran":
                 $this->db->where('data_transaksi_penjualan_produk.status_pembayaran', $yangdicari);
-                $this->db->where('data_transaksi_penjualan_produk.status_penjualan', 'Sudah Selesai'); 
-                $this->db->order_by("data_transaksi_penjualan_produk.id_transaksi_penjualan_produk desc");   
+                $this->db->where('data_transaksi_penjualan_produk.status_penjualan', 'Sudah Selesai');
+                $this->db->order_by("data_transaksi_penjualan_produk.id_transaksi_penjualan_produk desc");
                 break;
-                
+
             default:
                 $this->db->like($berdasarkan, $yangdicari);
                 $this->db->where('data_transaksi_penjualan_produk.status_penjualan', 'Sudah Selesai');
@@ -182,7 +182,5 @@ class Pembayaran_Produk_model extends CI_Model
         }
         //UPDATE NILAI TOTAL PENGADAAN
         $this->db->where('kode_transaksi_penjualan_produk', $kode)->update('data_transaksi_penjualan_produk', ['total_penjualan_produk' => $temp]);
-
     }
-
 }

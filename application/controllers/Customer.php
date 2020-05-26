@@ -16,6 +16,5 @@ class Customer extends CI_Controller
         $this->load->view('templates/auth_header', $data);
         $this->load->view('customer/status');
         $this->load->view('templates/auth_footer');
-        
     }
 }

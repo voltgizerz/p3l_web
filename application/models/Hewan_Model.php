@@ -62,7 +62,7 @@ class Hewan_model extends CI_Model
             // DATA BERHASIL DI HAPUS BERARTI TIDAK SEDANG DIGUNAKAN
             $data = [
                 'id_hewan' => $arrTampData[0]['id_hewan'],
-                'nama_hewan' =>$arrTampData[0]['nama_hewan'],
+                'nama_hewan' => $arrTampData[0]['nama_hewan'],
                 'id_jenis_hewan' => $arrTampData[0]['id_jenis_hewan'],
                 'id_ukuran_hewan' => $arrTampData[0]['id_ukuran_hewan'],
                 'id_customer' => $arrTampData[0]['id_customer'],
@@ -76,9 +76,10 @@ class Hewan_model extends CI_Model
             date_default_timezone_set("Asia/Bangkok");
             // INSERT DELETE AT DAN UPDATE DATA
             $updateData =
-                ['created_date' => date("0000:00:0:00:00"),
-                'deleted_date' => date("Y-m-d H:i:s"),
-            ];
+                [
+                    'created_date' => date("0000:00:0:00:00"),
+                    'deleted_date' => date("Y-m-d H:i:s"),
+                ];
 
             $this->db->where('id_hewan', $id);
             $this->db->update('data_hewan', $updateData);
@@ -132,27 +133,28 @@ class Hewan_model extends CI_Model
         return $query;
     }
 
-    public function cariHewan($berdasarkan,$yangdicari){
+    public function cariHewan($berdasarkan, $yangdicari)
+    {
         $this->db->select('id_hewan, nama_hewan, data_hewan.id_jenis_hewan, data_hewan.id_ukuran_hewan, data_hewan.id_customer, tanggal_lahir_hewan, data_hewan.created_date, data_hewan.updated_date, data_hewan.deleted_date,nama_customer, ukuran_hewan,nama_jenis_hewan');
         $this->db->join('data_ukuran_hewan', 'data_ukuran_hewan.id_ukuran_hewan = data_hewan.id_ukuran_hewan');
         $this->db->join('data_jenis_hewan', 'data_jenis_hewan.id_jenis_hewan = data_hewan.id_jenis_hewan');
         $this->db->join('data_customer', 'data_customer.id_customer = data_hewan.id_customer');
-        $this->db->where('deleted_date','0000-00-00 00:00:00');
+        $this->db->where('deleted_date', '0000-00-00 00:00:00');
         $this->db->from('data_hewan');
-        
-        switch($berdasarkan){
+
+        switch ($berdasarkan) {
             case "":
-                $this->db->like('nama_hewan',$yangdicari);
-                $this->db->or_like('id_hewan',$yangdicari);
-                $this->db->or_like('ukuran_hewan',$yangdicari);
-                $this->db->or_like('nama_jenis_hewan',$yangdicari);
-            break;
+                $this->db->like('nama_hewan', $yangdicari);
+                $this->db->or_like('id_hewan', $yangdicari);
+                $this->db->or_like('ukuran_hewan', $yangdicari);
+                $this->db->or_like('nama_jenis_hewan', $yangdicari);
+                break;
 
             case "id_hewan":
-                $this->db->where('id_hewan',$yangdicari);
-            
+                $this->db->where('id_hewan', $yangdicari);
+
             default:
-            $this->db->like($berdasarkan,$yangdicari);
+                $this->db->like($berdasarkan, $yangdicari);
         }
         return $this->db->get();
     }
@@ -162,7 +164,5 @@ class Hewan_model extends CI_Model
         date_default_timezone_set("Asia/Bangkok");
         $this->db->where('id_hewan', $id);
         $this->db->update('data_hewan', ['deleted_date' => '0000-00-00 00:00:00', 'created_date' => date("Y-m-d H:i:s")]);
-
     }
-
 }

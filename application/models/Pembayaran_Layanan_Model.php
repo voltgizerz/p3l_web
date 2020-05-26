@@ -276,6 +276,5 @@ class Pembayaran_Layanan_model extends CI_Model
         }
         //UPDATE NILAI TOTAL PENJUALAN JASA LAYANAN
         $this->db->where('kode_transaksi_penjualan_jasa_layanan', $kode)->update('data_transaksi_penjualan_jasa_layanan', ['total_penjualan_jasa_layanan' => $temp]);
-
     }
 }

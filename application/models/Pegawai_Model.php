@@ -55,9 +55,10 @@ class Pegawai_model extends CI_Model
             date_default_timezone_set("Asia/Bangkok");
             // INSERT DELETE AT DAN UPDATE DATA
             $updateData =
-                ['created_date' => date("0000:00:0:00:00"),
-                'deleted_date' => date("Y-m-d H:i:s"),
-            ];
+                [
+                    'created_date' => date("0000:00:0:00:00"),
+                    'deleted_date' => date("Y-m-d H:i:s"),
+                ];
 
             $this->db->where('id_pegawai', $id);
             $this->db->update('data_pegawai', $updateData);
@@ -84,26 +85,27 @@ class Pegawai_model extends CI_Model
         return $this->db->get_where('data_pegawai', ['id_pegawai' => $id])->result_array();
     }
 
-    public function cariPegawai($berdasarkan,$yangdicari){
+    public function cariPegawai($berdasarkan, $yangdicari)
+    {
         $this->db->select('*');
         $this->db->from('data_pegawai');
-        $this->db->where('deleted_date','0000-00-00 00:00:00');    
+        $this->db->where('deleted_date', '0000-00-00 00:00:00');
 
-        switch($berdasarkan){
+        switch ($berdasarkan) {
             case "":
-                $this->db->like('nama_pegawai',$yangdicari);
-                $this->db->or_like('id_pegawai',$yangdicari);
-                $this->db->or_like('alamat_pegawai',$yangdicari);
-                $this->db->or_like('tanggal_lahir_pegawai',$yangdicari);
-                $this->db->or_like('role_pegawai',$yangdicari);
-                $this->db->or_like('username',$yangdicari);
-            break;
+                $this->db->like('nama_pegawai', $yangdicari);
+                $this->db->or_like('id_pegawai', $yangdicari);
+                $this->db->or_like('alamat_pegawai', $yangdicari);
+                $this->db->or_like('tanggal_lahir_pegawai', $yangdicari);
+                $this->db->or_like('role_pegawai', $yangdicari);
+                $this->db->or_like('username', $yangdicari);
+                break;
 
             case "id_pegawai":
-                $this->db->where('id_pegawai',$yangdicari);
-            
+                $this->db->where('id_pegawai', $yangdicari);
+
             default:
-            $this->db->like($berdasarkan,$yangdicari);
+                $this->db->like($berdasarkan, $yangdicari);
         }
         return $this->db->get();
     }
@@ -113,6 +115,5 @@ class Pegawai_model extends CI_Model
         date_default_timezone_set("Asia/Bangkok");
         $this->db->where('id_pegawai', $id);
         $this->db->update('data_pegawai', ['deleted_date' => '0000-00-00 00:00:00', 'created_date' => date("Y-m-d H:i:s")]);
-
     }
 }

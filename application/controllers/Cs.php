@@ -9,7 +9,6 @@ class Cs extends CI_Controller
         parent::__construct();
         is_logged_in();
         $this->load->library("pagination");
-
     }
 
     public function index()
@@ -101,7 +100,8 @@ class Cs extends CI_Controller
         if ($this->input->post('status_penjualan') == 'Sudah Selesai') {
             if ($cekProduk == 0) {
                 $this->form_validation->set_rules('status_penjualan', 'status_penjualan', 'required|equal[Belum Selesai]', [
-                    'equal' => 'Gagal Ubah Status Penjualan, Produk Penjualan masih Kosong!']);
+                    'equal' => 'Gagal Ubah Status Penjualan, Produk Penjualan masih Kosong!'
+                ]);
             } else {
                 $this->form_validation->set_rules('status_penjualan', 'status_penjualan', 'required');
             }
@@ -131,7 +131,6 @@ class Cs extends CI_Controller
            </div>');
             redirect('cs/transaksi_penjualan_produk');
         }
-
     }
 
     public function hapusPenjualanProduk($id)
@@ -160,7 +159,8 @@ class Cs extends CI_Controller
             if ($cekStok < $this->input->post('jumlah_produk')) {
 
                 $this->form_validation->set_rules('jumlah_produk', 'jumlah_produk', 'required|less_than[' . $cekStok . ']', [
-                    'less_than' => 'Stok Produk Tersedia Hanya : ' . $cekStok]);
+                    'less_than' => 'Stok Produk Tersedia Hanya : ' . $cekStok
+                ]);
             } else {
                 $this->form_validation->set_rules('jumlah_produk', 'jumlah_produk', 'required');
                 $this->form_validation->set_rules('pilih_produk', 'pilih_produk', 'required');
@@ -232,7 +232,6 @@ class Cs extends CI_Controller
                   Sukses Hapus Produk Transaksi Penjualan!
                    </div>');
         redirect('cs/detail_penjualan_produk/' . $idtrx);
-
     }
 
     public function updateDetailPenjualanProduk($id)
@@ -251,7 +250,8 @@ class Cs extends CI_Controller
         $cekStok = $this->db->get_where('data_produk', ['id_produk' => $this->input->post('pilih_produk')])->row()->stok_produk;
         if ($cekStok < $this->input->post('jumlah_produk')) {
             $this->form_validation->set_rules('jumlah_produk', 'jumlah_produk', 'required|less_than[' . $cekStok . ']', [
-                'less_than' => 'Stok Produk Tersedia Hanya : ' . $cekStok]);
+                'less_than' => 'Stok Produk Tersedia Hanya : ' . $cekStok
+            ]);
         } else {
             $this->form_validation->set_rules('pilih_produk', 'pilih_produk', 'required');
             $this->form_validation->set_rules('jumlah_produk', 'jumlah_produk', 'required');
@@ -312,9 +312,7 @@ class Cs extends CI_Controller
             Produk Penjualan Berhasil Diedit!
            </div>');
             redirect('cs/detail_penjualan_produk/' . $idtrx);
-
         }
-
     }
 
     public function cariPenjualanProduk()
@@ -441,7 +439,8 @@ class Cs extends CI_Controller
         if ($this->input->post('status_penjualan') == 'Sudah Selesai') {
             if ($cekLayanan == 0) {
                 $this->form_validation->set_rules('status_penjualan', 'status_penjualan', 'required|equal[Belum Selesai]', [
-                    'equal' => 'Gagal Ubah Status Penjualan, Jasa Layanan Penjualan masih Kosong!']);
+                    'equal' => 'Gagal Ubah Status Penjualan, Jasa Layanan Penjualan masih Kosong!'
+                ]);
                 $this->form_validation->set_rules('pilih_hewan', 'pilih_hewan', 'required');
             } else {
                 $this->form_validation->set_rules('status_penjualan', 'status_penjualan', 'required');
@@ -474,7 +473,6 @@ class Cs extends CI_Controller
            </div>');
             redirect('cs/transaksi_penjualan_layanan');
         }
-
     }
 
     public function detail_penjualan_layanan($id)
@@ -555,7 +553,6 @@ class Cs extends CI_Controller
                   Sukses Hapus Jasa  Layanan Transaksi Penjualan!
                    </div>');
         redirect('cs/detail_penjualan_layanan/' . $idtrx);
-
     }
 
     public function cariPenjualanLayanan()
@@ -685,9 +682,6 @@ class Cs extends CI_Controller
             Jasa Layanan Penjualan Berhasil Diedit!
            </div>');
             redirect('cs/detail_penjualan_layanan/' . $idtrx);
-
         }
-
     }
-
 }

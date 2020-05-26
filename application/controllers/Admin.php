@@ -118,7 +118,8 @@ class Admin extends CI_Controller
         $this->form_validation->set_rules('nama', 'Name', 'required|trim');
         $this->form_validation->set_rules('role', 'Role', 'required');
         $this->form_validation->set_rules('username', 'Username', 'required|trim|is_unique[data_pegawai.username]', [
-            'is_unique' => 'Username sudah Terdaftar!']);
+            'is_unique' => 'Username sudah Terdaftar!'
+        ]);
         if ($this->form_validation->run() == false) {
             $data['menu'] = $this->db->get('user_menu')->result_array();
             $this->load->view('templates/header', $data);
@@ -210,7 +211,6 @@ class Admin extends CI_Controller
            </div>');
             redirect('admin/kelola_pegawai');
         }
-
     }
 
     public function restorePegawai($id)
@@ -242,7 +242,8 @@ class Admin extends CI_Controller
             $this->form_validation->set_rules('username', 'Username', 'required');
         } else {
             $this->form_validation->set_rules('username', 'Username', 'required|trim|is_unique[data_pegawai.username]', [
-                'is_unique' => 'Username sudah Terdaftar!']);
+                'is_unique' => 'Username sudah Terdaftar!'
+            ]);
         }
         if ($this->form_validation->run() == false) {
             $data['menu'] = $this->db->get('user_menu')->result_array();
@@ -1434,7 +1435,8 @@ class Admin extends CI_Controller
         if ($this->input->post('status') == 'Sudah Diterima') {
             if ($cekDetail == 0) {
                 $this->form_validation->set_rules('status', 'status', 'required|equal[Belum Diterima]', [
-                    'equal' => 'Gagal Ubah Status Pengadaan, Produk Pengadaan masih Kosong!']);
+                    'equal' => 'Gagal Ubah Status Pengadaan, Produk Pengadaan masih Kosong!'
+                ]);
                 $this->form_validation->set_rules('pilih_supplier', 'pilih_supplier', 'required|trim');
             } else {
                 $this->form_validation->set_rules('status', 'status', 'required');
@@ -1491,7 +1493,6 @@ class Admin extends CI_Controller
                     redirect('admin/transaksi_pengadaan');
                 }
             }
-
         }
     }
 
@@ -1694,7 +1695,7 @@ class Admin extends CI_Controller
             $config["total_rows"] = $this->menu->get_count();
             $config["per_page"] = 10;
             $config["uri_segment"] = 3;
-    
+
             $config['first_link'] = 'First';
             $config['last_link'] = 'Last';
             $config['next_link'] = 'Next';
@@ -1713,7 +1714,7 @@ class Admin extends CI_Controller
             $config['first_tagl_close'] = '</span></li>';
             $config['last_tag_open'] = '<li class="page-item"><span class="page-link">';
             $config['last_tagl_close'] = '</span></li>';
-            
+
             $this->pagination->initialize($config);
             $page = ($this->uri->segment(3)) ? $this->uri->segment(3) : 0;
             $data["links"] = $this->pagination->create_links();
@@ -1758,7 +1759,6 @@ class Admin extends CI_Controller
             $this->form_validation->set_rules('harga', 'harga', 'required|trim');
             $this->form_validation->set_rules('stok', 'stok', 'required|trim');
             $this->form_validation->set_rules('stok_minimal', 'stok_minimal', 'required|trim');
-
         } else {
             $this->form_validation->set_rules('nama', 'Name', 'required|trim|is_unique[data_produk.nama_produk]', [
                 'is_unique' => 'Gagal Edit Produk, Nama Produk Sudah Ada!',
@@ -1819,7 +1819,6 @@ class Admin extends CI_Controller
                 // gagal upload
                 return 'upload/gambar_produk/default.jpg';
             }
-
         } else {
             //FILE TIDAK ADA DI UPLOAD
             if ($this->menu->cekGambar($id) == 1) {
@@ -1827,8 +1826,7 @@ class Admin extends CI_Controller
             } else {
 
                 return $this->menu->cekGambar($id);
-            }
-            ;
+            };
         }
     }
 
@@ -1849,7 +1847,6 @@ class Admin extends CI_Controller
                 // gagal upload
                 return 'upload/gambar_produk/default.jpg';
             }
-
         } else {
             //file upload tidak ada
             return 'upload/gambar_produk/default.jpg';
@@ -1916,7 +1913,6 @@ class Admin extends CI_Controller
            </div>');
             redirect('admin/kelola_produk');
         }
-
     }
 
     public function deletePermProduk($id)
@@ -1949,7 +1945,7 @@ class Admin extends CI_Controller
 
         $data['cariberdasarkan'] = $this->input->post("cariberdasarkan");
         $data['yangdicari'] = $this->input->post("yangdicari");
-       
+
         $data['menu'] = $this->db->get('user_menu')->result_array();
         if (!isset($_POST['cari'])) {
             $this->form_validation->set_rules('nama', 'Name', 'required|trim|is_unique[data_produk.nama_produk]', [
@@ -1964,13 +1960,13 @@ class Admin extends CI_Controller
             $this->load->view('templates/header', $data);
             $this->load->view('templates/sidebar', $data);
             $this->load->view('templates/topbar', $data);
-            
+
             $config = array();
             $config["base_url"] = base_url() . "admin/cariProduk";
             $config["total_rows"] = $this->menu->get_count();
             $config["per_page"] = 10;
             $config["uri_segment"] = 3;
-    
+
             $config['first_link'] = 'First';
             $config['last_link'] = 'Last';
             $config['next_link'] = 'Next';
@@ -1989,10 +1985,10 @@ class Admin extends CI_Controller
             $config['first_tagl_close'] = '</span></li>';
             $config['last_tag_open'] = '<li class="page-item"><span class="page-link">';
             $config['last_tagl_close'] = '</span></li>';
-            
+
             $this->pagination->initialize($config);
             $page = ($this->uri->segment(3)) ? $this->uri->segment(3) : 0;
-            $data["dataProduk"] = $this->menu->cariProduk($data['cariberdasarkan'], $data['yangdicari'],$config["per_page"], $page)->result_array();
+            $data["dataProduk"] = $this->menu->cariProduk($data['cariberdasarkan'], $data['yangdicari'], $config["per_page"], $page)->result_array();
             $data["jumlah"] = count($data["dataProduk"]);
             $data["links"] = $this->pagination->create_links();
 
@@ -2106,7 +2102,6 @@ class Admin extends CI_Controller
             $this->form_validation->set_rules('harga', 'harga', 'required|trim');
             $this->form_validation->set_rules('pilih_jenis', 'pilih_jenis', 'required|trim');
             $this->form_validation->set_rules('pilih_ukuran', 'pilih_ukuran', 'required|trim');
-
         } else {
             $this->form_validation->set_rules('nama', 'Name', 'required|trim');
             $this->form_validation->set_rules('harga', 'harga', 'required|trim');
@@ -2213,7 +2208,6 @@ class Admin extends CI_Controller
             </div>');
             redirect('admin/kelola_layanan');
         }
-
     }
 
     public function cariJasaLayanan()
@@ -2274,5 +2268,4 @@ class Admin extends CI_Controller
                </div>');
         redirect('admin/kelola_layanan');
     }
-
 }
