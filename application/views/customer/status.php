@@ -12,14 +12,14 @@
 
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="nav navbar-nav navbar-right">
-                    <li class="nav-item active">
+                    <li class="nav-item">
                         <a class="nav-link" href="<?= base_url('auth/home'); ?>">HOME <span
                                 class="sr-only">(current)</span></a>
                     </li>
                     <li class="nav-item ">
                         <a class="nav-link" href="<?= base_url('auth'); ?>">LOGIN</a>
                     </li>
-                    <li class="nav-item ">
+                    <li class="nav-item active ">
                         <a class="nav-link" href="<?= base_url('customer/status'); ?>">CEK STATUS LAYANAN</a>
                     </li>
 
@@ -32,17 +32,18 @@
         <div class="row justify-content-center">
 
             <div class="col-lg-13">
+
                 <div class="card o-hidden border-0 my-3">
                     <div class="bg-primary  ">
                         <div class="text-center">
-                            <h1 class="text-warning"><strong>Selamat Datang di Kouvee Pet Shop</h1>
+                            <h1 class="text-warning"><strong>INFORMASI STATUS LAYANAN</h1>
                             <h3 class="text-warning">
-                                Dimana tempat para pecinta hewan bersatu</h3>
+                                KOUVEE PETSHOP</h3>
                         </div>
                     </div>
                 </div>
                 <div class="card-body p-0">
-                    <img src=" <?= base_url('assets/img/petshop3.jpg'); ?>">
+                    //isi disini
 
                     <div class="card o-hidden border-0 my-3">
                         <div class="bg-primary  ">
