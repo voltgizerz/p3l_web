@@ -27,8 +27,8 @@ class Laporan extends CI_Controller
         //HEADER LAPORAN
         $pdf->SetFont('Arial', 'B', 16);
         $pdf->Rect(5, 5, 200, 200, 'D');
-        $pdf->Image('D:\XAMPP\htdocs\p3l_web\assets\img\headerlaporan.png', 7, 10, 195, 0, 'PNG');
-
+        $pdf->Image(base_url('assets/img/headerlaporan.png'), 7, 10, 195, 0, 'PNG');
+        
         //TEXT
         $pdf->Cell(10, 60, '', 0, 1);
         $pdf->Cell(190, 7, 'SURAT PEMESANAN', 99, 1, 'C');
@@ -119,7 +119,7 @@ class Laporan extends CI_Controller
         //HEADER LAPORAN
         $pdf->SetFont('Arial', 'B', 16);
         $pdf->Rect(5, 5, 200, 200, 'D');
-        $pdf->Image('D:\XAMPP\htdocs\p3l_web\assets\img\headerlaporan.png', 7, 10, 195, 0, 'PNG');
+        $pdf->Image(base_url('assets/img/headerlaporan.png'), 7, 10, 195, 0, 'PNG');
 
         //TEXT
         $pdf->Cell(10, 60, '', 0, 1);
@@ -153,12 +153,12 @@ class Laporan extends CI_Controller
         $pdf->SetFont('Arial', '', 10);
         $pdf->Cell(10, 7, '', 0, 1);
         $pdf->SetFont('Arial', '', 10);
-        $pdf->Image('D:\XAMPP\htdocs\p3l_web\assets\img\garis.png', 23, 110, 160, 0, 'PNG');
+        $pdf->Image(base_url('assets/img/garis.png'), 23, 110, 160, 0, 'PNG');
         $pdf->SetFont('Arial', 'B', 16);
         $pdf->Cell(154, 1, 'Produk', 4, 1, 'C');
         $pdf->Cell(10, 7, '', 0, 1);
         $pdf->SetFont('Arial', '', 10);
-        $pdf->Image('D:\XAMPP\htdocs\p3l_web\assets\img\garis.png', 23, 125, 160, 0, 'PNG');
+        $pdf->Image(base_url('assets/img/garis.png'), 23, 125, 160, 0, 'PNG');
         // mencetak string
         // Memberikan space kebawah agar tidak terlalu rapat
         $pdf->SetLeftMargin(18);
