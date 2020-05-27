@@ -2323,7 +2323,7 @@ class Admin extends CI_Controller
             FROM
                 data_detail_penjualan_jasa_layanan JOIN data_transaksi_penjualan_jasa_layanan ON data_detail_penjualan_jasa_layanan.kode_transaksi_penjualan_jasa_layanan_fk =
                 data_transaksi_penjualan_jasa_layanan.kode_transaksi_penjualan_jasa_layanan JOIN data_jasa_layanan ON data_jasa_layanan.id_jasa_layanan = data_detail_penjualan_jasa_layanan.id_jasa_layanan_fk JOIN data_ukuran_hewan ON data_ukuran_hewan.id_ukuran_hewan = data_jasa_layanan.id_ukuran_hewan JOIN data_jenis_hewan ON data_jenis_hewan.id_jenis_hewan = data_jasa_layanan.id_jenis_hewan
-            WHERE EXTRACT(YEAR FROM data_transaksi_penjualan_jasa_layanan.created_date) ='2020' AND data_transaksi_penjualan_jasa_layanan.status_pembayaran ='Lunas'
+            WHERE EXTRACT(YEAR FROM data_transaksi_penjualan_jasa_layanan.created_date) =$tahun AND data_transaksi_penjualan_jasa_layanan.status_pembayaran ='Lunas'
             GROUP BY data_jasa_layanan.`nama_jasa_layanan`,data_jasa_layanan.id_jenis_hewan,data_jasa_layanan.id_ukuran_hewan,monthname(data_transaksi_penjualan_jasa_layanan.created_date) order by jumlah desc ) t
             RIGHT OUTER JOIN months ON months.`month` = bulan
             GROUP BY
