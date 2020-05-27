@@ -32,7 +32,7 @@
                         <td style="padding: 10px;">
                             <form action="<?= base_url('admin/laporan'); ?>" method="post">
                                 <p class="font-weight-bold text-primary"">LAPORAN JASA LAYANAN TERLARIS</p>
-                                    <div class=" input-group " style=" width: 600px;">
+                                    <div class=" input-group " style=" width: 560px;">
                                     <select class="custom-select" id="pilih_tahun" name="pilih_tahun">
                                         <option value="">Pilih Tahun</option>
                                         <option value="2020">2020</option>
@@ -52,7 +52,7 @@
         <td style="padding: 10px;">
             <form action="<?= base_url('admin/laporan'); ?>" method="post">
                 <p class="font-weight-bold text-primary">LAPORAN PRODUK TERLARIS</p>
-                <div class="input-group " style="width: 600px;">
+                <div class="input-group " style="width: 560px;">
                     <select class="custom-select" id="pilih_tahun" name="pilih_tahun">
                         <option value="">Pilih Tahun</option>
                         <option value="2020">2020</option>
@@ -69,12 +69,32 @@
                 </div>
             </form>
         </td>
+        <td style="padding: 10px;">
+            <form action="<?= base_url('admin/laporan'); ?>" method="post">
+                <p class="font-weight-bold text-primary">LAPORAN PENGADAAN TAHUNAN</p>
+                <div class="input-group " style="width: 560px;">
+                    <select class="custom-select" id="pilih_tahun" name="pilih_tahun">
+                        <option value="">Pilih Tahun</option>
+                        <option value="2020">2020</option>
+                        <option value="2021">2021</option>
+                        <option value="2022">2022</option>
+                        <option value="2023">2023</option>
+                        <option value="2024">2024</option>
+                        <option value="2025">2025</option>
+                    </select>
+                    <div class=" input-group-append">
+                        <button class="btn btn-success" id="pengadaan_tahunan" type="submit" name="pengadaan_tahunan" class="badge badge-warning mb-3"><i class="fa fa-print"></i>
+                            CETAK</button>
+                    </div>
+                </div>
+            </form>
+        </td>
         </tr>
         <tr>
             <td style="padding: 10px;">
                 <form action="<?= base_url('admin/laporan'); ?>" method="post">
                     <p class="font-weight-bold text-primary">LAPORAN PENDAPATAN TAHUNAN</p>
-                    <div class=" input-group " style=" width: 600px;">
+                    <div class=" input-group " style="width: 560px;">
                         <select class="custom-select" id="pilih_tahun" name="pilih_tahun">
                             <option value="">Pilih Tahun</option>
                             <option value="2020">2020</option>
@@ -94,7 +114,7 @@
             <td style="padding: 10px;">
                 <form action="<?= base_url('admin/laporan'); ?>" method="post">
                     <p class="font-weight-bold text-primary">LAPORAN PENDAPATAN BULANAN</p>
-                    <div class=" input-group " style=" width: 600px;">
+                    <div class=" input-group " style="width: 560px;">
                         <select class="custom-select" id="pilih_bulan" name="pilih_bulan">
                             <option value="">Pilih Bulan</option>
                             <option value="1">Januari</option>
