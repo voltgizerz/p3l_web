@@ -59,7 +59,7 @@ class Pembayaran_Layanan_model extends CI_Model
         $this->db->join('data_hewan', 'data_hewan.id_hewan = data_transaksi_penjualan_jasa_layanan.id_hewan');
         $this->db->join('data_pegawai', 'data_pegawai.id_pegawai = data_transaksi_penjualan_jasa_layanan.id_cs');
         $this->db->join('data_pegawai a', 'a.id_pegawai = data_transaksi_penjualan_jasa_layanan.id_kasir');
-        $this->db->where('data_transaksi_penjualan_jasa_layanan.status_penjualan','Sudah Selesai');
+        $this->db->where('data_transaksi_penjualan_jasa_layanan.status_penjualan', 'Sudah Selesai');
         $this->db->from('data_transaksi_penjualan_jasa_layanan');
         $this->db->order_by("data_transaksi_penjualan_jasa_layanan.id_transaksi_penjualan_jasa_layanan desc");
         $query = $this->db->get();
@@ -194,6 +194,62 @@ class Pembayaran_Layanan_model extends CI_Model
 
             case "nama_hewan":
                 $this->db->like('data_hewan.nama_hewan', $yangdicari);
+                break;
+            default:
+                $this->db->like($berdasarkan, $yangdicari);
+        }
+        return $this->db->get();
+    }
+
+    public function cariPenjualanLayananCustomer($berdasarkan, $yangdicari)
+    {
+        $this->db->select('data_transaksi_penjualan_jasa_layanan.id_transaksi_penjualan_jasa_layanan,
+        data_transaksi_penjualan_jasa_layanan.kode_transaksi_penjualan_jasa_layanan,
+        data_transaksi_penjualan_jasa_layanan.id_hewan,
+        data_transaksi_penjualan_jasa_layanan.tanggal_penjualan_jasa_layanan,
+        data_transaksi_penjualan_jasa_layanan.tanggal_pembayaran_jasa_layanan,
+        data_transaksi_penjualan_jasa_layanan.status_layanan,
+        data_transaksi_penjualan_jasa_layanan.status_penjualan,
+        data_transaksi_penjualan_jasa_layanan.status_pembayaran,
+        data_transaksi_penjualan_jasa_layanan.diskon,total_penjualan_jasa_layanan,
+        data_transaksi_penjualan_jasa_layanan.id_cs,
+        data_transaksi_penjualan_jasa_layanan.id_kasir,
+        data_transaksi_penjualan_jasa_layanan.total_harga,
+        data_transaksi_penjualan_jasa_layanan.created_date,
+        data_transaksi_penjualan_jasa_layanan.updated_date,
+        data_hewan.nama_hewan,
+        data_pegawai.nama_pegawai AS nama_cs,
+        a.nama_pegawai AS nama_kasir ');
+        $this->db->join('data_hewan', 'data_hewan.id_hewan = data_transaksi_penjualan_jasa_layanan.id_hewan');
+        $this->db->join('data_pegawai', 'data_pegawai.id_pegawai = data_transaksi_penjualan_jasa_layanan.id_cs');
+        $this->db->join('data_pegawai a', 'a.id_pegawai = data_transaksi_penjualan_jasa_layanan.id_kasir');
+        $this->db->where('data_transaksi_penjualan_jasa_layanan.status_penjualan', 'Sudah Selesai');
+        $this->db->from('data_transaksi_penjualan_jasa_layanan');
+
+        switch ($berdasarkan) {
+            case "":
+                $this->db->like('kode_transaksi_penjualan_jasa_layanan', $yangdicari);
+                $this->db->or_like('data_pegawai.nama_pegawai', $yangdicari);
+                $this->db->where('data_transaksi_penjualan_jasa_layanan.status_penjualan', 'Sudah Selesai');
+                break;
+
+            case "kode_penjualan":
+                $this->db->like('data_transaksi_penjualan_jasa_layanan.kode_transaksi_penjualan_jasa_layanan', $yangdicari);
+                break;
+
+            case "nama_cs":
+                $this->db->like('data_pegawai.nama_pegawai', $yangdicari);
+                break;
+
+            case "nama_hewan":
+                $this->db->like('data_hewan.nama_hewan', $yangdicari);
+                break;
+
+            case "sudah_selesai":
+                $this->db->like('data_transaksi_penjualan_jasa_layanan.status_layanan', 'Selesai');
+                break;
+            case "belum_selesai":
+                $this->db->like('data_transaksi_penjualan_jasa_layanan.status_layanan', 'Belum Selesai');
                 break;
             default:
                 $this->db->like($berdasarkan, $yangdicari);
