@@ -95,6 +95,15 @@
                 <form action="<?= base_url('admin/laporan'); ?>" method="post">
                     <p class="font-weight-bold text-primary">LAPORAN PENDAPATAN BULANAN</p>
                     <div class=" input-group " style=" width: 600px;">
+                        <select class="custom-select" id="pilih_bulan" name="pilih_bulan">
+                            <option value="">Pilih Bulan</option>
+                            <option value="1">Januari</option>
+                            <option value="2">Febuari</option>
+                            <option value="3">Maret</option>
+                            <option value="4">April</option>
+                            <option value="5">Mei</option>
+                            <option value="6">Juni</option>
+                        </select>
                         <select class="custom-select" id="pilih_tahun" name="pilih_tahun">
                             <option value="">Pilih Tahun</option>
                             <option value="2020">2020</option>
@@ -104,8 +113,9 @@
                             <option value="2024">2024</option>
                             <option value="2025">2025</option>
                         </select>
+
                         <div class=" input-group-append">
-                            <button class="btn btn-success" id="pendapatan_tahunan" type="submit" name="pendapatan_tahunan" class="badge badge-warning mb-3"><i class="fa fa-print"></i>
+                            <button class="btn btn-success" id="pendapatan_bulanan" type="submit" name="pendapatan_bulanan" class="badge badge-warning mb-3"><i class="fa fa-print"></i>
                                 CETAK</button>
                         </div>
                     </div>
