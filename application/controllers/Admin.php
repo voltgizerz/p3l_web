@@ -2286,9 +2286,9 @@ class Admin extends CI_Controller
         } else if (isset($_POST['pendapatan_bulanan'])) {
             $this->form_validation->set_rules('pilih_tahun', 'pilih_tahun', 'required');
             $this->form_validation->set_rules('pilih_bulan', 'pilih_bulan', 'required');
-        }else if (isset($_POST['pengadaan_tahunan'])) {
+        } else if (isset($_POST['pengadaan_tahunan'])) {
             $this->form_validation->set_rules('pilih_tahun', 'pilih_tahun', 'required');
-        }else if (isset($_POST['pengadaan_bulanan'])) {
+        } else if (isset($_POST['pengadaan_bulanan'])) {
             $this->form_validation->set_rules('pilih_tahun', 'pilih_tahun', 'required');
             $this->form_validation->set_rules('pilih_bulan', 'pilih_bulan', 'required');
         }
@@ -2314,15 +2314,66 @@ class Admin extends CI_Controller
                 $tahun = $this->input->post('pilih_tahun');
                 $bulan = $this->input->post('pilih_bulan');
                 $this->laporanPendapatanBulanan($tahun, $bulan);
-            }else if (isset($_POST['pengadaan_tahunan'])) {
+            } else if (isset($_POST['pengadaan_tahunan'])) {
                 $tahun = $this->input->post('pilih_tahun');
                 $this->laporanPengadaanTahunan($tahun);
-            }else if (isset($_POST['pengadaan_bulanan'])) {
+            } else if (isset($_POST['pengadaan_bulanan'])) {
                 $tahun = $this->input->post('pilih_tahun');
                 $bulan = $this->input->post('pilih_bulan');
-                $this->laporanPendapatanBulanan($tahun, $bulan);
+                $this->laporanPengadaanBulanan($tahun, $bulan);
             }
         }
+    }
+
+    public function laporanPengadaanBulanan($tahun, $bulan)
+    {
+        $bulanConvert = date("F", mktime(0, 0, 0, $bulan, 10));
+        $cnt = 1;
+        $pdf = new FPDF('P', 'mm', array(210, 280));
+        // membuat halaman baru
+        $pdf->AddPage();
+        // setting jenis font yang akan digunakan
+        //HEADER LAPORAN
+        $pdf->SetFont('Arial', 'B', 16);
+        $pdf->Rect(5, 5, 200, 270, 'D');
+        $pdf->Image(base_url('assets/img/headerlaporan.png'), 7, 10, 195, 0, 'PNG');
+
+        //TEXT
+        $pdf->Cell(10, 60, '', 0, 1);
+        $pdf->Cell(190, 7, 'LAPORAN PENGADAAN BULANAN', 99, 1, 'C');
+        $pdf->Cell(10, 15, '', 0, 1);
+        $pdf->SetLeftMargin(28);
+        $pdf->Cell(190, 0, 'Bulan  : ' . $bulanConvert, 99, 5, 'L');
+        $pdf->Cell(10, 8, '', 0, 1);
+        $pdf->Cell(190, 0, 'Tahun : ' . $tahun, 99, 5, 'L');
+        $pdf->Cell(10, 5, '', 0, 1);
+        $pdf->SetFont('Arial', 'B', 10);
+        $pdf->Cell(10, 5, 'No', 1, 0, 'C');
+        $pdf->Cell(80, 5, 'Nama Produk', 1, 0, 'C');
+        $pdf->Cell(65, 5, 'Jumlah Pengeluaran', 1, 1, 'C');
+        $pdf->SetFillColor(193, 229, 252);
+
+        $query = $this->db->query("SELECT data_produk.nama_produk as nama_produk,sum(data_detail_pengadaan.jumlah_pengadaan*data_produk.harga_produk) as harga
+            FROM data_pengadaan JOIN data_detail_pengadaan ON data_pengadaan.kode_pengadaan = data_detail_pengadaan.kode_pengadaan_fk JOIN data_produk ON data_produk.id_produk = data_detail_pengadaan.id_produk_fk
+            WHERE EXTRACT(YEAR FROM data_pengadaan.created_date) =$tahun AND EXTRACT(month  FROM data_pengadaan.created_date) =$bulan
+            GROUP BY data_produk.nama_produk");
+        $pengadaanBln = $query->result();
+        $total = 0;
+        foreach ($pengadaanBln as $row) {
+            $pdf->SetFont('Arial', '', 10);
+            $pdf->Cell(10, 5, $cnt, 1, 0, 'C', 0);
+            $pdf->Cell(80, 5, $row->nama_produk, 1, 0);
+            $pdf->Cell(65, 5, ' Rp. ' . number_format($row->harga, 0, '', '.') . ', -', 1, 1, 'L');
+            $cnt++;
+            $total = $total + $row->harga;
+        }
+        $pdf->Cell(10, 5, '', 0, 1);
+        $pdf->SetFont('Arial', 'B', 12);
+        $pdf->Cell(200, 0, 'Total : Rp. ' . number_format($total, 0, '', '.') . ', -', 99, 1, 'C');
+        $pdf->Cell(10, 20, '', 0, 1);
+        $pdf->SetFont('Arial', '', 10);
+        $pdf->Cell(262, 0, 'Dicetak Tanggal ' . date('d F Y'), 99, 1, 'C');
+        $pdf->Output("I", "[LAPORAN] Pengadaan Bulan  - " . $bulanConvert . ' - ' . $tahun . ".pdf");
     }
 
     public function laporanPengadaanTahunan($tahun)
