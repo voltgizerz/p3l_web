@@ -2350,6 +2350,7 @@ class Admin extends CI_Controller
         ORDER BY
             months.no");
         $pendapatanThn = $query->result();
+        $total = 0;
         foreach ($pendapatanThn as $row) {
             $pdf->SetFont('Arial', '', 10);
             $pdf->Cell(10, 5, $cnt, 1, 0, 'C', 0);
@@ -2358,7 +2359,11 @@ class Admin extends CI_Controller
             $pdf->Cell(40, 5, ' Rp. ' . number_format($row->produk, 0, '', '.') . ', -', 1, 0);
             $pdf->Cell(35, 5, ' Rp. ' . number_format($row->total, 0, '', '.') . ', -', 1, 1, 'L');
             $cnt++;
+            $total = $total + $row->total;
         }
+        $pdf->Cell(10, 5, '', 0, 1);
+        $pdf->SetFont('Arial', 'B', 12);
+        $pdf->Cell(250, 0, 'Total : Rp. ' . number_format($total, 0, '', '.') . ', -', 99, 1, 'C');
         $pdf->Cell(10, 20, '', 0, 1);
         $pdf->SetFont('Arial', '', 10);
         $pdf->Cell(262, 0, 'Dicetak Tanggal ' . date('d F Y'), 99, 1, 'C');
