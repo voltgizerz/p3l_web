@@ -2281,6 +2281,8 @@ class Admin extends CI_Controller
             $this->form_validation->set_rules('pilih_tahun', 'pilih_tahun', 'required');
         } else if (isset($_POST['produk_tahunan'])) {
             $this->form_validation->set_rules('pilih_tahun', 'pilih_tahun', 'required');
+        } else if (isset($_POST['pendapatan_tahunan'])) {
+            $this->form_validation->set_rules('pilih_tahun', 'pilih_tahun', 'required');
         }
         if ($this->form_validation->run() == false) {
             $data['menu'] = $this->db->get('user_menu')->result_array();
@@ -2297,8 +2299,70 @@ class Admin extends CI_Controller
             } else if (isset($_POST['produk_tahunan'])) {
                 $tahun = $this->input->post('pilih_tahun');
                 $this->laporanProdukTerlaris($tahun);
+            } else if (isset($_POST['pendapatan_tahunan'])) {
+                $tahun = $this->input->post('pilih_tahun');
+                $this->laporanPendapatanTahunan($tahun);
             }
         }
+    }
+
+    public function laporanPendapatanTahunan($tahun)
+    {
+        $cnt = 1;
+        $pdf = new FPDF('P', 'mm', array(210, 210));
+        // membuat halaman baru
+        $pdf->AddPage();
+        // setting jenis font yang akan digunakan
+        //HEADER LAPORAN
+        $pdf->SetFont('Arial', 'B', 16);
+        $pdf->Rect(5, 5, 200, 200, 'D');
+        $pdf->Image(base_url('assets/img/headerlaporan.png'), 7, 10, 195, 0, 'PNG');
+
+        //TEXT
+        $pdf->Cell(10, 60, '', 0, 1);
+        $pdf->Cell(190, 7, 'LAPORAN PENDAPATAN TAHUNAN', 99, 1, 'C');
+        $pdf->Cell(10, 15, '', 0, 1);
+        $pdf->SetLeftMargin(28);
+        $pdf->Cell(190, 0, 'Tahun : ' . $tahun, 99, 5, 'L');
+        $pdf->Cell(10, 5, '', 0, 1);
+        $pdf->SetFont('Arial', 'B', 10);
+        $pdf->Cell(10, 5, 'No', 1, 0, 'C');
+        $pdf->Cell(30, 5, 'Bulan', 1, 0, 'C');
+        $pdf->Cell(40, 5, 'Jasa Layanan', 1, 0, 'C');
+        $pdf->Cell(40, 5, 'Produk', 1, 0, 'C');
+        $pdf->Cell(35, 5, 'Total', 1, 1, 'C');
+        $pdf->SetFillColor(193, 229, 252);
+
+        $query = $this->db->query("SELECT  months.`month` as bulan,IFNULL(jasa_layanan,'0') as jasa_layanan,IFNULL(produk,'0') as produk,COALESCE(sum(jasa_layanan),0)+COALESCE(sum(produk),0) as total
+        FROM 
+            (SELECT monthname(data_transaksi_penjualan_produk.created_date) AS bulan, sum(data_transaksi_penjualan_produk.total_harga) as produk,sum(data_transaksi_penjualan_jasa_layanan.total_harga) jasa_layanan
+            FROM  data_transaksi_penjualan_produk  LEFT JOIN data_transaksi_penjualan_jasa_layanan ON data_transaksi_penjualan_produk.created_date = data_transaksi_penjualan_jasa_layanan.created_date
+            WHERE EXTRACT(YEAR FROM data_transaksi_penjualan_produk.created_date) =$tahun AND data_transaksi_penjualan_produk.status_pembayaran ='Lunas'
+            GROUP BY monthname(data_transaksi_penjualan_produk.created_date) desc
+            UNION
+            SELECT monthname(data_transaksi_penjualan_jasa_layanan.created_date)AS bulan, sum(data_transaksi_penjualan_produk.total_harga) as produk,sum(data_transaksi_penjualan_jasa_layanan.total_harga) as jasa_layanan
+            FROM  data_transaksi_penjualan_produk  RIGHT JOIN data_transaksi_penjualan_jasa_layanan ON data_transaksi_penjualan_produk.created_date = data_transaksi_penjualan_jasa_layanan.created_date
+            WHERE EXTRACT(YEAR FROM data_transaksi_penjualan_jasa_layanan.created_date) =$tahun AND data_transaksi_penjualan_jasa_layanan.status_pembayaran ='Lunas'
+            GROUP BY monthname(data_transaksi_penjualan_jasa_layanan.created_date) desc) t
+        RIGHT OUTER JOIN months ON months.`month` = bulan
+        GROUP BY
+            months.`month`
+        ORDER BY
+            months.no");
+        $pendapatanThn = $query->result();
+        foreach ($pendapatanThn as $row) {
+            $pdf->SetFont('Arial', '', 10);
+            $pdf->Cell(10, 5, $cnt, 1, 0, 'C', 0);
+            $pdf->Cell(30, 5,  $row->bulan, 1, 0, 'L', 0);
+            $pdf->Cell(40, 5, ' Rp. ' . number_format($row->jasa_layanan, 0, '', '.') . ', -', 1, 0);
+            $pdf->Cell(40, 5, ' Rp. ' . number_format($row->produk, 0, '', '.') . ', -', 1, 0);
+            $pdf->Cell(35, 5, ' Rp. ' . number_format($row->total, 0, '', '.') . ', -', 1, 1, 'L');
+            $cnt++;
+        }
+        $pdf->Cell(10, 20, '', 0, 1);
+        $pdf->SetFont('Arial', '', 10);
+        $pdf->Cell(262, 0, 'Dicetak Tanggal ' . date('d F Y'), 99, 1, 'C');
+        $pdf->Output("I", "[LAPORAN] Pendapatan Tahunan - " . $tahun . ".pdf");
     }
 
     public function laporanLayananTerlaris($tahun)
