@@ -90,7 +90,7 @@
                                             <td style="text-align:center; color:orange;"><?=$sm['kode_transaksi_penjualan_jasa_layanan']?></td>
                                             <td style="text-align:center;"><?=$sm['nama_cs']?></td>
                                             <?php if ($sm['id_kasir'] == $sm['id_cs']): ?>
-                                                <td style="text-align:center; color:#FF6347;"> Belum Diproses</td>
+                                                <td style="text-align:center; color:#FF6347;"> Dalam Proses Pembayaran</td>
                                             <?php else: ?>
                                                 <td style="text-align:center;"><?=$sm['nama_kasir']?></td>
                                             <?php endif;?>

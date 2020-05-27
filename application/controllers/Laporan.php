@@ -321,6 +321,7 @@ class Laporan extends CI_Controller
         $pdf->Output("I", "[LUNAS] Struk - " . $kode . ".pdf");
     }
 
+    
 
     public function laporanJualMobil()
     {
