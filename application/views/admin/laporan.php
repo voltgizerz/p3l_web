@@ -13,10 +13,10 @@
         <div class="form-group">
 
             <div class="d-flex justify-content-center">
-                <img height="190px" width=230px" style="text-align: center;" src=" <?= base_url('assets/img/logoKPS.png'); ?>">
+                <img height="150px" width=230px" style="text-align: center;" src=" <?= base_url('assets/img/logoKPS.png'); ?>">
             </div>
             <div class="d-flex justify-content-center">
-                <h1 class="text-warning"><strong>LAPORAN KOUVEE PETSHOP</h1>
+                <h1 class="text-dark"><strong>LAPORAN TAHUNAN DAN BULANAN KOUVEE PETSHOP</h1>
             </div>
 
             <?php if (validation_errors()) : ?>
@@ -25,10 +25,10 @@
                 </div>
             <?php endif; ?>
 
-            <table>
+            <table class="table table-hover table-info">
 
                 <body>
-                    <tr>
+                    <tr >
                         <td style="padding: 10px;">
                             <form action="<?= base_url('admin/laporan'); ?>" method="post">
                                 <p class="font-weight-bold text-primary"">LAPORAN JASA LAYANAN TERLARIS</p>
@@ -123,15 +123,27 @@
                             <option value="4">April</option>
                             <option value="5">Mei</option>
                             <option value="6">Juni</option>
+                            <option value="7">Juli</option>
+                            <option value="8">Agustus</option>
+                            <option value="9">September</option>
+                            <option value="10">Oktober</option>
+                            <option value="11">November</option>
+                            <option value="12">Desember</option>
                         </select>
                         <select class="custom-select" id="pilih_tahun" name="pilih_tahun">
-                            <option value="">Pilih Tahun</option>
-                            <option value="2020">2020</option>
-                            <option value="2021">2021</option>
-                            <option value="2022">2022</option>
-                            <option value="2023">2023</option>
-                            <option value="2024">2024</option>
-                            <option value="2025">2025</option>
+                            <option value="">Pilih Bulan</option>
+                            <option value="1">Januari</option>
+                            <option value="2">Febuari</option>
+                            <option value="3">Maret</option>
+                            <option value="4">April</option>
+                            <option value="5">Mei</option>
+                            <option value="6">Juni</option>
+                            <option value="7">Juli</option>
+                            <option value="8">Agustus</option>
+                            <option value="9">September</option>
+                            <option value="10">Oktober</option>
+                            <option value="11">November</option>
+                            <option value="12">Desember</option>
                         </select>
 
                         <div class=" input-group-append">
@@ -153,15 +165,27 @@
                             <option value="4">April</option>
                             <option value="5">Mei</option>
                             <option value="6">Juni</option>
+                            <option value="7">Juli</option>
+                            <option value="8">Agustus</option>
+                            <option value="9">September</option>
+                            <option value="10">Oktober</option>
+                            <option value="11">November</option>
+                            <option value="12">Desember</option>
                         </select>
                         <select class="custom-select" id="pilih_tahun" name="pilih_tahun">
-                            <option value="">Pilih Tahun</option>
-                            <option value="2020">2020</option>
-                            <option value="2021">2021</option>
-                            <option value="2022">2022</option>
-                            <option value="2023">2023</option>
-                            <option value="2024">2024</option>
-                            <option value="2025">2025</option>
+                            <option value="">Pilih Bulan</option>
+                            <option value="1">Januari</option>
+                            <option value="2">Febuari</option>
+                            <option value="3">Maret</option>
+                            <option value="4">April</option>
+                            <option value="5">Mei</option>
+                            <option value="6">Juni</option>
+                            <option value="7">Juli</option>
+                            <option value="8">Agustus</option>
+                            <option value="9">September</option>
+                            <option value="10">Oktober</option>
+                            <option value="11">November</option>
+                            <option value="12">Desember</option>
                         </select>
                         <div class=" input-group-append">
                             <button class="btn btn-success" id="pengadaan_bulanan" type="submit" name="pengadaan_bulanan" class="badge badge-warning mb-3"><i class="fa fa-print"></i>

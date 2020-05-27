@@ -2278,19 +2278,35 @@ class Admin extends CI_Controller
 
         //VALIDASI TAHUN 
         if (isset($_POST['submit'])) {
-            $this->form_validation->set_rules('pilih_tahun', 'pilih_tahun', 'required');
+            $this->form_validation->set_rules('pilih_tahun', 'pilih_tahun', 'required', [
+                'required' => 'Gagal cetak Laporan Jasa Layanan Terlaris, anda belum memilih tahun untuk dicetak!',
+            ]);
         } else if (isset($_POST['produk_tahunan'])) {
-            $this->form_validation->set_rules('pilih_tahun', 'pilih_tahun', 'required');
+            $this->form_validation->set_rules('pilih_tahun', 'pilih_tahun', 'required', [
+                'required' => 'Gagal cetak Laporan Produk Terlaris, anda belum memilih tahun untuk dicetak!',
+            ]);
         } else if (isset($_POST['pendapatan_tahunan'])) {
-            $this->form_validation->set_rules('pilih_tahun', 'pilih_tahun', 'required');
+            $this->form_validation->set_rules('pilih_tahun', 'pilih_tahun', 'required', [
+                'required' => 'Gagal cetak Laporan Pendapatan Tahunan, anda belum memilih tahun untuk dicetak!',
+            ]);
         } else if (isset($_POST['pendapatan_bulanan'])) {
-            $this->form_validation->set_rules('pilih_tahun', 'pilih_tahun', 'required');
-            $this->form_validation->set_rules('pilih_bulan', 'pilih_bulan', 'required');
+            $this->form_validation->set_rules('pilih_tahun', 'pilih_tahun', 'required', [
+                'required' => 'Gagal cetak Laporan Pendapatan Bulanan, anda belum memilih tahun untuk dicetak!',
+            ]);
+            $this->form_validation->set_rules('pilih_bulan', 'pilih_bulan', 'required', [
+                'required' => 'Gagal cetak Laporan Pendapatan Bulanan, anda belum memilih bulan untuk dicetak!',
+            ]);
         } else if (isset($_POST['pengadaan_tahunan'])) {
-            $this->form_validation->set_rules('pilih_tahun', 'pilih_tahun', 'required');
+            $this->form_validation->set_rules('pilih_tahun', 'pilih_tahun', 'required', [
+                'required' => 'Gagal cetak Laporan Pengadaan Tahunan, anda belum memilih tahun untuk dicetak!',
+            ]);
         } else if (isset($_POST['pengadaan_bulanan'])) {
-            $this->form_validation->set_rules('pilih_tahun', 'pilih_tahun', 'required');
-            $this->form_validation->set_rules('pilih_bulan', 'pilih_bulan', 'required');
+            $this->form_validation->set_rules('pilih_tahun', 'pilih_tahun', 'required', [
+                'required' => 'Gagal cetak Laporan Pengadaan Bulanan, anda belum memilih tahun untuk dicetak!',
+            ]);
+            $this->form_validation->set_rules('pilih_bulan', 'pilih_bulan', 'required', [
+                'required' => 'Gagal cetak Laporan Pengadaan Bulanan, anda belum memilih bulan untuk dicetak!',
+            ]);
         }
         if ($this->form_validation->run() == false) {
             $data['menu'] = $this->db->get('user_menu')->result_array();
