@@ -97,9 +97,9 @@
                                             <td class="text-center text-dark"><?= $sm['nama_hewan'] ?></td>
 
                                             <?php if ($sm['status_layanan'] == 'Belum Selesai') : ?>
-                                                <td style="text-align:center; color:#FF6347;"> Belum Diproses</td>
+                                                <td style="text-align:center; color:#FF6347;"> Sedang Diproses</td>
                                             <?php else : ?>
-                                                <td class="text-center text-primary"><?= $sm['status_layanan'] ?></td>
+                                                <td class="text-center text-success"><?= $sm['status_layanan'] ?></td>
                                             <?php endif; ?>
                                         </tr>
                                         <?php $i++; ?>
