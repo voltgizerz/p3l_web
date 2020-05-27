@@ -36,7 +36,7 @@
             <form action="<?= base_url('admin/laporan'); ?>" method="post">
                 LAPORAN PRODUK TERLARIS
                 <div class="input-group " style="width: 600px;">
-                    <select class="custom-select" id="pilih_tahun2" name="pilih_tahun2">
+                    <select class="custom-select" id="pilih_tahun" name="pilih_tahun">
                         <option value="">Pilih Tahun</option>
                         <option value="2020">2020</option>
                         <option value="2021">2021</option>
