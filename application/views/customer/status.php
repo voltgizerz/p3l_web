@@ -2,7 +2,7 @@
 
     <div class="container-fluid">
         <nav class="navbar navbar-expand-lg navbar-light bg-light" style="font-size: 1.8em !important;">
-            <a href="<?=base_url('auth/home');?>"><img height="90px" width=100px" style="text-align: center;" src=" <?=base_url('assets/img/logoKPS.png');?>">
+            <a href="<?= base_url('auth/home'); ?>"><img height="90px" width=100px" style="text-align: center;" src=" <?= base_url('assets/img/logoKPS.png'); ?>">
             </a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
@@ -11,16 +11,16 @@
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="nav navbar-nav navbar-right">
                     <li class="nav-item">
-                        <a class="nav-link" href="<?=base_url('auth/home');?>">HOME </a>
+                        <a class="nav-link" href="<?= base_url('auth/home'); ?>">HOME </a>
                     </li>
                     <li class="nav-item active ">
-                        <a class="nav-link" href="<?=base_url('customer/status');?>">CEK STATUS LAYANAN <span class="sr-only">(current)</span></a>
+                        <a class="nav-link" href="<?= base_url('customer/status'); ?>">CEK STATUS LAYANAN <span class="sr-only">(current)</span></a>
                     </li>
 
                 </ul>
                 <ul class="navbar-nav ml-auto">
                     <li class="nav-item ">
-                        <a class="btn btn-primary" href="<?=base_url('auth');?>">LOGIN</a>
+                        <a class="btn btn-primary" href="<?= base_url('auth'); ?>">LOGIN</a>
                     </li>
                 </ul>
             </div>
@@ -35,7 +35,7 @@
                 <div class="card o-hidden border-0 my-3">
                     <div class="bg-dark  ">
                         <div class="text-center">
-                            <img height="120px" width=150px" style="text-align: center;" src=" <?=base_url('assets/img/logoKPS.png');?>">
+                            <img height="120px" width=150px" style="text-align: center;" src=" <?= base_url('assets/img/logoKPS.png'); ?>">
                             <h1 class="text-warning"><strong>INFORMASI STATUS LAYANAN</h1>
                             <h3 class="text-warning">
                                 KOUVEE PETSHOP</h3>
@@ -64,46 +64,46 @@
                                 </div>
                                 <?php echo form_close(); ?>
                             </div>
-                            <?php if (validation_errors()): ?>
+                            <?php if (validation_errors()) : ?>
                                 <div class="alert alert-danger" role="alert">
-                                    <?=validation_errors();?>
+                                    <?= validation_errors(); ?>
                                 </div>
-                            <?php endif;?>
-                            <?=$this->session->flashdata('message');?>
+                            <?php endif; ?>
+                            <?= $this->session->flashdata('message'); ?>
 
-                            <table class="table table-striped table-dark table-hover  table-responsive-sm">
+                            <table class="table table-hover table-warning table-responsive-sm">
                                 <thead>
                                     <tr>
-                                        <th scope="col" class="text-center">No</th>
-                                        <th scope="col" class="text-center">Kode Penjualan</th>
-                                        <th scope="col" class="text-center">Nama Customer Service</th>
-                                        <th scope="col" class="text-center">Nama Kasir</th>
-                                        <th scope="col" class="text-center">Nama Hewan</th>
-                                        <th scope="col" class="text-center">Status Layanan</th>
+                                        <th scope="col" class="text-center text-dark">No</th>
+                                        <th scope="col" class="text-center font-weight-bold text-dark">Kode Penjualan</th>
+                                        <th scope="col" class="text-center text-dark">Nama Customer Service</th>
+                                        <th scope="col" class="text-center text-dark">Nama Kasir</th>
+                                        <th scope="col" class="text-center text-dark">Nama Hewan</th>
+                                        <th scope="col" class="text-center text-dark">Status Layanan</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <?php $i = 1;?>
-                                    <?php foreach ($dataPenjualanLayanan as $sm): ?>
+                                    <?php $i = 1; ?>
+                                    <?php foreach ($dataPenjualanLayanan as $sm) : ?>
                                         <tr>
-                                            <th scope="row" class="text-center"><?=$i?></th>
-                                            <td style="text-align:center; color:orange;"><?=$sm['kode_transaksi_penjualan_jasa_layanan']?></td>
-                                            <td style="text-align:center;"><?=$sm['nama_cs']?></td>
-                                            <?php if ($sm['id_kasir'] == $sm['id_cs']): ?>
+                                            <th scope="row" class="text-center text-dark"><?= $i ?></th>
+                                            <td class="text-center text-dark"><?= $sm['kode_transaksi_penjualan_jasa_layanan'] ?></td>
+                                            <td class="text-center text-dark"><?= $sm['nama_cs'] ?></td>
+                                            <?php if ($sm['id_kasir'] == $sm['id_cs']) : ?>
                                                 <td style="text-align:center; color:#FF6347;"> Dalam Proses Pembayaran</td>
-                                            <?php else: ?>
-                                                <td style="text-align:center;"><?=$sm['nama_kasir']?></td>
-                                            <?php endif;?>
-                                            <td style="text-align:center;"><?=$sm['nama_hewan']?></td>
+                                            <?php else : ?>
+                                                <td class="text-center text-dark"><?= $sm['nama_kasir'] ?></td>
+                                            <?php endif; ?>
+                                            <td class="text-center text-dark"><?= $sm['nama_hewan'] ?></td>
 
-                                            <?php if ($sm['status_layanan'] == 'Belum Selesai'): ?>
+                                            <?php if ($sm['status_layanan'] == 'Belum Selesai') : ?>
                                                 <td style="text-align:center; color:#FF6347;"> Belum Diproses</td>
-                                            <?php else: ?>
-                                                <td style="text-align:center; color:#00FF00"><?=$sm['status_layanan']?></td>
-                                            <?php endif;?>
+                                            <?php else : ?>
+                                                <td class="text-center text-primary"><?= $sm['status_layanan'] ?></td>
+                                            <?php endif; ?>
                                         </tr>
-                                        <?php $i++;?>
-                                    <?php endforeach;?>
+                                        <?php $i++; ?>
+                                    <?php endforeach; ?>
                                 </tbody>
                             </table>
                         </div>
