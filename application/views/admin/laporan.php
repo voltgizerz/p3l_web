@@ -18,19 +18,35 @@
                 </div>
             <?php endif; ?>
             <form action="<?= base_url('admin/laporan'); ?>" method="post">
-            LAPORAN JASA LAYANAN TERLARIS
-            <div class="input-group " style="width: 600px;">
-                <select class="custom-select" id="pilih_tahun" name="pilih_tahun">
-                    <option value="">Pilih Tahun</option>
-                    <option value="2020">2020</option>
-                    <option value="2021">2021</option>
-                    <option value="2022">2022</option>
-                </select>
-                <div class=" input-group-append">
-                    <button class="btn btn-success" type="submit"  class="badge badge-warning mb-3"><i class="fa fa-print"></i>
-                        CETAK</button>
+                LAPORAN JASA LAYANAN TERLARIS
+                <div class="input-group " style="width: 600px;">
+                    <select class="custom-select" id="pilih_tahun" name="pilih_tahun">
+                        <option value="">Pilih Tahun</option>
+                        <option value="2020">2020</option>
+                        <option value="2021">2021</option>
+                        <option value="2022">2022</option>
+                    </select>
+                    <div class=" input-group-append">
+                        <button class="btn btn-success" type="submit" id="submit" name="submit" class="badge badge-warning mb-3"><i class="fa fa-print"></i>
+                            CETAK</button>
+                    </div>
                 </div>
-            </div>
+            </form>
+            <br>
+            <form action="<?= base_url('admin/laporan'); ?>" method="post">
+                LAPORAN PRODUK TERLARIS
+                <div class="input-group " style="width: 600px;">
+                    <select class="custom-select" id="pilih_tahun2" name="pilih_tahun2">
+                        <option value="">Pilih Tahun</option>
+                        <option value="2020">2020</option>
+                        <option value="2021">2021</option>
+                        <option value="2022">2022</option>
+                    </select>
+                    <div class=" input-group-append">
+                        <button class="btn btn-success" id="produk_tahunan" type="submit" name="produk_tahunan" class="badge badge-warning mb-3"><i class="fa fa-print"></i>
+                            CETAK</button>
+                    </div>
+                </div>
             </form>
         </div>
 

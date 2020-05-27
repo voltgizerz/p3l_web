@@ -2277,7 +2277,11 @@ class Admin extends CI_Controller
         $data['menu'] = $this->db->get('user_menu')->result_array();
 
         //VALIDASI TAHUN 
-        $this->form_validation->set_rules('pilih_tahun', 'pilih_tahun', 'required');
+        if (isset($_POST['submit'])) {
+            $this->form_validation->set_rules('pilih_tahun', 'pilih_tahun', 'required');
+        }else if(isset($_POST['produk_tahunan'])){
+            $this->form_validation->set_rules('pilih_tahun', 'pilih_tahun', 'required');
+        }
         if ($this->form_validation->run() == false) {
             $data['menu'] = $this->db->get('user_menu')->result_array();
             $this->load->view('templates/header', $data);
@@ -2330,8 +2334,8 @@ class Admin extends CI_Controller
                 months.`month`
             ORDER BY
                 months.no");
-        $produk = $query->result();
-        foreach ($produk as $row) {
+        $layananTerlaris = $query->result();
+        foreach ($layananTerlaris as $row) {
             $pdf->SetFont('Arial', '', 10);
             $pdf->Cell(10, 5, $cnt, 1, 0, 'C', 0);
             $pdf->Cell(30, 5, $row->bulan, 1, 0, 'L', 0);
