@@ -294,6 +294,16 @@ class Kasir extends CI_Controller
         redirect('kasir/detail_pembayaran_produk/' . $idtrx);
     }
 
+    public function hapusPembayaranProduk($id)
+    {
+        $this->load->model('Penjualan_Produk_Model');
+        $this->Penjualan_Produk_Model->deletePenjualanProduk($id);
+        $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">
+                  Sukses Hapus Transaksi Pembayaran Produk!
+                   </div>');
+        redirect('kasir/transaksi_pembayaran_produk');
+    }
+
     public function transaksi_pembayaran_layanan()
     {
         $data['title'] = 'Transaksi Pembayaran Layanan';
