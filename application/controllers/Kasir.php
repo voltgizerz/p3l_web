@@ -49,7 +49,7 @@ class Kasir extends CI_Controller
         $this->load->model('Pembayaran_Produk_Model', 'menu');
         $data['dataPembayaranProduk'] = $this->menu->getPembayaranProdukId($id);
         $data['menu'] = $this->db->get('user_menu')->result_array();
-
+        $noHpOwner['nomor'] = $this->menu->getSemuaNoHpOwner();
         //CEK APAKAH PRODUK TERSEDIA
 
         $this->db->select('data_detail_penjualan_produk.id_produk_penjualan_fk,data_detail_penjualan_produk.jumlah_produk,data_produk.harga_produk,data_produk.stok_produk,data_produk.nama_produk,data_produk.id_produk,data_produk.stok_minimal_produk');
@@ -78,14 +78,18 @@ class Kasir extends CI_Controller
                     $this->db->where('id_produk', $arrTemp[$i]['id_produk'])->update('data_produk', ['stok_produk' => $stokUpdate]);
                     //HEMAT KUOTA SMS BOS LIMIT SMS HANYA 20 KALI
                     //if ($stokUpdate < $arrTemp[$i]['stok_minimal_produk']) {
-                    //$basic  = new \Nexmo\Client\Credentials\Basic('66df917e', 'Jm3QidLR8uuwF5uh');
-                    //$client = new \Nexmo\Client($basic);
-                    //$message = $client->message()->send([
-                    //'to' => '6285155099184',
-                    //'from' => 'KOUVEE PETSHOP',
-                    //'text' => 'Halo dari Kouvee PetShop, Produk ['.$arrTemp[$i]['nama_produk'].'] Mulai Menipis Tersisa : '.$stokUpdate.' Stok '
-                    //]);                            
-                    //}
+                        //OTOMATIS MENGIRIM SMS KE SEMUA NO HP OWNER, STOK PRODUK YANG KURANG DARI STOK MINIMAL!
+                        //for ($z = 0; $z < count($noHpOwner['nomor']); $z++) {
+                           // $strNoHP = str_replace('08', '628', (string) $noHpOwner['nomor'][$z]['nomor_hp_pegawai'], $limit = 1);
+                            //$basic  = new \Nexmo\Client\Credentials\Basic('66df917e', 'Jm3QidLR8uuwF5uh');
+                           // $client = new \Nexmo\Client($basic);
+                           // $message = $client->message()->send([
+                                //'to' => $strNoHP,
+                               // 'from' => 'KOUVEE PETSHOP',
+                               // 'text' => 'Halo dari Kouvee PetShop, Produk [' . $arrTemp[$i]['nama_produk'] . '] Mulai Menipis Tersisa : ' . $stokUpdate . ' Stok '
+                           // ]);
+                        //}
+                   // }
                 }
             } else {
                 // PRODUK SUDAH DIEMBAT ORANG LAIN
@@ -106,7 +110,7 @@ class Kasir extends CI_Controller
             $this->load->view('templates/footer');
         } else {
             if ($totalHarga = $subtotal - $this->input->post('diskon') < 0) {
-                $totalHarga =0;
+                $totalHarga = 0;
             } else {
                 $totalHarga = $subtotal - $this->input->post('diskon');
             }
@@ -330,11 +334,13 @@ class Kasir extends CI_Controller
         $kode = $this->db->get_where('data_transaksi_penjualan_jasa_layanan', ['id_transaksi_penjualan_jasa_layanan' => $id])->row()->kode_transaksi_penjualan_jasa_layanan;
         $cekLayanan = $this->db->get_where('data_detail_penjualan_jasa_layanan', ['kode_transaksi_penjualan_jasa_layanan_fk' => $kode])->num_rows();
         $subtotal = $this->db->get_where('data_transaksi_penjualan_jasa_layanan', ['id_transaksi_penjualan_jasa_layanan' => $id])->row()->total_penjualan_jasa_layanan;
-
         $data['title'] = 'Transaksi Pembayaran Layanan';
         $data['user'] = $this->db->get_where('data_pegawai', ['username' => $this->session->userdata('username')])->row_array();
         $this->load->model('Penjualan_Layanan_Model', 'menu');
         $data['dataPenjualanLayanan'] = $this->menu->getPenjualanLayananId($id);
+        $cekGrooming = $this->menu->cekGrooming($kode);
+        $noHpCustomer = $this->menu->getNoHp($kode);
+        $namaCustomer = $this->menu->getNama($kode);
         $data['menu'] = $this->db->get('user_menu')->result_array();
         $data['data_hewan'] = $this->menu->select_hewan();
 
@@ -350,7 +356,7 @@ class Kasir extends CI_Controller
             $this->load->view('templates/footer');
         } else {
             if ($totalHarga = $subtotal - $this->input->post('diskon') < 0) {
-                $totalHarga =0;
+                $totalHarga = 0;
             } else {
                 $totalHarga = $subtotal - $this->input->post('diskon');
             }
@@ -358,6 +364,18 @@ class Kasir extends CI_Controller
             $ci = get_instance();
             date_default_timezone_set("Asia/Bangkok");
             if ($this->input->post('status_pembayaran') == 'Lunas') {
+                $strNoHP = str_replace('08', '628', (string) $noHpCustomer, $limit = 1);
+                //DAFTAR DI nexmo.com UNTU DAPTKAN API FREE ACC LIMIT 20 KLI SMS NO TUJUAN AWAL HRUS 628
+                //if ($cekGrooming == True) {
+                //HEMAT KUOTA SMS BOS LIMIT SMS HANYA 20 KALI
+                //$basic  = new \Nexmo\Client\Credentials\Basic('66df917e', 'Jm3QidLR8uuwF5uh');
+                //$client = new \Nexmo\Client($basic);
+                //$message = $client->message()->send([
+                //'to' => $strNoHP,
+                //'from' => 'KOUVEE PETSHOP',
+                //'text' => 'Halo ' . $namaCustomer . ' dari Kouvee PetShop, Proses Jasa Layanan Grooming Hewan anda sudah selesai diproses terima kasih. '
+                //]);
+                //}
                 $data = [
                     'id_hewan' => $this->input->post('pilih_hewan'),
                     'status_pembayaran' => $this->input->post('status_pembayaran'),
@@ -531,6 +549,6 @@ class Kasir extends CI_Controller
             header("Cache-Control: no-store, no-cache, must-revalidate, max-age=0");
             header("Cache-Control: post-check=0, pre-check=0", false);
             header("Cache-Control: no cache");
-        } 
+        }
     }
 }

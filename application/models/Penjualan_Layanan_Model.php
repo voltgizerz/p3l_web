@@ -277,4 +277,45 @@ class Penjualan_Layanan_model extends CI_Model
         //UPDATE NILAI TOTAL PENJUALAN JASA LAYANAN
         $this->db->where('kode_transaksi_penjualan_jasa_layanan', $kode)->update('data_transaksi_penjualan_jasa_layanan', ['total_penjualan_jasa_layanan' => $temp]);
     }
+
+    public function cekGrooming($kode)
+    {
+        $this->db->select('data_detail_penjualan_jasa_layanan.id_jasa_layanan_fk,data_detail_penjualan_jasa_layanan.jumlah_jasa_layanan,data_jasa_layanan.harga_jasa_layanan,data_jasa_layanan.nama_jasa_layanan');
+        $this->db->join('data_jasa_layanan', 'data_jasa_layanan.id_jasa_layanan = data_detail_penjualan_jasa_layanan.id_jasa_layanan_fk');
+        $this->db->where('data_detail_penjualan_jasa_layanan.kode_transaksi_penjualan_jasa_layanan_fk', $kode);
+        $this->db->from('data_detail_penjualan_jasa_layanan');
+        $query = $this->db->get();
+        $arrTemp = json_decode(json_encode($query->result()), true);
+
+        for ($i = 0; $i < count($arrTemp); $i++) {
+            if ($arrTemp[$i]['nama_jasa_layanan'] == 'Grooming') {
+                return True;
+            }
+        }
+        return False;
+    }
+
+    public function getNoHp($kode)
+    {
+        $this->db->select('data_customer.nomor_hp_customer');
+        $this->db->join('data_hewan', 'data_hewan.id_hewan = data_transaksi_penjualan_jasa_layanan.id_hewan');
+        $this->db->join('data_customer','data_customer.id_customer = data_hewan.id_customer');
+        $this->db->where('data_transaksi_penjualan_jasa_layanan.kode_transaksi_penjualan_jasa_layanan', $kode);
+        $this->db->from('data_transaksi_penjualan_jasa_layanan');
+        $query = $this->db->get();
+        $arrTemp = json_decode(json_encode($query->result()), true);
+        return $arrTemp[0]['nomor_hp_customer']; 
+    }
+
+    public function getNama($kode)
+    {
+        $this->db->select('data_customer.nama_customer');
+        $this->db->join('data_hewan', 'data_hewan.id_hewan = data_transaksi_penjualan_jasa_layanan.id_hewan');
+        $this->db->join('data_customer','data_customer.id_customer = data_hewan.id_customer');
+        $this->db->where('data_transaksi_penjualan_jasa_layanan.kode_transaksi_penjualan_jasa_layanan', $kode);
+        $this->db->from('data_transaksi_penjualan_jasa_layanan');
+        $query = $this->db->get();
+        $arrTemp = json_decode(json_encode($query->result()), true);
+        return $arrTemp[0]['nama_customer']; 
+    }
 }

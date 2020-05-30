@@ -145,7 +145,7 @@
                             <input hidden type="text" class="form-control" value="<?= $sm['id_transaksi_penjualan_jasa_layanan']; ?>" id="id" name="id">
                         </div>
                         <div class="form-group">
-                            <input type="text" class="form-control" id="diskon" name="diskon" value="<?= $sm['diskon']; ?>" placeholder="Masukan Diskon">
+                            <input type="text" class="form-control" id="diskon" name="diskon"  placeholder="Masukan Diskon">
                         </div>
                         <div class="form-group">
                             <select class="form-control" id="pilih_hewan" name="pilih_hewan">

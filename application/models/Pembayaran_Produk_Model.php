@@ -183,4 +183,14 @@ class Pembayaran_Produk_model extends CI_Model
         //UPDATE NILAI TOTAL PENGADAAN
         $this->db->where('kode_transaksi_penjualan_produk', $kode)->update('data_transaksi_penjualan_produk', ['total_penjualan_produk' => $temp]);
     }
+
+    public function getSemuaNoHpOwner()
+    {
+        $this->db->select('nomor_hp_pegawai');
+        $this->db->where('role_pegawai', 'Owner');
+        $this->db->from('data_pegawai');
+        $query = $this->db->get();
+        $arrTemp = json_decode(json_encode($query->result()), true);
+        return $arrTemp; 
+    }
 }
