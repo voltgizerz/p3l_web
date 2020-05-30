@@ -84,7 +84,7 @@
                         <?php else : ?>
                             <td style="text-align:center;"><?= $sm['tanggal_pembayaran_jasa_layanan'] ?></td>
                         <?php endif; ?> <td style="text-align:center;">
-                            <a href="<?= base_url(); ?>cs/detail_penjualan_layanan/<?= $sm['id_transaksi_penjualan_jasa_layanan']; ?>" class="badge badge-info mb-3">INFO</a>
+                            <a href="<?= base_url(); ?>kasir/detail_pembayaran_layanan/<?= $sm['id_transaksi_penjualan_jasa_layanan']; ?>" class="badge badge-info mb-3">INFO</a>
                         </td>
 
                         <td style="text-align:center;">
@@ -108,13 +108,13 @@
                         <?php endif; ?>
 
                         <td style="text-align:center;">
-                            <?php if ($sm['status_penjualan'] == 'Sudah Selesai') {
+                            <?php if ($sm['status_pembayaran'] == 'Lunas') {
                                 $hide = "hidden";
                             } else {
                                 $hide = "visible";
                             } ?>
-                            <a href="<?= base_url(); ?>cs/updatePenjualanLayanan/<?= $sm['id_transaksi_penjualan_jasa_layanan']; ?>" class="badge badge-primary mb-3" data-toggle="modal" data-target="#editSubMenuModal<?= $sm['id_transaksi_penjualan_jasa_layanan']; ?>" style="visibility: <?= $hide ?>">EDIT</a>
-                            <a href="<?= base_url(); ?>cs/hapusPenjualanLayanan/<?= $sm['id_transaksi_penjualan_jasa_layanan']; ?>" class="badge badge-danger mb-3" style="visibility: <?= $hide ?>">DELETE</a>
+                            <a href="<?= base_url(); ?>kasir/updatePembayaranLayanan/<?= $sm['id_transaksi_penjualan_jasa_layanan']; ?>" class="badge badge-primary mb-3" data-toggle="modal" data-target="#editSubMenuModal<?= $sm['id_transaksi_penjualan_jasa_layanan']; ?>" style="visibility: <?= $hide ?>">EDIT</a>
+                            <a href="<?= base_url(); ?>kasir/hapusPembayaranLayanan/<?= $sm['id_transaksi_penjualan_jasa_layanan']; ?>" class="badge badge-danger mb-3" style="visibility: <?= $hide ?>">DELETE</a>
                         </td>
                     </tr>
                     <?php $i++; ?>
@@ -126,42 +126,6 @@
 <!-- End of Main Content -->
 
 
-<!-- Modal -->
-<div class=" modal fade" id="newSubMenuModal" tabindex="-1" role="dialog" aria-labelledby="#newSubMenuModal" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="newMenuModal">Tambah Transaksi Penjualan Layanan</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <form action="<?= base_url('cs/transaksi_penjualan_layanan'); ?>" method="post">
-                <div class="modal-body">
-                    <div class="form-group">
-                        <input type="text" class="form-control" id="cs" name="cs" value="Nama hewan Service" placeholder="Kode Pengadaan" readonly>
-                    </div>
-                    <div class="form-group">
-                        <?php $ci = get_instance(); ?>
-                        <input type="text" class="form-control" id="nama" name="nama" value="<?= $ci->session->userdata('nama_pegawai') ?>" placeholder="Nama Pegawai" readonly>
-                    </div>
-                    <div class="form-group">
-                        <select class="form-control" id="pilih_hewan" name="pilih_hewan">
-                            <option value="">Pilih Hewan</option>
-                            <?php foreach ($data_hewan->result() as $row) {
-                                echo '<option value="' . $row->id_hewan . '">' . $row->nama_hewan . '</option>';
-                            } ?>
-                        </select>
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    <button type="submit" class="btn btn-primary">Add</button>
-                </div>
-            </form>
-        </div>
-    </div>
-</div>
 
 <?php foreach ($dataPenjualanLayanan as $sm) : ?>
     <!-- Modal edit -->
@@ -174,11 +138,14 @@
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
-                <form action="<?= base_url(); ?>cs/updatePenjualanLayanan/<?= $sm['id_transaksi_penjualan_jasa_layanan']; ?>" method="post">
+                <form action="<?= base_url(); ?>kasir/updatePembayaranLayanan/<?= $sm['id_transaksi_penjualan_jasa_layanan']; ?>" method="post">
 
                     <div class="modal-body">
                         <div class="form-group">
                             <input hidden type="text" class="form-control" value="<?= $sm['id_transaksi_penjualan_jasa_layanan']; ?>" id="id" name="id">
+                        </div>
+                        <div class="form-group">
+                            <input type="text" class="form-control" id="diskon" name="diskon" value="<?= $sm['diskon']; ?>" placeholder="Masukan Diskon">
                         </div>
                         <div class="form-group">
                             <select class="form-control" id="pilih_hewan" name="pilih_hewan">
@@ -193,17 +160,17 @@
                             </select>
                         </div>
                         <div class="form-group">
-                            <select class="form-control" id="status_penjualan" name="status_penjualan">
+                            <select class="form-control" id="status_pembyaran" name="status_pembayaran">
                                 <option value="">Pilih Status Transaksi</option>
-                                <option <?php if ($sm['status_penjualan'] == 'Belum Selesai') {
+                                <option <?php if ($sm['status_pembayaran'] == 'Belum Lunas') {
                                             echo ("selected");
                                         } ?>>
-                                    Belum Selesai
+                                    Belum Lunas
                                 </option>
-                                <option <?php if ($sm['status_penjualan'] == 'Sudah Selesai') {
+                                <option <?php if ($sm['status_pembayaran'] == 'Lunas') {
                                             echo ("selected");
                                         } ?>>
-                                    Sudah Selesai
+                                    Lunas
                                 </option>
                             </select>
                         </div>

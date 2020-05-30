@@ -105,7 +105,11 @@ class Kasir extends CI_Controller
             $this->load->view('kasir/transaksi_pembayaran_produk', $data);
             $this->load->view('templates/footer');
         } else {
-            $totalHarga = $subtotal - $this->input->post('diskon');
+            if ($totalHarga = $subtotal - $this->input->post('diskon') < 0) {
+                $totalHarga =0;
+            } else {
+                $totalHarga = $subtotal - $this->input->post('diskon');
+            }
             $ci = get_instance();
             date_default_timezone_set("Asia/Bangkok");
             if ($this->input->post('status_pembayaran') == 'Lunas') {
@@ -319,5 +323,186 @@ class Kasir extends CI_Controller
         $this->load->view('templates/topbar', $data);
         $this->load->view('kasir/transaksi_pembayaran_layanan', $data);
         $this->load->view('templates/footer');
+    }
+
+    public function updatePembayaranLayanan($id)
+    {
+        $kode = $this->db->get_where('data_transaksi_penjualan_jasa_layanan', ['id_transaksi_penjualan_jasa_layanan' => $id])->row()->kode_transaksi_penjualan_jasa_layanan;
+        $cekLayanan = $this->db->get_where('data_detail_penjualan_jasa_layanan', ['kode_transaksi_penjualan_jasa_layanan_fk' => $kode])->num_rows();
+        $subtotal = $this->db->get_where('data_transaksi_penjualan_jasa_layanan', ['id_transaksi_penjualan_jasa_layanan' => $id])->row()->total_penjualan_jasa_layanan;
+
+        $data['title'] = 'Transaksi Pembayaran Layanan';
+        $data['user'] = $this->db->get_where('data_pegawai', ['username' => $this->session->userdata('username')])->row_array();
+        $this->load->model('Penjualan_Layanan_Model', 'menu');
+        $data['dataPenjualanLayanan'] = $this->menu->getPenjualanLayananId($id);
+        $data['menu'] = $this->db->get('user_menu')->result_array();
+        $data['data_hewan'] = $this->menu->select_hewan();
+
+        $this->form_validation->set_rules('status_pembayaran', 'status_pembayaran', 'required');
+        $this->form_validation->set_rules('pilih_hewan', 'pilih_hewan', 'required');
+
+        if ($this->form_validation->run() == false) {
+            $data['menu'] = $this->db->get('user_menu')->result_array();
+            $this->load->view('templates/header', $data);
+            $this->load->view('templates/sidebar', $data);
+            $this->load->view('templates/topbar', $data);
+            $this->load->view('kasir/transaksi_pembayaran_layanan', $data);
+            $this->load->view('templates/footer');
+        } else {
+            if ($totalHarga = $subtotal - $this->input->post('diskon') < 0) {
+                $totalHarga =0;
+            } else {
+                $totalHarga = $subtotal - $this->input->post('diskon');
+            }
+
+            $ci = get_instance();
+            date_default_timezone_set("Asia/Bangkok");
+            if ($this->input->post('status_pembayaran') == 'Lunas') {
+                $data = [
+                    'id_hewan' => $this->input->post('pilih_hewan'),
+                    'status_pembayaran' => $this->input->post('status_pembayaran'),
+                    'tanggal_pembayaran_jasa_layanan' => date("Y-m-d H:i:s"),
+                    'updated_date' => date("Y-m-d H:i:s"),
+                    'id_kasir' => $ci->session->userdata('id_pegawai'),
+                    'diskon' => $this->input->post('diskon'),
+                    'total_harga' => $totalHarga,
+                ];
+                $this->db->where('id_transaksi_penjualan_jasa_layanan', $id)->update('data_transaksi_penjualan_jasa_layanan', $data);
+                $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">
+                Transaksi Pembayaran Jasa Layanan Telah Selesai Diproses!
+               </div>');
+            } else {
+                $data = [
+                    'id_hewan' => $this->input->post('pilih_hewan'),
+                    'status_pembayaran' => $this->input->post('status_pembayaran'),
+                    'updated_date' => date("Y-m-d H:i:s"),
+                    'id_kasir' => $ci->session->userdata('id_pegawai'),
+                    'diskon' => $this->input->post('diskon'),
+                    'total_harga' => $totalHarga,
+                ];
+                $this->db->where('id_transaksi_penjualan_jasa_layanan', $id)->update('data_transaksi_penjualan_jasa_layanan', $data);
+                $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">
+                Transaksi Pembayaran Layanan Sukses di Edit!
+               </div>');
+            }
+            redirect('kasir/transaksi_pembayaran_layanan');
+        }
+    }
+
+    public function hapusPembayaranLayanan($id)
+    {
+        $this->load->model('Penjualan_Layanan_Model');
+        $this->Penjualan_Layanan_Model->deletePenjualanLayanan($id);
+        $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">
+                  Sukses Hapus Transaksi Pembayaran Jasa Layanan!
+                   </div>');
+        redirect('kasir/transaksi_pembayaran_layanan');
+    }
+
+    public function updateDetailPembayaranLayanan($id)
+    {
+        $kode = $this->db->get_where('data_detail_penjualan_jasa_layanan', ['id_detail_penjualan_jasa_layanan' => $id])->row()->kode_transaksi_penjualan_jasa_layanan_fk;
+        $idtrx = $this->db->get_where('data_transaksi_penjualan_jasa_layanan', ['kode_transaksi_penjualan_jasa_layanan' => $kode])->row()->id_transaksi_penjualan_jasa_layanan;
+        $data['title'] = 'Transaksi Pembayaran Layanan';
+        $data['user'] = $this->db->get_where('data_pegawai', ['username' => $this->session->userdata('username')])->row_array();
+        $this->load->model('Penjualan_Layanan_Model', 'menu');
+        $data['dataDetailPenjualanLayanan'] = $this->menu->getDetailPenjualanLayananId($id);
+        $data['menu'] = $this->db->get('user_menu')->result_array();
+        $data['data_layanan'] = $this->menu->select_layanan();
+        $data['kode_penjualan'] = $kode;
+        $data['id_penjualan'] = $id;
+
+        $this->form_validation->set_rules('pilih_layanan', 'pilih_layanan', 'required');
+
+        if ($this->form_validation->run() == false) {
+            $data['menu'] = $this->db->get('user_menu')->result_array();
+            $this->load->view('templates/header', $data);
+            $this->load->view('templates/sidebar', $data);
+            $this->load->view('templates/topbar', $data);
+            $this->load->view('kasir/detail_pembayaran_layanan', $data);
+            $this->load->view('templates/footer');
+        } else {
+            date_default_timezone_set("Asia/Bangkok");
+            $data = [
+                'kode_transaksi_penjualan_jasa_layanan_fk' => $kode,
+                'id_jasa_layanan_fk' => $this->input->post('pilih_layanan'),
+                'jumlah_jasa_layanan' => '1',
+            ];
+
+            if ($this->db->where('id_detail_penjualan_jasa_layanan', $id)->update('data_detail_penjualan_jasa_layanan', $data)) {
+                //CARI NILAI TOTAL HARGA UPDATE
+                $this->db->select('data_detail_penjualan_jasa_layanan.id_jasa_layanan_fk,data_detail_penjualan_jasa_layanan.jumlah_jasa_layanan,data_jasa_layanan.harga_jasa_layanan');
+                $this->db->join('data_jasa_layanan', 'data_jasa_layanan.id_jasa_layanan = data_detail_penjualan_jasa_layanan.id_jasa_layanan_fk');
+                $this->db->where('data_detail_penjualan_jasa_layanan.kode_transaksi_penjualan_jasa_layanan_fk', $kode);
+                $this->db->from('data_detail_penjualan_jasa_layanan');
+                $query = $this->db->get();
+                $arrTemp = json_decode(json_encode($query->result()), true);
+
+                // NILAI TAMPUNG TOTAL HARGA PENJUALAN YANG BARU
+                $temp = 0;
+                for ($i = 0; $i < count($arrTemp); $i++) {
+                    $temp = $temp + $arrTemp[$i]['jumlah_jasa_layanan'] * $arrTemp[$i]['harga_jasa_layanan'];
+                }
+                //UPDATE NILAI TOTAL PENGADAAN
+                $this->db->where('kode_transaksi_penjualan_jasa_layanan', $kode)->update('data_transaksi_penjualan_jasa_layanan', ['total_penjualan_jasa_layanan' => $temp, 'updated_date' => date("Y-m-d H:i:s")]);
+
+                //CARI NILAI SUBTOTAL PRODUK DETAIL HARGA UPDATE
+                $this->db->select('data_detail_penjualan_jasa_layanan.id_jasa_layanan_fk,data_detail_penjualan_jasa_layanan.jumlah_jasa_layanan,data_jasa_layanan.harga_jasa_layanan');
+                $this->db->join('data_jasa_layanan', 'data_jasa_layanan.id_jasa_layanan = data_detail_penjualan_jasa_layanan.id_jasa_layanan_fk');
+                $this->db->where('data_detail_penjualan_jasa_layanan.id_detail_penjualan_jasa_layanan', $id);
+                $this->db->from('data_detail_penjualan_jasa_layanan');
+
+                $query = $this->db->get();
+                $arrTemp = json_decode(json_encode($query->result()), true);
+
+                // NILAI TAMPUNG SUB TOTAL  DETAIL PENJUALAN HARGA YANG BARU
+                $temp = $arrTemp[0]['jumlah_jasa_layanan'] * $arrTemp[0]['harga_jasa_layanan'];
+                //UPDATE NILAI TOTAL PENGADAAN
+                $this->db->where('id_detail_penjualan_jasa_layanan', $id)->update('data_detail_penjualan_jasa_layanan', ['subtotal' => $temp]);
+
+                $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">
+            Jasa Layanan Penjualan Berhasil Diedit!
+           </div>');
+                redirect('kasir/detail_pembayaran_layanan/' . $idtrx);
+            }
+
+            $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">
+            Jasa Layanan Pembayaran Berhasil Diedit!
+           </div>');
+            redirect('kasir/detail_pembayaran_layanan/' . $idtrx);
+        }
+    }
+
+    public function detail_pembayaran_layanan($id)
+    {
+        $data['title'] = 'Transaksi Pembayaran Layanan';
+        $data['user'] = $this->db->get_where('data_pegawai', ['username' => $this->session->userdata('username')])->row_array();
+        $this->load->model('Penjualan_Layanan_Model', 'menu');
+        $data['dataDetailPenjualanLayanan'] = $this->menu->getDataDetailPenjualanLayananAdmin($id);
+        $data['menu'] = $this->db->get('user_menu')->result_array();
+        $data['data_layanan'] = $this->menu->select_layanan();
+        $kode = $this->db->get_where('data_transaksi_penjualan_jasa_layanan', ['id_transaksi_penjualan_jasa_layanan' => $id])->row()->kode_transaksi_penjualan_jasa_layanan;
+        $data['kode_penjualan'] = $kode;
+        $data['id_penjualan'] = $id;
+
+
+        $data['menu'] = $this->db->get('user_menu')->result_array();
+        $this->load->view('templates/header', $data);
+        $this->load->view('templates/sidebar', $data);
+        $this->load->view('templates/topbar', $data);
+        $this->load->view('kasir/detail_pembayaran_layanan', $data);
+        $this->load->view('templates/footer');
+    }
+
+    public function hapusDetailPembayaranLayanan($id)
+    {
+        $kode = $this->db->get_where('data_detail_penjualan_jasa_layanan', ['id_detail_penjualan_jasa_layanan' => $id])->row()->kode_transaksi_penjualan_jasa_layanan_fk;
+        $idtrx = $this->db->get_where('data_transaksi_penjualan_jasa_layanan', ['kode_transaksi_penjualan_jasa_layanan' => $kode])->row()->id_transaksi_penjualan_jasa_layanan;
+        $this->load->model('Penjualan_Layanan_Model');
+        $this->Penjualan_Layanan_Model->deleteDetailPenjualanLayanan($id);
+        $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">
+                  Sukses Hapus Jasa  Layanan Transaksi Pembayaran!
+                   </div>');
+        redirect('kasir/detail_pembayaran_layanan/' . $idtrx);
     }
 }
