@@ -201,7 +201,7 @@ class Pembayaran_Layanan_model extends CI_Model
         return $this->db->get();
     }
 
-    public function cariPenjualanLayananCustomer($berdasarkan, $yangdicari)
+    public function cariPembayaranLayanan($berdasarkan, $yangdicari)
     {
         $this->db->select('data_transaksi_penjualan_jasa_layanan.id_transaksi_penjualan_jasa_layanan,
         data_transaksi_penjualan_jasa_layanan.kode_transaksi_penjualan_jasa_layanan,
@@ -229,30 +229,35 @@ class Pembayaran_Layanan_model extends CI_Model
         switch ($berdasarkan) {
             case "":
                 $this->db->like('kode_transaksi_penjualan_jasa_layanan', $yangdicari);
-                $this->db->or_like('data_pegawai.nama_pegawai', $yangdicari);
+                $this->db->or_like('a.nama_pegawai', $yangdicari);
                 $this->db->where('data_transaksi_penjualan_jasa_layanan.status_penjualan', 'Sudah Selesai');
+                $this->db->order_by("data_transaksi_penjualan_jasa_layanan.id_transaksi_penjualan_jasa_layanan desc");
+
                 break;
 
             case "kode_penjualan":
                 $this->db->like('data_transaksi_penjualan_jasa_layanan.kode_transaksi_penjualan_jasa_layanan', $yangdicari);
+                $this->db->where('data_transaksi_penjualan_jasa_layanan.status_penjualan', 'Sudah Selesai');
+                $this->db->order_by("data_transaksi_penjualan_jasa_layanan.id_transaksi_penjualan_jasa_layanan desc");
                 break;
 
-            case "nama_cs":
-                $this->db->like('data_pegawai.nama_pegawai', $yangdicari);
+            case "nama_kasir":
+                $this->db->like('a.nama_pegawai', $yangdicari);
+                $this->db->where('data_transaksi_penjualan_jasa_layanan.status_penjualan', 'Sudah Selesai');
+                $this->db->where('data_pegawai.nama_pegawai !=', $yangdicari);
+                $this->db->order_by("data_transaksi_penjualan_jasa_layanan.id_transaksi_penjualan_jasa_layanan desc");
                 break;
 
-            case "nama_hewan":
-                $this->db->like('data_hewan.nama_hewan', $yangdicari);
+            case "status_pembayaran":
+                $this->db->where('data_transaksi_penjualan_jasa_layanan.status_pembayaran', $yangdicari);
+                $this->db->where('data_transaksi_penjualan_jasa_layanan.status_penjualan', 'Sudah Selesai');
+                $this->db->order_by("data_transaksi_penjualan_jasa_layanan.id_transaksi_penjualan_jasa_layanan desc");
                 break;
 
-            case "sudah_selesai":
-                $this->db->like('data_transaksi_penjualan_jasa_layanan.status_layanan', 'Selesai');
-                break;
-            case "belum_selesai":
-                $this->db->like('data_transaksi_penjualan_jasa_layanan.status_layanan', 'Belum Selesai');
-                break;
             default:
                 $this->db->like($berdasarkan, $yangdicari);
+                $this->db->where('data_transaksi_penjualan_jasa_layanan.status_penjualan', 'Sudah Selesai');
+                $this->db->order_by("data_transaksi_penjualan_jasa_layanan.id_transaksi_penjualan_jasa_layanan desc");
         }
         return $this->db->get();
     }

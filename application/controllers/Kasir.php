@@ -505,4 +505,32 @@ class Kasir extends CI_Controller
                    </div>');
         redirect('kasir/detail_pembayaran_layanan/' . $idtrx);
     }
+    public function cariPembayaranLayanan()
+    {
+        $data['title'] = 'Transaksi Pembayaran Layanan';
+        $data['user'] = $this->db->get_where('data_pegawai', ['username' => $this->session->userdata('username')])->row_array();
+        $this->load->model('Pembayaran_Layanan_Model', 'menu');
+        $data['menu'] = $this->db->get('user_menu')->result_array();
+        $data['data_hewan'] = $this->menu->select_hewan();
+        //UNTUK SERACHING DATA
+        $data['cariberdasarkan'] = $this->input->post("cariberdasarkan");
+        $data['yangdicari'] = $this->input->post("yangdicari");
+        $data['dataPenjualanLayanan'] = $this->menu->cariPembayaranLayanan($data['cariberdasarkan'], $data['yangdicari'])->result_array();
+        $data["jumlah"] = count($data["dataPenjualanLayanan"]);
+
+        if (!isset($_POST['cari'])) {
+            $this->form_validation->set_rules('cs', 'cs', 'required|trim');
+        }
+        if ($this->form_validation->run() == false) {
+            $data['menu'] = $this->db->get('user_menu')->result_array();
+            $this->load->view('templates/header', $data);
+            $this->load->view('templates/sidebar', $data);
+            $this->load->view('templates/topbar', $data);
+            $this->load->view('kasir/cariPembayaranLayanan', $data);
+            $this->load->view('templates/footer');
+            header("Cache-Control: no-store, no-cache, must-revalidate, max-age=0");
+            header("Cache-Control: post-check=0, pre-check=0", false);
+            header("Cache-Control: no cache");
+        } 
+    }
 }
