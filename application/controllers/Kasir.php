@@ -80,14 +80,15 @@ class Kasir extends CI_Controller
                     //if ($stokUpdate < $arrTemp[$i]['stok_minimal_produk']) {
                         //OTOMATIS MENGIRIM SMS KE SEMUA NO HP OWNER, STOK PRODUK YANG KURANG DARI STOK MINIMAL!
                         //for ($z = 0; $z < count($noHpOwner['nomor']); $z++) {
-                           // $strNoHP = str_replace('08', '628', (string) $noHpOwner['nomor'][$z]['nomor_hp_pegawai'], $limit = 1);
-                            //$basic  = new \Nexmo\Client\Credentials\Basic('66df917e', 'Jm3QidLR8uuwF5uh');
-                           // $client = new \Nexmo\Client($basic);
-                           // $message = $client->message()->send([
+                            //$subString = substr($noHpOwner['nomor'][$z]['nomor_hp_pegawai'], 2);
+                            //$strNoHP = '628'.$subString;
+                            //$basic  = new \Nexmo\Client\Credentials\Basic('a5aa49b0', 'hmOc5gbAODJxSUM4');
+                            //$client = new \Nexmo\Client($basic);
+                            //$message = $client->message()->send([
                                 //'to' => $strNoHP,
-                               // 'from' => 'KOUVEE PETSHOP',
-                               // 'text' => 'Halo dari Kouvee PetShop, Produk [' . $arrTemp[$i]['nama_produk'] . '] Mulai Menipis Tersisa : ' . $stokUpdate . ' Stok '
-                           // ]);
+                                //'from' => 'KOUVEE PETSHOP',
+                                //'text' => 'Halo dari Kouvee PetShop, Produk [' . $arrTemp[$i]['nama_produk'] . '] Mulai Menipis Tersisa : ' . $stokUpdate . ' Stok '
+                            //]);
                         //}
                    // }
                 }
@@ -364,11 +365,12 @@ class Kasir extends CI_Controller
             $ci = get_instance();
             date_default_timezone_set("Asia/Bangkok");
             if ($this->input->post('status_pembayaran') == 'Lunas') {
-                $strNoHP = str_replace('08', '628', (string) $noHpCustomer, $limit = 1);
+                $subString = substr($noHpCustomer, 2);
+                $strNoHP = '628'.$subString;
                 //DAFTAR DI nexmo.com UNTU DAPTKAN API FREE ACC LIMIT 20 KLI SMS NO TUJUAN AWAL HRUS 628
                 //if ($cekGrooming == True) {
                 //HEMAT KUOTA SMS BOS LIMIT SMS HANYA 20 KALI
-                //$basic  = new \Nexmo\Client\Credentials\Basic('66df917e', 'Jm3QidLR8uuwF5uh');
+                ////$basic  = new \Nexmo\Client\Credentials\Basic('a5aa49b0', 'hmOc5gbAODJxSUM4');
                 //$client = new \Nexmo\Client($basic);
                 //$message = $client->message()->send([
                 //'to' => $strNoHP,
