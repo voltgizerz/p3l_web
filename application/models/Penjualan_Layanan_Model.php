@@ -12,7 +12,28 @@ class Penjualan_Layanan_model extends CI_Model
 
     public function get_count()
     {
-        return $this->db->count_all('data_transaksi_penjualan_jasa_layanan');
+        $this->db->select('data_transaksi_penjualan_jasa_layanan.id_transaksi_penjualan_jasa_layanan,
+        data_transaksi_penjualan_jasa_layanan.kode_transaksi_penjualan_jasa_layanan,
+        data_transaksi_penjualan_jasa_layanan.id_hewan,
+        data_transaksi_penjualan_jasa_layanan.tanggal_penjualan_jasa_layanan,
+        data_transaksi_penjualan_jasa_layanan.tanggal_pembayaran_jasa_layanan,status_layanan,
+        data_transaksi_penjualan_jasa_layanan.status_penjualan,
+        data_transaksi_penjualan_jasa_layanan.status_pembayaran,
+        data_transaksi_penjualan_jasa_layanan.diskon,total_penjualan_jasa_layanan,
+        data_transaksi_penjualan_jasa_layanan.id_cs,
+        data_transaksi_penjualan_jasa_layanan.id_kasir,
+        data_transaksi_penjualan_jasa_layanan.total_harga,
+        data_transaksi_penjualan_jasa_layanan.created_date,
+        data_transaksi_penjualan_jasa_layanan.updated_date,
+        data_hewan.nama_hewan,
+        data_pegawai.nama_pegawai AS nama_cs,
+        a.nama_pegawai AS nama_kasir ');
+        $this->db->join('data_hewan', 'data_hewan.id_hewan = data_transaksi_penjualan_jasa_layanan.id_hewan');
+        $this->db->join('data_pegawai', 'data_pegawai.id_pegawai = data_transaksi_penjualan_jasa_layanan.id_cs');
+        $this->db->join('data_pegawai a', 'a.id_pegawai = data_transaksi_penjualan_jasa_layanan.id_kasir');
+        $this->db->from('data_transaksi_penjualan_jasa_layanan');
+        $query = $this->db->get();
+        return $query->num_rows();
     }
 
     public function getDataPenjualanLayananAdmin($limit, $start)
@@ -305,23 +326,23 @@ class Penjualan_Layanan_model extends CI_Model
     {
         $this->db->select('data_customer.nomor_hp_customer');
         $this->db->join('data_hewan', 'data_hewan.id_hewan = data_transaksi_penjualan_jasa_layanan.id_hewan');
-        $this->db->join('data_customer','data_customer.id_customer = data_hewan.id_customer');
+        $this->db->join('data_customer', 'data_customer.id_customer = data_hewan.id_customer');
         $this->db->where('data_transaksi_penjualan_jasa_layanan.kode_transaksi_penjualan_jasa_layanan', $kode);
         $this->db->from('data_transaksi_penjualan_jasa_layanan');
         $query = $this->db->get();
         $arrTemp = json_decode(json_encode($query->result()), true);
-        return $arrTemp[0]['nomor_hp_customer']; 
+        return $arrTemp[0]['nomor_hp_customer'];
     }
 
     public function getNama($kode)
     {
         $this->db->select('data_customer.nama_customer');
         $this->db->join('data_hewan', 'data_hewan.id_hewan = data_transaksi_penjualan_jasa_layanan.id_hewan');
-        $this->db->join('data_customer','data_customer.id_customer = data_hewan.id_customer');
+        $this->db->join('data_customer', 'data_customer.id_customer = data_hewan.id_customer');
         $this->db->where('data_transaksi_penjualan_jasa_layanan.kode_transaksi_penjualan_jasa_layanan', $kode);
         $this->db->from('data_transaksi_penjualan_jasa_layanan');
         $query = $this->db->get();
         $arrTemp = json_decode(json_encode($query->result()), true);
-        return $arrTemp[0]['nama_customer']; 
+        return $arrTemp[0]['nama_customer'];
     }
 }

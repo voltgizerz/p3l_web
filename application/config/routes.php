@@ -52,6 +52,8 @@ defined('BASEPATH') or exit('No direct script access allowed');
 $route['default_controller'] = 'auth/home';
 $route['404_override'] = '';
 
+$route['kasir/transaksi_pembayaran_layanan/(:any)'] = "kasir/transaksi_pembayaran_layanan";
+$route['kasir/transaksi_pembayaran_produk/(:any)'] = "kasir/transaksi_pembayaran_produk";
 $route['cs/transaksi_penjualan_layanan/(:any)'] = "cs/transaksi_penjualan_layanan";
 $route['cs/transaksi_penjualan_produk/(:any)'] = "cs/transaksi_penjualan_produk";
 $route['admin/kelola_produk/(:any)'] = "admin/kelola_produk";

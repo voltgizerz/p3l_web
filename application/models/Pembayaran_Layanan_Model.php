@@ -10,8 +10,36 @@ class Pembayaran_Layanan_model extends CI_Model
         return $this->db->get_where('buy_cars', ['email_Pembeli' => $tampilDataPembeli])->result_array();
     }
 
-    public function getDataPembayaranLayananAdmin()
+    public function get_count()
     {
+        $this->db->select('data_transaksi_penjualan_jasa_layanan.id_transaksi_penjualan_jasa_layanan,
+            data_transaksi_penjualan_jasa_layanan.kode_transaksi_penjualan_jasa_layanan,
+            data_transaksi_penjualan_jasa_layanan.id_hewan,
+            data_transaksi_penjualan_jasa_layanan.tanggal_penjualan_jasa_layanan,
+            data_transaksi_penjualan_jasa_layanan.tanggal_pembayaran_jasa_layanan,status_layanan,
+            data_transaksi_penjualan_jasa_layanan.status_penjualan,
+            data_transaksi_penjualan_jasa_layanan.status_pembayaran,
+            data_transaksi_penjualan_jasa_layanan.diskon,total_penjualan_jasa_layanan,
+            data_transaksi_penjualan_jasa_layanan.id_cs,
+            data_transaksi_penjualan_jasa_layanan.id_kasir,
+            data_transaksi_penjualan_jasa_layanan.total_harga,
+            data_transaksi_penjualan_jasa_layanan.created_date,
+            data_transaksi_penjualan_jasa_layanan.updated_date,
+            data_hewan.nama_hewan,
+            data_pegawai.nama_pegawai AS nama_cs,
+            a.nama_pegawai AS nama_kasir ');
+        $this->db->join('data_hewan', 'data_hewan.id_hewan = data_transaksi_penjualan_jasa_layanan.id_hewan');
+        $this->db->join('data_pegawai', 'data_pegawai.id_pegawai = data_transaksi_penjualan_jasa_layanan.id_cs');
+        $this->db->join('data_pegawai a', 'a.id_pegawai = data_transaksi_penjualan_jasa_layanan.id_kasir');
+        $this->db->from('data_transaksi_penjualan_jasa_layanan');
+        $this->db->order_by("data_transaksi_penjualan_jasa_layanan.id_transaksi_penjualan_jasa_layanan desc");
+        $query = $this->db->get();
+        return $query->num_rows();
+    }
+
+    public function getDataPembayaranLayananAdmin($limit, $start)
+    {
+        $this->db->limit($limit, $start);
         $this->db->select('data_transaksi_penjualan_jasa_layanan.id_transaksi_penjualan_jasa_layanan,
             data_transaksi_penjualan_jasa_layanan.kode_transaksi_penjualan_jasa_layanan,
             data_transaksi_penjualan_jasa_layanan.id_hewan,

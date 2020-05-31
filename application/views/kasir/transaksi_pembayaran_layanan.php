@@ -14,7 +14,7 @@
             <?php echo form_open("kasir/cariPembayaranLayanan"); ?>
             <div class="input-group " style="width: 600px;">
                 <select class="custom-select" id="inputGroupSelect07" name="cariberdasarkan">
-                <option value="">Cari Berdasarkan</option>
+                    <option value="">Cari Berdasarkan</option>
                     <option value="kode_penjualan">Kode Penjualan</option>
                     <option value="nama_kasir">Nama Kasir</option>
                     <option value="status_pembayaran">Status Pembayaran</option>
@@ -121,6 +121,7 @@
                 <?php endforeach; ?>
             </tbody>
         </table>
+        <p><?php echo $links; ?></p>
     </div>
 </div>
 <!-- End of Main Content -->
@@ -145,7 +146,7 @@
                             <input hidden type="text" class="form-control" value="<?= $sm['id_transaksi_penjualan_jasa_layanan']; ?>" id="id" name="id">
                         </div>
                         <div class="form-group">
-                            <input type="text" class="form-control" id="diskon" name="diskon"  placeholder="Masukan Diskon">
+                            <input type="text" class="form-control" id="diskon" name="diskon" placeholder="Masukan Diskon">
                         </div>
                         <div class="form-group">
                             <select class="form-control" id="pilih_hewan" name="pilih_hewan">
