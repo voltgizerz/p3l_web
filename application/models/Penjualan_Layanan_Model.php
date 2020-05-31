@@ -180,6 +180,8 @@ class Penjualan_Layanan_model extends CI_Model
                 $this->db->or_like('data_transaksi_penjualan_jasa_layanan.status_penjualan', $yangdicari);
                 $this->db->or_like('data_transaksi_penjualan_jasa_layanan.status_penjualan', $yangdicari);
                 $this->db->or_like('data_hewan.nama_hewan', $yangdicari);
+                $this->db->order_by("id_transaksi_penjualan_jasa_layanan", "desc");
+                $this->db->limit(10); 
                 break;
 
             case "kode_penjualan":

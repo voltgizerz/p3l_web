@@ -105,8 +105,8 @@ class Pembayaran_Produk_model extends CI_Model
                 $this->db->like('data_transaksi_penjualan_produk.kode_transaksi_penjualan_produk', $yangdicari);
                 $this->db->or_like('a.nama_pegawai', $yangdicari);
                 $this->db->where('data_transaksi_penjualan_produk.status_penjualan', 'Sudah Selesai');
-
                 $this->db->order_by("data_transaksi_penjualan_produk.id_transaksi_penjualan_produk desc");
+                $this->db->limit(10); 
                 break;
 
             case "kode_penjualan":

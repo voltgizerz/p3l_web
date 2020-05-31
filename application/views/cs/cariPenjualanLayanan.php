@@ -11,7 +11,7 @@
 <div class="row">
     <div class="col-lg ml-3 mr-3">
         <a href="" class="btn btn-primary mb-3" data-toggle="modal" data-target="#newSubMenuModal">TAMBAH TRANSAKSI
-            PENJUALAN LAYANAN</a>
+          </a>
         <div class="form-group">
             <?php echo form_open("cs/cariPenjualanLayanan"); ?>
             <div class="input-group " style="width: 600px;">
