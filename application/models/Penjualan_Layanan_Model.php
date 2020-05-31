@@ -10,8 +10,14 @@ class Penjualan_Layanan_model extends CI_Model
         return $this->db->get_where('buy_cars', ['email_Pembeli' => $tampilDataPembeli])->result_array();
     }
 
-    public function getDataPenjualanLayananAdmin()
+    public function get_count()
     {
+        return $this->db->count_all('data_transaksi_penjualan_jasa_layanan');
+    }
+
+    public function getDataPenjualanLayananAdmin($limit, $start)
+    {
+        $this->db->limit($limit, $start);
         $this->db->select('data_transaksi_penjualan_jasa_layanan.id_transaksi_penjualan_jasa_layanan,
             data_transaksi_penjualan_jasa_layanan.kode_transaksi_penjualan_jasa_layanan,
             data_transaksi_penjualan_jasa_layanan.id_hewan,

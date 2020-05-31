@@ -10,8 +10,7 @@
 
 <div class="row">
     <div class="col-lg ml-3 mr-3">
-        <a href="" class="btn btn-primary mb-3" data-toggle="modal" data-target="#newSubMenuModal">TAMBAH TRANSAKSI
-            PENJUALAN LAYANAN</a>
+        <a href="" class="btn btn-primary mb-3" data-toggle="modal" data-target="#newSubMenuModal">TAMBAH TRANSAKSI</a>
 
         <div class="form-group">
             <?php echo form_open("cs/cariPenjualanLayanan"); ?>
@@ -91,6 +90,7 @@
                 <?php endforeach; ?>
             </tbody>
         </table>
+        <p><?php echo $links; ?></p>
     </div>
 </div>
 <!-- End of Main Content -->

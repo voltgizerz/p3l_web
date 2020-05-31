@@ -10,8 +10,7 @@
 
 <div class="row">
     <div class="col-lg ml-3 mr-3">
-        <a href="" class="btn btn-primary mb-3" data-toggle="modal" data-target="#newSubMenuModal">TAMBAH TRANSAKSI
-            PENJUALAN PRODUK</a>
+        <a href="" class="btn btn-primary mb-3" data-toggle="modal" data-target="#newSubMenuModal">TAMBAH TRANSAKSI</a>
         <?php if (validation_errors()) : ?>
             <div class="alert alert-danger" role="alert">
                 <?= validation_errors(); ?>
@@ -94,6 +93,7 @@
                 <?php endforeach; ?>
             </tbody>
         </table>
+        <p><?php echo $links; ?></p>
     </div>
 </div>
 <!-- End of Main Content -->

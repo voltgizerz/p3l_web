@@ -9,6 +9,7 @@ class Kasir extends CI_Controller
         parent::__construct();
         is_logged_in();
         require_once "vendor/autoload.php";
+        $this->load->library("pagination");
     }
 
     public function index()
