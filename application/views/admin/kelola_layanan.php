@@ -21,13 +21,18 @@
 
         <div class="form-group">
             <?php echo form_open("admin/cariJasaLayanan"); ?>
-            <select name="cariberdasarkan">
+            <div class="input-group " style="width: 600px;">
+                <select class="custom-select" id="inputGroupSelect07" name="cariberdasarkan">
                 <option value="">Cari Berdasarkan</option>
                 <option value="id_jasa_layanan">ID Jasa Layanan</option>
                 <option value="nama_jasa_layanan">Nama Jasa Layanan</option>
-            </select>
-            <input name="yangdicari" id="" type="text">
-            <input type="submit" name="cari" value="Cari">
+                </select>
+                <div class="input-group-append">
+                    <input type="text" class="form-control" style="border-radius: 0;" placeholder="Kata Pencarian..." name="yangdicari" id="" type="text" aria-label="Text input with dropdown button" aria-describedby="basic-addon2">
+
+                    <button class="btn btn-success" type="submit" name="cari" value="Cari"><i class="fas fa-search"></i></button>
+                </div>
+            </div>
             <?php echo form_close(); ?>
         </div>
         <?=$this->session->flashdata('message');?>

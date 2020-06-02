@@ -139,7 +139,7 @@ class Hewan_model extends CI_Model
         $this->db->join('data_ukuran_hewan', 'data_ukuran_hewan.id_ukuran_hewan = data_hewan.id_ukuran_hewan');
         $this->db->join('data_jenis_hewan', 'data_jenis_hewan.id_jenis_hewan = data_hewan.id_jenis_hewan');
         $this->db->join('data_customer', 'data_customer.id_customer = data_hewan.id_customer');
-        $this->db->where('deleted_date', '0000-00-00 00:00:00');
+        $this->db->where('data_hewan.deleted_date', '0000-00-00 00:00:00');
         $this->db->from('data_hewan');
 
         switch ($berdasarkan) {
