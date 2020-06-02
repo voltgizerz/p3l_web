@@ -17,6 +17,7 @@ class Hewan_model extends CI_Model
         $this->db->join('data_jenis_hewan', 'data_jenis_hewan.id_jenis_hewan = data_hewan.id_jenis_hewan');
         $this->db->join('data_customer', 'data_customer.id_customer = data_hewan.id_customer');
         $this->db->where('data_hewan.deleted_date', '0000-00-00 00:00:00');
+        $this->db->where('data_hewan.id_hewan !=', '0');
         $this->db->from('data_hewan');
         $this->db->order_by("data_hewan.id_hewan desc");
         $query = $this->db->get();

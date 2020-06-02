@@ -57,7 +57,7 @@
                         <th scope="row" class="text-center"><?= $i ?></th>
                         <td style="text-align:center; color:orange;"><?= $sm['kode_transaksi_penjualan_produk'] ?></td>
                         <td style="text-align:center;"><?= $sm['nama_cs'] ?></td>
-                        <?php if ($sm['nama_hewan'] == '') : ?>
+                        <?php if ($sm['nama_hewan'] == 'KOSONG') : ?>
                             <td style="text-align:center; color:#FF6347;">Tidak Memiliki Hewan</td>
                         <?php else : ?>
                             <td style="text-align:center; "><?= $sm['nama_hewan'] ?></td>
