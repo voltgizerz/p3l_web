@@ -47,6 +47,7 @@
                     <th scope="col" class="text-center">Total Harga</th>
                     <th scope="col" class="text-center">Status Pembayaran</th>
                     <th scope="col" class="text-center">Tanggal Pembayaran</th>
+                    <th scope="col" class="text-center">Status Layanan</th>
                     <th scope="col" class="text-center">Detail Pembayaran</th>
                     <th scope="col" class="text-center">Struk Lunas</th>
                     <th scope="col" class="text-center">Created Date</th>
@@ -83,7 +84,10 @@
                             <td style="text-align:center;"> - </td>
                         <?php else : ?>
                             <td style="text-align:center;"><?= $sm['tanggal_pembayaran_jasa_layanan'] ?></td>
-                        <?php endif; ?> <td style="text-align:center;">
+                        <?php endif; ?>
+                        <td style="text-align:center;"><?= $sm['status_layanan'] ?></td>
+                      
+                        <td style="text-align:center;">
                             <a href="<?= base_url(); ?>kasir/detail_pembayaran_layanan/<?= $sm['id_transaksi_penjualan_jasa_layanan']; ?>" class="badge badge-info mb-3">INFO</a>
                         </td>
 
@@ -161,8 +165,23 @@
                             </select>
                         </div>
                         <div class="form-group">
+                            <select class="form-control" id="status_layanan" name="status_layanan">
+                                <option value="">Pilih Status Layanan</option>
+                                <option <?php if ($sm['status_layanan'] == 'Belum Selesai') {
+                                            echo ("selected");
+                                        } ?>>
+                                    Belum Selesai
+                                </option>
+                                <option <?php if ($sm['status_layanan'] == 'Selesai') {
+                                            echo ("selected");
+                                        } ?>>
+                                    Selesai
+                                </option>
+                            </select>
+                        </div>
+                        <div class="form-group">
                             <select class="form-control" id="status_pembyaran" name="status_pembayaran">
-                                <option value="">Pilih Status Transaksi</option>
+                                <option value="">Pilih Status Pembayaran</option>
                                 <option <?php if ($sm['status_pembayaran'] == 'Belum Lunas') {
                                             echo ("selected");
                                         } ?>>

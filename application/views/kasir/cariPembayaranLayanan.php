@@ -14,7 +14,7 @@
             <?php echo form_open("kasir/cariPembayaranLayanan"); ?>
             <div class="input-group " style="width: 600px;">
                 <select class="custom-select" id="inputGroupSelect07" name="cariberdasarkan">
-                <option value="">Cari Berdasarkan</option>
+                    <option value="">Cari Berdasarkan</option>
                     <option value="kode_penjualan">Kode Penjualan</option>
                     <option value="nama_kasir">Nama Kasir</option>
                     <option value="status_pembayaran">Status Pembayaran</option>
@@ -47,6 +47,7 @@
                     <th scope="col" class="text-center">Total Harga</th>
                     <th scope="col" class="text-center">Status Pembayaran</th>
                     <th scope="col" class="text-center">Tanggal Pembayaran</th>
+                    <th scope="col" class="text-center">Status Layanan</th>
                     <th scope="col" class="text-center">Detail Pembayaran</th>
                     <th scope="col" class="text-center">Struk Lunas</th>
                     <th scope="col" class="text-center">Created Date</th>
@@ -83,7 +84,10 @@
                             <td style="text-align:center;"> - </td>
                         <?php else : ?>
                             <td style="text-align:center;"><?= $sm['tanggal_pembayaran_jasa_layanan'] ?></td>
-                        <?php endif; ?> <td style="text-align:center;">
+                        <?php endif; ?>
+                        <td style="text-align:center;"><?= $sm['status_layanan'] ?></td>
+
+                        <td style="text-align:center;">
                             <a href="<?= base_url(); ?>kasir/detail_pembayaran_layanan/<?= $sm['id_transaksi_penjualan_jasa_layanan']; ?>" class="badge badge-info mb-3">INFO</a>
                         </td>
 

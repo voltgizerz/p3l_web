@@ -410,6 +410,7 @@ class Kasir extends CI_Controller
 
         $this->form_validation->set_rules('status_pembayaran', 'status_pembayaran', 'required');
         $this->form_validation->set_rules('pilih_hewan', 'pilih_hewan', 'required');
+        $this->form_validation->set_rules('status_layanan', 'status_layanan', 'required');
 
         if ($this->form_validation->run() == false) {
             $data['menu'] = $this->db->get('user_menu')->result_array();
@@ -444,6 +445,7 @@ class Kasir extends CI_Controller
                 $data = [
                     'id_hewan' => $this->input->post('pilih_hewan'),
                     'status_pembayaran' => $this->input->post('status_pembayaran'),
+                    'status_layanan' => $this->input->post('status_layanan'),
                     'tanggal_pembayaran_jasa_layanan' => date("Y-m-d H:i:s"),
                     'updated_date' => date("Y-m-d H:i:s"),
                     'id_kasir' => $ci->session->userdata('id_pegawai'),
@@ -458,6 +460,7 @@ class Kasir extends CI_Controller
                 $data = [
                     'id_hewan' => $this->input->post('pilih_hewan'),
                     'status_pembayaran' => $this->input->post('status_pembayaran'),
+                    'status_layanan' => $this->input->post('status_layanan'),
                     'updated_date' => date("Y-m-d H:i:s"),
                     'id_kasir' => $ci->session->userdata('id_pegawai'),
                     'diskon' => $this->input->post('diskon'),
