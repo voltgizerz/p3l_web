@@ -36,7 +36,7 @@ class Customer extends CI_Controller
         }
         if ($this->form_validation->run() == false) {
             $this->load->view('templates/auth_header', $data);
-            $this->load->view('customer/status',$data);
+            $this->load->view('customer/status', $data);
             $this->load->view('templates/auth_footer');
             header("Cache-Control: no-store, no-cache, must-revalidate, max-age=0");
             header("Cache-Control: post-check=0, pre-check=0", false);

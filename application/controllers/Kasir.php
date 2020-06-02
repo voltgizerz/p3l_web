@@ -445,7 +445,6 @@ class Kasir extends CI_Controller
                 $data = [
                     'id_hewan' => $this->input->post('pilih_hewan'),
                     'status_pembayaran' => $this->input->post('status_pembayaran'),
-                    'status_layanan' => $this->input->post('status_layanan'),
                     'tanggal_pembayaran_jasa_layanan' => date("Y-m-d H:i:s"),
                     'updated_date' => date("Y-m-d H:i:s"),
                     'id_kasir' => $ci->session->userdata('id_pegawai'),
@@ -460,7 +459,6 @@ class Kasir extends CI_Controller
                 $data = [
                     'id_hewan' => $this->input->post('pilih_hewan'),
                     'status_pembayaran' => $this->input->post('status_pembayaran'),
-                    'status_layanan' => $this->input->post('status_layanan'),
                     'updated_date' => date("Y-m-d H:i:s"),
                     'id_kasir' => $ci->session->userdata('id_pegawai'),
                     'diskon' => $this->input->post('diskon'),

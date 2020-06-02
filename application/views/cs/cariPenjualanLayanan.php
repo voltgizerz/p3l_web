@@ -11,7 +11,7 @@
 <div class="row">
     <div class="col-lg ml-3 mr-3">
         <a href="" class="btn btn-primary mb-3" data-toggle="modal" data-target="#newSubMenuModal">TAMBAH TRANSAKSI
-          </a>
+        </a>
         <div class="form-group">
             <?php echo form_open("cs/cariPenjualanLayanan"); ?>
             <div class="input-group " style="width: 600px;">
@@ -45,6 +45,7 @@
                     <th scope="col" class="text-center">Nama Hewan</th>
                     <th scope="col" class="text-center">Subtotal Harga</th>
                     <th scope="col" class="text-center">Status Penjualan</th>
+                    <th scope="col" class="text-center">Status Layanan</th>
                     <th scope="col" class="text-center">Detail Penjualan</th>
                     <th scope="col" class="text-center">Created Date</th>
                     <th scope="col" class="text-center">Updated Date</th>
@@ -64,6 +65,11 @@
                             <td style="text-align:center; color:#00FF00;"><?= $sm['status_penjualan'] ?></td>
                         <?php else : ?>
                             <td style="text-align:center; color:#FF6347;"><?= $sm['status_penjualan'] ?></td>
+                        <?php endif; ?>
+                        <?php if ($sm['status_layanan'] == 'Selesai') : ?>
+                            <td style="text-align:center; color:#00FF00; "><?= $sm['status_layanan'] ?></td>
+                        <?php else : ?>
+                            <td style="text-align:center; color:#FF6347; "><?= $sm['status_layanan'] ?></td>
                         <?php endif; ?>
 
                         <td style="text-align:center;">

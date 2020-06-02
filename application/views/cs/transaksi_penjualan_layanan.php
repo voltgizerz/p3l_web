@@ -45,6 +45,7 @@
                     <th scope="col" class="text-center">Nama Hewan</th>
                     <th scope="col" class="text-center">Subtotal Harga</th>
                     <th scope="col" class="text-center">Status Penjualan</th>
+                    <th scope="col" class="text-center">Status Layanan</th>
                     <th scope="col" class="text-center">Detail Penjualan</th>
                     <th scope="col" class="text-center">Created Date</th>
                     <th scope="col" class="text-center">Updated Date</th>
@@ -65,6 +66,12 @@
                         <?php else : ?>
                             <td style="text-align:center; color:#FF6347;"><?= $sm['status_penjualan'] ?></td>
                         <?php endif; ?>
+                        <?php if ($sm['status_layanan'] == 'Selesai') : ?>
+                            <td style="text-align:center; color:#00FF00; "><?= $sm['status_layanan'] ?></td>
+                        <?php else : ?>
+                            <td style="text-align:center; color:#FF6347; "><?= $sm['status_layanan'] ?></td>
+                        <?php endif; ?>
+
 
                         <td style="text-align:center;">
                             <a href="<?= base_url(); ?>cs/detail_penjualan_layanan/<?= $sm['id_transaksi_penjualan_jasa_layanan']; ?>" class="badge badge-info mb-3">INFO</a>

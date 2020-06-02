@@ -526,6 +526,7 @@ class Cs extends CI_Controller
             $data = [
                 'status_penjualan' => $this->input->post('status_penjualan'),
                 'id_hewan' => $this->input->post('pilih_hewan'),
+                'status_layanan' => $this->input->post('status_layanan'),
                 'tanggal_penjualan_jasa_layanan' => date("Y-m-d H:i:s"),
                 'updated_date' => date("Y-m-d H:i:s"),
             ];
