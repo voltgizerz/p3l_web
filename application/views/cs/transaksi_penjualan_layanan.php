@@ -186,6 +186,21 @@
                                 </option>
                             </select>
                         </div>
+                        <div class="form-group">
+                            <select class="form-control" id="status_layanan" name="status_layanan">
+                                <option value="">Pilih Status Layanan</option>
+                                <option <?php if ($sm['status_layanan'] == 'Belum Selesai') {
+                                            echo ("selected");
+                                        } ?>>
+                                    Belum Selesai
+                                </option>
+                                <option <?php if ($sm['status_layanan'] == 'Selesai') {
+                                            echo ("selected");
+                                        } ?>>
+                                    Selesai
+                                </option>
+                            </select>
+                        </div>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>

@@ -505,12 +505,15 @@ class Cs extends CI_Controller
                     'equal' => 'Gagal Ubah Status Penjualan, Jasa Layanan Penjualan masih Kosong!'
                 ]);
                 $this->form_validation->set_rules('pilih_hewan', 'pilih_hewan', 'required');
+                $this->form_validation->set_rules('status_layanan', 'status_layanan', 'required');
             } else {
                 $this->form_validation->set_rules('status_penjualan', 'status_penjualan', 'required');
+                $this->form_validation->set_rules('status_layanan', 'status_layanan', 'required');
                 $this->form_validation->set_rules('pilih_hewan', 'pilih_hewan', 'required');
             }
         } else {
             $this->form_validation->set_rules('status_penjualan', 'status_penjualan', 'required');
+            $this->form_validation->set_rules('status_layanan', 'status_layanan', 'required');
             $this->form_validation->set_rules('pilih_hewan', 'pilih_hewan', 'required');
         }
 
