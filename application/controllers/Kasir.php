@@ -139,6 +139,7 @@ class Kasir extends CI_Controller
             $this->load->view('templates/header', $data);
             $this->load->view('templates/sidebar', $data);
             $this->load->view('templates/topbar', $data);
+            $data["links"] = $this->pagination->create_links();
             $this->load->view('kasir/transaksi_pembayaran_produk', $data);
             $this->load->view('templates/footer');
         } else {
@@ -410,13 +411,13 @@ class Kasir extends CI_Controller
 
         $this->form_validation->set_rules('status_pembayaran', 'status_pembayaran', 'required');
         $this->form_validation->set_rules('pilih_hewan', 'pilih_hewan', 'required');
-        $this->form_validation->set_rules('status_layanan', 'status_layanan', 'required');
 
         if ($this->form_validation->run() == false) {
             $data['menu'] = $this->db->get('user_menu')->result_array();
             $this->load->view('templates/header', $data);
             $this->load->view('templates/sidebar', $data);
             $this->load->view('templates/topbar', $data);
+            $data["links"] = $this->pagination->create_links();
             $this->load->view('kasir/transaksi_pembayaran_layanan', $data);
             $this->load->view('templates/footer');
         } else {

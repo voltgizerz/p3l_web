@@ -145,6 +145,7 @@ class Cs extends CI_Controller
             $this->load->view('templates/header', $data);
             $this->load->view('templates/sidebar', $data);
             $this->load->view('templates/topbar', $data);
+            $data["links"] = $this->pagination->create_links();
             $this->load->view('cs/transaksi_penjualan_produk', $data);
             $this->load->view('templates/footer');
         } else {
@@ -522,6 +523,8 @@ class Cs extends CI_Controller
             $this->load->view('templates/header', $data);
             $this->load->view('templates/sidebar', $data);
             $this->load->view('templates/topbar', $data);
+            //ONLY FOR PREVENT  ERROR
+            $data["links"] = $this->pagination->create_links();
             $this->load->view('cs/transaksi_penjualan_layanan', $data);
             $this->load->view('templates/footer');
         } else {
