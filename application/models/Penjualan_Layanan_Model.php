@@ -192,6 +192,10 @@ class Penjualan_Layanan_model extends CI_Model
                 $this->db->like('data_pegawai.nama_pegawai', $yangdicari);
                 break;
 
+            case "status_penjualan":
+                    $this->db->like('data_transaksi_penjualan_jasa_layanan.status_penjualan', $yangdicari);
+                    break;
+
             case "nama_hewan":
                 $this->db->like('data_hewan.nama_hewan', $yangdicari);
                 break;

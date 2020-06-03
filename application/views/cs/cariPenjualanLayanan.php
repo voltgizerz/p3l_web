@@ -19,6 +19,7 @@
                     <option value="">Cari Berdasarkan</option>
                     <option value="kode_penjualan">Kode Penjualan</option>
                     <option value="nama_hewan">Nama Hewan</option>
+                    <option value="status_penjualan">Status Penjualan</option>
                     <option value="nama_cs">Nama Customer Service</option>
                 </select>
                 <div class="input-group-append">

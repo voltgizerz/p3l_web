@@ -109,20 +109,20 @@ class Kasir extends CI_Controller
                     $stokUpdate = $arrTemp[$i]['stok_produk'] - $arrTemp[$i]['jumlah_produk'];
                     $this->db->where('id_produk', $arrTemp[$i]['id_produk'])->update('data_produk', ['stok_produk' => $stokUpdate]);
                     //HEMAT KUOTA SMS BOS LIMIT SMS HANYA 20 KALI
-                    //if ($stokUpdate < $arrTemp[$i]['stok_minimal_produk']) {
+                    if ($stokUpdate < $arrTemp[$i]['stok_minimal_produk']) {
                         //OTOMATIS MENGIRIM SMS KE SEMUA NO HP OWNER, STOK PRODUK YANG KURANG DARI STOK MINIMAL!
-                        //for ($z = 0; $z < count($noHpOwner['nomor']); $z++) {
-                            //$subString = substr($noHpOwner['nomor'][$z]['nomor_hp_pegawai'], 2);
-                            //$strNoHP = '628'.$subString;
-                            //$basic  = new \Nexmo\Client\Credentials\Basic('a5aa49b0', 'hmOc5gbAODJxSUM4');
-                            //$client = new \Nexmo\Client($basic);
-                            //$message = $client->message()->send([
-                                //'to' => $strNoHP,
-                                //'from' => 'KOUVEE PETSHOP',
-                                //'text' => 'Halo dari Kouvee PetShop, Produk [' . $arrTemp[$i]['nama_produk'] . '] Mulai Menipis Tersisa : ' . $stokUpdate . ' Stok '
-                            //]);
-                        //}
-                   // }
+                        for ($z = 0; $z < count($noHpOwner['nomor']); $z++) {
+                            $subString = substr($noHpOwner['nomor'][$z]['nomor_hp_pegawai'], 2);
+                            $strNoHP = '628'.$subString;
+                            $basic  = new \Nexmo\Client\Credentials\Basic('a5aa49b0', 'hmOc5gbAODJxSUM4');
+                            $client = new \Nexmo\Client($basic);
+                            $message = $client->message()->send([
+                                    'to' => $strNoHP,
+                                'from' => 'KOUVEE PETSHOP',
+                                'text' => 'Halo dari Kouvee PetShop, Produk [' . $arrTemp[$i]['nama_produk'] . '] Mulai Menipis Tersisa : ' . $stokUpdate . ' Stok '
+                            ]);
+                        }
+                     }
                 }
             } else {
                 // PRODUK SUDAH DIEMBAT ORANG LAIN
@@ -433,16 +433,16 @@ class Kasir extends CI_Controller
                 $subString = substr($noHpCustomer, 2);
                 $strNoHP = '628'.$subString;
                 //DAFTAR DI nexmo.com UNTU DAPTKAN API FREE ACC LIMIT 20 KLI SMS NO TUJUAN AWAL HRUS 628
-                //if ($cekGrooming == True) {
+                if ($cekGrooming == True) {
                 //HEMAT KUOTA SMS BOS LIMIT SMS HANYA 20 KALI
-                ////$basic  = new \Nexmo\Client\Credentials\Basic('a5aa49b0', 'hmOc5gbAODJxSUM4');
-                //$client = new \Nexmo\Client($basic);
-                //$message = $client->message()->send([
-                //'to' => $strNoHP,
-                //'from' => 'KOUVEE PETSHOP',
-                //'text' => 'Halo ' . $namaCustomer . ' dari Kouvee PetShop, Proses Jasa Layanan Grooming Hewan anda sudah selesai diproses terima kasih. '
-                //]);
-                //}
+                $basic  = new \Nexmo\Client\Credentials\Basic('a5aa49b0', 'hmOc5gbAODJxSUM4');
+                $client = new \Nexmo\Client($basic);
+                $message = $client->message()->send([
+                'to' => $strNoHP,
+                'from' => 'KOUVEE PETSHOP',
+                'text' => 'Halo ' . $namaCustomer . ' dari Kouvee PetShop, Proses Jasa Layanan Grooming Hewan anda sudah selesai diproses terima kasih. '
+                ]);
+                }
                 $data = [
                     'id_hewan' => $this->input->post('pilih_hewan'),
                     'status_pembayaran' => $this->input->post('status_pembayaran'),
